@@ -1,0 +1,52 @@
+@use '../../../../styles/typography' as *;
+
+.table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+  height: 100%;
+  padding: 1.6rem;
+  border-radius: var(--radius-control);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.table__head,
+.table__row {
+  @include text-body;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.4fr 0.8fr 1fr;
+  gap: 1.2rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.4rem;
+}
+
+.table__head {
+  color: var(--color-text-dim);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table__row {
+  opacity: 0;
+  transform: translateX(-1rem);
+  transition: opacity 0.3s ease-out, transform 0.3s var(--ease);
+  background: var(--color-surface);
+}
+
+.table__row--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.table__badge {
+  @include text-body;
+  position: absolute;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-success) 15%, transparent);
+  color: var(--color-success);
+}

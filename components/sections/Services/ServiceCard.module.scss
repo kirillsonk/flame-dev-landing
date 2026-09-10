@@ -1,0 +1,52 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.serviceCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+
+  @include mobile {
+    padding: 2rem;
+  }
+}
+
+.serviceCard__visual {
+  position: relative;
+  height: 22rem;
+  margin-bottom: 0.8rem;
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+
+.serviceCard__hint {
+  @include text-body;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  padding: 0.2rem 1rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-action-primary) 15%, transparent);
+  color: var(--color-action-primary);
+  pointer-events: none;
+}
+
+.serviceCard__title {
+  @include text-title;
+}
+
+.serviceCard__text {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.serviceCard__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
