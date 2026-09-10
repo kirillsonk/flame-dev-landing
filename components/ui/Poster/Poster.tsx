@@ -23,7 +23,8 @@ const Poster = ({ item, playing = true, showTitle = true, className }: PosterPro
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (inView && playing) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (inView && playing && !reduced) {
       video.play().catch(() => undefined);
     } else {
       video.pause();
@@ -41,6 +42,7 @@ const Poster = ({ item, playing = true, showTitle = true, className }: PosterPro
           loop
           preload="none"
           poster={item.video.poster}
+          aria-hidden="true"
         >
           {item.video.webm && <source src={item.video.webm} type="video/webm" />}
           <source src={item.video.mp4} type="video/mp4" />
