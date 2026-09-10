@@ -1,4 +1,4 @@
-import type { INavItem } from './types';
+import type { IContactLink, INavItem } from './types';
 
 export const NAV: INavItem[] = [
   { label: 'Кейсы', href: '#cases' },
@@ -21,11 +21,12 @@ export const CTA_BAND = {
 export const CONTACT = {
   title: 'Расскажите о задаче',
   text: 'Ответим в течение дня. Оценку сроков и бюджета дадим за 2–3 дня.',
+  telegram: { label: 'Написать в Telegram →', href: 'https://t.me/flamedev' } satisfies IContactLink,
   links: [
     { label: 'Написать в Telegram →', href: 'https://t.me/flamedev' },
     { label: 'hello@flame.dev →', href: 'mailto:hello@flame.dev' },
     { label: 'Скачать презентацию (PDF) →', href: '/flame-dev.pdf' },
-  ],
+  ] as IContactLink[],
 };
 
 export const FOOTER_LINKS: INavItem[] = [

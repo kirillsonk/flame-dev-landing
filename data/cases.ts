@@ -77,7 +77,11 @@ export const CASES: ICase[] = [
 
 export const HERO_REEL_SLUGS = ['coca-cola-delivery-club', 'rosatom', 'flame-ai', 'tibia', 'amatour'];
 
-export const HERO_REEL = HERO_REEL_SLUGS.map((slug) => CASES.find((c) => c.slug === slug)!);
+export const HERO_REEL: ICase[] = HERO_REEL_SLUGS.map((slug) => {
+  const item = CASES.find((c) => c.slug === slug);
+  if (!item) throw new Error(`HERO_REEL: unknown case slug "${slug}"`);
+  return item;
+});
 
 export const HUAWEI_NOTE = {
   text: 'Huawei — редизайн главной, дизайн-проект',

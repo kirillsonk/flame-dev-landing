@@ -16,14 +16,14 @@ export interface ICase {
   video?: ICaseVideo;
 }
 
-export type ServiceVisual = 'tibia' | 'match3' | 'rosatom' | 'prompt';
+export type ServiceVisualKind = 'tibia' | 'match3' | 'rosatom' | 'prompt';
 
 export interface IService {
   slug: string;
   title: string;
   description: string;
   stack: string[];
-  visual: ServiceVisual;
+  visual: ServiceVisualKind;
 }
 
 export interface IProcessStep {
@@ -46,6 +46,11 @@ export interface IEcosystemCard {
 }
 
 export interface INavItem {
+  label: string;
+  href: string;
+}
+
+export interface IContactLink {
   label: string;
   href: string;
 }
