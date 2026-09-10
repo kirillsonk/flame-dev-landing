@@ -1,27 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import clsx from 'clsx';
 import useInView from '@/hooks/useInView';
 import styles from './PromptDemo.module.scss';
 
-const PROMPT = 'Рекламный ролик крема для лица, студийный свет, 6 секунд';
+const PROMPT = 'Рекламный ролик крема, студийный свет, 6 секунд';
 const TYPE_DELAY_MS = 45;
+const REDUCED_QUERY = '(prefers-reduced-motion: reduce)';
+
+const subscribeReduced = (onChange: () => void) => {
+  const mq = window.matchMedia(REDUCED_QUERY);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+};
 
 const PromptDemo = () => {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.4 });
-  const [typed, setTyped] = useState(0);
+  const reduced = useSyncExternalStore(subscribeReduced, () => window.matchMedia(REDUCED_QUERY).matches, () => false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (!inView || typed >= PROMPT.length) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const skipId = window.setTimeout(() => setTyped(PROMPT.length), 0);
-      return () => window.clearTimeout(skipId);
-    }
-    const id = window.setTimeout(() => setTyped((n) => n + 1), TYPE_DELAY_MS);
-    return () => window.clearTimeout(id);
-  }, [inView, typed]);
+    if (!inView || reduced) return;
+    const id = window.setInterval(() => setProgress((n) => (n >= PROMPT.length ? n : n + 1)), TYPE_DELAY_MS);
+    return () => window.clearInterval(id);
+  }, [inView, reduced]);
 
+  const typed = reduced ? PROMPT.length : progress;
   const done = typed >= PROMPT.length;
 
   return (

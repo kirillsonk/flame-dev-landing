@@ -15,7 +15,7 @@ const Board = () => {
   const { cells, selected, score, onCellClick } = useMatch3();
   return (
     <>
-      <div className={styles.game__board} style={boardStyle} role="grid" aria-label="Три в ряд">
+      <div className={styles.game__board} style={boardStyle} role="group" aria-label="Три в ряд">
         {cells.map((kind, index) => (
           <button
             key={index}

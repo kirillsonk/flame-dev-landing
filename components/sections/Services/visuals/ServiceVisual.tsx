@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import type { ServiceVisualKind } from '@/data/types';
 import TibiaTable from './TibiaTable';
 import PromptDemo from './PromptDemo';
@@ -8,7 +9,7 @@ export interface ServiceVisualProps {
   kind: ServiceVisualKind;
 }
 
-const ServiceVisual = ({ kind }: ServiceVisualProps) => {
+const ServiceVisual = ({ kind }: ServiceVisualProps): ReactElement => {
   switch (kind) {
     case 'tibia':
       return <TibiaTable />;
