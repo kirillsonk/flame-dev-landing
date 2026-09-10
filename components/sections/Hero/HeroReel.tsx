@@ -24,7 +24,7 @@ const HeroReel = ({ items }: HeroReelProps) => {
 
   return (
     <div className={styles.reel}>
-      <div className={styles.reel__track} onScroll={onScroll} onMouseLeave={onHoverEnd}>
+      <div className={styles.reel__track} onScroll={onScroll} onMouseLeave={onHoverEnd} onBlur={onHoverEnd}>
         {items.map((item, index) => (
           <a
             key={item.slug}
