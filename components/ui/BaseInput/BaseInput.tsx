@@ -19,8 +19,10 @@ const BaseInput = ({ label, error, className, multiline, id, name, ...rest }: Ba
   const a11y = { 'aria-invalid': error ? true : undefined, 'aria-describedby': error ? errorId : undefined };
 
   return (
-    <label className={clsx(styles.field, error && styles['field--error'], className)} htmlFor={fieldId}>
-      <span className={styles.field__label}>{label}</span>
+    <div className={clsx(styles.field, error && styles['field--error'], className)}>
+      <label htmlFor={fieldId} className={styles.field__label}>
+        {label}
+      </label>
       {multiline ? (
         <textarea id={fieldId} name={name} className={clsx(styles.field__control, styles['field__control--multiline'])} {...a11y} {...(rest as TextareaHTMLAttributes<HTMLTextAreaElement>)} />
       ) : (
@@ -31,7 +33,7 @@ const BaseInput = ({ label, error, className, multiline, id, name, ...rest }: Ba
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 };
 

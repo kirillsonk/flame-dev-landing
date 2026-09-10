@@ -31,6 +31,7 @@
 
   &:focus-visible {
     border-bottom-color: var(--color-action-primary);
+    outline-offset: 2px;
   }
 
   &:-webkit-autofill,
@@ -38,7 +39,7 @@
   &:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--color-text);
     -webkit-box-shadow: 0 0 0 100rem var(--color-bg) inset;
-    transition: background-color 9999s ease-out;
+    transition: background-color 9999s ease-out, border-color 0.15s ease-out;
   }
 }
 
