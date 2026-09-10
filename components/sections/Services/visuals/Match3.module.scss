@@ -1,0 +1,72 @@
+@use '../../../../styles/typography' as *;
+@use '../../../../styles/mixins' as *;
+
+.game {
+  --cell: 2.8rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.6rem;
+  width: 100%;
+  height: 100%;
+  padding: 1.6rem;
+  border-radius: var(--radius-control);
+  background: var(--color-bg);
+
+  @include mobile {
+    --cell: 2.4rem;
+  }
+}
+
+.game__board {
+  display: grid;
+  grid-template-columns: repeat(var(--grid), var(--cell));
+  grid-auto-rows: var(--cell);
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.game__cell {
+  @include focus-ring;
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 0.6rem;
+  border: 2px solid transparent;
+  transition: transform 0.15s var(--ease), border-color 0.15s ease-out;
+
+  @include hover {
+    transform: scale(1.08);
+  }
+}
+
+// Демо-палитра узнаваемых брендовых цветов (Coca-Cola / Delivery Club) — намеренно вне токенов темы
+.game__cell--0 { background: #e4002b; }
+.game__cell--1 { background: #1e5b3a; }
+.game__cell--2 { background: var(--color-text); }
+.game__cell--3 { background: var(--color-action-primary); }
+.game__cell--4 { background: #f2b705; }
+
+.game__cell--selected {
+  border-color: var(--color-text);
+  transform: scale(1.12);
+}
+
+.game__side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.game__label,
+.game__hint {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.game__score {
+  @include text-title;
+  color: var(--color-action-primary);
+}
+
+.game__hint {
+  margin-top: auto;
+}
