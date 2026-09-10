@@ -1,5 +1,6 @@
 @use '../../../styles/mixins' as *;
 
+// z-index: -1 relies on body's background propagating to the canvas; do not give html a background or body a transform/filter/isolation.
 .glow {
   position: fixed;
   top: 50%;
@@ -10,6 +11,7 @@
   background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--color-glow) 0%, transparent 70%);
   filter: blur(60px);
   pointer-events: none;
+  will-change: transform;
   z-index: -1;
 
   @include mobile {

@@ -26,6 +26,11 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={firsNeue.variable}>
+      <head>
+        <noscript>
+          <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
+        </noscript>
+      </head>
       <body>
         <div id="top" />
         <PageGlow />

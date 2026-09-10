@@ -9,7 +9,7 @@ const Footer = () => {
         <a href="#top" className={styles.footer__logo}>
           <Logo variant="footer" />
         </a>
-        <nav className={styles.footer__links} aria-label="Ссылки">
+        <nav className={styles.footer__links} aria-label="Подвал">
           {FOOTER_LINKS.map((item) => {
             const external = item.href.startsWith('http');
             return (
