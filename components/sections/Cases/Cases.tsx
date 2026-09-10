@@ -6,7 +6,7 @@ const Cases = () => {
   return (
     <section className={styles.cases} id="cases">
       <h2 className={styles.cases__title} data-reveal>Кейсы</h2>
-      <div className={styles.cases__grid} role="list">
+      <div className={styles.cases__grid}>
         {CASES.map((item) => (
           <CaseCard key={item.slug} item={item} />
         ))}

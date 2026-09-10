@@ -18,7 +18,7 @@ const Process = () => {
         <div className={styles.process__timeline} aria-hidden="true">
           <span className={styles.process__timelineFill} style={{ transform: `scaleX(${Math.max(progress, MIN_FILL)})` }} />
         </div>
-        <div ref={trackRef} className={styles.process__track} onScroll={onMobileScroll} role="list">
+        <div ref={trackRef} className={styles.process__track} onScroll={onMobileScroll}>
           {PROCESS_STEPS.map((step, index) => (
             <ProcessStep key={step.number} step={step} active={index <= activeIndex} />
           ))}
