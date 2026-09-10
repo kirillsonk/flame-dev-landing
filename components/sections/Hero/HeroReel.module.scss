@@ -1,0 +1,85 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.reel {
+  position: relative;
+}
+
+.reel__track {
+  display: flex;
+  gap: 0.8rem;
+  height: 62rem;
+
+  @include mobile {
+    height: 46rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.reel__strip {
+  @include focus-ring;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  transition: flex-grow 0.6s var(--ease);
+
+  @include mobile {
+    flex: 0 0 29rem;
+    scroll-snap-align: start;
+  }
+}
+
+.reel__strip--active {
+  flex-grow: 2.25;
+}
+
+.reel__label {
+  @include text-title;
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  color: var(--color-text);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transition: opacity 0.3s ease-out;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.reel__strip--active .reel__label {
+  opacity: 0;
+}
+
+.reel__dots {
+  display: none;
+
+  @include mobile {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 2.4rem;
+  }
+}
+
+.reel__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  transition: width 0.25s var(--ease), background-color 0.25s ease-out;
+}
+
+.reel__dot--active {
+  width: 1.6rem;
+  background: var(--color-action-primary);
+}
