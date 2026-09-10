@@ -1,0 +1,23 @@
+@mixin text-display($italic: false) {
+  font-size: var(--type-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  @if $italic {
+    font-style: italic;
+  }
+}
+
+@mixin text-title {
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+@mixin text-body($weight: 400) {
+  font-size: var(--type-body);
+  font-weight: $weight;
+  letter-spacing: 0;
+  line-height: 1.5;
+}

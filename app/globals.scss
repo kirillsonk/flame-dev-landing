@@ -1,3 +1,53 @@
+@use 'sass:math';
+
+:root {
+  --color-bg: #262525;
+  --color-surface: #2d2c2c;
+  --color-elevated: #3d3d3e;
+  --color-border: #3d3d3e;
+  --color-border-strong: #9d9c9e;
+  --color-text: #fcfbfb;
+  --color-text-dim: #9d9c9e;
+  --color-text-cold: #b4bbc4;
+  --color-action-primary: #3b78ff;
+  --color-action-primary-hover: #6394ff;
+  --color-on-action: #262525;
+  --color-glow: rgba(59, 120, 255, 0.26);
+  --color-glow-strong: rgba(59, 120, 255, 0.42);
+  --color-success: #31d269;
+  --color-error: #f70e3d;
+
+  --type-display: 4.8rem;
+  --type-title: 2.4rem;
+  --type-body: 1.6rem;
+
+  --space-section: 12rem;
+  --space-gutter: 12rem;
+  --space-grid-gap: 2.4rem;
+
+  --size-button: 4.8rem;
+  --size-button-hero: 5.6rem;
+  --size-header: 8rem;
+
+  --radius-control: 0.8rem;
+  --radius-card: 1.4rem;
+  --radius-panel: 1.6rem;
+  --radius-pill: 99.9rem;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  :root {
+    --type-display: 3.6rem;
+    --space-section: 8rem;
+    --space-gutter: 2rem;
+    --space-grid-gap: 1.6rem;
+    --size-button-hero: 5.2rem;
+    --size-header: 6.4rem;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -6,7 +56,79 @@
   padding: 0;
 }
 
+html {
+  font-size: 10px;
+  scroll-behavior: smooth;
+
+  @media screen and (max-width: 1440px) {
+    font-size: math.div(10, 1440) * 100vw;
+  }
+
+  @media screen and (max-width: 768px) and (orientation: portrait) {
+    font-size: math.div(10, 390) * 100vw;
+  }
+}
+
 body {
-  background: #262525;
-  color: #fcfbfb;
+  font-family: var(--font), sans-serif;
+  font-size: var(--type-body);
+  line-height: 1.5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }

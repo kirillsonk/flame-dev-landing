@@ -1,6 +1,18 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import localFont from 'next/font/local';
 import './globals.scss';
+
+const firsNeue = localFont({
+  variable: '--font',
+  display: 'swap',
+  src: [
+    { path: '../public/fonts/TTFirsNeue/TTFirsNeue-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/TTFirsNeue/TTFirsNeue-Medium.woff2', weight: '500', style: 'normal' },
+    { path: '../public/fonts/TTFirsNeue/TTFirsNeue-Bold.woff2', weight: '700', style: 'normal' },
+    { path: '../public/fonts/TTFirsNeue/TTFirsNeue-BoldItalic.woff2', weight: '700', style: 'italic' },
+  ],
+});
 
 export const metadata: Metadata = {
   title: 'Flame Dev — сложные системы и спецпроекты для брендов',
@@ -9,7 +21,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="ru">
+    <html lang="ru" className={firsNeue.variable}>
       <body>{children}</body>
     </html>
   );
