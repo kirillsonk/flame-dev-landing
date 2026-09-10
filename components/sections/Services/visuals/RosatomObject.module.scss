@@ -1,0 +1,13 @@
+.object {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-control);
+  // Росатом: тёмно-синий космос из кейса, литерал намеренно
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, #1a1f4e 0%, var(--color-bg) 100%);
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
