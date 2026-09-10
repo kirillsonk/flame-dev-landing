@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footer__inner}>
-        <a href="#top" className={styles.footer__logo} aria-label="Flame Dev">
+        <a href="#top" className={styles.footer__logo}>
           <Logo variant="footer" />
         </a>
         <nav className={styles.footer__links} aria-label="Ссылки">

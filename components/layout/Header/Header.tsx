@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className={clsx(styles.header, scrolled && styles['header--scrolled'], menuOpen && styles['header--open'])}>
       <div className={styles.header__inner}>
-        <a href="#top" className={styles.header__logo} aria-label="Flame Dev" onClick={closeMenu}>
+        <a href="#top" className={styles.header__logo} onClick={closeMenu}>
           <Logo />
         </a>
 
