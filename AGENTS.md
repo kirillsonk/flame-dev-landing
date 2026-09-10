@@ -7,3 +7,75 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+# AGENTS.md
+
+These rules apply to Codex work in this repository.
+
+## Project
+
+Flame Dev — одностраничный сайт-визитка команды разработки внутри Flame.
+Источники истины: `doc/flame-dev-spec.md` (ТЗ), `doc/2026-09-10-flame-dev-site-design.md`
+(дизайн-спека: токены, компоненты, секции, контент), `doc/2026-09-10-flame-dev-site-plan.md`
+(план сборки). Макетов в Figma нет — раскладка по вайрфрейму, решения принимаются в браузере.
+
+## Stack
+
+- Next.js App Router (16.x, Turbopack), React 19, TypeScript, npm.
+- SCSS Modules (`sass`), без Tailwind. Шрифт TTFirsNeue через `next/font/local`, переменная `--font`.
+- Состояние — `useState`/хуки, без MobX/Redux. Данные — нет бэкенда, только `app/api/lead` → Telegram.
+- Формы — Formik + Yup, схема в соседнем `*.validationSchema.ts`.
+- Анимация по уровням: 1) `IntersectionObserver` + CSS (`data-reveal`, ховеры, полосы hero);
+  2) GSAP ScrollTrigger только для pinned-секции «Процесс»; 3) vanilla Three.js в обычном классе
+  только для 3D-объекта Росатома, чанк через `next/dynamic` с `ssr: false`.
+- Не тащить framer-motion, swiper, react-hook-form, zod, react-three-fiber, аналитику.
+
+## Structure
+
+- `app/` — layout, page, `globals.scss` (reset, `:root` токены, fluid rem), `api/lead/route.ts`.
+- `components/ui/Base*` — примитивы кита; `components/layout/` — Header, Footer, PageGlow,
+  RevealController; `components/sections/` — секции страницы 01–07; `components/cta/` — преследующий CTA.
+- `data/*.ts` — весь контент (кейсы, услуги, процесс, навигация). Строки не живут в JSX.
+- `hooks/` — общие хуки (`useInView`); локальные хуки — в `hooks/` рядом с компонентом.
+- `styles/_typography.scss`, `styles/_mixins.scss` — миксины; модули импортируют их относительным
+  путём `@use '../../../styles/typography' as *;` (модули лежат на глубине 3).
+
+## Naming & Component Structure (TS/TSX)
+
+- Компонент = имя файла, PascalCase, стрелочная функция, `export default X;` отдельной строкой внизу.
+- Интерфейс пропсов — `{ComponentName}Props` (без `I`). Любой другой интерфейс — `I{Name}`.
+- Хук — `use{Name}` = имя файла, возвращает объект, `export default`.
+- Импорт стилей — всегда `import styles from './{ComponentName}.module.scss'`.
+- Алиас `@/*` обязателен, без `../../..` в TS.
+
+## Styling / SCSS
+
+- Fluid rem: `html { font-size: 10px }`, до 1440 — `10/1440*100vw`, портрет ≤768 — `10/390*100vw`.
+  Все размеры в `rem` (px из вайрфрейма / 10). Без `clamp()`/`calc()` на свойствах. `px` допустим
+  только для `1px` бордеров, `2px` фокус-обводок и `blur()`.
+- Ровно три размера шрифта: миксины `text-display` (48/36), `text-title` (24), `text-body` (16).
+  Промежуточных размеров не заводить.
+- Цвета и размеры — только через `var(--…)` из `:root`. Локальные computed-значения — как
+  `--size` внутри класса, не дублировать блок по вариантам.
+- Плоский BEM: `.caseCard__poster`, `.button--primary` — каждый класс явно на верхнем уровне.
+  Никаких `&__`/`&--`. `&` только для `&:hover`, `&::after`, `&:focus-visible`.
+- Медиа-запросы внутри компонентов — только для структурных изменений, через миксин `mobile`.
+
+## Dependencies
+
+- Перед тем как писать утилиту руками, проверить `package.json` и npm. Второй пакет под ту же
+  задачу не ставить (`clsx` уже есть для классов, `yup` для валидации).
+- Новую зависимость — только если она дешевле кастомного кода и не раздувает бандл.
+
+## Tests
+
+- Тесты на лендинге не нужны. Не добавлять без явной просьбы. Проверка задачи —
+  `npm run build && npm run lint && npm run typecheck` плюс просмотр в браузере на 1440 и 390.
+
+## Output
+
+At the end, report briefly:
+- what changed
+- why it changed
+- files touched
+- remaining risks or assumptions
