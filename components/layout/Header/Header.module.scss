@@ -1,0 +1,117 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: color-mix(in srgb, var(--color-bg) 0%, transparent);
+  transition: background-color 0.3s ease-out, backdrop-filter 0.3s ease-out;
+}
+
+.header--scrolled {
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.header__inner {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--size-header);
+}
+
+.header__logo {
+  display: block;
+  @include focus-ring;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 3.2rem;
+
+  @include mobile {
+    position: fixed;
+    inset: var(--size-header) 0 0 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.4rem;
+    padding: 3.2rem var(--space-gutter);
+    background: var(--color-bg);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.35s var(--ease), visibility 0s linear 0.35s;
+  }
+}
+
+.header--open .header__nav {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.35s var(--ease), visibility 0s;
+}
+
+.header__link {
+  @include text-body;
+  @include focus-ring;
+  color: var(--color-text-dim);
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-text);
+  }
+
+  @include mobile {
+    @include text-title;
+    color: var(--color-text);
+  }
+}
+
+.header__lang {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.header__cta {
+  @include mobile {
+    width: 100%;
+    margin-top: auto;
+  }
+}
+
+.header__mobile {
+  display: none;
+
+  @include mobile {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+}
+
+.header__burger {
+  @include focus-ring;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 3.2rem;
+  height: 3.2rem;
+
+  span {
+    display: block;
+    height: 2px;
+    background: var(--color-text);
+    transition: transform 0.25s var(--ease);
+  }
+}
+
+.header--open .header__burger span:first-child {
+  transform: translateY(0.35rem) rotate(45deg);
+}
+
+.header--open .header__burger span:last-child {
+  transform: translateY(-0.35rem) rotate(-45deg);
+}

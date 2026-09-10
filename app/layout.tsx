@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
+import PageGlow from '@/components/layout/PageGlow/PageGlow';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
+import RevealController from '@/components/layout/RevealController/RevealController';
 import './globals.scss';
 
 const firsNeue = localFont({
@@ -22,7 +26,14 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={firsNeue.variable}>
-      <body>{children}</body>
+      <body>
+        <div id="top" />
+        <PageGlow />
+        <Header />
+        {children}
+        <Footer />
+        <RevealController />
+      </body>
     </html>
   );
 };
