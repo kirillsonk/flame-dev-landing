@@ -1,0 +1,33 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 100%;
+}
+
+.form--compact {
+  gap: 1.2rem;
+}
+
+.form--done {
+  justify-content: center;
+  min-height: 12rem;
+}
+
+.form__success {
+  @include text-title;
+  color: var(--color-success);
+}
+
+.form__error {
+  @include text-body;
+  color: var(--color-error);
+
+  a {
+    @include focus-ring;
+    color: var(--color-action-primary);
+  }
+}

@@ -5,6 +5,7 @@ import Services from '@/components/sections/Services/Services';
 import Why from '@/components/sections/Why/Why';
 import Process from '@/components/sections/Process/Process';
 import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
+import Contact from '@/components/sections/Contact/Contact';
 
 const HomePage = () => {
   return (
@@ -16,6 +17,7 @@ const HomePage = () => {
       <Why />
       <Process />
       <Ecosystem />
+      <Contact />
     </main>
   );
 };

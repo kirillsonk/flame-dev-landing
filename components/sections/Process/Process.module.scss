@@ -50,6 +50,7 @@
     padding: 0 var(--space-gutter);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-gutter);
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
