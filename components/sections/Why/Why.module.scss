@@ -1,0 +1,45 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.why {
+  @include section;
+}
+
+.why__title {
+  @include text-display;
+  margin-bottom: 4rem;
+}
+
+.why__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-grid-gap);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.why__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.why__card--featured {
+  border-color: color-mix(in srgb, var(--color-action-primary) 60%, transparent);
+  box-shadow: 0 0 4.8rem color-mix(in srgb, var(--color-action-primary) 10%, transparent);
+}
+
+.why__cardTitle {
+  @include text-title;
+}
+
+.why__cardText {
+  @include text-body;
+  color: var(--color-text-dim);
+}

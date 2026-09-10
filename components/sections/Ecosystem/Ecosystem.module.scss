@@ -1,0 +1,52 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.ecosystem {
+  @include section;
+}
+
+.ecosystem__title {
+  @include text-display;
+  margin-bottom: 4rem;
+}
+
+.ecosystem__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-grid-gap);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ecosystem__card {
+  @include focus-ring;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 3.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  transition: border-color 0.25s ease-out;
+
+  @include hover {
+    border-color: color-mix(in srgb, var(--color-action-primary-hover) 55%, transparent);
+  }
+}
+
+.ecosystem__cardTitle {
+  @include text-title;
+}
+
+.ecosystem__cardText {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.ecosystem__cardLink {
+  @include text-body;
+  margin-top: 0.8rem;
+  color: var(--color-action-primary);
+}
