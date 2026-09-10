@@ -6,12 +6,13 @@
 }
 
 .reel__track {
+  --reel-h: 62rem;
   display: flex;
   gap: 0.8rem;
-  height: 62rem;
+  height: var(--reel-h);
 
   @include mobile {
-    height: 46rem;
+    --reel-h: 46rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -29,16 +30,18 @@
   min-width: 0;
   overflow: hidden;
   border-radius: var(--radius-card);
-  transition: flex-grow 0.6s var(--ease);
+  transition: flex-basis 0.6s var(--ease), flex-grow 0.6s var(--ease);
 
   @include mobile {
-    flex: 0 0 29rem;
+    // Полосы карусели сразу 9:16
+    flex: 0 0 calc(var(--reel-h) * 9 / 16);
     scroll-snap-align: start;
   }
 }
 
 .reel__strip--active {
-  flex-grow: 2.25;
+  // Активная полоса раскрывается ровно до 9:16 при высоте трека
+  flex: 0 0 calc(var(--reel-h) * 9 / 16);
 }
 
 .reel__label {
