@@ -55,7 +55,7 @@ Flame (тёмная база, TTFirsNeue, радиусы, свечение), н�
 | `--color-text-cold` | `#B4BBC4` | подписи под шагами, мелкие строки |
 | `--color-action-primary` | `#3B78FF` | кнопка primary, ссылки, активный шаг, заливка таймлайна |
 | `--color-action-primary-hover` | `#6394FF` | ховер акцента |
-| `--color-on-action` | `#262525` | текст на акцентной заливке |
+| `--color-on-action` | `#0A0A0A` | текст на акцентной заливке |
 | `--color-glow` | `rgba(59,120,255,.26)` | свечение за hero и вокруг CTA, `.42` на ховере |
 | `--color-success` | `#31D269` | успешная отправка формы |
 | `--color-error` | `#FF6B7A` | ошибка поля |
@@ -161,7 +161,7 @@ public/
 
 | Компонент | Варианты и пропсы | Спека |
 |---|---|---|
-| `BaseButton` | `variant: primary \| inverse \| chrome \| ghost`, `size: m \| l`, `as: button \| a` | высота `--size-button` / `--size-button-hero`, padding 0 2.4rem, радиус 0.8rem, body 500; primary с ореолом; inverse = заливка `--color-text`, текст `--color-action-primary`, только на синей CTA-полосе |
+| `BaseButton` | `variant: primary \| inverse \| chrome \| ghost`, `size: m \| l`, `as: button \| a` | высота `--size-button` / `--size-button-hero`, padding 0 2.4rem, радиус 0.8rem, body 500; primary с ореолом; inverse = заливка `--color-text`, текст `--color-bg`, только на синей CTA-полосе |
 | `BaseTag` | `variant: outline \| accent` | высота 3.2rem, padding 0 1.2rem, радиус 0.8rem, body |
 | `BaseInput` | `multiline`, `error`, Formik `field` | без рамки, нижняя линия 1px `--color-border-strong`, фокус акцентом, ошибка `--color-error`, высота 4.8rem, textarea 12rem |
 | `Logo` | `variant: header \| footer` | FLAME из SVG + DEV блоком; высота 2.2rem / 1.8rem |

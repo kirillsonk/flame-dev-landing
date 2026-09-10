@@ -6,7 +6,7 @@ const Cases = () => {
   return (
     <section className={styles.cases} id="cases">
       <h2 className={styles.cases__title} data-reveal>Кейсы</h2>
-      <div className={styles.cases__grid}>
+      <div className={styles.cases__grid} role="list">
         {CASES.map((item) => (
           <CaseCard key={item.slug} item={item} />
         ))}
@@ -14,7 +14,7 @@ const Cases = () => {
       <p className={styles.cases__note} data-reveal>
         {HUAWEI_NOTE.text}{' '}
         <a href={HUAWEI_NOTE.href} target="_blank" rel="noreferrer" className={styles.cases__link}>
-          → {HUAWEI_NOTE.label}
+          <span aria-hidden="true">→</span> {HUAWEI_NOTE.label}
         </a>
       </p>
     </section>

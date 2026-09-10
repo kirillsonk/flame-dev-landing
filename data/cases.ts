@@ -1,5 +1,6 @@
 import type { ICase } from './types';
 
+// Порядок и размеры задают ряды сетки 12 колонок: l+l | m+m+m | s+s+s+s (6+6, 4+4+4, 3+3+3+3). Первый тег — основная категория, он подсвечивается акцентом.
 export const CASES: ICase[] = [
   {
     slug: 'coca-cola-delivery-club',

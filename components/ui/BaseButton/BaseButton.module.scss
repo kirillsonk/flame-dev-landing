@@ -55,7 +55,7 @@
 .button--inverse {
   background: var(--color-text);
   border-color: var(--color-text);
-  color: var(--color-action-primary);
+  color: var(--color-bg);
 
   @include focus-ring(var(--color-text));
 
