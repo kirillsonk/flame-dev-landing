@@ -1,0 +1,86 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.button {
+  @include text-body(500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: var(--size-button);
+  padding: 0 2.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  white-space: nowrap;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+
+  &:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-action-primary) 60%, transparent);
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.button--l {
+  min-height: var(--size-button-hero);
+  padding: 0 4rem;
+}
+
+.button--block {
+  width: 100%;
+}
+
+.button--primary {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  color: var(--color-on-action);
+  @include glow;
+
+  @include hover {
+    background: var(--color-action-primary-hover);
+    border-color: var(--color-action-primary-hover);
+    @include glow(var(--color-glow-strong));
+  }
+
+  &:active {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-action-primary);
+  }
+}
+
+.button--inverse {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-action-primary);
+
+  @include hover {
+    background: var(--color-bg);
+    border-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+
+.button--chrome {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+
+  @include hover {
+    background: var(--color-elevated);
+  }
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--color-text-dim);
+  padding: 0 1.2rem;
+
+  @include hover {
+    color: var(--color-text);
+  }
+}

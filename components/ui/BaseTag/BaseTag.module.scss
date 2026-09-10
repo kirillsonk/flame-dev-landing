@@ -1,0 +1,19 @@
+@use '../../../styles/typography' as *;
+
+.tag {
+  @include text-body;
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.2rem;
+  padding: 0 1.2rem;
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-control);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.tag--accent {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  color: var(--color-on-action);
+}
