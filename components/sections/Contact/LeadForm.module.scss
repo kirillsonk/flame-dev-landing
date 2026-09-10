@@ -12,6 +12,14 @@
   gap: 1.2rem;
 }
 
+.form__submit {
+  align-self: flex-start;
+}
+
+.form--compact .form__submit {
+  align-self: stretch;
+}
+
 .form--done {
   justify-content: center;
   min-height: 12rem;

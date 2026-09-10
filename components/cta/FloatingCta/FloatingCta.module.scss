@@ -1,0 +1,58 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.cta {
+  position: fixed;
+  right: 3.2rem;
+  bottom: 3.2rem;
+  z-index: var(--z-cta);
+  opacity: 0;
+  transform: translateY(1.6rem);
+  pointer-events: none;
+  transition: opacity 0.3s ease-out, transform 0.3s var(--ease);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.cta--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cta__panel {
+  @include glass;
+  width: 36rem;
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  box-shadow: 0 1.6rem 4.8rem rgba(0, 0, 0, 0.5);
+}
+
+.cta__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cta__title {
+  @include text-title;
+}
+
+.cta__close {
+  @include text-title;
+  @include focus-ring;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: var(--radius-control);
+  color: var(--color-text-dim);
+  line-height: 1;
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-text);
+  }
+}

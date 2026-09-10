@@ -63,7 +63,7 @@ const LeadForm = ({ source = 'form', compact = false, className }: LeadFormProps
               error={touched.message ? errors.message : undefined}
             />
           )}
-          <BaseButton type="submit" disabled={status === 'sending'} block={compact}>
+          <BaseButton type="submit" className={styles.form__submit} disabled={status === 'sending'} block={compact}>
             {status === 'sending' ? 'Отправляем…' : 'Отправить'}
           </BaseButton>
           {status === 'error' && (

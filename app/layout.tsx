@@ -5,6 +5,8 @@ import PageGlow from '@/components/layout/PageGlow/PageGlow';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import RevealController from '@/components/layout/RevealController/RevealController';
+import FloatingCta from '@/components/cta/FloatingCta/FloatingCta';
+import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import './globals.scss';
 
 const firsNeue = localFont({
@@ -20,7 +22,15 @@ const firsNeue = localFont({
 
 export const metadata: Metadata = {
   title: 'Flame Dev — сложные системы и спецпроекты для брендов',
-  description: 'Разработка, дизайн и видеопродакшн в одной команде.',
+  description: 'Разработка, дизайн и видеопродакшн в одной команде. Coca-Cola, Росатом, AliExpress, Purina, VK.',
+  icons: { icon: '/favicon.svg' },
+  openGraph: {
+    title: 'Flame Dev',
+    description: 'Сложные системы и спецпроекты для брендов.',
+    siteName: 'Flame Dev',
+    locale: 'ru_RU',
+    type: 'website',
+  },
 };
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
@@ -37,6 +47,8 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <Header />
         {children}
         <Footer />
+        <FloatingCta />
+        <MobileCtaBar />
         <RevealController />
       </body>
     </html>
