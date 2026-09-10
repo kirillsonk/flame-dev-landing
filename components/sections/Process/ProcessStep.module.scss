@@ -1,0 +1,39 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  flex: 0 0 44rem;
+  scroll-snap-align: start;
+
+  @include mobile {
+    flex-basis: 28rem;
+  }
+}
+
+.step__number {
+  @include text-display;
+  color: var(--color-border);
+  transition: color 0.3s ease-out;
+}
+
+.step--active .step__number {
+  color: var(--color-action-primary);
+}
+
+.step__title {
+  @include text-title;
+  color: var(--color-text-dim);
+  transition: color 0.3s ease-out;
+}
+
+.step--active .step__title {
+  color: var(--color-text);
+}
+
+.step__text {
+  @include text-body;
+  color: var(--color-text-cold);
+}

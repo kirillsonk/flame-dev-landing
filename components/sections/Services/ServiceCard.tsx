@@ -10,9 +10,9 @@ export interface ServiceCardProps {
 const ServiceCard = ({ item }: ServiceCardProps) => {
   return (
     <article className={styles.serviceCard} data-reveal>
+      <span className={styles.serviceCard__hint} aria-hidden="true">интерактив</span>
       <div className={styles.serviceCard__visual}>
         <ServiceVisual kind={item.visual} />
-        <span className={styles.serviceCard__hint} aria-hidden="true">интерактив</span>
       </div>
       <h3 className={styles.serviceCard__title}>{item.title}</h3>
       <p className={styles.serviceCard__text}>{item.description}</p>
