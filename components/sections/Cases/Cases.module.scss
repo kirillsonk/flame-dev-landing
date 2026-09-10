@@ -1,0 +1,33 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.cases {
+  @include section;
+}
+
+.cases__title {
+  @include text-display;
+  margin-bottom: 4rem;
+}
+
+.cases__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-grid-gap);
+}
+
+.cases__note {
+  @include text-body;
+  margin-top: 3.2rem;
+  color: var(--color-text-dim);
+}
+
+.cases__link {
+  @include focus-ring;
+  color: var(--color-action-primary);
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-action-primary-hover);
+  }
+}

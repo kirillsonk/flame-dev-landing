@@ -1,0 +1,71 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.caseCard {
+  --poster-ratio: 3 / 2;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  transition: border-color 0.25s ease-out, transform 0.25s var(--ease), box-shadow 0.25s ease-out;
+
+  @include hover {
+    border-color: color-mix(in srgb, var(--color-action-primary-hover) 55%, transparent);
+    transform: translateY(-0.4rem);
+    box-shadow: 0 0.8rem 4rem rgba(0, 0, 0, 0.6), 0 0 4.8rem color-mix(in srgb, var(--color-action-primary-hover) 8%, transparent);
+  }
+}
+
+.caseCard--l {
+  --poster-ratio: 588 / 380;
+  grid-column: span 6;
+}
+
+.caseCard--m {
+  --poster-ratio: 384 / 260;
+  grid-column: span 4;
+}
+
+.caseCard--s {
+  --poster-ratio: 282 / 180;
+  grid-column: span 3;
+}
+
+@include mobile {
+  .caseCard--l,
+  .caseCard--m,
+  .caseCard--s {
+    --poster-ratio: 16 / 10;
+    grid-column: span 12;
+  }
+}
+
+.caseCard__poster {
+  aspect-ratio: var(--poster-ratio);
+}
+
+.caseCard__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.6rem 2rem 2rem;
+}
+
+.caseCard__title {
+  @include text-title;
+}
+
+.caseCard__text {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.caseCard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
