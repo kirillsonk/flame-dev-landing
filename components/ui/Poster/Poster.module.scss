@@ -1,0 +1,36 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.poster {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--poster-from) 0%, color-mix(in srgb, var(--poster-from) 55%, var(--poster-to)) 60%, var(--poster-to) 100%);
+  isolation: isolate;
+}
+
+.poster__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster__scrim {
+  position: absolute;
+  inset: 0;
+  @include scrim;
+  pointer-events: none;
+}
+
+.poster__title {
+  @include text-title;
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  right: 2rem;
+  color: var(--color-text);
+  text-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.4);
+}
