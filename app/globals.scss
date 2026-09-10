@@ -35,6 +35,8 @@
   --radius-pill: 99.9rem;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --z-header: 50;
+  --z-cta: 40;
 }
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
@@ -59,6 +61,7 @@
 html {
   font-size: 10px;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--size-header);
 
   @media screen and (max-width: 1440px) {
     font-size: math.div(10, 1440) * 100vw;
@@ -76,13 +79,15 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 img,
 video {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -103,15 +108,24 @@ button {
   cursor: pointer;
 }
 
+textarea {
+  resize: vertical;
+}
+
 [data-reveal] {
   opacity: 0;
-  transform: translateY(1.2rem);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  translate: 0 1.2rem;
 }
 
 [data-reveal].is-revealed {
-  opacity: 1;
-  transform: translateY(0);
+  animation: reveal 0.5s var(--ease) forwards;
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,6 +135,8 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0.01ms !important;
+    animation-delay: 0.01ms !important;
   }
 
   html {
@@ -129,6 +145,6 @@ button {
 
   [data-reveal] {
     opacity: 1;
-    transform: none;
+    translate: none;
   }
 }

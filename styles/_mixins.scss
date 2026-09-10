@@ -1,3 +1,7 @@
+// `hover` must be included inside a selector (it emits `&:hover`).
+// Elements with `data-reveal` are animated via `translate`/`animation` in globals.scss,
+// so components are free to use `transform` and `transition` on them.
+
 @mixin mobile {
   @media screen and (max-width: 768px) and (orientation: portrait) {
     @content;
@@ -40,4 +44,11 @@
 
 @mixin scrim {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 25%, transparent 70%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-action-primary) 60%, transparent);
+    outline-offset: 3px;
+  }
 }
