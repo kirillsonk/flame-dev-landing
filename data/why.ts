@@ -22,5 +22,5 @@ export const ECOSYSTEM_TITLE = 'Flame — это ещё и';
 
 export const ECOSYSTEM_CARDS: IEcosystemCard[] = [
   { title: 'Flame CGI', description: 'Видеопродакшн и CGI для брендов', href: 'https://flamecgi.com', label: 'flamecgi.com →' },
-  { title: 'Flame AI', description: 'AI-платформа для генерации видео', href: 'https://app.flame.ai', label: 'app.flame.ai →' },
+  { title: 'Flame AI', description: 'AI-платформа для генерации видео', href: 'https://app.flameai.studio', label: 'app.flameai.studio →' },
 ];

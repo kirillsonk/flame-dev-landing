@@ -1,15 +1,16 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
+// Карточка в стиле Flame AI: вертикальное видео 9:16, текст поверх.
+// Десктоп: сетка 12 колонок с фиксированной высотой ряда, L и M занимают 4 колонки × 2 ряда,
+// S — 2 колонки × 1 ряд. Мобайл: две колонки, L на всю ширину, пропорция через aspect-ratio.
 .caseCard {
-  --poster-ratio: 3 / 2;
-  display: flex;
-  flex-direction: column;
-  align-self: start;
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface);
+  isolation: isolate;
   transition: border-color 0.25s ease-out, transform 0.25s var(--ease), box-shadow 0.25s ease-out;
 
   @include hover {
@@ -17,45 +18,92 @@
     transform: translateY(-0.4rem);
     box-shadow: 0 0.8rem 4rem rgba(0, 0, 0, 0.6), 0 0 4.8rem color-mix(in srgb, var(--color-action-primary-hover) 8%, transparent);
   }
+
+  @include mobile {
+    aspect-ratio: 9 / 16;
+  }
+}
+
+.caseCard--l,
+.caseCard--m {
+  grid-column: span 4;
+  grid-row: span 2;
+
+  @include mobile {
+    grid-row: auto;
+  }
 }
 
 .caseCard--l {
-  --poster-ratio: 588 / 380;
-  grid-column: span 6;
+  @include mobile {
+    grid-column: span 2;
+  }
 }
 
 .caseCard--m {
-  --poster-ratio: 384 / 260;
-  grid-column: span 4;
+  @include mobile {
+    grid-column: span 1;
+  }
 }
 
 .caseCard--s {
-  --poster-ratio: 282 / 180;
-  grid-column: span 3;
-}
+  grid-column: span 2;
+  grid-row: span 1;
 
-@include mobile {
-  .caseCard--l,
-  .caseCard--m,
-  .caseCard--s {
-    --poster-ratio: 16 / 10;
-    grid-column: span 12;
+  @include mobile {
+    grid-column: span 1;
+    grid-row: auto;
   }
 }
 
 .caseCard__poster {
-  aspect-ratio: var(--poster-ratio);
+  position: absolute;
+  inset: 0;
 }
 
-.caseCard__body {
+.caseCard__overlay {
+  position: absolute;
+  inset: auto 0 0 0;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  padding: 1.6rem 2rem 2rem;
+  padding: 6.4rem 2rem 2rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 40%, rgba(0, 0, 0, 0.85) 100%);
+
+  @include mobile {
+    padding: 4.8rem 1.6rem 1.6rem;
+  }
 }
 
 .caseCard__title {
   @include text-title;
+  text-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.4);
+}
+
+.caseCard__extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+// На маленьких карточках описание и теги раскрываются по ховеру
+.caseCard--s .caseCard__extra {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s var(--ease), opacity 0.3s ease-out;
+
+  > * {
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .caseCard--s:hover .caseCard__extra {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
 }
 
 .caseCard__text {
@@ -67,5 +115,4 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-top: 0.8rem;
 }

@@ -60,6 +60,27 @@
   opacity: 0;
 }
 
+.reel__caption {
+  @include text-title;
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  color: var(--color-text);
+  text-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+
+  @include mobile {
+    opacity: 1;
+  }
+}
+
+.reel__strip--active .reel__caption {
+  opacity: 1;
+  transition: opacity 0.3s ease-out 0.35s;
+}
+
 .reel__dots {
   display: none;
 

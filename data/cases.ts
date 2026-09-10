@@ -1,9 +1,12 @@
 import type { ICase } from './types';
 
-// Порядок и размеры задают ряды сетки 12 колонок: l+l | m+m+m | s+s+s+s (6+6, 4+4+4, 3+3+3+3). Первый тег — основная категория, он подсвечивается акцентом.
+// Сетка 12 колонок: L и M — 4 колонки × 2 ряда, S — 2 колонки × 1 ряд; порядок l,l,m,m,m,s,s,s,s
+// раскладывается как [L L M] + [M M | S S / S S]. Первый тег — основная категория, он подсвечивается акцентом.
+// Тестовые видео 9:16 из landingv2, заменить на реальные баннеры кейсов.
 export const CASES: ICase[] = [
   {
     slug: 'coca-cola-delivery-club',
+    video: { mp4: '/videos/coca-cola-delivery-club.mp4', webm: '/videos/coca-cola-delivery-club.webm', poster: '/videos/coca-cola-delivery-club.jpg' },
     title: 'Coca-Cola × Delivery Club',
     size: 'l',
     colors: ['#E4002B', '#1E5B3A'],
@@ -12,6 +15,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'rosatom',
+    video: { mp4: '/videos/rosatom.mp4', webm: '/videos/rosatom.webm', poster: '/videos/rosatom.jpg' },
     title: 'Росатом — «Умный атом»',
     size: 'l',
     colors: ['#1A1F4E', '#D7141A'],
@@ -20,6 +24,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'flame-ai',
+    video: { mp4: '/videos/flame-ai.mp4', webm: '/videos/flame-ai.webm', poster: '/videos/flame-ai.jpg' },
     title: 'Flame AI',
     size: 'm',
     colors: ['#262525', '#F13911'],
@@ -28,6 +33,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'tibia',
+    video: { mp4: '/videos/tibia.mp4', webm: '/videos/tibia.webm', poster: '/videos/tibia.jpg' },
     title: 'Tibia / Majorpack',
     size: 'm',
     colors: ['#E8D400', '#F2F2F0'],
@@ -36,6 +42,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'amatour',
+    video: { mp4: '/videos/amatour.mp4', webm: '/videos/amatour.webm', poster: '/videos/amatour.jpg' },
     title: 'Amatour',
     size: 'm',
     colors: ['#E4141C', '#FFFFFF'],
@@ -44,6 +51,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'purina-vk',
+    video: { mp4: '/videos/purina-vk.mp4', webm: '/videos/purina-vk.webm', poster: '/videos/purina-vk.jpg' },
     title: 'Purina × VK',
     size: 's',
     colors: ['#B5CC2E', '#E30613'],
@@ -52,6 +60,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'alibox',
+    video: { mp4: '/videos/alibox.mp4', webm: '/videos/alibox.webm', poster: '/videos/alibox.jpg' },
     title: 'AliExpress × ОК',
     size: 's',
     colors: ['#D9EEF9', '#FF4A1F'],
@@ -60,6 +69,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'majorpack',
+    video: { mp4: '/videos/majorpack.mp4', webm: '/videos/majorpack.webm', poster: '/videos/majorpack.jpg' },
     title: 'Majorpack',
     size: 's',
     colors: ['#2F3A44', '#FFFFFF'],
@@ -68,6 +78,7 @@ export const CASES: ICase[] = [
   },
   {
     slug: 'sozidanie',
+    video: { mp4: '/videos/sozidanie.mp4', webm: '/videos/sozidanie.webm', poster: '/videos/sozidanie.jpg' },
     title: 'Фонд «Созидание»',
     size: 's',
     colors: ['#F26B1D', '#1E4D2B'],

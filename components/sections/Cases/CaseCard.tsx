@@ -11,16 +11,16 @@ export interface CaseCardProps {
 const CaseCard = ({ item }: CaseCardProps) => {
   return (
     <article className={clsx(styles.caseCard, styles[`caseCard--${item.size}`])} data-reveal>
-      <div className={styles.caseCard__poster}>
-        <Poster item={item} showTitle={false} />
-      </div>
-      <div className={styles.caseCard__body}>
+      <Poster item={item} showTitle={false} className={styles.caseCard__poster} />
+      <div className={styles.caseCard__overlay}>
         <h3 className={styles.caseCard__title}>{item.title}</h3>
-        <p className={styles.caseCard__text}>{item.description}</p>
-        <div className={styles.caseCard__tags}>
-          {item.tags.map((tag, index) => (
-            <BaseTag key={tag} variant={index === 0 ? 'accent' : 'outline'}>{tag}</BaseTag>
-          ))}
+        <div className={styles.caseCard__extra}>
+          <p className={styles.caseCard__text}>{item.description}</p>
+          <div className={styles.caseCard__tags}>
+            {item.tags.map((tag, index) => (
+              <BaseTag key={tag} variant={index === 0 ? 'accent' : 'outline'}>{tag}</BaseTag>
+            ))}
+          </div>
         </div>
       </div>
     </article>

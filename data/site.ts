@@ -32,5 +32,5 @@ export const CONTACT = {
 export const FOOTER_LINKS: INavItem[] = [
   ...NAV,
   { label: 'Flame CGI', href: 'https://flamecgi.com' },
-  { label: 'Flame AI', href: 'https://app.flame.ai' },
+  { label: 'Flame AI', href: 'https://app.flameai.studio' },
 ];

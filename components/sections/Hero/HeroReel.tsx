@@ -34,8 +34,9 @@ const HeroReel = ({ items }: HeroReelProps) => {
             onFocus={() => onHoverStart(index)}
             aria-label={item.title}
           >
-            <Poster item={item} playing={index === activeIndex} showTitle={index === activeIndex} />
+            <Poster item={item} playing={index === activeIndex} showTitle={false} />
             <span className={styles.reel__label} aria-hidden="true">{item.title}</span>
+            <span className={styles.reel__caption} aria-hidden="true">{item.title}</span>
           </a>
         ))}
       </div>
