@@ -8,7 +8,8 @@
   justify-content: center;
   gap: 0.8rem;
   min-height: var(--size-button);
-  padding: 0 2.4rem;
+  --pad: 2.4rem;
+  padding: 0 var(--pad);
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   white-space: nowrap;
@@ -24,7 +25,7 @@
 
 .button--l {
   min-height: var(--size-button-hero);
-  padding: 0 4rem;
+  --pad: 4rem;
 }
 
 .button--block {
@@ -47,6 +48,7 @@
     background: var(--color-text);
     border-color: var(--color-text);
     color: var(--color-action-primary);
+    box-shadow: none;
   }
 }
 
@@ -54,6 +56,8 @@
   background: var(--color-text);
   border-color: var(--color-text);
   color: var(--color-action-primary);
+
+  @include focus-ring(var(--color-text));
 
   @include hover {
     background: var(--color-bg);
@@ -75,7 +79,7 @@
 .button--ghost {
   background: transparent;
   color: var(--color-text-dim);
-  padding: 0 1.2rem;
+  --pad: 1.2rem;
 
   @include hover {
     color: var(--color-text);

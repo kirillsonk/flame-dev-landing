@@ -5,7 +5,6 @@ import styles from './BaseInput.module.scss';
 interface BaseInputCommonProps {
   label: string;
   error?: string;
-  multiline?: boolean;
   className?: string;
 }
 
@@ -14,30 +13,24 @@ type TextareaProps = BaseInputCommonProps & TextareaHTMLAttributes<HTMLTextAreaE
 
 export type BaseInputProps = InputProps | TextareaProps;
 
-const BaseInput = (props: BaseInputProps) => {
-  const { label, error, className, id } = props;
-  const fieldId = id ?? props.name;
-  const wrapperClass = clsx(styles.field, error && styles['field--error'], className);
+const BaseInput = ({ label, error, className, multiline, id, name, ...rest }: BaseInputProps) => {
+  const fieldId = id ?? name;
+  const errorId = fieldId ? `${fieldId}-error` : undefined;
+  const a11y = { 'aria-invalid': error ? true : undefined, 'aria-describedby': error ? errorId : undefined };
 
-  if (props.multiline) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { label: _l, error: _e, multiline: _m, className: _c, ...textareaProps } = props;
-    return (
-      <label className={wrapperClass} htmlFor={fieldId}>
-        <span className={styles.field__label}>{label}</span>
-        <textarea id={fieldId} className={clsx(styles.field__control, styles['field__control--multiline'])} {...textareaProps} />
-        {error && <span className={styles.field__error}>{error}</span>}
-      </label>
-    );
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { label: _l, error: _e, multiline: _m, className: _c, ...inputProps } = props;
   return (
-    <label className={wrapperClass} htmlFor={fieldId}>
+    <label className={clsx(styles.field, error && styles['field--error'], className)} htmlFor={fieldId}>
       <span className={styles.field__label}>{label}</span>
-      <input id={fieldId} className={styles.field__control} {...inputProps} />
-      {error && <span className={styles.field__error}>{error}</span>}
+      {multiline ? (
+        <textarea id={fieldId} name={name} className={clsx(styles.field__control, styles['field__control--multiline'])} {...a11y} {...(rest as TextareaHTMLAttributes<HTMLTextAreaElement>)} />
+      ) : (
+        <input id={fieldId} name={name} className={styles.field__control} {...a11y} {...(rest as InputHTMLAttributes<HTMLInputElement>)} />
+      )}
+      {error && (
+        <span id={errorId} className={styles.field__error} role="alert">
+          {error}
+        </span>
+      )}
     </label>
   );
 };

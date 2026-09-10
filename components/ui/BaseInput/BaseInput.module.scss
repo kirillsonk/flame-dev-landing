@@ -1,4 +1,5 @@
 @use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
 
 .field {
   display: flex;
@@ -19,22 +20,30 @@
   padding: 0.8rem 0.4rem;
   border-bottom: 1px solid var(--color-border-strong);
   border-radius: 0;
-  outline: none;
   transition: border-color 0.15s ease-out;
+
+  @include focus-ring;
 
   &::placeholder {
     color: var(--color-text);
     opacity: 0.5;
   }
 
-  &:focus {
+  &:focus-visible {
     border-bottom-color: var(--color-action-primary);
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-text);
+    -webkit-box-shadow: 0 0 0 100rem var(--color-bg) inset;
+    transition: background-color 9999s ease-out;
   }
 }
 
 .field__control--multiline {
   min-height: 12rem;
-  resize: vertical;
 }
 
 .field__error {
