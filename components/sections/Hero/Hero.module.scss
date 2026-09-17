@@ -3,57 +3,285 @@
 
 .hero {
   @include container;
-  padding-top: 4.8rem;
-  padding-bottom: var(--space-section);
+  // Шапка, заголовок и лента всегда помещаются в окно: секция не выше вьюпорта без шапки,
+  // при нехватке места сжимается только лента (flex-shrink), выше --size-reel она не растёт.
+  // Отступ до следующей секции — margin, он в лимит высоты не входит.
+  display: flex;
+  flex-direction: column;
+  max-height: var(--size-hero-view);
+  padding-top: var(--space-hero-top);
+  padding-bottom: var(--space-hero-bottom);
+  margin-bottom: var(--space-section);
 
-  @include mobile {
-    padding-top: 3.2rem;
+  // Минимум ленты не влезает в окно (см. useHeroFit): секция растёт по контенту,
+  // лента остаётся на минимуме.
+  &[data-free] {
+    max-height: none;
   }
 }
 
-.hero__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 4rem;
-  margin-bottom: 3.2rem;
+.hero[data-free] .hero__reel {
+  flex-basis: var(--size-reel-min);
+}
 
-  @include mobile {
-    flex-direction: column;
-    gap: 2.4rem;
-  }
+// Обёртка для перехода к кейсам повторяет колонку секции: лента по-прежнему сжимается
+// по высоте окна (min-height: 0 пропускает сжатие сквозь обёртку).
+.hero__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+// Каскадный вход hero (doubletapp): заголовок → доказательства → лента.
+.hero__enter {
+  animation: hero-in 0.7s var(--ease) both;
+  animation-delay: var(--enter-delay, 0s);
 }
 
 .hero__title {
-  @include text-display(true);
-  max-width: 70rem;
+  @include text-display;
+  flex: none;
+  // Длинная фраза в 8rem: среднее начертание вместо жирного, как у uprock.
+  font-weight: 500;
+  // Интерлиньяж выше, чем в миксине: пилюля выше строки, и при 1.1 соседние строки
+  // почти касаются друг друга (замер давал 4px между чипами).
+  line-height: 1.32;
+  margin-bottom: var(--space-card);
   text-wrap: balance;
 }
 
-.hero__stats {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.6rem;
-  flex: 0 0 41.5rem;
+// Чип вместе со знаком препинания после него не разрывается переносом.
+.hero__word {
+  white-space: nowrap;
+}
 
-  @include mobile {
-    flex: none;
-    align-items: flex-start;
+// Три чипа-ссылки в заголовке (uprock): inline-block с line-height 1, чтобы фон
+// не покрывал интерлиньяж. У каждого свой ховер на чистом CSS.
+.hero__chip {
+  // Смещение к курсору: хук пишет --chip-x/--chip-y, transform их тянет, transition
+  // сглаживает пробег до «преследования». Дефолт нулевой — без JS пилюля стоит на месте.
+  --chip-x: 0px;
+  --chip-y: 0px;
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+  padding: 0 0.3em 0.06em;
+  line-height: 1;
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  color: var(--color-bg);
+  vertical-align: baseline;
+  transform: translate(var(--chip-x), var(--chip-y));
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.45s var(--ease);
+
+  // Состояния ховера дублируются на фокус, стандартная обводка не нужна.
+  &:focus-visible {
+    outline: none;
+  }
+
+  // Наведённый чип поднимается над соседями: он вырастает, а у «дизайна» ещё появляются
+  // рамка и бейдж под нижней гранью — без этого пилюля со следующей строки, которая идёт
+  // позже по разметке, перекрывает их.
+  @include interact {
+    z-index: 2;
   }
 }
 
-.hero__stat {
-  @include text-body;
-  color: var(--color-text-dim);
+// «дизайн»: выделение слоя как в Figma. Чип остаётся светлым «объектом» и чуть
+// поворачивается; вокруг кобальтовая рамка, в углах белые хэндлы с синей обводкой
+// (два слоя градиентов: синий квадрат и белый поверх), под нижней гранью бейдж с размером.
+.hero__chip--design {
+  // Бокс шире рамки на половину хэндла. Рамка и хэндлы — слои фона: линии 1px лежат
+  // под квадратами, квадраты центром на углах рамки, как в Figma.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.2em;
+    background:
+      linear-gradient(var(--color-text), var(--color-text)) left 0.02em top 0.02em / 0.12em 0.12em no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) right 0.02em top 0.02em / 0.12em 0.12em no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) left 0.02em bottom 0.02em / 0.12em 0.12em no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) right 0.02em bottom 0.02em / 0.12em 0.12em no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left top / 0.16em 0.16em no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right top / 0.16em 0.16em no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left bottom / 0.16em 0.16em no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right bottom / 0.16em 0.16em no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0 top 0.08em / 100% 1px no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0 bottom 0.08em / 100% 1px no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0.08em top 0 / 1px 100% no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right 0.08em top 0 / 1px 100% no-repeat;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+    pointer-events: none;
+  }
+
+  &::before {
+    @include text-body(500);
+    content: attr(data-meta);
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    padding: 0 0.8rem;
+    border-radius: var(--radius-control);
+    background: var(--color-action-primary);
+    color: var(--color-text);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, 0.4rem);
+    transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+    pointer-events: none;
+  }
+
+  @include interact {
+    transform: translate(var(--chip-x), var(--chip-y)) rotate(-3deg) scale(1.08);
+
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &::before {
+      opacity: 1;
+      transform: translate(-50%, 1.2rem);
+    }
+  }
+}
+
+// «разработка»: тёмная консоль с 1px рамкой, слово прокручивается вверх сквозь стек
+// (Django, Go, React, Next.js) и останавливается на «{разработка}». Ширина чипа не меняется.
+.hero__chip--dev {
+  @include interact {
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 1px var(--color-text);
+    transform: translate(var(--chip-x), var(--chip-y)) scale(1.08);
+  }
+}
+
+.hero__slot {
+  position: relative;
+  display: inline-block;
+  // overflow: clip, а не hidden: hidden сдвигает базовую линию inline-block на нижний край,
+  // clip её сохраняет. И не clip-path: он мешает композитить колонку, буквы дрожат при движении.
+  overflow: clip;
+}
+
+.hero__slotRoll {
+  display: inline-block;
+  // Симметричный ease-in-out: плавный разгон и торможение, без рывка на старте.
+  // Обратная прокрутка при уходе курсора идёт той же кривой.
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  // Отдельный композитный слой: текст растрируется один раз и едет без дрожания.
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero__slotItem {
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+  color: var(--color-action-primary);
+}
+
+// Слово живёт в data-word и рисуется через content, чтобы не попадать в текст h1.
+.hero__slotWord::before {
+  content: attr(data-word);
+}
+
+// Финальная строка: слово чуть меньше, чтобы вместе со скобками уложиться в ширину пилюли.
+// Скобки кобальтом, слово наследует цвет чипа; padding-top центрирует уменьшенный текст.
+.hero__slotItem--last {
+  font-size: 0.86em;
+  padding-top: 0.08em;
+  color: inherit;
+
+  &::before {
+    content: '{';
+    color: var(--color-action-primary);
+  }
+
+  &::after {
+    content: '}';
+    color: var(--color-action-primary);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero__chip--dev:hover .hero__slotRoll {
+    transform: translateY(var(--slot-shift));
+  }
+}
+
+.hero__chip--dev:focus-visible .hero__slotRoll {
+  transform: translateY(var(--slot-shift));
+}
+
+// «видео»: пилюля становится кобальтовой, а внутри букв играет нарезка роликов.
+// Слово вырезано SVG-маской из контуров TTFirsNeue Medium (public/masks/hero-video-word.svg,
+// viewBox по метрикам hhea и трекингу −0.03em, поэтому совпадает с текстом).
+.hero__chip--video {
+  @include interact {
+    background: var(--color-action-primary);
+    color: var(--color-on-action);
+    transform: translate(var(--chip-x), var(--chip-y)) scale(1.08);
+  }
+}
+
+.hero__mword {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s var(--ease);
+}
+
+.hero__mvid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  mask: url('/masks/hero-video-word.svg') 0 0 / 100% 100% no-repeat;
+  -webkit-mask: url('/masks/hero-video-word.svg') 0 0 / 100% 100% no-repeat;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero__chip--video:hover .hero__mword {
+    color: transparent;
+  }
+
+  .hero__chip--video:hover .hero__mvid {
+    opacity: 1;
+  }
+}
+
+.hero__chip--video:focus-visible .hero__mword {
+  color: transparent;
+}
+
+.hero__chip--video:focus-visible .hero__mvid {
+  opacity: 1;
+}
+
+.hero__reel {
+  flex: 0 1 var(--size-reel);
+  min-height: var(--size-reel-min);
+  // Контейнер размера: лента внутри читает свою реальную высоту через 100cqh.
+  container-type: size;
 }
 
 .hero__mobileCta {
   display: none;
-
+  flex: none;
   @include mobile {
     display: block;
-    margin-top: 2.4rem;
+    margin-top: var(--space-card);
   }
 }

@@ -1,10 +1,12 @@
 'use client';
 
 import type { UIEvent } from 'react';
+import Link from 'next/link';
 import clsx from 'clsx';
 import Poster from '@/components/ui/Poster/Poster';
 import type { ICase } from '@/data/types';
-import useReelRotation from './hooks/useReelRotation';
+import { HERO_REEL_LABELS, HERO_REEL_CTA } from '@/data/cases';
+import useReelRotation from '@/components/sections/Hero/hooks/useReelRotation';
 import styles from './HeroReel.module.scss';
 
 export interface HeroReelProps {
@@ -26,18 +28,26 @@ const HeroReel = ({ items }: HeroReelProps) => {
     <div className={styles.reel}>
       <div className={styles.reel__track} onScroll={onScroll} onMouseLeave={onHoverEnd} onBlur={onHoverEnd}>
         {items.map((item, index) => (
-          <a
+          // Полоса ведёт на страницу кейса, как и вкладки в полноэкранном варианте.
+          <Link
             key={item.slug}
-            href="#cases"
+            href={`/cases/${item.slug}`}
             className={clsx(styles.reel__strip, index === activeIndex && styles['reel__strip--active'])}
             onMouseEnter={() => onHoverStart(index)}
             onFocus={() => onHoverStart(index)}
             aria-label={item.title}
           >
-            <Poster item={item} playing={index === activeIndex} showTitle={false} />
-            <span className={styles.reel__label} aria-hidden="true">{item.title}</span>
-            <span className={styles.reel__caption} aria-hidden="true">{item.title}</span>
-          </a>
+            <div className={styles.reel__media}>
+              <Poster item={item} playing={index === activeIndex} showTitle={false} />
+            </div>
+            <span className={styles.reel__shade} aria-hidden="true" />
+            <span className={styles.reel__spine} aria-hidden="true">{HERO_REEL_LABELS[item.slug] ?? item.title}</span>
+            <span className={styles.reel__caption} aria-hidden="true">
+              <span className={styles.reel__category}>{item.tags[0]}</span>
+              <span className={styles.reel__title}>{item.title}</span>
+              <span className={styles.reel__cta}>{HERO_REEL_CTA}<span>↗</span></span>
+            </span>
+          </Link>
         ))}
       </div>
       <div className={styles.reel__dots} aria-hidden="true">

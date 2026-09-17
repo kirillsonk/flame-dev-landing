@@ -3,16 +3,23 @@
 
 .reel {
   position: relative;
+  height: 100%;
 }
 
 .reel__track {
-  --reel-h: 62rem;
+  // Высота от контейнера .hero__reel (cqh), а не от токена: он сжимается под вьюпорт.
+  --reel-h: 100cqh;
+  --reel-width: calc(var(--reel-h) * 9 / 16);
+  --reel-gap: 0.8rem;
+  // Трек на всю ширину контейнера: активная полоса 9:16, остальные делят остаток поровну.
   display: flex;
-  gap: 0.8rem;
+  width: 100%;
+  gap: var(--reel-gap);
   height: var(--reel-h);
 
   @include mobile {
-    --reel-h: 46rem;
+    --reel-h: calc(100cqh - 3rem);
+    width: 100%;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -30,49 +37,57 @@
   min-width: 0;
   overflow: hidden;
   border-radius: var(--radius-card);
-  transition: flex-basis 0.6s var(--ease), flex-grow 0.6s var(--ease);
+  isolation: isolate;
+  transition: flex-basis var(--duration-reel) var(--ease-reel), flex-grow var(--duration-reel) var(--ease-reel);
 
   @include mobile {
     // Полосы карусели сразу 9:16
-    flex: 0 0 calc(var(--reel-h) * 9 / 16);
+    flex: 0 0 var(--reel-width);
     scroll-snap-align: start;
   }
 }
 
 .reel__strip--active {
-  // Активная полоса раскрывается ровно до 9:16 при высоте трека
-  flex: 0 0 calc(var(--reel-h) * 9 / 16);
+  // Активная полоса всегда строго 9:16 от высоты трека. Ширину держит только flex-basis
+  // с нулевым shrink/grow: min/max-width сюда не ставить, они не анимируются и дёргают переход.
+  flex: 0 0 var(--reel-width);
+  aspect-ratio: 9 / 16;
 }
 
-.reel__label {
-  @include text-title;
+.reel__spine {
+  @include text-display;
   position: absolute;
-  left: 2rem;
-  bottom: 2rem;
+  left: var(--space-card);
+  bottom: var(--space-card);
   color: var(--color-text);
   writing-mode: vertical-rl;
+  white-space: nowrap;
+  opacity: 1;
   transform: rotate(180deg);
-  transition: opacity 0.3s ease-out;
+  line-height: 1;
+  transition: opacity 0.12s ease-out;
+  pointer-events: none;
 
   @include mobile {
     display: none;
   }
 }
 
-.reel__strip--active .reel__label {
+.reel__strip--active .reel__spine {
   opacity: 0;
 }
 
 .reel__caption {
-  @include text-title;
+  // Keep the text measure fixed while the strip expands: no reflow on hover.
+  --caption-width: calc(var(--reel-width) - var(--space-card) * 2);
   position: absolute;
-  left: 2rem;
-  right: 2rem;
-  bottom: 2rem;
+  left: var(--space-card);
+  bottom: var(--space-card);
+  width: var(--caption-width);
   color: var(--color-text);
-  text-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.16s ease-out;
+  pointer-events: none;
 
   @include mobile {
     opacity: 1;
@@ -81,7 +96,63 @@
 
 .reel__strip--active .reel__caption {
   opacity: 1;
-  transition: opacity 0.3s ease-out 0.35s;
+}
+
+.reel__media {
+  height: 100%;
+  filter: saturate(0.25);
+  transform: scale(1.04);
+  transition: filter var(--duration-reel) var(--ease-reel), transform var(--duration-reel) var(--ease-reel);
+
+  @include mobile {
+    filter: none;
+    transform: none;
+  }
+}
+
+.reel__strip--active .reel__media {
+  filter: none;
+  transform: scale(1);
+}
+
+.reel__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 30%, transparent), color-mix(in srgb, var(--color-bg) 12%, transparent) 35%, color-mix(in srgb, var(--color-bg) 85%, transparent));
+  opacity: 1;
+  transition: opacity var(--duration-reel) var(--ease-reel);
+  pointer-events: none;
+
+  @include mobile {
+    opacity: 0.85;
+  }
+}
+
+.reel__strip--active .reel__shade {
+  opacity: 0.85;
+}
+
+.reel__category {
+  @include text-body;
+  display: block;
+  margin-bottom: var(--space-card);
+  color: var(--color-text);
+}
+
+.reel__title {
+  @include text-title;
+  display: block;
+  text-wrap: balance;
+}
+
+.reel__cta {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-card);
+  padding-top: var(--space-card);
+  border-top: 1px solid var(--color-border-strong);
 }
 
 .reel__dots {

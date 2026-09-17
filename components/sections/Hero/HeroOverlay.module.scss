@@ -1,0 +1,335 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Кадр лежит во всю ширину окна, поверх него — переключатель проектов сверху и текст снизу.
+// Экран на всю высоту окна: шапка прозрачная и лежит поверх кадра, поэтому секция
+// поднимается под неё на её высоту — иначе экран начинается ниже и низ уходит за край.
+.heroOverlay {
+  position: relative;
+  height: var(--size-hero-full);
+  margin-top: var(--offset-header-overlay);
+  margin-bottom: var(--space-section);
+  overflow: hidden;
+}
+
+// Обёртка всего содержимого секции: на неё ложатся трансформы перехода к кейсам.
+.heroOverlay__body {
+  position: relative;
+  height: 100%;
+}
+
+// Порядок слоёв задан явно: кадры → затемнение → подложка низа → контент.
+// Иначе въезжающий кадр (у него свой z-index) на время анимации оказывается поверх затемнения.
+// Фрейм с обоими слотами: по скроллу GSAP ведёт его top/left/width/height и радиус
+// из полного экрана в карточку 16:9, overflow режет ролики по скруглению.
+.heroOverlay__frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--color-bg);
+}
+
+.heroOverlay__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+}
+
+// Уменьшение движения: ролик убираем, остаётся постер фоном секции.
+@media (prefers-reduced-motion: reduce) {
+  .heroOverlay__video {
+    display: none;
+  }
+}
+
+// Смена кадра — диафрагма: новый раскрывается кругом из активной вкладки. Центр приходит
+// из компонента в --iris-x / --iris-y; запасное значение — левый нижний угол, где стоят вкладки.
+// Предыдущий кадр всё это время лежит слоем ниже, поэтому провала в пустоту нет.
+// Край круга растушёван: две границы радиуса едут с отступом друг от друга, поэтому переход
+// читается как раскрытие диафрагмы, а не как резкая обрезка.
+@property --iris-r {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --iris-edge {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+// Передний (устоявшийся) кадр выше заднего слота, въезжающий — выше обоих.
+.heroOverlay__video--front {
+  z-index: 1;
+}
+
+.heroOverlay__video--enter {
+  z-index: 2;
+  mask-image: radial-gradient(
+    circle at var(--iris-x, 14%) var(--iris-y, 86%),
+    #000 var(--iris-r),
+    transparent var(--iris-edge)
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at var(--iris-x, 14%) var(--iris-y, 86%),
+    #000 var(--iris-r),
+    transparent var(--iris-edge)
+  );
+  animation: hero-iris 1.6s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+// Круг раскрывается с широкой растушёвкой и одновременно проявляется по прозрачности:
+// без этого граница читается как резкая обрезка, даже на большой длительности.
+@keyframes hero-iris {
+  from {
+    --iris-r: 0%;
+    --iris-edge: 22%;
+    opacity: 0;
+    scale: 1.05;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    --iris-r: 145%;
+    --iris-edge: 178%;
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+// Затемнение слева, снизу и общее: в кадре есть светлые сцены (до чистого белого),
+// а заголовок белый — без этой подложки он местами пропадает.
+// По скроллу GSAP уводит его почти в ноль, и кадр открывается целиком.
+.heroOverlay__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-bg) 0 30%,
+      color-mix(in srgb, var(--color-bg) 62%, transparent) 66%,
+      color-mix(in srgb, var(--color-bg) 24%, transparent) 100%
+    ),
+    // Полоса под прозрачной шапкой: на светлых кадрах её пункты иначе теряются.
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-bg) 62%, transparent) 0,
+      transparent 16%
+    ),
+    color-mix(in srgb, var(--color-bg) 32%, transparent);
+}
+
+// Подложка под нижним блоком. Она не участвует в раскрытии: общее затемнение по скроллу
+// уходит почти в ноль, а переключатель, подпись кадра и кнопка остаются на экране — без
+// собственной подложки они ложатся прямо на светлый кадр и теряются.
+.heroOverlay__shade {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  pointer-events: none;
+  height: 46%;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--color-bg) 92%, transparent) 0 8%,
+    color-mix(in srgb, var(--color-bg) 68%, transparent) 26%,
+    transparent 100%
+  );
+}
+
+.heroOverlay__inner {
+  @include container;
+  position: relative;
+  z-index: 4;
+  // Контейнер на всю высоту секции лежит поверх карточки: клики пропускаем насквозь,
+  // ловят их только сами блоки с текстом и переключателем.
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-heading);
+  height: 100%;
+  // Секция пинится под липкой шапкой: верхний отступ равен её высоте, чтобы контент
+  // в закреплённом состоянии не оказался под полосой шапки.
+  padding-top: var(--size-header);
+  padding-bottom: var(--space-heading);
+}
+
+// Переключатель проектов внизу, рядом с кнопкой: подписи в строку, под активной —
+// полоса времени кадра. На узком экране список прокручивается вбок.
+.heroOverlay__switch {
+  display: flex;
+  gap: var(--space-card);
+  min-width: 0;
+
+  @include mobile {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 0.4rem;
+  }
+}
+
+.heroOverlay__tab {
+  @include text-body(500);
+  @include focus-ring;
+  position: relative;
+  flex: 0 0 auto;
+  padding-bottom: 1.2rem;
+  // Светлее, чем --color-text-dim: тот рассчитан на плоский тёмный фон, а здесь под текстом
+  // идёт кадр. На измеренной подложке (81 по яркости) приглушённый серый давал 2.8:1.
+  color: color-mix(in srgb, var(--color-text) 84%, transparent);
+  transition: color 0.2s ease-out;
+
+  @include hover {
+    color: var(--color-text);
+  }
+}
+
+.heroOverlay__tab--active {
+  color: var(--color-text);
+}
+
+// Дорожка со скруглёнными концами; заливка растёт через clip-path, поэтому скругления
+// не сплющиваются, как это было бы при масштабировании по ширине.
+.heroOverlay__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-text) 16%, transparent);
+  opacity: 0.6;
+  transition: opacity 0.2s ease-out;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--gradient-action);
+    box-shadow: 0 0 1.4rem color-mix(in srgb, var(--color-action-accent) 45%, transparent);
+    clip-path: inset(0 100% 0 0 round var(--radius-pill));
+  }
+}
+
+.heroOverlay__tab--active .heroOverlay__line {
+  opacity: 1;
+}
+
+// Заливка — прогресс ролика: компонент пишет в --slide-rest долю, которая ещё не доиграна,
+// на каждом кадре (requestAnimationFrame), поэтому отдельного transition не нужно.
+.heroOverlay__tab--active .heroOverlay__line::after {
+  clip-path: inset(0 var(--slide-rest, 100%) 0 0 round var(--radius-pill));
+}
+
+.heroOverlay__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-card);
+  pointer-events: auto;
+}
+
+.heroOverlay__title {
+  @include text-display;
+  // Как в текущем первом экране: среднее начертание вместо жирного.
+  font-weight: 500;
+  // Интерлиньяж выше, чем в миксине: пилюля выше строки, и при 1.1 соседние строки
+  // накладываются друг на друга.
+  line-height: 1.32;
+  // Без ограничения ширины, как в основном hero: фраза ложится в три строки, а не в четыре.
+  text-wrap: balance;
+}
+
+// Нижний блок остаётся на месте при прокрутке: переключатель, подпись кадра и кнопка.
+.heroOverlay__foot {
+  display: flex;
+  align-items: flex-end;
+  pointer-events: auto;
+  justify-content: space-between;
+  gap: var(--space-card);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+// Описание кейса внутри карточки: нижний левый угол фрейма поверх роликов, со скримом,
+// как у карточек кейсов. Видимость ведёт таймлайн скролла.
+.heroOverlay__info {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-card);
+  padding: var(--space-heading) var(--space-card) var(--space-card);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--color-bg) 85%, transparent) 0%, transparent 100%);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.heroOverlay__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 72rem;
+}
+
+.heroOverlay__captionTitle {
+  @include text-title;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.heroOverlay__captionText {
+  @include text-body;
+  // Полностью белая: на светлых пиках кадра полупрозрачная давала меньше 4:1.
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+// Переход на страницу активного кейса — рядом с основной кнопкой.
+.heroOverlay__link {
+  @include text-body(500);
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.heroOverlay__arrow {
+  transition: translate 0.2s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroOverlay__link:hover .heroOverlay__arrow {
+    translate: 0.4rem 0;
+  }
+}
+
+.heroOverlay__cta {
+  @include mobile {
+    width: 100%;
+  }
+}
