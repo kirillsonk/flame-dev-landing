@@ -1,0 +1,81 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+.gameFrame {
+  @include text-body;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 29rem minmax(0, 1fr);
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+}
+
+.gameFrame__side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+  min-height: 0;
+  padding: 3.2rem 2.8rem;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg);
+
+  @include mobile {
+    gap: 0.8rem;
+    padding: 2rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+.gameFrame__tag {
+  align-self: flex-start;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-dim);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.gameFrame__title {
+  @include text-title;
+}
+
+.gameFrame__hint {
+  color: var(--color-text-dim);
+}
+
+.gameFrame__extra {
+  @include mobile {
+    display: none;
+  }
+}
+
+.gameFrame__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: auto;
+
+  @include mobile {
+    flex-direction: row;
+    align-items: stretch;
+    margin-top: 0.4rem;
+  }
+}
+
+.gameFrame__play {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}

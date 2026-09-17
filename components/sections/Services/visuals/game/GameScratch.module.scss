@@ -1,0 +1,167 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+.gameScratch {
+  height: 100%;
+  background: var(--color-surface);
+}
+
+.gameScratch__bar {
+  display: block;
+  height: 0.6rem;
+  margin-top: 0.4rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-elevated);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.gameScratch__barFill {
+  display: block;
+  height: 100%;
+  background: var(--gradient-action);
+  transition: width 0.2s;
+}
+
+.gameScratch__action {
+  justify-content: center;
+  border-radius: var(--radius-pill);
+
+  @include mobile {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    text-align: center;
+  }
+}
+
+.gameScratch__stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 2.4rem 2.4rem 5.6rem;
+
+  @include mobile {
+    padding: 1.6rem 1.6rem 4.8rem;
+  }
+}
+
+.gameScratch__ticket {
+  position: relative;
+  width: 100%;
+  max-width: 54rem;
+  height: 32rem;
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-bg);
+  box-shadow: 0 3rem 8rem color-mix(in srgb, var(--color-bg) 60%, transparent);
+
+  // Вырезы билета по бокам.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-top: -1.6rem;
+    border-radius: 50%;
+    background: var(--color-surface);
+  }
+
+  &::before {
+    left: -1.6rem;
+  }
+
+  &::after {
+    right: -1.6rem;
+  }
+}
+
+.gameScratch__prize {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.4rem 3.2rem;
+  text-align: center;
+  background:
+    radial-gradient(
+      60% 80% at 50% 0%,
+      color-mix(in srgb, var(--color-action-primary) 35%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(50% 60% at 50% 110%, color-mix(in srgb, var(--color-fire) 28%, transparent), transparent 70%);
+}
+
+.gameScratch__dim {
+  color: var(--color-text-dim);
+}
+
+.gameScratch__big {
+  @include text-display;
+  @include gradient-text;
+  line-height: 1;
+}
+
+.gameScratch__sub {
+  @include text-title;
+}
+
+.gameScratch__code {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.6rem 0.6rem 1.6rem;
+  border: 1px dashed var(--color-action-accent);
+  border-radius: var(--radius-pill);
+  font-family: ui-monospace, Menlo, monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.gameScratch__copy {
+  @include focus-ring(var(--color-action-accent));
+  min-height: 3.6rem;
+  padding: 0 1.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-action-primary);
+  color: var(--color-on-action);
+  font-family: var(--font), sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.gameScratch__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  transition: opacity 0.6s var(--ease);
+}
+
+.gameScratch__canvas--gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gameScratch__message {
+  position: absolute;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  left: 1.6rem;
+  color: var(--color-text-dim);
+  text-align: center;
+}

@@ -2,9 +2,10 @@
 @use '../../../../styles/mixins' as *;
 
 .game {
-  --cell: 2.8rem;
+  --cell: var(--match3-cell, 2.8rem);
   display: grid;
   grid-template-columns: auto 1fr;
+  align-content: center;
   gap: 1.6rem;
   width: 100%;
   height: 100%;

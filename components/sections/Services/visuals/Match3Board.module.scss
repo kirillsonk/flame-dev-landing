@@ -1,0 +1,140 @@
+@use '../../../../styles/typography' as *;
+@use '../../../../styles/mixins' as *;
+.game__layout {
+  display: grid;
+  grid-template-columns: 32rem minmax(0, 1fr);
+  gap: 2.4rem;
+  align-items: center;
+  flex: 1;
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+}
+.game__board {
+  --cell-gap: 0.6rem;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--cell-gap);
+  padding: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: color-mix(in srgb, var(--color-elevated) 40%, var(--color-bg));
+  box-shadow: 0 1.6rem 3.2rem color-mix(in srgb, var(--color-bg) 75%, transparent);
+}
+.game__cell {
+  @include focus-ring;
+  --gem: var(--color-action-primary);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius-control);
+  border: 1px solid color-mix(in srgb, var(--gem) 45%, transparent);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--gem) 48%, var(--color-bg)),
+    color-mix(in srgb, var(--gem) 12%, var(--color-bg))
+  );
+  color: var(--gem);
+  box-shadow:
+    inset 0 0.2rem 0 color-mix(in srgb, var(--gem) 22%, transparent),
+    0 0.3rem 0.5rem color-mix(in srgb, var(--color-bg) 70%, transparent);
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s,
+    background 0.25s;
+  @include text-title;
+  @include hover {
+    transform: translateY(-0.2rem);
+  }
+}
+.game__cell--0 {
+  --gem: var(--color-error);
+}
+.game__cell--1 {
+  --gem: var(--color-success);
+}
+.game__cell--2 {
+  --gem: var(--color-text);
+}
+.game__cell--3 {
+  --gem: var(--color-action-primary-hover);
+}
+.game__cell--4 {
+  --gem: var(--color-demo-gold);
+}
+.game__cell--selected,
+.game__cell--hint {
+  outline: 2px solid var(--color-text);
+  outline-offset: 0;
+  background: color-mix(in srgb, var(--gem) 45%, var(--color-bg));
+}
+.game__cell--selected {
+  transform: scale(0.88);
+}
+.game__cell--matched {
+  transform: scale(0.2) rotate(45deg);
+  opacity: 0.2;
+}
+.game__side {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  @include mobile {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+  }
+}
+.game__side h4 {
+  @include mobile {
+    display: none;
+  }
+}
+.game__score {
+  display: flex;
+  flex-direction: column;
+}
+.game__score strong {
+  @include text-title;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-action-primary-hover);
+}
+.game__message {
+  min-height: 4.8rem;
+  color: var(--color-text-cold);
+}
+
+.game__cell[data-swap] {
+  --swap-x: calc(var(--swap-column) * (100% + var(--cell-gap)));
+  --swap-y: calc(var(--swap-row) * (100% + var(--cell-gap)));
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  transition: none;
+  animation: swap-forward 0.3s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+.game__cell[data-swap='return'] {
+  animation-name: swap-return;
+}
+
+@keyframes swap-forward {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--swap-x), var(--swap-y));
+  }
+}
+
+@keyframes swap-return {
+  from {
+    transform: translate(var(--swap-x), var(--swap-y));
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}

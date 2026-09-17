@@ -1,0 +1,23 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+// Общая рамка AI-демо: заполняет контейнер сцены, на телефоне прокручивается, если контент выше рамки.
+@mixin ai-frame {
+  @include text-body;
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  min-height: 0;
+  padding: 2rem;
+  overflow: hidden;
+  background: var(--color-surface);
+  @include mobile {
+    padding: 1.4rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@mixin ai-label {
+  color: var(--color-text-dim);
+}

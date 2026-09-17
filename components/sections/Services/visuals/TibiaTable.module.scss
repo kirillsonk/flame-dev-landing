@@ -1,51 +1,80 @@
 @use '../../../../styles/typography' as *;
-
+@use '../../../../styles/mixins' as *;
 .table {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
   width: 100%;
-  height: 100%;
-  padding: 1.6rem;
-  border-radius: var(--radius-control);
-  background: var(--color-bg);
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.table th {
+  color: var(--color-text-dim);
+  text-align: left;
+  font-weight: 400;
+  padding: 0 1.2rem 0.8rem;
+}
+.table td {
+  padding: 0.8rem 1.2rem;
+  border-top: 1px solid var(--color-border);
+  transition: background 0.25s;
+}
+.table__overview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+.table__counter {
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+.table__counter strong {
+  @include text-title;
+  color: var(--color-action-primary-hover);
+}
+.table__track {
+  height: 0.3rem;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
   overflow: hidden;
 }
-
-.table__head,
-.table__row {
-  @include text-body;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.4fr 0.8fr 1fr;
-  gap: 1.2rem;
-  padding: 0.3rem 0.8rem;
-  border-radius: 0.4rem;
+.table__progress {
+  height: 100%;
+  background: var(--color-success);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
 }
-
-.table__head {
-  color: var(--color-text-dim);
-  border-bottom: 1px solid var(--color-border);
+.table__row--done {
+  background: color-mix(in srgb, var(--color-success) 5%, transparent);
 }
-
-.table__row {
-  opacity: 0;
-  transform: translateX(-1rem);
-  transition: opacity 0.3s ease-out, transform 0.3s var(--ease);
-  background: var(--color-surface);
-}
-
-.table__row--visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.table__badge {
-  @include text-body;
-  margin-top: auto;
-  align-self: flex-end;
-  padding: 0.2rem 1.2rem;
-  border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--color-success) 15%, transparent);
+.table__row--done .table__state {
   color: var(--color-success);
+}
+.table__row--scanning {
+  background: color-mix(in srgb, var(--color-action-primary) 22%, transparent);
+}
+.table__state {
+  color: var(--color-text-dim);
+  white-space: nowrap;
+}
+.table__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: auto;
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+.table {
+  @include mobile {
+    th,
+    td {
+      padding: 1rem 0.4rem;
+    }
+  }
 }

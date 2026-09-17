@@ -1,0 +1,126 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Десктоп: слайд не образует бокса (display: contents), его текст и визуал — элементы сетки
+// .services__list. Тексты идут рядами в первой колонке, визуалы все занимают один липкий слот
+// во второй колонке и лежат стопкой; переключает их GSAP (useServicesStack).
+// Мобайл: обычный слайд столбиком, визуал над текстом.
+.slide {
+  display: contents;
+
+  @include mobile {
+    display: grid;
+    gap: 1.6rem;
+    margin-bottom: 4.8rem;
+  }
+}
+
+.slide__text {
+  grid-column: 1;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-right: var(--space-card);
+
+  @include mobile {
+    grid-column: auto;
+    order: 2;
+    padding: 0;
+  }
+}
+
+.slide__title {
+  @include text-title;
+}
+
+.slide__description {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.slide__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.slide__sticky {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: start;
+  position: sticky;
+  // Слот липнет по центру высоты окна: порог = половина вьюпорта минус половина визуала.
+  // До порога слот стоит на своём месте в потоке (под заголовком секции), без сдвигов.
+  // Единственное место с единицами вьюпорта: это позиция относительно окна, а не размер.
+  --offset-top: calc(50svh - var(--size-visual) / 2);
+  top: var(--offset-top);
+  // Все слоты совпадают по месту, визуалы накладываются друг на друга. Сама обёртка мышь не ловит,
+  // иначе прозрачная обёртка следующего слайда перекрывает интерактив видимого визуала.
+  display: grid;
+  pointer-events: none;
+
+  @include mobile {
+    grid-column: auto;
+    grid-row: auto;
+    position: static;
+    order: 1;
+  }
+}
+
+.slide__visual {
+  --match3-cell: 5.2rem;
+  position: relative;
+  height: var(--size-visual);
+  padding: var(--space-card) 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  overflow: hidden;
+  // Маску-огонёк (clip-path на SVG-контур), масштаб и яркость задаёт GSAP (useServicesStack).
+  pointer-events: auto;
+  transform-origin: 50% 50%;
+  will-change: transform, filter, opacity;
+
+  // Жар внутри пламени: свечение акцентом от нижней кромки, гаснет по --glow, когда огонь накрыл рамку.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(ellipse 80% 70% at 50% 100%, color-mix(in srgb, var(--color-action-primary) 80%, white) 0%, color-mix(in srgb, var(--color-action-primary) 60%, transparent) 35%, transparent 75%);
+    mix-blend-mode: screen;
+    opacity: var(--glow, 0);
+  }
+
+  @include mobile {
+    --match3-cell: 2.4rem;
+    height: 53rem;
+    padding: var(--space-card) 0 0;
+    will-change: auto;
+  }
+}
+
+// Невидимый SVG с clipPath-огоньком; контур растёт из useServicesStack.
+.slide__clip {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.slide__stage {
+  position: relative;
+  height: 100%;
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+
+.slide__visual[data-kind='match3'] { @include mobile { height: 62rem; } }
+.slide__visual[data-kind='prompt'] { @include mobile { height: 70rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .slide { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-grid-gap); margin-bottom: var(--space-heading); @include mobile { grid-template-columns: 1fr; } }
+  .slide__sticky { position: static; grid-row: auto; }
+}

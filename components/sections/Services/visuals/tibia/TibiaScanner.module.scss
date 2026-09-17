@@ -1,0 +1,392 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+// Бирка — белая бумага с чёрным штрихкодом, лазер — красный луч ТСД.
+.scanner {
+  --tag-paper: var(--color-text);
+  --tag-ink: var(--color-bg);
+  --laser: var(--color-fire);
+  @include text-body;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+  user-select: none;
+  -webkit-user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.scanner__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 1.6rem 2.4rem;
+  border-bottom: 1px solid var(--color-border);
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 1.2rem 1.6rem;
+  }
+}
+
+.scanner__brand {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-weight: 700;
+}
+
+.scanner__led {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-success);
+  box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-success) 20%, transparent);
+}
+
+.scanner__hint {
+  color: var(--color-text-dim);
+  text-align: right;
+  @include mobile {
+    text-align: left;
+  }
+}
+
+.scanner__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  min-height: 0;
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+}
+
+.scanner__yard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  place-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  border-right: 1px solid var(--color-border);
+  background: radial-gradient(
+    120% 80% at 30% 20%,
+    var(--color-elevated),
+    var(--color-surface) 70%
+  );
+  overflow: hidden;
+  @include mobile {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 0.8rem;
+    padding: 1.2rem 1.6rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+.scanner__bundle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 100%;
+  &:nth-child(even) {
+    translate: 0 1.2rem;
+  }
+  @include mobile {
+    gap: 0;
+    width: 100%;
+    &:nth-child(even) {
+      translate: none;
+    }
+  }
+}
+
+.scanner__pipes {
+  display: grid;
+  grid-template-columns: repeat(4, 2.4rem);
+  gap: 0.3rem;
+  @include mobile {
+    display: none;
+  }
+}
+
+.scanner__pipe {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(
+    circle,
+    var(--color-bg) 0 38%,
+    var(--color-border-strong) 40%,
+    var(--color-text-dim) 60%,
+    var(--color-elevated) 100%
+  );
+}
+
+.scanner__tag {
+  position: relative;
+  width: 14rem;
+  max-width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  background: var(--tag-paper);
+  color: var(--tag-ink);
+  text-align: left;
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s,
+    background 0.3s;
+  @include focus-ring(var(--color-action-accent));
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1.2rem;
+    left: 50%;
+    width: 1px;
+    height: 1.2rem;
+    background: var(--color-border-strong);
+  }
+  @include mobile {
+    width: 100%;
+    padding: 0.6rem;
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.scanner__tag--hot {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 2px var(--color-demo-gold);
+}
+
+.scanner__tag--done {
+  background: color-mix(in srgb, var(--color-success) 25%, var(--tag-paper));
+  &::after {
+    content: '✓';
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-success);
+    color: var(--tag-ink);
+    font-weight: 700;
+    @include mobile {
+      top: -0.6rem;
+      right: -0.6rem;
+    }
+  }
+}
+
+.scanner__code {
+  display: block;
+  height: 3.2rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--tag-ink) 0 0.2rem,
+    transparent 0.2rem 0.35rem,
+    var(--tag-ink) 0.35rem 0.45rem,
+    transparent 0.45rem 0.7rem,
+    var(--tag-ink) 0.7rem 1rem,
+    transparent 1rem 1.15rem
+  );
+  @include mobile {
+    height: 2.4rem;
+  }
+}
+
+.scanner__tagId {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.scanner__tagCount {
+  @include mobile {
+    display: none;
+  }
+}
+
+.scanner__log {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 0;
+  padding: 2rem 2.4rem;
+  @include mobile {
+    padding: 1.2rem 1.6rem 1.6rem;
+    gap: 0.8rem;
+  }
+}
+
+.scanner__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.scanner__count {
+  @include text-title;
+}
+
+.scanner__track {
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.scanner__fill {
+  display: block;
+  height: 100%;
+  background: var(--gradient-action);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
+}
+
+.scanner__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.scanner__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scanner__th {
+  padding: 0 0.8rem 0.6rem;
+  color: var(--color-text-dim);
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+  @include mobile {
+    padding: 0 0.4rem 0.4rem;
+  }
+}
+
+.scanner__td {
+  padding: 0.8rem;
+  border-top: 1px solid var(--color-border);
+  white-space: nowrap;
+  transition:
+    background 0.3s,
+    color 0.3s;
+  @include mobile {
+    padding: 0.4rem;
+  }
+}
+
+.scanner__td--empty {
+  color: var(--color-text-dim);
+}
+
+.scanner__td--ok {
+  color: var(--color-success);
+}
+
+.scanner__row--new .scanner__td {
+  background: color-mix(in srgb, var(--color-action-primary) 26%, transparent);
+}
+
+.scanner__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.scanner__status {
+  color: var(--color-text-dim);
+}
+
+.scanner__reset {
+  flex-shrink: 0;
+  min-height: var(--size-button-compact);
+  padding: 0 1.8rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: border-color 0.2s;
+  @include focus-ring;
+  @include hover {
+    border-color: var(--color-text);
+  }
+}
+
+// Лазер живёт только при мыши: координаты пишет хук, видимость — data-on.
+.scanner__laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  &[data-on] {
+    opacity: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .scanner {
+    cursor: none;
+  }
+  .scanner__tag {
+    cursor: none;
+  }
+}
+
+.scanner__beam,
+.scanner__read {
+  position: absolute;
+  top: -0.1rem;
+  left: -7rem;
+  width: 14rem;
+  height: 0.2rem;
+}
+
+.scanner__beam {
+  background: linear-gradient(90deg, transparent, var(--laser) 20%, var(--color-fire-light) 50%, var(--laser) 80%, transparent);
+  box-shadow: 0 0 1.2rem var(--laser);
+}
+
+.scanner__read {
+  background: var(--color-action-accent);
+  transform: scaleX(0);
+}
+
+.scanner__laser--reading .scanner__read {
+  transform: scaleX(1);
+  transition: transform 0.45s linear;
+}
+
+.scanner__spot {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-fire-light);
+  box-shadow: 0 0 1.6rem 0.4rem var(--laser);
+}

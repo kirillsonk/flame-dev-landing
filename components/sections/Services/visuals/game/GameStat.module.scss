@@ -1,0 +1,25 @@
+@use '../../../../../styles/typography' as *;
+
+.gameStat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 1rem 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+
+.gameStat__label {
+  color: var(--color-text-dim);
+}
+
+.gameStat__value {
+  @include text-title;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameStat--low .gameStat__value {
+  color: var(--color-fire-light);
+}

@@ -1,0 +1,77 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+.scale__ruler {
+  position: absolute;
+  top: 11.2rem;
+  left: 2.4rem;
+  z-index: 3;
+  display: grid;
+  gap: 0.4rem;
+  pointer-events: none;
+  @include mobile {
+    top: 9.6rem;
+    left: 1.6rem;
+  }
+}
+.scale__exponent {
+  @include text-display;
+  @include mobile {
+    @include text-title;
+  }
+}
+.scale__bar {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 0.8rem;
+}
+.scale__tick {
+  display: block;
+  width: 12rem;
+  height: 0.8rem;
+  border: 1px solid var(--color-text);
+  border-top: 0;
+}
+.scale__object {
+  top: 10.4rem;
+  right: 2.4rem;
+  width: 26rem;
+  @include mobile {
+    top: auto;
+    bottom: 17.6rem;
+    left: 1.6rem;
+    right: 1.6rem;
+    width: auto;
+  }
+}
+.scale__heading {
+  display: block;
+  margin: 0.2rem 0 0.6rem;
+}
+.scale__text {
+  @include mobile {
+    display: none;
+  }
+}
+.scale__label {
+  color: var(--color-text-cold);
+  padding-left: 0;
+  transition: opacity 0.2s;
+  @include mobile {
+    display: none;
+  }
+}
+.scale__jump {
+  @include mobile {
+    flex: 1;
+    padding-inline: 0.8rem;
+  }
+}
+.scale__slider {
+  flex: 1 1 24rem;
+}
+.scale__range {
+  flex: 1;
+  width: auto;
+}

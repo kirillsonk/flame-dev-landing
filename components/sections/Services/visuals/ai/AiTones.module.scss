@@ -1,0 +1,16 @@
+// Цветовые метки AI-демо: задают --tone, компоненты красят им рамки, подсветку и точки.
+.tone--accent {
+  --tone: var(--color-action-accent);
+}
+.tone--gold {
+  --tone: var(--color-demo-gold);
+}
+.tone--success {
+  --tone: var(--color-success);
+}
+.tone--fire {
+  --tone: var(--color-fire-light);
+}
+.tone--primary {
+  --tone: var(--color-action-primary-hover);
+}

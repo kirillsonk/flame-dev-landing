@@ -1,0 +1,92 @@
+@use '../../../../../styles/mixins' as *;
+
+.reactor__label {
+  @include mobile {
+    display: none;
+  }
+}
+.reactor__label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1rem;
+  height: 1px;
+  background: var(--color-border-strong);
+}
+.reactor__panel {
+  position: absolute;
+  top: 10.4rem;
+  right: 2.4rem;
+  z-index: 3;
+  display: grid;
+  gap: 0.8rem;
+  width: 24rem;
+  pointer-events: none;
+  @include mobile {
+    top: 9.6rem;
+    left: 1.6rem;
+    right: 1.6rem;
+    width: auto;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.reactor__gauge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.6rem;
+  @include mobile {
+    padding: 0.8rem 1.2rem;
+  }
+}
+.reactor__gauge--wide {
+  @include mobile {
+    grid-column: span 2;
+  }
+}
+.reactor__value {
+  font-size: var(--type-title);
+  font-weight: 500;
+  @include mobile {
+    font-size: var(--type-body);
+  }
+}
+.reactor__mode {
+  --dot: var(--color-text-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.reactor__mode::before {
+  content: '';
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--dot);
+}
+.reactor__mode--off {
+  --dot: var(--color-text-dim);
+}
+.reactor__mode--low {
+  --dot: var(--color-action-primary);
+}
+.reactor__mode--nominal {
+  --dot: var(--color-success);
+}
+.reactor__mode--over {
+  --dot: var(--color-fire);
+}
+.reactor__rods {
+  min-width: 5.6rem;
+  text-align: right;
+  font-weight: 500;
+}
+.reactor__scram {
+  background: var(--color-fire);
+  border-color: var(--color-fire);
+  @include hover {
+    background: var(--color-fire-light);
+    border-color: var(--color-fire-light);
+  }
+}

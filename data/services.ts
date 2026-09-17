@@ -30,3 +30,6 @@ export const SERVICES: IService[] = [
     visual: 'prompt',
   },
 ];
+
+// Вариант «Сцена-плеер»: короткие метки дорожки под рамкой, по одной на услугу (в порядке SERVICES).
+export const SERVICES_PLAYER_CHIPS: string[] = ['Учёт', 'Игра', '3D', 'AI'];

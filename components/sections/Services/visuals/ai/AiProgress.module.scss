@@ -1,0 +1,65 @@
+@use '../../../../../styles/mixins' as *;
+
+.aiProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+.aiProgress--inline {
+  flex-direction: row;
+  align-items: center;
+}
+.aiProgress__row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 0;
+}
+.aiProgress__stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  color: var(--color-text-dim);
+  list-style: none;
+  @include mobile {
+    display: none;
+  }
+}
+.aiProgress__stage {
+  transition: color 0.3s;
+}
+.aiProgress__stage--current {
+  color: var(--color-text);
+}
+.aiProgress__stage--done {
+  color: var(--color-success);
+}
+.aiProgress__label {
+  color: var(--color-text-dim);
+  white-space: nowrap;
+}
+.aiProgress__meta {
+  margin-left: auto;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.aiProgress__track {
+  flex: none;
+  height: 0.6rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-elevated);
+}
+.aiProgress__bar {
+  display: block;
+  height: 100%;
+  background: var(--gradient-action);
+  transform-origin: 0 50%;
+  transition: transform 0.3s var(--ease);
+}
+.aiProgress__track--grow {
+  flex: 1;
+  min-width: 4rem;
+}

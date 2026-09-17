@@ -1,70 +1,140 @@
 @use '../../../../styles/typography' as *;
 @use '../../../../styles/mixins' as *;
-
-.demo {
+.demo__workspace {
   display: grid;
-  grid-template-columns: 1fr 12rem;
+  grid-template-columns: 1fr 1.15fr;
   gap: 1.6rem;
-  width: 100%;
-  height: 100%;
-  padding: 1.6rem;
-  border-radius: var(--radius-control);
-  background: var(--color-bg);
-
+  flex: 1;
+  min-height: 0;
   @include mobile {
-    grid-template-columns: 1fr 9rem;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 }
-
-.demo__prompt {
-  @include text-body;
+.demo__input {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 1.2rem;
+  gap: 1.6rem;
+  padding: 1.6rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
-  min-height: 9.6rem;
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  @include mobile {
+    padding: 1.2rem;
+    gap: 0.8rem;
+  }
 }
-
-.demo__label {
+.demo__input p {
+  color: var(--color-text-cold);
+}
+.demo__input button {
+  margin-top: auto;
+}
+.demo__result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--color-action-primary) 14%, transparent),
+    transparent 75%
+  );
+  @include mobile {
+    padding: 1.2rem;
+    gap: 0.8rem;
+    min-height: 17rem;
+  }
+}
+.demo__result--done {
+  align-items: stretch;
+  justify-content: flex-start;
+  border-color: color-mix(in srgb, var(--color-action-primary) 55%, var(--color-border));
+  animation: result-in 0.4s var(--ease);
+}
+.demo__orb {
+  @include text-title;
+  display: grid;
+  place-items: center;
+  width: 8rem;
+  height: 8rem;
+  border: 1px solid var(--color-action-primary);
+  border-radius: var(--radius-panel);
+  color: var(--color-action-primary-hover);
+  background: color-mix(in srgb, var(--color-action-primary) 12%, transparent);
+  box-shadow: 0 0 6rem color-mix(in srgb, var(--color-action-primary) 20%, transparent);
+  @include mobile {
+    width: 4.8rem;
+    height: 4.8rem;
+  }
+}
+.demo__orb--active {
+  animation: thinking 1.4s ease-in-out infinite alternate;
+}
+.demo__status {
+  text-align: center;
+  max-width: 23rem;
   color: var(--color-text-dim);
 }
-
-.demo__caret {
-  display: inline-block;
-  width: 0.2rem;
-  height: 1.6rem;
-  margin-left: 0.2rem;
-  vertical-align: text-bottom;
-  background: var(--color-action-primary);
-  animation: blink 0.8s steps(1) infinite;
+.demo__steps {
+  display: flex;
+  gap: 0.6rem;
 }
-
-.demo__frame {
-  position: relative;
-  border-radius: var(--radius-control);
-  background: linear-gradient(160deg, var(--color-action-primary-hover) 0%, color-mix(in srgb, var(--color-action-primary) 28%, var(--color-bg)) 60%, var(--color-bg) 100%);
-  opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 0.6s ease-out, transform 0.6s var(--ease);
+.demo__step {
+  width: 3.2rem;
+  height: 0.3rem;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
 }
-
-.demo__frame--visible {
-  opacity: 1;
-  transform: scale(1);
+.demo__step--active {
+  background: var(--color-action-primary-hover);
 }
-
-.demo__meta {
-  @include text-body;
+.demo__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.demo__fields div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.4rem;
+}
+.demo__fields dt {
+  color: var(--color-text-dim);
+}
+.demo__fields dd {
+  text-align: right;
+}
+.demo__summary {
+  color: var(--color-text-cold);
+  margin-top: auto;
+}
+.demo__announcement {
   position: absolute;
-  left: 1.2rem;
-  bottom: 1.2rem;
-  color: var(--color-text);
+  width: 0.1rem;
+  height: 0.1rem;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
-
-@keyframes blink {
-  50% {
+@keyframes thinking {
+  to {
+    transform: rotate(15deg) scale(1.08);
+    box-shadow: 0 0 8rem color-mix(in srgb, var(--color-action-primary) 40%, transparent);
+  }
+}
+@keyframes result-in {
+  from {
     opacity: 0;
+    transform: translateY(0.8rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -2,20 +2,33 @@
 @use '../../../styles/mixins' as *;
 
 .services {
+  // Высота визуала и высота ряда текста: ряд выше визуала, чтобы у каждой услуги был свой отрезок скролла.
+  --size-visual: 54rem;
+  --size-row: 64rem;
   @include section;
+
+  @include mobile {
+    --size-visual: 28rem;
+  }
 }
 
 .services__title {
   @include text-display;
-  margin-bottom: 4rem;
+  margin-bottom: var(--space-heading);
 }
 
-.services__grid {
+// Сетка секции: тексты услуг рядами слева, один липкий слот визуалов справа на все ряды.
+.services__list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-grid-gap);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-auto-rows: minmax(var(--size-row), auto);
+  column-gap: var(--space-grid-gap);
 
   @include mobile {
-    grid-template-columns: 1fr;
+    display: block;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__list { display: block; }
 }

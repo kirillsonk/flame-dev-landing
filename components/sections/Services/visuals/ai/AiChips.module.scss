@@ -1,0 +1,44 @@
+@use '../../../../../styles/mixins' as *;
+
+.aiChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.aiChips__prefix {
+  color: var(--color-text-dim);
+  @include mobile {
+    display: none;
+  }
+}
+.aiChips__chip {
+  @include focus-ring(var(--color-action-accent));
+  padding: 0.2rem 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-cold);
+  text-align: left;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+  @include hover {
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+.aiChips__chip--outline[aria-pressed='true'] {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.aiChips__chip--solid[aria-pressed='true'] {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}

@@ -1,0 +1,237 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Без JS, на мобильном и при reduced motion: список услуг раскрыт, сцены идут столбиком.
+// На десктопе useServicesPlayer ставит `data-live`: секция пинится на высоту окна, сцены лежат
+// стопкой в одной рамке, в списке раскрыта только активная услуга.
+.player {
+  --size-visual: 54rem;
+  @include section;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-heading);
+  overflow-x: clip;
+}
+
+// В пине секция ровно в окно: сверху место под тонкую шапку, заголовок и колонки по центру высоты.
+// Рамка не выше того, что остаётся от окна после шапки, заголовка и дорожки с метками.
+.player[data-live] {
+  --size-visual: min(54rem, 100svh - 30rem);
+  height: 100svh;
+  justify-content: center;
+  padding-top: var(--size-header-compact);
+  padding-bottom: var(--space-card);
+}
+
+.player__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-gutter);
+  // По верху: список начинается вровень с рамкой и не прыгает, когда раскрывается пункт.
+  align-items: start;
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.player__title {
+  @include text-display;
+}
+
+.player__nav {
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.player__item {
+  padding-top: 1.6rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: color 0.5s var(--ease);
+}
+
+.player[data-live] .player__item {
+  color: var(--color-text-dim);
+}
+
+.player[data-live] .player__item[data-active] {
+  color: var(--color-text);
+}
+
+.player__top {
+  display: flex;
+  align-items: baseline;
+  gap: 1.6rem;
+}
+
+.player__number {
+  @include text-body;
+  min-width: 2.8rem;
+  color: var(--color-text-dim);
+  transition: color 0.5s var(--ease);
+}
+
+.player[data-live] .player__item[data-active] .player__number {
+  color: var(--color-action-accent);
+}
+
+.player__name {
+  @include text-title;
+}
+
+// Аккордеон на grid-template-rows: раскрытие без замера высоты.
+.player__body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 0.6s var(--ease),
+    opacity 0.5s var(--ease);
+}
+
+.player[data-live] .player__item:not([data-active]) .player__body {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.player__inner {
+  min-height: 0;
+  padding-left: 4.4rem;
+  overflow: hidden;
+}
+
+.player__description {
+  @include text-body;
+  max-width: 44rem;
+  padding-top: 0.8rem;
+  color: var(--color-text-cold);
+}
+
+.player__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-top: 1.2rem;
+}
+
+.player__deck {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.player__screen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-grid-gap);
+}
+
+.player[data-live] .player__screen {
+  position: relative;
+  display: block;
+  height: var(--size-visual);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.player__scene {
+  --match3-cell: 5.2rem;
+  position: relative;
+  height: var(--size-visual);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  overflow: hidden;
+  transform-origin: 50% 50%;
+
+  @include mobile {
+    --match3-cell: 2.4rem;
+    height: 53rem;
+  }
+}
+
+.player__scene[data-kind='match3'] {
+  @include mobile {
+    height: 62rem;
+  }
+}
+
+.player__scene[data-kind='prompt'] {
+  @include mobile {
+    height: 70rem;
+  }
+}
+
+.player[data-live] .player__scene {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  will-change: transform, opacity;
+}
+
+// Дорожка плеера: метки сцен и полоса прогресса перемотки. Имеет смысл только в режиме пина.
+.player__rail {
+  display: none;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.player[data-live] .player__rail {
+  display: flex;
+}
+
+.player__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.player__chip {
+  @include text-body;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 3.2rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-dim);
+  transition:
+    color 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+
+  &::before {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}
+
+.player__chip[data-active] {
+  color: var(--color-text);
+  border-color: var(--color-action-accent);
+
+  &::before {
+    background: var(--color-action-accent);
+    box-shadow: 0 0 0.8rem var(--color-action-accent);
+  }
+}
+
+.player__track {
+  height: 0.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.player__progress {
+  display: block;
+  height: 100%;
+  background: var(--gradient-action);
+  transform-origin: 0 50%;
+}

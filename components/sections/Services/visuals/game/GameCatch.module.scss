@@ -1,0 +1,105 @@
+@use '../../../../../styles/typography' as *;
+@use '../../../../../styles/mixins' as *;
+
+.gameCatch__legend {
+  display: grid;
+  gap: 0.8rem;
+  list-style: none;
+}
+
+.gameCatch__legendItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text-cold);
+}
+
+.gameCatch__legendIcon {
+  flex: none;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.gameCatch__legendIcon--drink {
+  color: var(--color-error);
+}
+
+.gameCatch__legendIcon--burger {
+  color: var(--color-success);
+}
+
+.gameCatch__legendIcon--star {
+  color: var(--color-demo-gold);
+}
+
+.gameCatch__legendIcon--dud {
+  color: var(--color-text-dim);
+}
+
+.gameCatch__legendPoints {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameCatch__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @include mobile {
+    flex: 1;
+  }
+}
+
+.gameCatch__play {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      80% 60% at 50% 100%,
+      color-mix(in srgb, var(--color-action-primary) 16%, transparent),
+      transparent 70%
+    ),
+    var(--color-surface);
+}
+
+.gameCatch__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: none;
+  touch-action: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-action-accent);
+    outline-offset: -0.4rem;
+  }
+}
+
+.gameCatch__start {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 1.6rem;
+  width: 38rem;
+  max-width: 90%;
+  padding: 2.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  text-align: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  translate: -50% -50%;
+}
+
+.gameCatch__intro {
+  color: var(--color-text-cold);
+}
+
+.gameCatch__go {
+  border-radius: var(--radius-pill);
+}

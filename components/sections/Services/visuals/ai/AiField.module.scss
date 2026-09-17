@@ -1,0 +1,41 @@
+@use '../../../../../styles/mixins' as *;
+
+.aiField {
+  @include focus-ring(var(--color-action-accent));
+  --tone: var(--color-border);
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  border-left: 0.3rem solid var(--tone);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--color-elevated) 45%, transparent);
+  transition:
+    background-color 0.2s,
+    opacity 0.35s,
+    transform 0.4s var(--ease);
+  @include mobile {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+.aiField--hot {
+  background: color-mix(in srgb, var(--tone) 38%, transparent);
+}
+.aiField--hidden {
+  opacity: 0;
+  transform: translateY(0.6rem);
+}
+.aiField__name {
+  color: var(--color-text-dim);
+}
+.aiField__value {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.aiField__value--empty {
+  color: var(--color-text-dim);
+  font-weight: 400;
+}

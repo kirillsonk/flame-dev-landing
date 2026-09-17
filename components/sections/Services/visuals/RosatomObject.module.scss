@@ -1,13 +1,57 @@
+@use '../../../../styles/mixins' as *;
 .object {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-control);
-  // Росатом: тёмно-синий космос из кейса, литерал намеренно
-  background: radial-gradient(ellipse 60% 60% at 50% 50%, #1a1f4e 0%, var(--color-bg) 100%);
+  position: relative;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    color-mix(in srgb, var(--color-action-primary) 20%, var(--color-bg)),
+    var(--color-bg) 70%
+  );
+}
+.object__viewport {
+  @include focus-ring;
+  position: absolute;
+  inset: 6rem 0 8rem;
+  cursor: grab;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-action-primary) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-action-primary) 8%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 4rem 4rem;
+  @include mobile {
+    inset: 8rem 0 12rem;
+  }
+}
+.object__viewport canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.object__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: auto;
+  position: relative;
+}
+.object__controls p {
+  text-align: center;
+}
+.object__fallback {
+  position: absolute;
+  inset: 35% 2.4rem auto;
+  text-align: center;
+  color: var(--color-text-cold);
+}
 
-  canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
+.object__controls button {
+  min-width: 4.4rem;
+  @include mobile {
+    padding-inline: 1.1rem;
   }
 }

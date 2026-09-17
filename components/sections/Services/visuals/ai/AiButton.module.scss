@@ -1,0 +1,48 @@
+@use '../../../../../styles/mixins' as *;
+
+.aiButton {
+  @include focus-ring(var(--color-action-accent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0 2rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  color: var(--color-on-action);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    opacity 0.2s,
+    transform 0.2s;
+  &:active {
+    transform: scale(0.97);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+.aiButton--primary {
+  background: var(--color-action-primary);
+  @include hover {
+    background: var(--color-action-primary-hover);
+  }
+}
+.aiButton--gradient {
+  min-height: var(--size-button);
+  background: var(--gradient-action);
+}
+.aiButton--ghost {
+  border-color: var(--color-border);
+  color: var(--color-text);
+  @include hover {
+    background: var(--color-elevated);
+  }
+}
+.aiButton--busy {
+  cursor: progress;
+}

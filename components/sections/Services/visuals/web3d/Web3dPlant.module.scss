@@ -1,0 +1,80 @@
+@use '../../../../../styles/mixins' as *;
+
+.plant__hotspot {
+  @include focus-ring(var(--color-action-accent));
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin: -1.6rem 0 0 -1.6rem;
+  border: 1px solid var(--color-action-accent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  transition:
+    opacity 0.2s,
+    background-color 0.2s;
+  @include mobile {
+    width: 4rem;
+    height: 4rem;
+    margin: -2rem 0 0 -2rem;
+  }
+}
+.plant__hotspot::after {
+  content: '';
+  position: absolute;
+  inset: -0.6rem;
+  border: 1px solid color-mix(in srgb, var(--color-action-accent) 50%, transparent);
+  border-radius: 50%;
+  animation: plant-ping 2.4s var(--ease) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+.plant__hotspot[data-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+.plant__hotspot[data-hidden='true']::after {
+  animation: none;
+}
+.plant__hotspot--active {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+}
+.plant__card {
+  top: 10.4rem;
+  left: 2.4rem;
+  width: 30rem;
+  @include mobile {
+    top: auto;
+    bottom: 12rem;
+    left: 1.6rem;
+    right: 1.6rem;
+    width: auto;
+  }
+}
+.plant__heading {
+  display: block;
+  margin: 0.2rem 0 0.6rem;
+}
+
+@keyframes plant-ping {
+  from {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+[inert] .plant__hotspot::after {
+  animation-play-state: paused;
+}
