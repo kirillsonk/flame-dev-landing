@@ -1,6 +1,7 @@
 @use 'sass:math';
 
 :root {
+  // Серая база — как на остальных сайтах Flame (landingv2, Tilda).
   --color-bg: #262525;
   --color-surface: #2d2c2c;
   --color-elevated: #3d3d3e;
@@ -9,44 +10,82 @@
   --color-text: #fcfbfb;
   --color-text-dim: #9d9c9e;
   --color-text-cold: #b4bbc4;
-  --color-action-primary: #3b78ff;
-  --color-action-primary-hover: #6394ff;
-  --color-on-action: #0a0a0a;
-  --color-glow: rgba(59, 120, 255, 0.26);
-  --color-glow-strong: rgba(59, 120, 255, 0.42);
+  // Синий Flame: заливка — глубокий конец градиента, голубой только край и блик
+  // (белый текст на #00e1fd нечитаем). Финальный оттенок подтверждает Кирилл.
+  --color-action-primary: #1029ff;
+  --color-action-primary-hover: #3a56ff;
+  --color-action-accent: #00e1fd;
+  --gradient-action: linear-gradient(90deg, #1029ff 55%, #00e1fd 100%);
+  // Градиент для текста на тёмном фоне: глубокий #1029ff как буквы не читается, старт светлее.
+  --gradient-text: linear-gradient(90deg, #5670ff 0%, #00e1fd 100%);
+  // Оранжевый Flame — редкий второй акцент: пламя логотипа, жар маски в услугах.
+  --color-fire: #f13911;
+  --color-fire-light: #ff5b38;
+  --color-on-action: #fcfbfb;
+  --color-demo-gold: #f3c96b;
   --color-success: #31d269;
   --color-error: #ff6b7a;
 
-  --type-display: 4.8rem;
+  --type-display: 8rem;
   --type-title: 2.4rem;
   --type-body: 1.6rem;
 
-  --space-section: 12rem;
-  --space-gutter: 12rem;
+  --space-section: 8rem;
+  --space-gutter: 6rem;
   --space-grid-gap: 2.4rem;
 
   --size-button: 4.8rem;
   --size-button-hero: 5.6rem;
   --size-header: 8rem;
+  // Тонкое состояние шапки после прокрутки: вместо надписи остаётся огонёк логотипа.
+  // Выше кнопки внутри неё — иначе кнопка упирается в края полосы.
+  --size-header-compact: 5.6rem;
+  --size-button-compact: 4rem;
 
   --radius-control: 0.8rem;
   --radius-card: 1.4rem;
   --radius-panel: 1.6rem;
   --radius-pill: 99.9rem;
 
+  --space-heading: 4.8rem;
+  --size-reel: 62rem;
+  // Ниже этого лента не сжимается: если окно ещё ниже, hero уходит под скролл.
+  --size-reel-min: 32rem;
+  --size-hero-aside: 26rem;
+  --space-hero-top: 1.6rem;
+  --space-hero-bottom: 1.6rem;
+  // Предел высоты hero: окно без шапки. svh — чтобы на мобильном не прыгало с адресной строкой.
+  --size-hero-view: calc(100svh - var(--size-header));
+  // Полноэкранный первый экран: шапка лежит поверх него и не занимает место.
+  // Шапка sticky, то есть в потоке: секцию поднимаем на её высоту, иначе экран начинается ниже.
+  --size-hero-full: 100svh;
+  --offset-header-overlay: calc(var(--size-header) * -1);
+  --space-card: 2.4rem;
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-reel: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-reel: 0.4s;
   --z-header: 50;
   --z-cta: 40;
+  --z-dev: 60;
 }
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
   :root {
-    --type-display: 3.6rem;
-    --space-section: 8rem;
+    --type-display: 4rem;
+    --space-heading: 3.2rem;
+    --size-reel: 49rem;
+    --size-reel-min: 28rem;
+    --space-hero-top: 1.6rem;
+    --space-hero-bottom: 1.6rem;
+    --space-card: 2rem;
+    --space-section: 6rem;
     --space-gutter: 2rem;
     --space-grid-gap: 1.6rem;
     --size-button-hero: 5.2rem;
     --size-header: 6.4rem;
+    --size-header-compact: 5.2rem;
+    --size-button-compact: 3.8rem;
   }
 }
 
@@ -61,7 +100,12 @@
 html {
   font-size: 10px;
   scroll-behavior: smooth;
-  scroll-padding-top: var(--size-header);
+  // Шапка липкая: к моменту перехода по якорю она уже в тонком состоянии.
+  scroll-padding-top: var(--size-header-compact);
+
+  @media screen and (max-width: 768px) and (orientation: portrait) {
+    scroll-padding-top: var(--size-header);
+  }
 
   @media screen and (max-width: 1440px) {
     font-size: math.div(10, 1440) * 100vw;
@@ -122,6 +166,17 @@ textarea {
 }
 
 @keyframes reveal {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    translate: 0 1.6rem;
+  }
   to {
     opacity: 1;
     translate: 0 0;

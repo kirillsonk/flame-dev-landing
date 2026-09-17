@@ -11,9 +11,9 @@
   --pad: 2.4rem;
   padding: 0 var(--pad);
   border: 1px solid transparent;
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-pill);
   white-space: nowrap;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out;
 
   @include focus-ring;
 
@@ -28,6 +28,52 @@
   --pad: 4rem;
 }
 
+// Слот со стрелкой прижат к правому краю: паддинг съедается отрицательным полем.
+.button__slot {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-right: calc(var(--pad) / -2);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, currentColor 20%, transparent);
+  overflow: hidden;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.button--l .button__slot {
+  width: 4rem;
+  height: 4rem;
+}
+
+.button__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button--primary:hover .button__slot {
+    background: var(--color-action-accent);
+    color: var(--color-bg);
+  }
+
+  .button:hover .button__icon {
+    animation: button-arrow 0.45s var(--ease);
+  }
+}
+
+// Стрелка уезжает вправо и возвращается слева.
+@keyframes button-arrow {
+  45% {
+    translate: 150% 0;
+    opacity: 0;
+  }
+  55% {
+    translate: -150% 0;
+    opacity: 0;
+  }
+}
+
 .button--block {
   width: 100%;
 }
@@ -36,19 +82,16 @@
   background: var(--color-action-primary);
   border-color: var(--color-action-primary);
   color: var(--color-on-action);
-  @include glow;
 
   @include hover {
     background: var(--color-action-primary-hover);
     border-color: var(--color-action-primary-hover);
-    @include glow(var(--color-glow-strong));
   }
 
   &:active {
     background: var(--color-text);
     border-color: var(--color-text);
     color: var(--color-action-primary);
-    box-shadow: none;
   }
 }
 

@@ -2,56 +2,185 @@
 @use '../../../styles/mixins' as *;
 
 .field {
+  --meta-height: 2.4rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
   width: 100%;
+}
+
+.field__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.2rem;
 }
 
 .field__label {
   @include text-body;
   color: var(--color-text-dim);
+  transition: color 0.2s var(--ease);
+}
+
+.field__note {
+  @include text-body;
+  color: var(--color-text-dim);
+  opacity: 0.6;
+}
+
+.field__box {
+  position: relative;
 }
 
 .field__control {
   @include text-body;
+  display: block;
   width: 100%;
   min-height: 4.8rem;
-  padding: 0.8rem 0.4rem;
+  padding: 1.2rem 0;
   border-bottom: 1px solid var(--color-border-strong);
   border-radius: 0;
-  transition: border-color 0.15s ease-out;
+  outline: none;
+  color: var(--color-text);
+  transition: border-color 0.2s var(--ease);
 
-  @include focus-ring;
-
-  &::placeholder {
-    color: var(--color-text);
-    opacity: 0.5;
+  @include hover {
+    border-bottom-color: var(--color-text-cold);
   }
 
-  &:focus-visible {
-    border-bottom-color: var(--color-action-primary);
-    outline-offset: 2px;
+  &::placeholder {
+    color: var(--color-text-dim);
+    opacity: 0.55;
+    transition: opacity 0.2s var(--ease);
+  }
+
+  &:focus::placeholder {
+    opacity: 0.3;
   }
 
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--color-text);
-    -webkit-box-shadow: 0 0 0 100rem var(--color-bg) inset;
-    transition: background-color 9999s ease-out, border-color 0.15s ease-out;
+    -webkit-box-shadow: 0 0 0 100rem var(--color-surface) inset;
+    transition: background-color 9999s ease-out, border-color 0.2s var(--ease);
   }
 }
 
+// Фиксированная высота и без ручки ресайза: блок формы не меняет размер.
 .field__control--multiline {
-  min-height: 12rem;
+  height: 12rem;
+  resize: none;
+}
+
+// Линия фокуса растёт слева градиентом Flame; при ошибке становится красной.
+.field__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--gradient-action);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.5s var(--ease), background-color 0.2s var(--ease);
+  pointer-events: none;
+}
+
+.field__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  height: var(--meta-height);
+  margin-top: 0.6rem;
 }
 
 .field__error {
   @include text-body;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-error);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.field__message {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: field-message 0.35s var(--ease) both;
+
+  &::before {
+    content: '';
+    flex: none;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}
+
+.field__counter {
+  @include text-body;
+  flex: none;
+  margin-left: auto;
+  color: var(--color-text-dim);
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.field:focus-within .field__label {
+  color: var(--color-text);
+}
+
+.field:focus-within .field__line {
+  transform: scaleX(1);
+}
+
+.field--error .field__label {
   color: var(--color-error);
 }
 
 .field--error .field__control {
   border-bottom-color: var(--color-error);
+}
+
+.field--error .field__line {
+  background: var(--color-error);
+  transform: scaleX(1);
+}
+
+.field--error .field__box {
+  animation: field-shake 0.4s var(--ease);
+}
+
+@keyframes field-message {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes field-shake {
+  20%,
+  60% {
+    transform: translateX(-0.4rem);
+  }
+
+  40%,
+  80% {
+    transform: translateX(0.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field__message,
+  .field--error .field__box {
+    animation: none;
+  }
 }
