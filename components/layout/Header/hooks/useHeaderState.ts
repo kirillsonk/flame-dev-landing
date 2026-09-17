@@ -1,24 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 
 // Must match the `mobile` mixin in styles/_mixins.scss.
 const MOBILE_QUERY = '(max-width: 768px) and (orientation: portrait)';
 
 export interface IUseHeaderState {
-  scrolled: boolean;
   menuOpen: boolean;
+  compact: boolean;
+  /** Линия прочитанного: долю пишем прямо в стиль, чтобы не перерисовывать шапку на каждый кадр. */
+  progressRef: RefObject<HTMLSpanElement | null>;
   toggleMenu: () => void;
   closeMenu: () => void;
 }
 
 const useHeaderState = (): IUseHeaderState => {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+  const progressRef = useRef<HTMLSpanElement>(null);
 
+  // Тонкое состояние включается, когда страница ушла вниз на высоту полной шапки.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    let frame = 0;
+    const sync = () => {
+      frame = 0;
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 10;
+      // Гистерезис: включаем позже, выключаем раньше. У одного порога состояние дребезжит.
+      setCompact((on) => (on ? window.scrollY > rem * 4 : window.scrollY > rem * 10));
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const read = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      progressRef.current?.style.setProperty('--read', read.toFixed(4));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(sync);
+    };
+    sync();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -46,8 +66,9 @@ const useHeaderState = (): IUseHeaderState => {
   }, [menuOpen]);
 
   return {
-    scrolled,
     menuOpen,
+    compact,
+    progressRef,
     toggleMenu: () => setMenuOpen((v) => !v),
     closeMenu: () => setMenuOpen(false),
   };
