@@ -1,0 +1,81 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.card__inner {
+  @include container;
+  padding-bottom: var(--space-grid-gap);
+}
+
+.card__box {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  gap: 4rem;
+  padding: var(--space-heading) var(--space-heading) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+    padding: var(--space-card) var(--space-card) 0;
+  }
+}
+
+.card__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card__logo {
+  @include focus-ring;
+  align-self: flex-start;
+}
+
+.card__email {
+  @include text-title;
+  @include focus-ring;
+  align-self: flex-start;
+  transition: color 0.2s var(--ease);
+
+  @include hover {
+    color: var(--color-action-primary-hover);
+  }
+}
+
+.card__links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem 2.4rem;
+  align-content: start;
+}
+
+.card__link {
+  @include text-body;
+  @include focus-ring;
+  color: var(--color-text-cold);
+  transition: color 0.2s var(--ease);
+
+  @include hover {
+    color: var(--color-text);
+  }
+}
+
+.card__action {
+  display: flex;
+  align-items: flex-start;
+}
+
+.card__bottom {
+  @include text-body;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.4rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+}

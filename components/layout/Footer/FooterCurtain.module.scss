@@ -1,0 +1,109 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Страница поверх подвала: непрозрачный фон, скруглённый низ и тень на краю шторки.
+:global(html[data-footer='curtain'] main) {
+  position: relative;
+  z-index: 1;
+  border-radius: 0 0 3.2rem 3.2rem;
+  background: var(--color-bg);
+  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.5);
+
+  @include mobile {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.curtain {
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  background: var(--color-surface);
+
+  @include mobile {
+    position: static;
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+.curtain__inner {
+  @include container;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-heading);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.curtain__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.curtain__logo {
+  @include focus-ring;
+  align-self: flex-start;
+}
+
+.curtain__email {
+  @include text-display;
+  @include focus-ring;
+  transition: color 0.2s var(--ease);
+
+  @include hover {
+    color: var(--color-action-accent);
+  }
+
+  @include mobile {
+    @include text-title;
+  }
+}
+
+.curtain__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2.4rem;
+
+  @include mobile {
+    align-items: flex-start;
+  }
+}
+
+.curtain__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1.6rem 2.4rem;
+
+  @include mobile {
+    justify-content: flex-start;
+  }
+}
+
+.curtain__link {
+  @include text-body;
+  @include focus-ring;
+  color: var(--color-text-dim);
+  transition: color 0.2s var(--ease);
+
+  @include hover {
+    color: var(--color-text);
+  }
+}
+
+.curtain__meta {
+  @include text-body;
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  color: var(--color-text-dim);
+}

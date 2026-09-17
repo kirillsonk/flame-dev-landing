@@ -8,12 +8,11 @@
 .footer__inner {
   @include container;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 2.4rem;
-  min-height: 9.6rem;
-  padding-top: 2.4rem;
-  padding-bottom: 2.4rem;
+  padding-top: var(--space-heading);
+  padding-bottom: var(--space-heading);
 
   @include mobile {
     flex-direction: column;
@@ -21,9 +20,26 @@
   }
 }
 
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-card);
+}
+
 .footer__logo {
   display: block;
   @include focus-ring;
+}
+
+// Крупный email в футере (cuberto, redcollar): последний громкий контакт на странице.
+.footer__email {
+  @include text-title;
+  @include focus-ring;
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-action-primary-hover);
+  }
 }
 
 .footer__links {
