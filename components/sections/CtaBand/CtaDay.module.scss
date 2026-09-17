@@ -1,0 +1,138 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: var(--size-header);
+  overflow: hidden;
+
+  @include mobile {
+    min-height: 0;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+}
+
+.day__inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-heading);
+}
+
+.day__title {
+  @include text-display;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+.day__accent {
+  @include gradient-text;
+}
+
+// Лента выходит за правый край окна: карточки уезжают под край, а не обрезаются контейнером.
+.day__track {
+  position: relative;
+
+  @include mobile {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+
+.day__items {
+  position: relative;
+  display: flex;
+  gap: var(--space-grid-gap);
+  width: max-content;
+  padding-top: 4rem;
+  list-style: none;
+}
+
+.day__rail {
+  position: absolute;
+  top: 0.8rem;
+  left: 0;
+  right: 0;
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-text) 10%, transparent);
+}
+
+.day__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-action);
+  box-shadow: 0 0 1.4rem color-mix(in srgb, var(--color-action-accent) 45%, transparent);
+}
+
+.day__step {
+  @include text-body;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 32rem;
+  color: var(--color-text-dim);
+  transition: color 0.3s ease-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4rem;
+    left: 0;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 2px solid var(--color-elevated);
+    border-radius: 50%;
+    background: var(--color-bg);
+    transform: translateY(-0.1rem);
+    transition: border-color 0.3s ease-out, background-color 0.3s ease-out;
+  }
+
+  @include mobile {
+    width: 24rem;
+  }
+}
+
+.day__step[data-active] {
+  color: var(--color-text);
+
+  &::before {
+    border-color: var(--color-action-accent);
+    background: var(--color-action-primary);
+  }
+}
+
+.day__time {
+  @include text-title;
+  font-variant-numeric: tabular-nums;
+}
+
+.day__final {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-card);
+  width: 44rem;
+  margin-top: -1.6rem;
+  padding: var(--space-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+
+  @include mobile {
+    width: 30rem;
+  }
+}
+
+.day__note {
+  @include text-body;
+  color: var(--color-text-dim);
+}

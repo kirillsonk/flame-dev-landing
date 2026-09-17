@@ -1,0 +1,89 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.reel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: var(--size-header);
+  overflow: hidden;
+
+  @include mobile {
+    min-height: 0;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+}
+
+.reel__inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-heading);
+}
+
+.reel__sr {
+  @include sr-only;
+}
+
+// Высота строки барабана — LINE в useCtaReel.
+.reel__title {
+  @include text-display;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.reel__nowrap {
+  white-space: nowrap;
+}
+
+.reel__window {
+  position: relative;
+  display: inline-block;
+  height: 1.15em;
+  overflow: hidden;
+  vertical-align: top;
+
+  // Слова уходят в верх и приходят снизу через затемнённые края окна.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--color-bg), transparent 25%, transparent 75%, var(--color-bg));
+  }
+}
+
+.reel__strip {
+  display: block;
+}
+
+.reel__word {
+  position: relative;
+  display: block;
+  width: max-content;
+  height: 1.15em;
+  color: var(--color-text-dim);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 58%;
+    left: -0.05em;
+    right: -0.05em;
+    height: 0.07em;
+    border-radius: 1em;
+    background: var(--color-fire-light);
+    transform: scaleX(var(--strike, 0));
+    transform-origin: left;
+  }
+}
+
+.reel__word--final {
+  @include gradient-text;
+  display: block;
+  width: max-content;
+  height: 1.15em;
+}

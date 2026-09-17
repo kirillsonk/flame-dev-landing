@@ -1,0 +1,97 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Ответ на градиенте лежит под двумя половинами тёмного экрана с вопросом.
+// Без пина половины уже разъехались за края, секция — обычный блок на градиенте.
+.split {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+
+  @include mobile {
+    height: auto;
+  }
+}
+
+.split__under {
+  @include container;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-heading);
+  max-width: none;
+  background: var(--gradient-action);
+
+  @include mobile {
+    position: relative;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+}
+
+.split__title {
+  @include text-display;
+  font-weight: 500;
+  max-width: 132rem;
+  color: var(--color-on-action);
+  text-wrap: balance;
+}
+
+// Половины шире окна: при повороте углы не открывают щель по краям.
+.split__half {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  height: 50%;
+  overflow: hidden;
+}
+
+.split__half--top {
+  top: 0;
+  transform-origin: 0 100%;
+}
+
+.split__half--bottom {
+  bottom: 0;
+  transform-origin: 100% 0;
+}
+
+// Лицо каждой половины — полный экран, сдвинутый так, чтобы вопрос резался ровно по середине.
+.split__face {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  height: 200%;
+  background: var(--color-bg);
+}
+
+.split__half--top .split__face {
+  top: 0;
+}
+
+.split__half--bottom .split__face {
+  bottom: 0;
+}
+
+.split__word {
+  @include text-display;
+  font-weight: 500;
+}
+
+.split__seam {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 2px;
+  background: var(--gradient-action);
+  box-shadow: 0 0 1.6rem var(--color-action-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}

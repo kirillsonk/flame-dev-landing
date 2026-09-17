@@ -11,7 +11,7 @@ const MobileCtaBar = () => {
 
   return (
     <div className={clsx(styles.bar, visible && styles['bar--visible'])} aria-hidden={!visible}>
-      <BaseButton href="#contact" block tabIndex={visible ? 0 : -1}>
+      <BaseButton href="#contact" block arrow tabIndex={visible ? 0 : -1}>
         {CTA_LABEL}
       </BaseButton>
     </div>

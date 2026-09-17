@@ -1,0 +1,105 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Размеры и скругление блока по скроллу ведёт хук; стили ниже — собранное состояние без пина.
+.inflate {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  padding-top: var(--size-header);
+  padding-bottom: var(--space-section);
+  overflow: hidden;
+
+  @include mobile {
+    min-height: 0;
+    padding-top: var(--space-section);
+  }
+}
+
+.inflate__area {
+  @include container;
+  position: relative;
+  flex: 1;
+}
+
+.inflate__blob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-panel);
+  background: var(--color-action-primary);
+  transform: translate(-50%, -50%);
+
+  @include mobile {
+    position: relative;
+    top: auto;
+    left: auto;
+    height: auto;
+    transform: none;
+  }
+}
+
+.inflate__gradient {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-action);
+}
+
+.inflate__label {
+  @include text-body(500);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.inflate__slot {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin-right: -2rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.inflate__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.inflate__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-heading);
+  width: 100%;
+  padding: var(--space-gutter);
+  transform: translate(-50%, -50%);
+
+  @include mobile {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: var(--space-card);
+    transform: none;
+  }
+}
+
+.inflate__title {
+  @include text-display;
+  font-weight: 500;
+  color: var(--color-on-action);
+  text-wrap: balance;
+}

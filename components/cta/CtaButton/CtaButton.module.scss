@@ -1,0 +1,204 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+@property --beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+// Общая основа вариантов. Высота — min-height, как у BaseButton: шапка ужимает её в тонком состоянии.
+.cta {
+  @include text-body(500);
+  @include focus-ring;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: var(--size-button);
+  padding: 0 2.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.cta--block {
+  width: 100%;
+}
+
+.cta__label {
+  position: relative;
+}
+
+// Градиентная обводка: кольцо рисует маска, внутри прозрачно — кнопка читается и поверх видео.
+.cta--border {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--gradient-action);
+  }
+
+  &::before {
+    padding: 1px;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+
+  &::after {
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+
+  @include interact {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+// Заливка от курсора: синий круг растёт из точки входа (--spot-x/--spot-y пишет компонент).
+.cta--spot {
+  overflow: hidden;
+  border-color: var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: var(--spot-y, 50%);
+    left: var(--spot-x, 50%);
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: var(--color-action-primary);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.55s var(--ease);
+  }
+
+  @include interact {
+    border-color: var(--color-action-primary);
+
+    &::before {
+      transform: translate(-50%, -50%) scale(40);
+    }
+  }
+}
+
+// Бегущий луч: по тёмной обводке идёт градиентный блик, при наведении быстрее.
+.cta--beam {
+  border-color: var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--beam-angle), transparent 0 62%, var(--color-action-primary) 80%, var(--color-action-accent) 92%, transparent 100%);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: cta-beam 3.2s linear infinite;
+  }
+
+  @include interact {
+    &::before {
+      animation-duration: 1.2s;
+    }
+  }
+}
+
+@keyframes cta-beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+// Раскрытие: на устройствах с мышью в покое виден только кружок со стрелкой, подпись выезжает.
+// На тач-экранах наведения нет — подпись видна всегда.
+.cta--reveal {
+  gap: 0;
+  padding: 0 0.8rem;
+  background: var(--color-action-primary);
+
+  @include interact {
+    background: var(--color-action-primary-hover);
+  }
+}
+
+.cta--reveal .cta__label {
+  max-width: 24rem;
+  margin: 0 1rem 0 1.6rem;
+  overflow: hidden;
+  transition: max-width 0.5s var(--ease), margin 0.5s var(--ease), opacity 0.3s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta--reveal .cta__label {
+    max-width: 0;
+    margin: 0;
+    opacity: 0;
+  }
+
+  .cta--reveal:hover .cta__label,
+  .cta--reveal:focus-visible .cta__label {
+    max-width: 24rem;
+    margin: 0 1rem 0 1.6rem;
+    opacity: 1;
+  }
+}
+
+.cta__slot {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: var(--radius-pill);
+}
+
+.cta__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+// Волна по буквам: буквы по очереди приподнимаются и светлеют; задержку пишет компонент.
+.cta--wave {
+  gap: 0;
+  background: var(--color-action-primary);
+}
+
+.cta__char {
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.cta--wave:focus-visible .cta__char {
+  transform: translateY(-0.3rem);
+  color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-text));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta--wave:hover .cta__char {
+    transform: translateY(-0.3rem);
+    color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-text));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta--beam::before {
+    animation: none;
+  }
+
+  .cta__char {
+    transition: color 0.2s var(--ease);
+  }
+}

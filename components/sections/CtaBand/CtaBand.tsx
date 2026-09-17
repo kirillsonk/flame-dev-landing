@@ -7,7 +7,7 @@ const CtaBand = () => {
     <section className={styles.band}>
       <div className={styles.band__inner}>
         <p className={styles.band__text}>{CTA_BAND.text}</p>
-        <BaseButton href="#contact" variant="inverse">{CTA_LABEL}</BaseButton>
+        <BaseButton href="#contact" variant="inverse" arrow>{CTA_LABEL}</BaseButton>
       </div>
     </section>
   );

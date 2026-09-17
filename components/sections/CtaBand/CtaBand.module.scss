@@ -1,8 +1,10 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
+// Единственный сплошной цветной блок на странице — на фирменном градиенте Flame.
+// Голубой конец уходит вправо, под белую кнопку: текст остаётся на синем, где он читается.
 .band {
-  background: var(--color-action-primary);
+  background: var(--gradient-action);
   color: var(--color-on-action);
 }
 

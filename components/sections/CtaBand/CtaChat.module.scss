@@ -1,0 +1,183 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Пин держит секцию во весь экран; на мобильном это обычный блок в собранном виде.
+.chat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: var(--size-header);
+  overflow: hidden;
+
+  @include mobile {
+    min-height: 0;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+}
+
+.chat__inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-card);
+}
+
+.chat__sr {
+  @include sr-only;
+}
+
+.chat__thread {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 112rem;
+}
+
+.chat__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.6rem;
+}
+
+.chat__avatar {
+  @include text-body(500);
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-action);
+
+  @include mobile {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+}
+
+.chat__avatar--ghost {
+  visibility: hidden;
+}
+
+// Индикатор набора и ответ лежат в одной ячейке: ответ сменяет «печатает…» на месте.
+.chat__slot {
+  display: grid;
+  align-items: end;
+}
+
+.chat__slot > * {
+  grid-area: 1 / 1;
+}
+
+.chat__bubble {
+  @include text-display;
+  font-weight: 500;
+  width: fit-content;
+  padding: 2rem 3.2rem 2.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4rem 4rem 4rem 0.8rem;
+  background: var(--color-surface);
+  transform-origin: 0 100%;
+  text-wrap: balance;
+
+  @include mobile {
+    padding: 1.2rem 1.6rem 1.4rem;
+    border-radius: 2.4rem 2.4rem 2.4rem 0.6rem;
+  }
+}
+
+.chat__bubble--typing {
+  display: flex;
+  gap: 1rem;
+  padding: 2.4rem 3.2rem;
+  opacity: 0;
+}
+
+.chat__dot {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: var(--color-text-dim);
+  animation: chat-typing 1s infinite;
+
+  &:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes chat-typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.5;
+    transform: none;
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-0.6rem);
+  }
+}
+
+.chat__input {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 104.8rem;
+  margin-left: 7.2rem;
+  padding: 0.8rem 0.8rem 0.8rem 2.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+
+  @include mobile {
+    flex-wrap: wrap;
+    margin-left: 0;
+    padding: 1.6rem;
+    border-radius: var(--radius-panel);
+  }
+}
+
+.chat__field {
+  @include text-body;
+  flex: 1;
+  min-width: 0;
+}
+
+.chat__draft:empty::before {
+  content: attr(data-placeholder);
+  color: var(--color-text-dim);
+}
+
+.chat__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 0.2rem;
+  vertical-align: -0.2em;
+  background: var(--color-action-accent);
+  animation: chat-blink 1s steps(1) infinite;
+}
+
+@keyframes chat-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.chat__button {
+  transition: box-shadow 0.3s var(--ease);
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.chat__input[data-ready='true'] .chat__button {
+  box-shadow: 0 0 3.2rem color-mix(in srgb, var(--color-action-accent) 45%, transparent);
+}
