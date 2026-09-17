@@ -5,7 +5,9 @@ export type LeadStatus = 'idle' | 'sending' | 'success' | 'error';
 
 export interface IUseLeadSubmit {
   status: LeadStatus;
-  submit: (values: ILeadValues) => Promise<void>;
+  /** Возвращает `true`, если заявка ушла: форма по этому сигналу очищает поля. */
+  submit: (values: ILeadValues) => Promise<boolean>;
+  reset: () => void;
 }
 
 const useLeadSubmit = (): IUseLeadSubmit => {
@@ -20,12 +22,16 @@ const useLeadSubmit = (): IUseLeadSubmit => {
         body: JSON.stringify(values),
       });
       setStatus(res.ok ? 'success' : 'error');
+      return res.ok;
     } catch {
       setStatus('error');
+      return false;
     }
   };
 
-  return { status, submit };
+  const reset = () => setStatus('idle');
+
+  return { status, submit, reset };
 };
 
 export default useLeadSubmit;

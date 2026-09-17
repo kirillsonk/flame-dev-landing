@@ -1,0 +1,107 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+@use './variant' as *;
+
+.guides {
+  @include contact-section;
+  overflow-x: clip;
+}
+
+.guides__inner {
+  @include contact-inner;
+}
+
+.guides__info {
+  position: relative;
+}
+
+.guides__title {
+  @include contact-title;
+}
+
+.guides__text {
+  @include contact-text;
+}
+
+.guides__form {
+  @include contact-form;
+}
+
+// Слой разметки поверх контента; без JS и при reduced motion он пуст и невидим.
+.guides__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.guides__lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.guides__line {
+  stroke: var(--color-action-accent);
+  stroke-width: 1;
+  stroke-opacity: 0.45;
+  stroke-dasharray: 1 1;
+}
+
+.guides__line--measure {
+  stroke: var(--color-fire);
+  stroke-opacity: 1;
+}
+
+.guides__sel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid var(--color-action-accent);
+  opacity: 0;
+}
+
+.guides__handle {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid var(--color-action-accent);
+  background: var(--color-text);
+}
+
+.guides__handle--tl {
+  top: -0.4rem;
+  left: -0.4rem;
+}
+
+.guides__handle--tr {
+  top: -0.4rem;
+  right: -0.4rem;
+}
+
+.guides__handle--bl {
+  bottom: -0.4rem;
+  left: -0.4rem;
+}
+
+.guides__handle--br {
+  right: -0.4rem;
+  bottom: -0.4rem;
+}
+
+.guides__tag {
+  @include text-body;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 0.6rem;
+  border-radius: 0.4rem;
+  background: var(--color-fire);
+  color: var(--color-text);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+}

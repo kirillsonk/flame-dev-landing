@@ -1,0 +1,72 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+@use './variant' as *;
+
+.marker {
+  @include contact-section;
+}
+
+.marker__inner {
+  @include contact-inner;
+}
+
+.marker__info {
+  position: relative;
+}
+
+.marker__title {
+  @include contact-title;
+}
+
+// Белая заливка поверх серой: ширина белого слоя (`--ink`) растёт по скроллу.
+.marker__word {
+  position: relative;
+  display: inline-block;
+  background-image: linear-gradient(var(--color-text), var(--color-text)), linear-gradient(var(--color-elevated), var(--color-elevated));
+  background-repeat: no-repeat;
+  background-size: var(--ink, 100%) 100%, 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.marker__swash {
+  position: absolute;
+  left: -2%;
+  bottom: -0.16em;
+  width: 104%;
+  height: 0.3em;
+  overflow: visible;
+  pointer-events: none;
+
+  path {
+    fill: none;
+    stroke: var(--color-action-accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    // Зазор длиннее пути: стартовый offset 1.05 прячет штрих целиком, без точки от скруглённого конца.
+    stroke-dasharray: 1 2;
+    stroke-dashoffset: var(--draw, 0);
+  }
+}
+
+.marker__text {
+  @include contact-text;
+}
+
+.marker__mark {
+  padding: 0 0.3rem;
+  border-radius: 0.4rem;
+  background-color: transparent;
+  background-image: var(--gradient-action);
+  background-repeat: no-repeat;
+  background-position: 0 60%;
+  background-size: var(--hl, 100%) 88%;
+  color: var(--color-text);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.marker__form {
+  @include contact-form;
+}

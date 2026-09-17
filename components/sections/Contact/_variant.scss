@@ -1,0 +1,56 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Общая раскладка вариантов блока: экран-пин на десктопе, две колонки, панель формы.
+@mixin contact-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
+
+  @include mobile {
+    min-height: 0;
+    padding-bottom: 12rem;
+  }
+}
+
+@mixin contact-inner {
+  @include container;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-gutter);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+}
+
+@mixin contact-title {
+  @include text-display;
+  margin-bottom: 2.4rem;
+}
+
+@mixin contact-text {
+  @include text-body;
+  max-width: 48rem;
+  margin-bottom: 3.2rem;
+  color: var(--color-text-cold);
+}
+
+@mixin contact-form {
+  position: relative;
+  display: flex;
+  padding: var(--space-heading);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+
+  @include mobile {
+    padding: var(--space-card);
+  }
+}
