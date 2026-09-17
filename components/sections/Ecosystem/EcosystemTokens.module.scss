@@ -1,0 +1,117 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.tokens {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-heading);
+  padding-top: var(--space-heading);
+  padding-bottom: var(--space-section);
+}
+
+.tokens[data-live] {
+  min-height: 100svh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.tokens__title {
+  @include text-display;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.2rem;
+}
+
+.tokens__token {
+  display: inline-block;
+  padding: 0 0.6rem;
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.tokens[data-live] .tokens__token {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.tokens[data-live] .tokens__token[data-on] {
+  opacity: 1;
+  transform: none;
+}
+
+.tokens__lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-grid-gap);
+  max-width: 96rem;
+}
+
+.tokens__line {
+  min-height: 10rem;
+  padding: 2rem 2.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+
+  @include mobile {
+    min-height: 0;
+    padding: 1.6rem;
+  }
+}
+
+// Под анимацией адрес показывается после последнего символа описания.
+.tokens[data-live] .tokens__line [data-part='url'] {
+  visibility: hidden;
+}
+
+.tokens[data-live] .tokens__line[data-on] [data-part='url'] {
+  visibility: visible;
+}
+
+.tokens__caret {
+  display: inline-block;
+  width: 0.3rem;
+  height: 1em;
+  margin-left: 0.2rem;
+  vertical-align: -0.15em;
+  background: var(--color-fire);
+  animation: tokens-blink 1s steps(1) infinite;
+}
+
+@keyframes tokens-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+// Счётчик и параметры только вместе с анимацией: без неё показывать нечего.
+.tokens__meta {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tokens[data-live] .tokens__meta {
+  display: flex;
+}
+
+.tokens__tag {
+  @include text-body;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 3.2rem;
+  padding: 0 1.2rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  color: var(--color-text-cold);
+}
+
+.tokens__count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--color-text);
+}

@@ -2,51 +2,44 @@
 @use '../../../styles/mixins' as *;
 
 .ecosystem {
-  @include section;
+  @include container;
+  padding-top: var(--space-heading);
+  padding-bottom: var(--space-section);
 }
 
 .ecosystem__title {
   @include text-display;
-  margin-bottom: 4rem;
+  margin-bottom: var(--space-heading);
 }
 
-.ecosystem__grid {
+.ecosystem__links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-grid-gap);
+  max-width: 96rem;
 
   @include mobile {
     grid-template-columns: 1fr;
   }
 }
 
-.ecosystem__card {
+.ecosystem__link {
   @include focus-ring;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 3.2rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  transition: border-color 0.25s ease-out;
-
-  @include hover {
-    border-color: color-mix(in srgb, var(--color-action-primary-hover) 55%, transparent);
-  }
+  gap: 0.4rem;
 }
 
-.ecosystem__cardTitle {
+.ecosystem__linkTitle {
   @include text-title;
+  transition: color 0.15s ease-out;
 }
 
-.ecosystem__cardText {
+.ecosystem__link:hover .ecosystem__linkTitle {
+  color: var(--color-action-primary-hover);
+}
+
+.ecosystem__linkText {
   @include text-body;
   color: var(--color-text-dim);
-}
-
-.ecosystem__cardLink {
-  @include text-body;
-  margin-top: 0.8rem;
-  color: var(--color-action-primary);
 }

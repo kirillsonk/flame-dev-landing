@@ -1,0 +1,77 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.marquee {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-heading);
+  padding-top: var(--space-heading);
+  padding-bottom: var(--space-section);
+  overflow: hidden;
+
+  @include mobile {
+    padding-top: var(--space-heading);
+  }
+}
+
+// На десктопе с анимацией секция занимает экран под пин; заголовок читает скринридер,
+// визуально его несёт бегущая строка.
+.marquee[data-live] {
+  min-height: 100svh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.marquee__title {
+  @include sr-only;
+}
+
+.marquee__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.marquee__row {
+  @include text-display;
+  display: flex;
+  gap: 4rem;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.marquee__row--outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-cold);
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.marquee__sep {
+  font-style: normal;
+  color: var(--color-fire);
+  -webkit-text-stroke: 0;
+}
+
+.marquee__cards {
+  @include container;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-grid-gap);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.marquee__card {
+  padding: 2.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}

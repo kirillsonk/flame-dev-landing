@@ -1,0 +1,29 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.link {
+  @include focus-ring;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.link__name {
+  @include text-title;
+  transition: color 0.15s ease-out;
+}
+
+.link:hover .link__name {
+  color: var(--color-fire-light);
+}
+
+.link__text {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.link__url {
+  @include text-body(500);
+  color: var(--color-fire);
+}
