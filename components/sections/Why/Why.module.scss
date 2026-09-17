@@ -7,7 +7,7 @@
 
 .why__title {
   @include text-display;
-  margin-bottom: 4rem;
+  margin-bottom: var(--space-heading);
 }
 
 .why__grid {
@@ -24,15 +24,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  padding: 2.8rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
+  padding: var(--space-card) 0 0;
+  border-top: 1px solid var(--color-border);
+
+  background: transparent;
 }
 
 .why__card--featured {
   border-color: color-mix(in srgb, var(--color-action-primary) 60%, transparent);
-  box-shadow: 0 0 4.8rem color-mix(in srgb, var(--color-action-primary) 10%, transparent);
 }
 
 .why__cardTitle {

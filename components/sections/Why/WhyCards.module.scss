@@ -1,0 +1,35 @@
+@use '../../../styles/typography' as *;
+
+.whyCards {
+  display: grid;
+  gap: var(--space-grid-gap);
+}
+
+.whyCards__card {
+  display: grid;
+  align-content: start;
+  gap: 1.2rem;
+}
+
+// Заголовок и текст по умолчанию лежат прямо в сетке карточки; вариант может собрать их в блок.
+.whyCards__body {
+  display: contents;
+}
+
+.whyCards__title {
+  @include text-title;
+}
+
+.whyCards__text {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.whyCards__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-control);
+}

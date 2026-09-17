@@ -1,0 +1,130 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.drops {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-grid-gap);
+  min-height: 100vh;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+
+  @include mobile {
+    min-height: 0;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+}
+
+.drops__defs {
+  position: absolute;
+}
+
+.drops__scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 44rem;
+
+  @include mobile {
+    height: 30rem;
+  }
+}
+
+.drops__goo {
+  position: absolute;
+  inset: 0;
+  filter: var(--goo);
+}
+
+.drops__blob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18rem;
+  height: 18rem;
+  margin: -9rem 0 0 -9rem;
+  border-radius: 50%;
+
+  @include mobile {
+    width: 12rem;
+    height: 12rem;
+    margin: -6rem 0 0 -6rem;
+  }
+}
+
+.drops__blob--1 {
+  background: var(--color-action-primary);
+}
+
+.drops__blob--2 {
+  background: var(--color-action-primary-hover);
+}
+
+.drops__blob--3 {
+  background: var(--color-action-accent);
+}
+
+.drops__blob--core {
+  width: 26rem;
+  height: 26rem;
+  margin: -13rem 0 0 -13rem;
+  background: var(--color-action-primary);
+
+  @include mobile {
+    width: 18rem;
+    height: 18rem;
+    margin: -9rem 0 0 -9rem;
+  }
+}
+
+.drops__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.drops__label {
+  @include text-body;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: 11rem;
+  translate: -50% 0;
+  color: var(--color-text-cold);
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.drops__title {
+  @include text-display;
+  position: relative;
+  max-width: 90rem;
+  text-align: center;
+}
+
+.drops__cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.drops__card {
+  padding: var(--space-card);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.drops__card--featured {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, var(--color-surface) 45%, color-mix(in srgb, var(--color-surface) 30%, transparent)),
+    var(--poster) right center / cover;
+  outline: 1px solid color-mix(in srgb, var(--color-action-accent) 40%, transparent);
+  outline-offset: -1px;
+}

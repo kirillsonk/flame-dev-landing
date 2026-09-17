@@ -1,0 +1,108 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.venn {
+  @include section;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--space-gutter);
+  align-items: center;
+  min-height: 100vh;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+}
+
+.venn__title {
+  @include text-display;
+  margin-bottom: var(--space-heading);
+}
+
+.venn__diagram {
+  position: relative;
+  width: 36rem;
+  max-width: 100%;
+  aspect-ratio: 1;
+
+  @include mobile {
+    width: 28rem;
+    margin: 0 auto 4rem;
+  }
+}
+
+.venn__circle {
+  position: absolute;
+  left: 18%;
+  top: 18%;
+  width: 64%;
+  height: 64%;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-action-primary) 10%, transparent);
+  mix-blend-mode: screen;
+}
+
+.venn__label {
+  @include text-body;
+  position: absolute;
+  color: var(--color-text-cold);
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.venn__label--1 {
+  left: -2rem;
+  top: -3.2rem;
+}
+
+.venn__label--2 {
+  right: -2rem;
+  top: -3.2rem;
+}
+
+.venn__label--3 {
+  left: 50%;
+  bottom: -3.6rem;
+  translate: -50% 0;
+}
+
+.venn__core {
+  @include text-title;
+  position: absolute;
+  left: 18%;
+  top: 18%;
+  display: grid;
+  place-items: center;
+  width: 64%;
+  height: 64%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--color-action-accent), var(--color-action-primary) 60%);
+  box-shadow: 0 0 8rem -1rem color-mix(in srgb, var(--color-action-primary) 70%, transparent);
+}
+
+.venn__card {
+  gap: 0.8rem;
+  padding: var(--space-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.venn__card--featured {
+  grid-template-columns: 18rem 1fr;
+  gap: var(--space-card);
+  align-items: center;
+  border-color: color-mix(in srgb, var(--color-action-accent) 40%, transparent);
+  box-shadow: 0 0 6rem -2rem color-mix(in srgb, var(--color-action-primary) 60%, transparent);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.venn__body {
+  display: grid;
+  gap: 0.8rem;
+}

@@ -1,0 +1,163 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.puzzle {
+  @include section;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-heading);
+  min-height: 100vh;
+
+  @include mobile {
+    min-height: 0;
+  }
+}
+
+.puzzle__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-grid-gap);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.puzzle__title {
+  @include text-display;
+}
+
+.puzzle__lead {
+  @include text-body;
+  max-width: 36rem;
+  color: var(--color-text-dim);
+}
+
+.puzzle__row {
+  position: relative;
+  border-radius: var(--radius-panel);
+
+  @include mobile {
+    overflow: hidden;
+  }
+
+  // Контур и свечение собранной полосы; скрипт гасит их до «щелчка» через --glow.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid color-mix(in srgb, var(--color-action-accent) 45%, transparent);
+    border-radius: inherit;
+    box-shadow: 0 0 8rem -3rem color-mix(in srgb, var(--color-action-primary) 90%, transparent);
+    opacity: var(--glow, 1);
+    pointer-events: none;
+  }
+}
+
+.puzzle__list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+}
+
+.puzzle__piece {
+  --tab: 2.6rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 34rem;
+  padding: var(--space-card) 4.4rem;
+  background-color: var(--color-surface);
+
+  @include mobile {
+    min-height: 0;
+    padding: var(--space-card);
+  }
+}
+
+.puzzle__piece:nth-child(1) {
+  z-index: 1;
+  padding-left: var(--space-card);
+  border-radius: var(--radius-panel) 0 0 var(--radius-panel);
+
+  // Выступ справа входит в паз средней детали.
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -2.6rem;
+    width: 5.2rem;
+    height: 5.2rem;
+    margin-top: -2.6rem;
+    border-radius: 50%;
+    background: inherit;
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+.puzzle__piece:nth-child(2) {
+  mask:
+    radial-gradient(circle var(--tab) at 0 50%, transparent 97%, var(--color-bg) 100%),
+    radial-gradient(circle var(--tab) at 100% 50%, transparent 97%, var(--color-bg) 100%);
+  mask-composite: intersect;
+}
+
+.puzzle__piece:nth-child(3) {
+  z-index: 1;
+  padding-right: var(--space-card);
+  border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -2.6rem;
+    width: 5.2rem;
+    height: 5.2rem;
+    margin-top: -2.6rem;
+    border-radius: 50%;
+    background: inherit;
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+.puzzle__piece:nth-child(n) {
+  @include mobile {
+    border-radius: 0;
+    mask: none;
+  }
+}
+
+.puzzle__tag {
+  @include text-body;
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  min-height: 3.2rem;
+  margin-bottom: auto;
+  padding: 0 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-cold);
+
+  @include mobile {
+    margin-bottom: 1.2rem;
+  }
+}
+
+.puzzle__image {
+  margin-bottom: 0.8rem;
+}

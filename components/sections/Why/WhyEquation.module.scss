@@ -1,0 +1,116 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.equation {
+  @include section;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-heading);
+  min-height: 100vh;
+
+  @include mobile {
+    min-height: 0;
+  }
+}
+
+.equation__title {
+  @include text-display;
+}
+
+.equation__row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  min-height: 12rem;
+  padding: 2.4rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+
+  @include mobile {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+.equation__term {
+  @include text-title;
+  display: inline-flex;
+  align-items: center;
+  min-height: 6.4rem;
+  padding: 0 2.8rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+
+  @include mobile {
+    min-height: 4.8rem;
+  }
+}
+
+.equation__op {
+  @include text-title;
+  width: 2.4rem;
+  color: var(--color-text-dim);
+  text-align: center;
+}
+
+.equation__result {
+  @include text-title;
+  position: relative;
+  display: inline-grid;
+  white-space: nowrap;
+}
+
+.equation__value {
+  grid-area: 1 / 1;
+}
+
+.equation__value--before {
+  color: var(--color-fire-light);
+  opacity: 0;
+}
+
+.equation__value--after {
+  color: var(--color-action-accent);
+}
+
+.equation__one {
+  @include text-title;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  min-height: 6.4rem;
+  padding: 0 3.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-action);
+  white-space: nowrap;
+  box-shadow: 0 0 6rem -1rem color-mix(in srgb, var(--color-action-primary) 80%, transparent);
+  opacity: 0;
+}
+
+.equation__cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.equation__card {
+  padding: var(--space-card);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.equation__card--featured {
+  border: 1px solid color-mix(in srgb, var(--color-action-accent) 40%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 72%, transparent), var(--color-bg) 96%),
+    var(--poster) center / cover;
+}
