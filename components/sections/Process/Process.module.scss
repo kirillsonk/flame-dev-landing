@@ -19,13 +19,13 @@
 
 .process__title {
   @include text-display;
-  margin-bottom: 3.2rem;
+  margin-bottom: var(--space-heading);
 }
 
 .process__timeline {
   position: relative;
   height: 0.8rem;
-  margin-bottom: 4rem;
+  margin-bottom: var(--space-heading);
   border-radius: var(--radius-pill);
   background: var(--color-border);
   overflow: hidden;

@@ -1,0 +1,190 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.timeline {
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.timeline__pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  overflow-x: auto;
+
+  @include mobile {
+    min-height: 0;
+    overflow: visible;
+    padding: var(--space-section) 0;
+  }
+}
+
+.timeline[data-live] .timeline__pin {
+  height: 100svh;
+  overflow: hidden;
+}
+
+.timeline__track {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  padding-left: var(--space-gutter);
+  will-change: transform;
+
+  @include mobile {
+    flex-direction: column;
+    width: auto;
+    padding: 0 var(--space-gutter);
+  }
+}
+
+.timeline__intro {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.4rem;
+  width: 52rem;
+  padding-right: 6rem;
+
+  @include mobile {
+    width: auto;
+    padding: 0 0 3.2rem;
+  }
+}
+
+.timeline__title {
+  @include text-display;
+  text-wrap: balance;
+}
+
+.timeline__note {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.timeline__card {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 56rem;
+  height: 48rem;
+  padding: 3.2rem;
+  overflow: hidden;
+  border-left: 1px solid var(--color-border);
+
+  @include mobile {
+    width: auto;
+    height: auto;
+    min-height: 30rem;
+    padding: 2.4rem 0;
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+  }
+}
+
+// Контурный номер шага: декоративный, размер задан в единицах своего viewBox.
+.timeline__num {
+  position: absolute;
+  top: 1.6rem;
+  right: -2rem;
+  width: 44rem;
+  height: 32rem;
+  overflow: visible;
+  pointer-events: none;
+
+  @include mobile {
+    top: 1rem;
+    right: -1rem;
+    width: 24rem;
+    height: 18rem;
+  }
+}
+
+.timeline__num text {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.timeline__card:nth-of-type(odd) .timeline__num text {
+  stroke: url(#process-timeline-gradient);
+}
+
+.timeline__meta {
+  @include text-body(500);
+  position: relative;
+  margin-bottom: 0.8rem;
+  color: var(--color-action-accent);
+}
+
+.timeline__name {
+  @include text-title;
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+
+.timeline__text {
+  @include text-body;
+  position: relative;
+  max-width: 40rem;
+  color: var(--color-text-cold);
+}
+
+.timeline__end {
+  @include text-body;
+  display: flex;
+  flex: none;
+  align-items: flex-end;
+  width: 40rem;
+  padding: 3.2rem;
+  border-left: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+
+  @include mobile {
+    width: auto;
+    padding: 2.4rem 0 0;
+    border: 0;
+  }
+}
+
+.timeline__ruler {
+  position: relative;
+  display: flex;
+  width: max-content;
+  height: 6rem;
+  margin-top: 4rem;
+  padding-left: var(--space-gutter);
+  border-top: 1px solid var(--color-border);
+  will-change: transform;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+// Деление недели и мелкие деления по дням.
+.timeline__week {
+  @include text-body;
+  flex: none;
+  width: 16rem;
+  height: 100%;
+  padding: 1.2rem 0 0 1rem;
+  background:
+    linear-gradient(90deg, var(--color-border-strong) 1px, transparent 1px) 0 0 / 100% 2rem no-repeat,
+    repeating-linear-gradient(90deg, var(--color-border) 0 1px, transparent 1px 4rem) 0 0 / 100% 1rem no-repeat;
+  color: var(--color-text-dim);
+  font-variant-numeric: tabular-nums;
+}

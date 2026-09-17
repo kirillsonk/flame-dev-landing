@@ -1,0 +1,265 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.gantt {
+  --size-label: 28rem;
+  overflow: hidden;
+}
+
+.gantt__inner {
+  @include section;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  min-height: 100svh;
+
+  @include mobile {
+    min-height: 0;
+  }
+}
+
+.gantt__chart {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--size-label) 1fr;
+  row-gap: 1.2rem;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gantt__corner {
+  @include text-body;
+  align-self: end;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.gantt__weeks {
+  @include text-body;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+}
+
+.gantt__week {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+
+.gantt__week[data-on] {
+  color: var(--color-text);
+}
+
+.gantt__week:nth-child(odd) {
+  @include mobile {
+    visibility: hidden;
+  }
+}
+
+// Строка шага не создаёт своей сетки: подпись и дорожка ложатся в колонки графика.
+.gantt__row {
+  display: contents;
+}
+
+.gantt__label {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  min-height: 5.6rem;
+  transition: color 0.4s var(--ease);
+
+  @include mobile {
+    min-height: 0;
+    padding-top: 1.2rem;
+  }
+}
+
+.gantt[data-live] .gantt__label {
+  color: var(--color-text-dim);
+}
+
+.gantt[data-live] .gantt__label[data-on] {
+  color: var(--color-text);
+}
+
+.gantt__num {
+  @include text-body(500);
+  min-width: 3.2rem;
+  color: var(--color-action-accent);
+}
+
+.gantt__name {
+  @include text-title;
+}
+
+.gantt__lane {
+  position: relative;
+  min-height: 5.6rem;
+  background-image: linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 7.142857% 100%;
+
+  @include mobile {
+    min-height: 4rem;
+  }
+}
+
+.gantt__bar {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: var(--left);
+  width: var(--width);
+  border-radius: var(--radius-pill);
+}
+
+.gantt__plan {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: inherit;
+}
+
+.gantt__fact {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradient-action);
+  box-shadow: 0 0 2.4rem color-mix(in srgb, var(--color-action-primary) 35%, transparent);
+}
+
+.gantt__bar--open .gantt__plan {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.gantt__bar--open .gantt__fact {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.gantt__demo {
+  position: absolute;
+  top: 50%;
+  left: var(--left);
+  z-index: 1;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: -0.7rem 0 0 -0.7rem;
+  background: var(--color-text);
+  box-shadow: 0 0 0 0.3rem var(--color-bg);
+  transform: rotate(45deg);
+}
+
+.gantt[data-live] .gantt__demo {
+  transform: rotate(45deg) scale(0);
+}
+
+.gantt[data-live] .gantt__demo[data-on] {
+  transform: rotate(45deg);
+}
+
+.gantt__cursorArea {
+  position: absolute;
+  top: 3.7rem;
+  right: 0;
+  bottom: 0;
+  left: var(--size-label);
+  display: none;
+  pointer-events: none;
+}
+
+.gantt[data-live] .gantt__cursorArea {
+  display: block;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.gantt__cursor {
+  position: absolute;
+  top: -1.2rem;
+  bottom: 0;
+  left: 100%;
+  z-index: 2;
+  width: 0;
+  border-left: 1px solid var(--color-action-accent);
+}
+
+.gantt__cursorLabel {
+  @include text-body(500);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  padding: 0.2rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-action-accent);
+  color: var(--color-bg);
+  white-space: nowrap;
+  transform: translate(-50%, -0.4rem);
+}
+
+.gantt__notes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2.4rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--color-border);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gantt[data-live] .gantt__notes {
+  grid-template-columns: var(--size-label) 1fr;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gantt__note {
+  display: flex;
+  flex-direction: column;
+}
+
+.gantt[data-live] .gantt__note {
+  grid-area: 1 / 2;
+  opacity: 0;
+  transform: translateY(0.8rem);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+
+  @include mobile {
+    grid-area: auto;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.gantt[data-live] .gantt__note[data-on] {
+  opacity: 1;
+  transform: none;
+}
+
+.gantt__noteMeta {
+  @include text-body;
+  margin-bottom: 0.4rem;
+  color: var(--color-text-dim);
+}
+
+.gantt__noteText {
+  @include text-body;
+  color: var(--color-text-cold);
+}

@@ -1,0 +1,207 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.bezel {
+  overflow: hidden;
+}
+
+.bezel__inner {
+  @include section;
+  display: grid;
+  grid-template-columns: 56rem 1fr;
+  align-items: center;
+  gap: 8rem;
+  min-height: 100svh;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    min-height: 0;
+  }
+}
+
+.bezel__dial {
+  position: relative;
+  width: 56rem;
+  aspect-ratio: 1;
+
+  @include mobile {
+    width: 100%;
+    max-width: 35rem;
+    margin: 0 auto;
+  }
+}
+
+.bezel__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.bezel__case {
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.bezel__tick {
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+}
+
+.bezel__tick--major {
+  stroke: var(--color-text);
+  stroke-width: 3;
+}
+
+// Неактивный сектор серый: градиент из атрибута перекрывается цветом из стилей.
+.bezel__arc {
+  fill: none;
+  stroke: var(--color-elevated);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke 0.4s var(--ease);
+}
+
+.bezel__arc[data-on] {
+  stroke: url(#process-bezel-gradient);
+}
+
+.bezel__label {
+  fill: var(--color-text-dim);
+  font-weight: 500;
+  transition: fill 0.4s var(--ease);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.bezel__label[data-on] {
+  fill: var(--color-text);
+}
+
+.bezel__face {
+  fill: var(--color-bg);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.bezel__index {
+  fill: var(--color-action-accent);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-action-accent) 70%, transparent));
+}
+
+.bezel__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.bezel__now {
+  grid-area: 1 / 1;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.bezel__now[data-on] {
+  opacity: 1;
+  transform: none;
+}
+
+.bezel__number {
+  @include text-display;
+  line-height: 1;
+}
+
+.bezel__caption {
+  @include text-body;
+  margin-top: 0.8rem;
+  color: var(--color-action-accent);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.bezel__side {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+.bezel__title {
+  @include text-display;
+  text-wrap: balance;
+}
+
+.bezel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.bezel__item {
+  display: grid;
+  grid-template-columns: 4.8rem 1fr;
+  gap: 0 1.6rem;
+  transition: opacity 0.45s var(--ease);
+}
+
+.bezel__num {
+  @include text-body(500);
+  padding-top: 0.3rem;
+  color: var(--color-action-accent);
+}
+
+.bezel__name {
+  @include text-title;
+}
+
+.bezel__text {
+  @include text-body;
+  grid-column: 2;
+  max-height: 8rem;
+  overflow: hidden;
+  color: var(--color-text-cold);
+  transition: max-height 0.5s var(--ease), opacity 0.5s var(--ease);
+}
+
+.bezel[data-live] .bezel__item {
+  opacity: 0.35;
+
+  @include mobile {
+    opacity: 1;
+  }
+}
+
+.bezel[data-live] .bezel__item[data-on] {
+  opacity: 1;
+}
+
+.bezel[data-live] .bezel__text {
+  max-height: 0;
+  opacity: 0;
+
+  @include mobile {
+    max-height: none;
+    opacity: 1;
+  }
+}
+
+.bezel[data-live] .bezel__item[data-on] .bezel__text {
+  max-height: 8rem;
+  opacity: 1;
+}
+
+.bezel__note {
+  @include text-body;
+  color: var(--color-text-dim);
+}

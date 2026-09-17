@@ -1,0 +1,215 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.stopwatch {
+  overflow: hidden;
+}
+
+.stopwatch__inner {
+  @include section;
+  display: grid;
+  grid-template-columns: 48rem minmax(0, 1fr);
+  align-items: center;
+  gap: 8rem;
+  min-height: 100svh;
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    min-height: 0;
+  }
+}
+
+.stopwatch__watch {
+  position: relative;
+  width: 48rem;
+
+  @include mobile {
+    width: 22rem;
+    margin: 0 auto;
+  }
+}
+
+.stopwatch__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.stopwatch__case {
+  fill: var(--color-surface);
+  stroke: var(--color-border-strong);
+  stroke-width: 2;
+}
+
+.stopwatch__face {
+  fill: var(--color-bg);
+}
+
+.stopwatch__tick {
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+}
+
+.stopwatch__tick--day {
+  stroke: var(--color-text);
+  stroke-width: 3;
+}
+
+.stopwatch__day {
+  fill: var(--color-text-dim);
+  font-weight: 500;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.stopwatch__crown {
+  fill: var(--color-elevated);
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+}
+
+.stopwatch__sub {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.stopwatch__subtick {
+  stroke: var(--color-text-dim);
+  stroke-width: 1.5;
+}
+
+.stopwatch__hand {
+  stroke: var(--color-action-accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-action-accent) 70%, transparent));
+}
+
+.stopwatch__subhand {
+  stroke: var(--color-fire);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.stopwatch__pivot {
+  fill: var(--color-action-accent);
+}
+
+.stopwatch__read {
+  @include text-body;
+  position: absolute;
+  top: 35%;
+  right: 0;
+  left: 0;
+  color: var(--color-text-cold);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+
+  @include mobile {
+    top: 30%;
+  }
+}
+
+.stopwatch__read b {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.stopwatch__side {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+
+  @include mobile {
+    gap: 2rem;
+  }
+}
+
+.stopwatch__title {
+  @include text-display;
+  text-wrap: balance;
+}
+
+.stopwatch__table {
+  border-top: 1px solid var(--color-border);
+}
+
+.stopwatch__row {
+  @include text-body;
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr) 12rem;
+  gap: 2rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.6s var(--ease), opacity 0.4s;
+
+  @include mobile {
+    grid-template-columns: 3.2rem minmax(0, 1fr) 7.2rem;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
+  }
+}
+
+.stopwatch__row--head {
+  @include text-body;
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr) 12rem;
+  gap: 2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+
+  @include mobile {
+    grid-template-columns: 3.2rem minmax(0, 1fr) 7.2rem;
+    gap: 1.2rem;
+  }
+}
+
+.stopwatch[data-live] .stopwatch__row {
+  opacity: 0.35;
+}
+
+.stopwatch[data-live] .stopwatch__row[data-on] {
+  opacity: 1;
+}
+
+.stopwatch[data-live] .stopwatch__row[data-done] {
+  opacity: 0.75;
+}
+
+.stopwatch[data-live] .stopwatch__row[data-flash] {
+  background-color: color-mix(in srgb, var(--color-action-primary) 22%, transparent);
+}
+
+.stopwatch__lap {
+  font-weight: 500;
+  color: var(--color-action-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.stopwatch__name {
+  @include text-title;
+}
+
+.stopwatch__text {
+  color: var(--color-text-cold);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.stopwatch__split {
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.stopwatch__note {
+  @include text-body;
+  color: var(--color-text-dim);
+}

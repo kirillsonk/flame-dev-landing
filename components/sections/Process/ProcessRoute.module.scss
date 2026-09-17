@@ -1,0 +1,172 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.route {
+  overflow: hidden;
+}
+
+.route__inner {
+  @include section;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3.2rem;
+  min-height: 100svh;
+
+  @include mobile {
+    min-height: 0;
+  }
+}
+
+.route__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1320 / 560;
+
+  @include mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    aspect-ratio: auto;
+    padding-left: 2.4rem;
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+.route__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.route__base {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 2;
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+}
+
+.route__trail {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.route__dot {
+  fill: var(--color-action-accent);
+  stroke: var(--color-action-accent);
+  stroke-width: 2;
+  transition: fill 0.4s var(--ease), stroke 0.4s var(--ease);
+}
+
+.route[data-live] .route__dot {
+  fill: var(--color-bg);
+  stroke: var(--color-border-strong);
+}
+
+.route[data-live] .route__dot[data-on] {
+  fill: var(--color-action-accent);
+  stroke: var(--color-action-accent);
+}
+
+.route__marker {
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-action-accent) 60%, transparent));
+}
+
+.route__halo {
+  fill: var(--color-action-accent);
+  opacity: 0.18;
+}
+
+.route__core {
+  fill: var(--color-action-accent);
+}
+
+.route__stop {
+  position: absolute;
+  left: var(--x);
+  width: 30rem;
+  transform: translateX(-50%);
+  transition: opacity 0.5s var(--ease);
+
+  @include mobile {
+    position: relative;
+    left: auto;
+    width: auto;
+    transform: none;
+  }
+}
+
+.route__stop--up {
+  bottom: 43rem;
+
+  @include mobile {
+    bottom: auto;
+  }
+}
+
+.route__stop--down {
+  top: 44rem;
+
+  @include mobile {
+    top: auto;
+  }
+}
+
+.route__stop--first {
+  transform: translateX(-4.4rem);
+
+  @include mobile {
+    transform: none;
+  }
+}
+
+.route__stop--last {
+  transform: translateX(-100%) translateX(4.4rem);
+
+  @include mobile {
+    transform: none;
+  }
+}
+
+.route[data-live] .route__stop {
+  opacity: 0.28;
+
+  @include mobile {
+    opacity: 1;
+  }
+}
+
+.route[data-live] .route__stop[data-on] {
+  opacity: 1;
+}
+
+.route__meta {
+  @include text-body;
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-text-dim);
+}
+
+.route__num {
+  @include text-body(500);
+  color: var(--color-action-accent);
+}
+
+.route__title {
+  @include text-title;
+  margin-bottom: 0.4rem;
+}
+
+.route__text {
+  @include text-body;
+  color: var(--color-text-cold);
+}

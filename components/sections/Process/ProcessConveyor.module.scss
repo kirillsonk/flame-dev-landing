@@ -1,0 +1,246 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.conveyor {
+  overflow: hidden;
+}
+
+.conveyor__inner {
+  @include section;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  min-height: 100svh;
+
+  @include mobile {
+    min-height: 0;
+  }
+}
+
+.conveyor__machine {
+  position: relative;
+}
+
+.conveyor__gantry {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 14rem;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.conveyor__press {
+  position: relative;
+}
+
+.conveyor__rod {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0.6rem;
+  height: 13rem;
+  margin-left: -0.3rem;
+  background: linear-gradient(90deg, var(--color-elevated), var(--color-border-strong), var(--color-elevated));
+  transform: scaleY(0.4);
+  transform-origin: 50% 0;
+}
+
+.conveyor__hammer {
+  --size-hammer: 9.6rem;
+  position: absolute;
+  top: 5.2rem;
+  left: 50%;
+  width: var(--size-hammer);
+  height: 2.8rem;
+  translate: -50% 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-elevated);
+
+  @include mobile {
+    --size-hammer: 6.4rem;
+  }
+}
+
+// Ударная кромка молота: загорается у прессов, которые уже отштамповали заготовку.
+.conveyor__hammer::after {
+  content: '';
+  position: absolute;
+  right: 1.2rem;
+  bottom: -1px;
+  left: 1.2rem;
+  height: 0.2rem;
+  background: var(--gradient-action);
+  opacity: 0.25;
+  transition: opacity 0.3s;
+}
+
+.conveyor__press[data-on] .conveyor__hammer::after {
+  opacity: 1;
+  box-shadow: 0 0 1.6rem color-mix(in srgb, var(--color-action-accent) 70%, transparent);
+}
+
+.conveyor__lane {
+  position: relative;
+  height: 10rem;
+
+  @include mobile {
+    height: 8.5rem;
+  }
+}
+
+.conveyor__item {
+  position: absolute;
+  bottom: 0;
+  left: 90%;
+  z-index: 1;
+  width: 12rem;
+  height: 9rem;
+  translate: -50% 0;
+
+  @include mobile {
+    width: 10rem;
+    height: 7.5rem;
+  }
+}
+
+.conveyor[data-live] .conveyor__item {
+  left: 0;
+  translate: none;
+}
+
+.conveyor__shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.conveyor__shape[data-on] {
+  opacity: 1;
+}
+
+.conveyor__belt {
+  position: relative;
+  height: 3.2rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(-60deg, var(--color-elevated) 0 0.2rem, var(--color-surface) 0.2rem 2rem);
+}
+
+.conveyor__belt::before,
+.conveyor__belt::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin-top: -1rem;
+  border: 0.2rem dashed var(--color-border-strong);
+  border-radius: 50%;
+  transform: rotate(var(--roll, 0deg));
+}
+
+.conveyor__belt::before {
+  left: 0.5rem;
+}
+
+.conveyor__belt::after {
+  right: 0.5rem;
+}
+
+.conveyor__labels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2.4rem;
+  margin-top: 3.2rem;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.conveyor__label {
+  transition: opacity 0.45s var(--ease);
+}
+
+.conveyor[data-live] .conveyor__label {
+  opacity: 0.3;
+}
+
+.conveyor[data-live] .conveyor__label[data-on] {
+  opacity: 1;
+}
+
+.conveyor__num {
+  @include text-body(500);
+  margin-bottom: 0.4rem;
+  color: var(--color-action-accent);
+}
+
+.conveyor__title {
+  @include text-title;
+  margin-bottom: 0.4rem;
+}
+
+.conveyor__text {
+  @include text-body;
+  color: var(--color-text-cold);
+}
+
+// Заливки форм заготовки.
+.conveyor__line {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 2;
+}
+
+.conveyor__paper {
+  fill: var(--color-text);
+}
+
+.conveyor__ink {
+  fill: var(--color-bg);
+}
+
+.conveyor__dim {
+  fill: var(--color-text-dim);
+}
+
+.conveyor__blue {
+  fill: var(--color-action-primary);
+}
+
+.conveyor__cyan {
+  fill: var(--color-action-accent);
+}
+
+.conveyor__fire {
+  fill: var(--color-fire);
+}
+
+.conveyor__surface {
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+}
+
+.conveyor__screen {
+  fill: color-mix(in srgb, var(--color-bg) 70%, black);
+  stroke: var(--color-border);
+}
+
+.conveyor__wire {
+  fill: none;
+  stroke: var(--color-action-accent);
+  stroke-width: 1.5;
+}
+
+.conveyor__code {
+  fill: none;
+  stroke: var(--color-action-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

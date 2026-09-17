@@ -1,0 +1,183 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.odometer {
+  overflow: hidden;
+}
+
+.odometer__inner {
+  @include section;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  gap: 4.8rem 6rem;
+  min-height: 100svh;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+}
+
+.odometer__head {
+  grid-column: 1 / -1;
+}
+
+.odometer__meters {
+  display: flex;
+  align-items: flex-end;
+  gap: 4.8rem;
+
+  @include mobile {
+    gap: 2.4rem;
+  }
+}
+
+.odometer__label {
+  @include text-body;
+  margin-bottom: 1.2rem;
+  color: var(--color-text-dim);
+}
+
+.odometer__body {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.odometer__window {
+  --size-digit: 10.4rem;
+  position: relative;
+  width: 7.2rem;
+  height: var(--size-digit);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bg) 70%, black) 0%,
+    var(--color-surface) 50%,
+    color-mix(in srgb, var(--color-bg) 70%, black) 100%
+  );
+
+  @include mobile {
+    --size-digit: 6.4rem;
+    width: 4.8rem;
+  }
+}
+
+// Затемнение сверху и снизу — цилиндр барабана.
+.odometer__window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bg) 50%, black) 0%,
+    transparent 32%,
+    transparent 68%,
+    color-mix(in srgb, var(--color-bg) 50%, black) 100%
+  );
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.odometer__window::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 1px;
+  background: color-mix(in srgb, black 35%, transparent);
+}
+
+.odometer__window--accent {
+  border-color: var(--color-action-primary);
+  box-shadow: 0 0 3.2rem color-mix(in srgb, var(--color-action-primary) 35%, transparent);
+}
+
+.odometer__reel {
+  display: flex;
+  transform: translateY(var(--shift));
+  flex-direction: column;
+  will-change: transform;
+}
+
+.odometer__digit {
+  @include text-display;
+  display: grid;
+  place-items: center;
+  height: var(--size-digit);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.odometer__window--accent .odometer__digit {
+  color: var(--color-action-accent);
+}
+
+.odometer__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.odometer__drum {
+  --size-row: 14rem;
+}
+
+.odometer__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+.odometer[data-live] .odometer__drum {
+  height: var(--size-row);
+  overflow: hidden;
+  mask: linear-gradient(180deg, transparent, black 22%, black 78%, transparent);
+
+  @include mobile {
+    height: auto;
+    overflow: visible;
+    mask: none;
+  }
+}
+
+.odometer[data-live] .odometer__rows {
+  gap: 0;
+  will-change: transform;
+
+  @include mobile {
+    gap: 3.2rem;
+  }
+}
+
+.odometer[data-live] .odometer__row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: var(--size-row);
+
+  @include mobile {
+    height: auto;
+  }
+}
+
+.odometer__meta {
+  @include text-body;
+  margin-bottom: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.odometer__title {
+  @include text-title;
+  margin-bottom: 0.8rem;
+}
+
+.odometer__text {
+  @include text-body;
+  max-width: 48rem;
+  color: var(--color-text-cold);
+}

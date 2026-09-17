@@ -13,20 +13,27 @@
   }
 }
 
-.step__number {
-  @include text-display;
-  color: var(--color-border-strong);
-  transition: color 0.3s ease-out;
-}
-
-.step--active .step__number {
-  color: var(--color-action-primary);
-}
-
 .step__title {
   @include text-title;
   color: var(--color-text-dim);
   transition: color 0.3s ease-out;
+}
+
+// Без номеров активный шаг отмечает заголовок: цвет текста плюс акцентная метка слева.
+.step__title::before {
+  content: '';
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 1.2rem;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+  vertical-align: middle;
+  transition: background 0.3s ease-out;
+}
+
+.step--active .step__title::before {
+  background: var(--color-action-primary);
 }
 
 .step--active .step__title {
