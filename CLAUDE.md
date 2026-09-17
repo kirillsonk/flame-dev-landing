@@ -26,7 +26,8 @@ Flame Dev — одностраничный сайт-визитка команд�
 - Состояние — `useState`/хуки, без MobX/Redux. Данные — нет бэкенда, только `app/api/lead` → Telegram.
 - Формы — Formik + Yup, схема в соседнем `*.validationSchema.ts`.
 - Анимация по уровням: 1) `IntersectionObserver` + CSS (`data-reveal`, ховеры, полосы hero);
-  2) GSAP ScrollTrigger только для pinned-секции «Процесс»; 3) vanilla Three.js в обычном классе
+  2) GSAP ScrollTrigger только для pinned-секций «Процесс», «Кейсы» (бегущие строки), первого экрана
+  и смены визуалов в «Что мы делаем»; 3) vanilla Three.js в обычном классе
   только для 3D-объекта Росатома, чанк через `next/dynamic` с `ssr: false`.
 - Не тащить framer-motion, swiper, react-hook-form, zod, react-three-fiber, аналитику.
 
