@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
-import PageGlow from '@/components/layout/PageGlow/PageGlow';
 import Header from '@/components/layout/Header/Header';
-import Footer from '@/components/layout/Footer/Footer';
+import FooterSection from '@/components/layout/Footer/FooterSection';
+import { SHOW_VARIANT_PANEL } from '@/components/layout/VariantPanel/variantStore';
 import RevealController from '@/components/layout/RevealController/RevealController';
-import FloatingCta from '@/components/cta/FloatingCta/FloatingCta';
+import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import './globals.scss';
 
@@ -35,7 +35,12 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="ru" className={firsNeue.variable}>
+    <html
+      lang="ru"
+      className={firsNeue.variable}
+      data-scroll-behavior="smooth"
+      data-variant-panel={SHOW_VARIANT_PANEL ? '' : undefined}
+    >
       <head>
         <noscript>
           <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
@@ -43,13 +48,13 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       </head>
       <body>
         <div id="top" />
-        <PageGlow />
         <Header />
         {children}
-        <Footer />
-        <FloatingCta />
+        <FooterSection />
+        {/* Плавающая кнопка «Обсудить проект» в правом нижнем углу отключена (2026-09-16): CTA в шапке и в секциях. */}
         <MobileCtaBar />
         <RevealController />
+        <AnchorScroll />
       </body>
     </html>
   );

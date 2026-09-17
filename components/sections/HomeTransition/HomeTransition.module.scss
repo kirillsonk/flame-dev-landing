@@ -1,0 +1,31 @@
+@use '../../../styles/mixins' as *;
+
+.transition {
+  position: relative;
+}
+
+// Накрывающие варианты: кейсы заезжают на высоту окна поверх hero, который ещё держит пин.
+.transition [data-cover] {
+  position: relative;
+  z-index: 2;
+  margin-top: -100svh;
+  background: var(--color-bg);
+}
+
+// Переход «кадр в плитку»: кейсы поднимаются к верху окна, пока hero ещё анимируется.
+.transition [data-cover-deep] {
+  margin-top: -200svh;
+}
+
+// Цветная волна (вариант 10): полоса фирменного градиента проходит по окну снизу вверх
+// вместе с кромкой кейсов. Фиксирована: внутри секции её резал бы overflow.
+.transition [data-transition='band'] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 100svh;
+  z-index: 3;
+  height: 22svh;
+  background: var(--gradient-action, linear-gradient(90deg, var(--color-action-primary), var(--color-action-primary-hover)));
+  pointer-events: none;
+}

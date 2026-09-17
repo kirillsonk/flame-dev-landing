@@ -1,23 +1,10 @@
-import Hero from '@/components/sections/Hero/Hero';
-import Cases from '@/components/sections/Cases/Cases';
-import CtaBand from '@/components/sections/CtaBand/CtaBand';
-import Services from '@/components/sections/Services/Services';
-import Why from '@/components/sections/Why/Why';
-import Process from '@/components/sections/Process/Process';
-import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
-import Contact from '@/components/sections/Contact/Contact';
+import Home from '@/components/sections/Home/Home';
+import { SHOW_VARIANT_PANEL } from '@/components/layout/VariantPanel/variantStore';
 
 const HomePage = () => {
   return (
     <main>
-      <Hero />
-      <Cases />
-      <CtaBand />
-      <Services />
-      <Why />
-      <Process />
-      <Ecosystem />
-      <Contact />
+      <Home variantPanel={SHOW_VARIANT_PANEL} />
     </main>
   );
 };
