@@ -1,0 +1,129 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Наклонные ряды на всю высоту секции: заголовок и кнопка лежат поверх, карточки проходят под ними.
+.tilt {
+  --size-case-tile: 48rem;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100svh;
+  padding-top: var(--size-header);
+  padding-bottom: var(--space-card);
+  overflow: hidden;
+
+  // Тёмные градиенты сверху и снизу: заголовок и кнопка читаются на пёстрых постерах.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 32%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &::before {
+    top: 0;
+    background: linear-gradient(180deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 70%, transparent) 55%, transparent 100%);
+  }
+
+  &::after {
+    bottom: 0;
+    background: linear-gradient(0deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 70%, transparent) 55%, transparent 100%);
+  }
+
+  @include mobile {
+    --size-case-tile: 24rem;
+
+    min-height: 0;
+    gap: var(--space-card);
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.tilt__head,
+.tilt__foot {
+  @include container;
+  position: relative;
+  z-index: 2;
+}
+
+.tilt__head {
+  padding-top: var(--space-card);
+}
+
+.tilt__title {
+  @include text-display;
+}
+
+.tilt__stage {
+  // Сцена на всю секцию за заголовком и кнопкой. Края не режутся резко:
+  // слева и справа сцена растворяется градиентной маской.
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  // Ряды чуть ниже центра: верхний не залезает под заголовок, снизу остаётся меньше пустоты.
+  padding-top: 14rem;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+
+  @include mobile {
+    position: static;
+    padding-top: 0;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+.tilt__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  // Поворот всего блока строк; ширина с запасом, чтобы наклонные края уходили за окно.
+  width: 120%;
+  margin-left: -10%;
+  transform: rotate(-4deg);
+
+  @include mobile {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+}
+
+.tilt__viewport {
+  overflow: hidden;
+
+  @include mobile {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-gutter);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.tilt__row {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  padding-inline: var(--space-gutter);
+  will-change: transform;
+}
+
+.tilt__foot {
+  display: flex;
+}

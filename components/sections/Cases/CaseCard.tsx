@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import Image from 'next/image';
 import Poster from '@/components/ui/Poster/Poster';
 import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import type { ICase } from '@/data/types';
@@ -10,18 +10,19 @@ export interface CaseCardProps {
 
 const CaseCard = ({ item }: CaseCardProps) => {
   return (
-    <article className={clsx(styles.caseCard, styles[`caseCard--${item.size}`])} data-reveal>
-      <Poster item={item} showTitle={false} className={styles.caseCard__poster} />
-      <div className={styles.caseCard__overlay}>
-        <h3 className={styles.caseCard__title}>{item.title}</h3>
-        <div className={styles.caseCard__extra}>
-          <p className={styles.caseCard__text}>{item.description}</p>
-          <div className={styles.caseCard__tags}>
-            {item.tags.map((tag, index) => (
-              <BaseTag key={tag} variant={index === 0 ? 'accent' : 'outline'}>{tag}</BaseTag>
-            ))}
-          </div>
+    <article className={styles.caseCard} data-reveal>
+      <Poster item={item} showTitle={false} zoomOnHover wide className={styles.caseCard__poster} />
+      {item.logo && (
+        <div className={styles.caseCard__logo}>
+          <Image src={item.logo.src} alt={item.logo.alt} fill className={styles.caseCard__logoImage} />
         </div>
+      )}
+      <div className={styles.caseCard__plate}>
+        <div className={styles.caseCard__head}>
+          <h3 className={styles.caseCard__title}>{item.title}</h3>
+          <BaseTag className={styles.caseCard__tag}>{item.tags[0]}</BaseTag>
+        </div>
+        <p className={styles.caseCard__text}>{item.description}</p>
       </div>
     </article>
   );

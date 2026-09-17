@@ -1,40 +1,71 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
+// Секция во весь экран под пин: заголовок, две строки, кнопка. Строки на всю ширину окна,
+// заголовок и кнопка внутри контейнера.
 .cases {
-  @include section;
+  --size-case-tile: 36rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-heading);
+  min-height: 100svh;
+  // Пин ставит секцию под липкую шапку: сверху отступ на её высоту плюс обычный.
+  padding-top: var(--size-header);
+  padding-bottom: var(--space-heading);
+  overflow: hidden;
+
+  @include mobile {
+    --size-case-tile: 28rem;
+
+    min-height: 0;
+  }
+}
+
+.cases__head,
+.cases__foot {
+  @include container;
+}
+
+.cases__head {
+  padding-top: var(--space-heading);
 }
 
 .cases__title {
   @include text-display;
-  margin-bottom: 4rem;
 }
 
-.cases__grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: 32rem;
-  grid-auto-flow: dense;
+.cases__rows {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-grid-gap);
+}
+
+// На десктопе строку двигает GSAP; без пина (мобильный, reduced motion) строка листается пальцем.
+.cases__viewport {
+  overflow: hidden;
 
   @include mobile {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-gutter);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
-.cases__note {
-  @include text-body;
-  margin-top: 3.2rem;
-  color: var(--color-text-dim);
+.cases__row {
+  display: flex;
+  gap: var(--space-grid-gap);
+  width: max-content;
+  padding-inline: var(--space-gutter);
+  will-change: transform;
 }
 
-.cases__link {
-  @include focus-ring;
-  color: var(--color-action-primary);
-  transition: color 0.15s ease-out;
-
-  @include hover {
-    color: var(--color-action-primary-hover);
-  }
+.cases__foot {
+  display: flex;
 }

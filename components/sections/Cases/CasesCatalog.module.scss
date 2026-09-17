@@ -1,0 +1,90 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.catalog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-heading);
+}
+
+.catalog__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.catalog__tab {
+  @include text-body;
+  @include focus-ring;
+  height: 3.6rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  transition: border-color 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
+
+  @include hover {
+    border-color: var(--color-text-dim);
+  }
+}
+
+.catalog__tab--active {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+.catalog__columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-grid-gap);
+  align-items: start;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.catalog__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-heading);
+}
+
+// Параллакс по скроллу: средняя колонка отстаёт, крайние чуть обгоняют. Только там, где
+// браузер умеет scroll-driven animations; иначе колонки просто стоят. На мобильном одна колонка.
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+    .catalog__column {
+      animation: catalog-lead linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .catalog__column:nth-child(2) {
+      animation-name: catalog-lag;
+    }
+  }
+}
+
+@keyframes catalog-lead {
+  to {
+    transform: translateY(-6rem);
+  }
+}
+
+@keyframes catalog-lag {
+  to {
+    transform: translateY(8rem);
+  }
+}
+
+.catalog__item {
+  animation: catalog-in 0.45s var(--ease) both;
+}
+
+@keyframes catalog-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem);
+  }
+}

@@ -1,0 +1,14 @@
+@use '../../styles/typography' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  @include section;
+  padding-top: var(--space-card);
+}
+
+.page__title {
+  @include text-display;
+  font-weight: 500;
+  margin-bottom: var(--space-heading);
+}
+

@@ -1,118 +1,107 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
-// Карточка в стиле Flame AI: вертикальное видео 9:16, текст поверх.
-// Десктоп: сетка 12 колонок с фиксированной высотой ряда, L и M занимают 4 колонки × 2 ряда,
-// S — 2 колонки × 1 ряд. Мобайл: две колонки, L на всю ширину, пропорция через aspect-ratio.
+// Карточка в духе uprock: постер 16:9 во всю карточку, внизу слева стеклянная плашка во всю ширину
+// с названием, чипом категории и описанием; в правом верхнем углу тайл логотипа (если есть).
+// На мобайле плашка в 16:9 не помещается — текст уходит под постер обычным блоком.
 .caseCard {
+  --inset: var(--space-card);
+  --logo: 9.6rem;
+
   position: relative;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
+  min-width: 0;
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius-card);
-  background: var(--color-surface);
+  overflow: hidden;
   isolation: isolate;
-  transition: border-color 0.25s ease-out, transform 0.25s var(--ease), box-shadow 0.25s ease-out;
-
-  @include hover {
-    border-color: color-mix(in srgb, var(--color-action-primary-hover) 55%, transparent);
-    transform: translateY(-0.4rem);
-    box-shadow: 0 0.8rem 4rem rgba(0, 0, 0, 0.6), 0 0 4.8rem color-mix(in srgb, var(--color-action-primary-hover) 8%, transparent);
-  }
 
   @include mobile {
-    aspect-ratio: 9 / 16;
-  }
-}
+    --inset: 1.6rem;
+    --logo: 7.2rem;
 
-.caseCard--l,
-.caseCard--m {
-  grid-column: span 4;
-  grid-row: span 2;
-
-  @include mobile {
-    grid-row: auto;
-  }
-}
-
-.caseCard--l {
-  @include mobile {
-    grid-column: span 2;
-  }
-}
-
-.caseCard--m {
-  @include mobile {
-    grid-column: span 1;
-  }
-}
-
-.caseCard--s {
-  grid-column: span 2;
-  grid-row: span 1;
-
-  @include mobile {
-    grid-column: span 1;
-    grid-row: auto;
+    aspect-ratio: auto;
+    border-radius: 0;
+    overflow: visible;
   }
 }
 
 .caseCard__poster {
   position: absolute;
   inset: 0;
+
+  @include mobile {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: var(--radius-card);
+  }
 }
 
-.caseCard__overlay {
+.caseCard__logo {
+  @include glass;
   position: absolute;
-  inset: auto 0 0 0;
+  top: var(--inset);
+  right: var(--inset);
+  width: var(--logo);
+  height: var(--logo);
+  padding: 1.6rem;
+  border-radius: var(--radius-card);
+}
+
+.caseCard__logoImage {
+  object-fit: contain;
+  padding: inherit;
+}
+
+.caseCard__plate {
+  @include glass;
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  bottom: var(--inset);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  padding: 6.4rem 2rem 2rem;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 40%, rgba(0, 0, 0, 0.85) 100%);
+  padding: 1.6rem 2rem 2rem;
+  // Стекло 55% не держит текст на пёстром видео — плашка плотнее, чем панель CTA.
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
 
   @include mobile {
-    padding: 4.8rem 1.6rem 1.6rem;
+    position: static;
+    padding: 1.6rem 0 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+.caseCard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.4rem;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
   }
 }
 
 .caseCard__title {
   @include text-title;
-  text-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.4);
+  text-wrap: balance;
 }
 
-.caseCard__extra {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-// На маленьких карточках описание и теги раскрываются по ховеру
-.caseCard--s .caseCard__extra {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.3s var(--ease), opacity 0.3s ease-out;
-
-  > * {
-    min-height: 0;
-    overflow: hidden;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .caseCard--s:hover .caseCard__extra {
-    grid-template-rows: 1fr;
-    opacity: 1;
-  }
+.caseCard__tag {
+  flex-shrink: 0;
+  border-color: var(--color-border-strong);
+  color: var(--color-text-dim);
 }
 
 .caseCard__text {
   @include text-body;
   color: var(--color-text-dim);
-}
-
-.caseCard__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
 }

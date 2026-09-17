@@ -1,0 +1,48 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.tile {
+  @include focus-ring;
+  flex: 0 0 var(--size-case-tile);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  scroll-snap-align: start;
+}
+
+.tile__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.tile__poster {
+  position: absolute;
+  inset: 0;
+}
+
+.tile__caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+
+.tile__title {
+  @include text-body(500);
+  color: var(--color-text);
+}
+
+.tile__tag {
+  @include text-body;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+}
+
+.tile__text {
+  @include text-body;
+  color: var(--color-text-dim);
+}

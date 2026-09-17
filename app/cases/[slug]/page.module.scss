@@ -1,0 +1,86 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.case {
+  @include section;
+  // Страница начинается сразу под шапкой: большой секционный отступ сверху здесь пустует.
+  padding-top: var(--space-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-card);
+}
+
+.case__back {
+  @include text-body(500);
+  @include focus-ring;
+  color: var(--color-text-dim);
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-text);
+  }
+}
+
+.case__title {
+  @include text-display;
+  font-weight: 500;
+  margin-top: var(--space-card);
+}
+
+.case__text {
+  @include text-body;
+  max-width: 70rem;
+  color: var(--color-text-dim);
+}
+
+.case__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.case__poster {
+  aspect-ratio: 16 / 9;
+  margin-top: var(--space-card);
+  border-radius: var(--radius-card);
+}
+
+.case__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-card);
+  margin-top: var(--space-card);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.case__note {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
+.case__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-card);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.case__live {
+  @include text-body(500);
+  @include focus-ring;
+  color: var(--color-text);
+  transition: color 0.15s ease-out;
+
+  @include hover {
+    color: var(--color-action-primary-hover);
+  }
+}
