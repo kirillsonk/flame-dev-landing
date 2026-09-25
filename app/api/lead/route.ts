@@ -24,8 +24,8 @@ export async function POST(request: Request) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
-    console.info('[lead] (no telegram config)', lead);
-    return NextResponse.json({ ok: true });
+    console.error('[lead] delivery is not configured');
+    return NextResponse.json({ error: 'unavailable' }, { status: 503 });
   }
 
   const text = [
@@ -37,14 +37,26 @@ export async function POST(request: Request) {
     .filter(Boolean)
     .join('\n');
 
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-  });
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
+      signal: AbortSignal.timeout(10_000),
+    });
 
-  if (!res.ok) {
-    console.error('[lead] telegram failed', res.status, await res.text());
+    if (!res.ok) {
+      console.error('[lead] delivery failed', res.status);
+      return NextResponse.json({ error: 'delivery' }, { status: 502 });
+    }
+
+    const delivery: { ok?: boolean } = await res.json();
+    if (delivery.ok !== true) {
+      console.error('[lead] delivery was not confirmed');
+      return NextResponse.json({ error: 'delivery' }, { status: 502 });
+    }
+  } catch {
+    console.error('[lead] delivery request failed');
     return NextResponse.json({ error: 'delivery' }, { status: 502 });
   }
 
