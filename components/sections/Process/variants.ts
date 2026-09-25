@@ -21,8 +21,8 @@ export const PROCESS_VARIANTS: ProcessVariant[] = [
   'current',
 ];
 
-// «Гант» основной. Выбрано основным 2026-09-17.
-export const DEFAULT_PROCESS: ProcessVariant = 'gantt';
+// Выбран основным 2026-09-24; на главной подключён напрямую (Home.tsx).
+export const DEFAULT_PROCESS: ProcessVariant = 'terminal';
 
 export const parseProcess = (value: string | undefined): ProcessVariant =>
   PROCESS_VARIANTS.includes(value as ProcessVariant) ? (value as ProcessVariant) : DEFAULT_PROCESS;

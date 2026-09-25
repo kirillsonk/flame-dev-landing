@@ -64,7 +64,7 @@ const useHomeTransition = (rootRef: RefObject<HTMLElement | null>, variant: Home
           timeline.to(body, { y: () => vh() * 0.35, opacity: 0.15 }, 0);
           break;
         case 3: {
-          // Кейсы уже стоят под пином у верха окна (leadIn в CasesTilt) поверх hero, который
+          // Кейсы уже стоят под пином у верха окна (leadIn в Cases / CasesTilt) поверх hero, который
           // ещё держит свой пин. За высоту окна: первый экран гаснет, карточка активного кейса
           // летит в свою плитку, и только потом проявляется блок кейсов — плитка накрывает карточку.
           // Отступ на два экрана: один съедает подъём кейсов к верху окна (они ещё невидимы),
@@ -123,7 +123,8 @@ const useHomeTransition = (rootRef: RefObject<HTMLElement | null>, variant: Home
                 y: () => target().y,
                 width: () => target().width,
                 height: () => target().height,
-                rotate: -4,
+                // Наклон под ряды CasesTilt (−4°); у прямых строк плитка ровная.
+                rotate: cases.querySelector('[data-transition="cases-row"]') ? -4 : 0,
                 borderRadius: '1.4rem',
                 duration: 0.75,
               }, 0.15)
@@ -138,7 +139,8 @@ const useHomeTransition = (rootRef: RefObject<HTMLElement | null>, variant: Home
         }
         case 4:
           cover();
-          timeline.to(frame, { scale: 1.2, filter: 'blur(14px)', opacity: 0.15 }, 0).to(info, { opacity: 0, duration: 0.4 }, 0);
+          timeline.to(frame, { scale: 1.2, filter: 'blur(14px)', opacity: 0.15 }, 0);
+          if (info) timeline.to(info, { opacity: 0, duration: 0.4 }, 0);
           break;
         case 5:
           // Ряды кейсов собираются с краёв: верхний из-за левого, нижний из-за правого.

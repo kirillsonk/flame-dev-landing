@@ -1,7 +1,8 @@
 @use '../../../../../styles/typography' as *;
 @use '../../../../../styles/mixins' as *;
 
-// Общая рамка AI-демо: заполняет контейнер сцены, на телефоне прокручивается, если контент выше рамки.
+// Общая рамка AI-демо: заполняет контейнер сцены. На телефоне своей прокрутки нет — сцена
+// растет по содержимому: вложенный скролл перехватывал свайп, и страница застревала на демо.
 @mixin ai-frame {
   @include text-body;
   position: relative;
@@ -13,8 +14,6 @@
   background: var(--color-surface);
   @include mobile {
     padding: 1.4rem;
-    overflow-y: auto;
-    overscroll-behavior: contain;
   }
 }
 

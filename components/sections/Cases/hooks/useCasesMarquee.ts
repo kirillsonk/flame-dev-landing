@@ -8,6 +8,9 @@ gsap.registerPlugin(ScrollTrigger);
 // Дополнение к `mobile` из styles/_mixins.scss: пин только на широких экранах.
 const PINNED_QUERY = '(min-width: 769px), (orientation: landscape)';
 const MOTION_QUERY = '(prefers-reduced-motion: no-preference)';
+// Сколько пикселей прокрутки уходит на пиксель пробега строки: меньше 1 — строки едут быстрее скролла
+// и пин короче.
+const PACE = 0.6;
 
 export interface IUseCasesMarqueeOptions {
   /** Доля пробега каждой строки: 1 — от первой карточки до последней, меньше — медленнее. */
@@ -24,7 +27,7 @@ export interface IUseCasesMarquee {
 /**
  * Секция кейсов пинится, и строки проезжают по скроллу навстречу друг другу: нечётные
  * из начального положения уходят влево, чётные стартуют с конца и приезжают к началу.
- * Длина пина равна большему из пробегов, поэтому пин заканчивается ровно тогда, когда
+ * Длина пина — больший из пробегов, умноженный на PACE: пин заканчивается ровно тогда, когда
  * самая длинная строка показала все карточки. На мобильном и при reduced motion пина нет.
  */
 const useCasesMarquee = (count: number, { speeds, lead }: IUseCasesMarqueeOptions = {}): IUseCasesMarquee => {
@@ -46,7 +49,7 @@ const useCasesMarquee = (count: number, { speeds, lead }: IUseCasesMarqueeOption
 
       const distance = (row: HTMLDivElement, index: number) =>
         Math.max(0, row.scrollWidth - section.clientWidth) * (speeds?.[index] ?? 1);
-      const travel = () => Math.max(...rows.map((row, index) => distance(row as HTMLDivElement, index)));
+      const travel = () => Math.max(...rows.map((row, index) => distance(row as HTMLDivElement, index))) * PACE;
       const vh = () => window.innerHeight;
 
       // Пин: секция стоит, пока самая длинная строка не проедет весь путь (плюс пустой участок lead).
@@ -74,15 +77,17 @@ const useCasesMarquee = (count: number, { speeds, lead }: IUseCasesMarqueeOption
           invalidateOnRefresh: true,
         },
       });
-      // Пустой участок (переход от hero): секция уже у верха, строки ещё стоят.
-      if (leadPx > 0) timeline.to({}, { duration: leadPx }, enterPx);
+      // Переход от hero (lead): секция въезжает невидимой и стоит у верха, пока карточка летит
+      // в свою плитку, — строки не двигаются до конца этого участка, иначе плитка уедет из-под карточки.
+      const from = leadPx > 0 ? enterPx + leadPx : 0;
+      if (leadPx > 0) timeline.to({}, { duration: from }, 0);
       rows.forEach((row, index) => {
         const el = row as HTMLDivElement;
-        const total = enterPx + leadPx + travelPx + enterPx;
+        const duration = enterPx + leadPx + travelPx + enterPx - from;
         if (index % 2 === 0) {
-          timeline.fromTo(el, { x: 0 }, { x: () => -distance(el, index), duration: total }, 0);
+          timeline.fromTo(el, { x: 0 }, { x: () => -distance(el, index), duration }, from);
         } else {
-          timeline.fromTo(el, { x: () => -distance(el, index) }, { x: 0, duration: total }, 0);
+          timeline.fromTo(el, { x: () => -distance(el, index) }, { x: 0, duration }, from);
         }
       });
 

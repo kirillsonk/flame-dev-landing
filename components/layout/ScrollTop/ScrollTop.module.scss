@@ -1,0 +1,56 @@
+@use '../../../styles/mixins' as *;
+
+// Кнопка «Наверх»: стеклянный кружок, как плашки шапки. Появляется снизу.
+.scrollTop {
+  @include focus-ring;
+  position: fixed;
+  right: var(--space-gutter);
+  bottom: 3.2rem;
+  z-index: var(--z-cta);
+  display: grid;
+  place-items: center;
+  width: var(--size-button);
+  height: var(--size-button);
+  border: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--color-text);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(1.6rem);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    visibility 0s 0.3s,
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+
+  @include hover {
+    border-color: var(--color-action-primary);
+    background: var(--color-action-primary);
+  }
+
+  // На мобильном выше плашки CTA: её высота — кнопка и два отступа по 0,8rem.
+  @include mobile {
+    bottom: 8.8rem;
+  }
+}
+
+.scrollTop--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    visibility 0s,
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.scrollTop__icon {
+  width: 2rem;
+  height: 2rem;
+}

@@ -1,11 +1,11 @@
 import type { IEcosystemCard, IEcosystemCredit, IWhyCard } from './types';
 
-export const WHY_TITLE = 'Один подрядчик вместо трёх';
+export const WHY_TITLE = 'Один подрядчик вместо трех';
 
 export const WHY_CARDS: IWhyCard[] = [
   {
     title: 'Разработка, дизайн и видео вместе',
-    description: 'Обычно сайт делает студия, ролик — продакшн, а склеивать это приходится вам. Здесь всё в одном месте, и результат выглядит цельно.',
+    description: 'Обычно сайт делает студия, ролик — продакшн, а склеивать это приходится вам. Здесь все в одном месте, и результат выглядит цельно.',
   },
   {
     title: 'Опыт с брендами и корпорациями',
@@ -51,7 +51,7 @@ export const WHY_LAYERS = {
   button: 'Попробовать',
 };
 
-export const ECOSYSTEM_TITLE = 'Flame — это ещё и';
+export const ECOSYSTEM_TITLE = 'Flame — это еще и';
 
 export const ECOSYSTEM_CARDS: IEcosystemCard[] = [
   { title: 'Flame CGI', description: 'Видеопродакшн и CGI для брендов', href: 'https://flamecgi.com', label: 'flamecgi.com →' },
@@ -77,7 +77,7 @@ export const ECOSYSTEM_CREDITS: IEcosystemCredit[] = [
 
 // Вариант «Токены» (tokens): заголовок выдаётся токенами, продукты печатаются как продолжения.
 export const ECOSYSTEM_TOKENS = {
-  heading: ['Flame', '—', 'это', 'ещё', 'и'],
+  heading: ['Flame', '—', 'это', 'еще', 'и'],
   counter: 'tokens',
   meta: ['temperature 0.7', 'stream: on'],
 };

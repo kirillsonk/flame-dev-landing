@@ -1,6 +1,12 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
+@property --beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 .button {
   @include text-body(500);
   display: inline-flex;
@@ -78,20 +84,51 @@
   width: 100%;
 }
 
+// Основная кнопка сайта — как «Обсудить проект» в шапке: тёмная пилюля, по обводке идёт
+// градиентный луч, при наведении быстрее.
 .button--primary {
-  background: var(--color-action-primary);
-  border-color: var(--color-action-primary);
-  color: var(--color-on-action);
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  border-color: var(--color-border);
+  color: var(--color-text);
 
-  @include hover {
-    background: var(--color-action-primary-hover);
-    border-color: var(--color-action-primary-hover);
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--beam-angle), transparent 0 62%, var(--color-action-primary) 80%, var(--color-action-accent) 92%, transparent 100%);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: button-beam 3.2s linear infinite;
+  }
+
+  @include interact {
+    &::before {
+      animation-duration: 1.2s;
+    }
   }
 
   &:active {
-    background: var(--color-text);
-    border-color: var(--color-text);
-    color: var(--color-action-primary);
+    background: var(--color-elevated);
+  }
+
+  &:disabled::before {
+    animation: none;
+  }
+}
+
+@keyframes button-beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button--primary::before {
+    animation: none;
   }
 }
 

@@ -77,7 +77,7 @@ const useProcessTerminal = (caretClass: string) =>
     };
     render();
 
-    gsap.to(state, { n: total, ease: 'none', onUpdate: render, scrollTrigger: pinTrigger(root, 420) });
+    gsap.to(state, { n: total, ease: 'none', onUpdate: render, scrollTrigger: pinTrigger(root, 220) });
 
     return () => {
       caret.remove();

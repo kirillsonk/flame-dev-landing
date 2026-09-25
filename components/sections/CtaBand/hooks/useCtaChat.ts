@@ -50,7 +50,7 @@ const useCtaChat = (): IUseCtaChat => {
       draft.textContent = CTA_CHAT.draft.slice(0, count);
       input.dataset.ready = String(count === CTA_CHAT.draft.length);
     },
-    { length: 2 },
+    { length: 1 },
   );
 
   return { sectionRef, questionRef, typingRef, answerRef, inputRef, draftRef };

@@ -115,7 +115,7 @@ export interface ILang {
   hint?: string;
 }
 
-export type IconName = 'telegram' | 'mail' | 'deck' | 'arrow' | 'sliders' | 'check';
+export type IconName = 'telegram' | 'mail' | 'deck' | 'arrow' | 'arrowUp' | 'sliders' | 'check';
 
 export interface IFooterColumn {
   title: string;
@@ -143,6 +143,16 @@ export interface IHeroSlide {
 }
 
 export type HeroChipKind = 'design' | 'dev' | 'video';
+
+/** Пилюля надзаголовка первого экрана: ведет к услуге, ховер по смыслу услуги. */
+export interface IHeroPill {
+  label: string;
+  /** slug услуги из data/services.ts. */
+  service: string;
+  effect: 'frame' | 'roll' | 'game' | 'spark';
+  /** Слова, сквозь которые прокручивается пилюля с effect: 'roll'. */
+  stack?: string[];
+}
 
 export interface IHeroTitlePart {
   text: string;

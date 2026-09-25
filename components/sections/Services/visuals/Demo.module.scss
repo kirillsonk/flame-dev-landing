@@ -11,13 +11,7 @@
   height: 100%;
   padding: 2.4rem;
   overflow: hidden;
-  background:
-    radial-gradient(
-      ellipse at 100% 0%,
-      color-mix(in srgb, var(--color-action-primary) 18%, transparent),
-      transparent 65%
-    ),
-    var(--color-bg);
+  background: var(--color-bg);
   @include mobile {
     padding: 1.6rem;
     gap: 1.6rem;
@@ -98,5 +92,4 @@
   flex: 0 0 auto;
   border-radius: var(--radius-pill);
   background: var(--color-success);
-  box-shadow: 0 0 1.6rem color-mix(in srgb, var(--color-success) 50%, transparent);
 }

@@ -3,17 +3,18 @@
 import { useRef } from 'react';
 import type { ReactNode } from 'react';
 import useHomeTransition from './hooks/useHomeTransition';
+import { DEFAULT_TRANSITION } from './variants';
 import type { HomeTransitionVariant } from './variants';
 import styles from './HomeTransition.module.scss';
 
 export interface HomeTransitionProps {
-  variant: HomeTransitionVariant;
+  variant?: HomeTransitionVariant;
   children: ReactNode;
 }
 
 // Обёртка первого экрана и кейсов: по скроллу ведёт переход между ними (см. хук).
-// Вариант 1…10 выбирается меню вариантов в углу экрана (см. components/sections/Home/Home.tsx).
-const HomeTransition = ({ variant, children }: HomeTransitionProps) => {
+// На главной — вариант 4 «зум и размытие»; остальные 1…10 остаются в хуке.
+const HomeTransition = ({ variant = DEFAULT_TRANSITION, children }: HomeTransitionProps) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   useHomeTransition(rootRef, variant);
 

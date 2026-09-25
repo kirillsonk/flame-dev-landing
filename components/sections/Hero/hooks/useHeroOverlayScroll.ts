@@ -9,27 +9,23 @@ const DESKTOP_QUERY = '(min-width: 769px), (orientation: landscape)';
 const MOTION_QUERY = '(prefers-reduced-motion: no-preference)';
 // Сколько прокрутки занимает пин, в долях высоты окна: раскрытие кадра плюс запас,
 // на котором карточка уже собрана и просто стоит, чтобы момент не проскакивался.
-const PIN_BASE = 1.6;
+const PIN_BASE = 1;
 // Доля базового пина, за которую анимация заканчивается; остаток — запас с готовой карточкой.
-const REVEAL_SHARE = 0.7;
-// Если следующая секция накрывает первый экран, пин длиннее ещё на высоту окна:
-// на этом отрезке hero стоит, а кейсы заезжают поверх (см. useHomeTransition).
+const REVEAL_SHARE = 0.8;
+// Кейсы накрывают первый экран: пин длиннее ещё на высоту окна, на этом отрезке
+// hero стоит, а кейсы заезжают поверх (см. useHomeTransition).
 const COVER_EXTRA = 1;
-
-export interface IUseHeroOverlayScrollOptions {
-  coverNext?: boolean;
-}
+// Точка собранной карточки в долях всего пина.
+const PIN_LENGTH = PIN_BASE + COVER_EXTRA;
+const REVEAL_AT = (PIN_BASE * REVEAL_SHARE) / PIN_LENGTH;
 
 export interface IUseHeroOverlayScroll {
   sectionRef: React.RefObject<HTMLElement | null>;
   frameRef: React.RefObject<HTMLDivElement | null>;
-  infoRef: React.RefObject<HTMLDivElement | null>;
   veilRef: React.RefObject<HTMLDivElement | null>;
   shadeRef: React.RefObject<HTMLDivElement | null>;
   bottomRef: React.RefObject<HTMLDivElement | null>;
   footRef: React.RefObject<HTMLDivElement | null>;
-  /** Плавно докрутить до раскрытого кадра, где заголовок уже скрыт. Без пина — ничего не делает. */
-  reveal: () => void;
 }
 
 // Значение CSS-переменной из :root в пикселях (переменные заданы в rem).
@@ -69,18 +65,13 @@ export const heroCardBox = (section: HTMLElement, foot: HTMLElement): IHeroCardB
  * которая помещается между шапкой и переключателем проектов. Затемнение уходит совсем.
  * На мобильном и при `prefers-reduced-motion` пина нет: экран ведёт себя как обычная секция.
  */
-const useHeroOverlayScroll = ({ coverNext = false }: IUseHeroOverlayScrollOptions = {}): IUseHeroOverlayScroll => {
-  // Точка собранной карточки в долях всего пина.
-  const pinLength = PIN_BASE + (coverNext ? COVER_EXTRA : 0);
-  const revealAt = (PIN_BASE * REVEAL_SHARE) / pinLength;
+const useHeroOverlayScroll = (): IUseHeroOverlayScroll => {
   const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const infoRef = useRef<HTMLDivElement>(null);
   const veilRef = useRef<HTMLDivElement>(null);
   const shadeRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const footRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     const mm = gsap.matchMedia();
@@ -91,12 +82,11 @@ const useHeroOverlayScroll = ({ coverNext = false }: IUseHeroOverlayScrollOption
 
       const section = sectionRef.current;
       const frame = frameRef.current;
-      const info = infoRef.current;
       const veil = veilRef.current;
       const shade = shadeRef.current;
       const bottom = bottomRef.current;
       const foot = footRef.current;
-      if (!section || !frame || !info || !veil || !shade || !bottom || !foot) return;
+      if (!section || !frame || !veil || !shade || !bottom || !foot) return;
 
       // Целевой бокс карточки считается заново на refresh.
       const card = () => heroCardBox(section, foot);
@@ -108,7 +98,7 @@ const useHeroOverlayScroll = ({ coverNext = false }: IUseHeroOverlayScrollOption
           // Закрепляем по нижней кромке: секция ниже окна на высоту шапки, и пин по верху
           // оставлял снизу полосу следующей секции. Так низ кадра совпадает с низом окна.
           start: 'bottom bottom',
-          end: `+=${Math.round(pinLength * 100)}%`,
+          end: `+=${Math.round(PIN_LENGTH * 100)}%`,
           pin: true,
           scrub: 0.6,
           invalidateOnRefresh: true,
@@ -116,7 +106,7 @@ const useHeroOverlayScroll = ({ coverNext = false }: IUseHeroOverlayScrollOption
           // доматывается к ближайшему, а в зоне запаса после карточки снап не вмешивается:
           // там ничего не меняется, и прокрутка должна быть свободной.
           snap: {
-            snapTo: (value: number) => (value >= revealAt ? value : value < revealAt / 2 ? 0 : revealAt),
+            snapTo: (value: number) => (value >= REVEAL_AT ? value : value < REVEAL_AT / 2 ? 0 : REVEAL_AT),
             duration: { min: 0.2, max: 0.5 },
             delay: 0.08,
             ease: 'power2.inOut',
@@ -145,36 +135,21 @@ const useHeroOverlayScroll = ({ coverNext = false }: IUseHeroOverlayScrollOption
         },
         0.3,
       );
-      // Описание кейса проявляется внутри карточки в самом конце, когда фрейм уже почти сжат.
-      // fromTo, а не CSS: без пина (мобильный, reduced-motion) блок должен быть виден сразу.
-      timeline.fromTo(info, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.2 }, 0.8);
       // Пустой хвост растягивает таймлайн так, чтобы анимация заняла REVEAL_SHARE пина,
       // а остаток прокрутки прошёл с уже собранной карточкой.
       const animated = timeline.duration();
-      timeline.to({}, { duration: animated * (1 / revealAt - 1) });
-      triggerRef.current = timeline.scrollTrigger ?? null;
+      timeline.to({}, { duration: animated * (1 / REVEAL_AT - 1) });
 
       return () => {
-        triggerRef.current = null;
         timeline.scrollTrigger?.kill();
         timeline.revert().kill();
       };
     });
 
     return () => mm.revert();
-  }, [pinLength, revealAt]);
+  }, []);
 
-  // Собранная карточка — это REVEAL_SHARE пути пина: туда же доматывает snap.
-  // Если карточка уже собрана или прокручена дальше, страницу не трогаем.
-  const reveal = () => {
-    const trigger = triggerRef.current;
-    if (!trigger) return;
-    const target = trigger.start + (trigger.end - trigger.start) * revealAt;
-    if (window.scrollY >= target - 2) return;
-    window.scrollTo({ top: target, behavior: 'smooth' });
-  };
-
-  return { sectionRef, frameRef, infoRef, veilRef, shadeRef, bottomRef, footRef, reveal };
+  return { sectionRef, frameRef, veilRef, shadeRef, bottomRef, footRef };
 };
 
 export default useHeroOverlayScroll;

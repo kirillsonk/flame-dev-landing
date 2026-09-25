@@ -56,9 +56,9 @@
   flex: none;
   width: 2rem;
   height: 2rem;
-  border: 1px solid var(--color-success);
+  border: 1px solid var(--color-action-primary);
   border-radius: 0.4rem;
-  background: var(--color-success);
+  background: var(--color-action-primary);
   transition: background-color 0.3s, border-color 0.3s;
 }
 
@@ -70,7 +70,7 @@
   left: 0.6rem;
   width: 0.6rem;
   height: 1.1rem;
-  border: solid var(--color-bg);
+  border: solid var(--color-on-action);
   border-width: 0 0.2rem 0.2rem 0;
   transform: rotate(45deg);
   transition: opacity 0.2s;
@@ -94,8 +94,8 @@
 }
 
 .terminal[data-live] .terminal__check[data-on] .terminal__box {
-  border-color: var(--color-success);
-  background: var(--color-success);
+  border-color: var(--color-action-primary);
+  background: var(--color-action-primary);
 }
 
 .terminal[data-live] .terminal__check[data-on] .terminal__box::after {
@@ -112,7 +112,6 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
   background: color-mix(in srgb, var(--color-bg) 60%, black);
-  box-shadow: 0 3.2rem 8rem color-mix(in srgb, var(--color-action-primary) 14%, transparent);
 }
 
 .terminal__bar {
@@ -205,7 +204,7 @@
 
 .terminal__status {
   @include text-body(500);
-  color: var(--color-success);
+  color: var(--color-action-accent);
 }
 
 .terminal__status--live::before {

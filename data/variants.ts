@@ -87,19 +87,19 @@ export const VARIANT_GROUPS: IVariantGroup[] = [
     fallback: 'player',
     options: [
       { value: 'player', label: 'Сцена-плеер' },
-      { value: 'current', label: 'Огонёк-стопка' },
+      { value: 'current', label: 'Огонек-стопка' },
     ],
   },
   {
     id: 'tibia',
-    title: 'Демо: учёт',
+    title: 'Демо: учет',
     fallback: 'scanner',
     options: [
       { value: 'scanner', label: 'Сканер-пистолет' },
       { value: 'passport', label: 'Паспорт трубы' },
       { value: 'conveyor', label: 'Конвейер' },
       { value: 'search', label: 'Поиск по складу' },
-      { value: 'report', label: 'Отчёт за смену' },
+      { value: 'report', label: 'Отчет за смену' },
       { value: 'current', label: 'Текущий' },
     ],
   },
@@ -119,7 +119,7 @@ export const VARIANT_GROUPS: IVariantGroup[] = [
     title: 'Демо: 3D',
     fallback: 'plant',
     options: [
-      { value: 'flight', label: 'Полёт в микромир' },
+      { value: 'flight', label: 'Полет в микромир' },
       { value: 'reactor', label: 'Реактор в разрезе' },
       { value: 'material', label: 'Материалы' },
       { value: 'plant', label: 'Макет станции' },
@@ -145,7 +145,7 @@ export const VARIANT_GROUPS: IVariantGroup[] = [
   },
   {
     id: 'why',
-    title: 'Один подрядчик вместо трёх',
+    title: 'Один подрядчик вместо трех',
     fallback: 'venn',
     options: [
       { value: 'venn', label: 'Венн' },
@@ -177,7 +177,7 @@ export const VARIANT_GROUPS: IVariantGroup[] = [
   },
   {
     id: 'ecosystem',
-    title: 'Flame — это ещё и',
+    title: 'Flame — это еще и',
     fallback: 'marquee',
     options: [
       { value: 'marquee', label: 'Бегущие строки' },

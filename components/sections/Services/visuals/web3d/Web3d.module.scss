@@ -5,18 +5,7 @@
 .web3d {
   user-select: none;
   -webkit-user-select: none;
-  background:
-    radial-gradient(
-      ellipse at 85% 0%,
-      color-mix(in srgb, var(--color-action-primary) 20%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse at 10% 110%,
-      color-mix(in srgb, var(--color-action-accent) 8%, transparent),
-      transparent 55%
-    ),
-    var(--color-bg);
+  background: var(--color-bg);
 }
 .web3d__view {
   position: absolute;
@@ -168,7 +157,6 @@
     border: 0;
     border-radius: 50%;
     background: var(--color-text);
-    box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--color-action-accent) 30%, transparent);
     -webkit-appearance: none;
   }
   &::-moz-range-thumb {

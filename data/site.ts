@@ -1,5 +1,5 @@
 import { HERO_REEL, HERO_REEL_LABELS } from './cases';
-import type { IAnchor, IContactLink, ICtaDayStep, IFooterColumn, IHeroSlide, IHeroTitlePart, ILang, INavItem } from './types';
+import type { IAnchor, ICaseVideo, IHeroPill, IContactLink, ICtaDayStep, IFooterColumn, IHeroSlide, IHeroTitlePart, ILang, INavItem } from './types';
 
 // Полноэкранные кадры с переключателем — те же пять проектов, что в ленте-аккордеоне.
 // У кейсов, кроме Coca-Cola, пока лежат демонстрационные ролики 9:16 — их заменят реальные 16:9.
@@ -13,7 +13,31 @@ export const HERO_SLIDES: IHeroSlide[] = HERO_REEL.map((item) => ({
   video: item.videoWide ?? item.video,
 })).filter((slide): slide is IHeroSlide => Boolean(slide.video));
 
+// Фон первого экрана — промо-луп студии, не конкретный кейс. Заменится спокойным фоновым видео.
+export const HERO_PROMO: ICaseVideo = {
+  mp4: '/videos/hero-overlay.mp4',
+  webm: '/videos/hero-overlay.webm',
+  poster: '/videos/hero-overlay.jpg',
+};
+
 export const HERO_SLIDE_LINK = 'Смотреть кейс';
+
+// Первый экран по doc/FLAME_DEV_WEBSITE_COPY.md: надзаголовок обязателен, без него H1 читается
+// как любая проектная услуга. Заголовок — две части: на десктопе перенос после «идеи».
+export const HERO_INTRO = {
+  // Надзаголовок пилюлями: каждая ведет к своей услуге в «Что разработаем для вас» (slug из data/services.ts).
+  // effect — ховер пилюли по смыслу услуги: рамка Figma, прокрутка систем, игровой отскок, генерация.
+  eyebrow: [
+    { label: 'Сайты', service: 'web3d', effect: 'frame' },
+    { label: 'Сервисы', service: 'systems', effect: 'roll', stack: ['CRM', 'ERP', 'API'] },
+    { label: 'Спецпроекты', service: 'special', effect: 'game' },
+    { label: 'AI', service: 'ai', effect: 'spark' },
+  ] satisfies IHeroPill[],
+  eyebrowLabel: 'Направления',
+  title: ['От идеи', 'до работающего проекта'],
+  text: 'Берем на себя проектирование, дизайн, разработку и запуск. Вы участвуете в ключевых решениях, мы организуем работу и доводим проект до результата',
+  secondary: { label: 'Смотреть кейсы', href: '#cases' } satisfies INavItem,
+};
 
 export const LANGS: ILang[] = [
   { code: 'ru', label: 'RU' },
@@ -23,24 +47,25 @@ export const LANGS: ILang[] = [
 export const NAV: INavItem[] = [
   { label: 'Кейсы', href: '#cases' },
   { label: 'Услуги', href: '#services' },
-  { label: 'Процесс', href: '#process' },
-  { label: 'Контакт', href: '#contact' },
+  { label: 'Подход', href: '#process' },
+  { label: 'Контакты', href: '#contact' },
 ];
 
 export const CTA_LABEL = 'Обсудить проект';
 
+export const SCROLL_TOP_LABEL = 'Наверх';
+
 // Якоря по id (AnchorScroll). Запиненная секция сразу открывается на старте своего пина, без
 // прокрутки от соседей, и дальше анимация проигрывается до точки — доли пина 0…1: «контакт» —
 // до конца, чтобы форма была раскрыта; «кейсы» и «услуги» — чуть дальше старта, примерно на
-// полэкрана прокрутки, чтобы блок ожил (пины разной длины, доли подобраны под неё). «Процесс»
-// наоборот: открывается на неделе 3 таймлайна (3 из 14) и едет назад к старту. К первому экрану и началу страницы (логотип, `#top`, `#hero`) — прыжок без анимации.
+// полэкрана прокрутки, чтобы блок ожил (пины разной длины, доли подобраны под неё).
+// К первому экрану и началу страницы (логотип, `#top`, `#hero`) — прыжок без анимации.
 // Секции без пина и не перечисленные здесь — к началу с учётом scroll-padding-top.
 export const ANCHORS: Record<string, IAnchor> = {
   top: { instant: true },
   hero: { instant: true },
   cases: { stop: 0.15 },
   services: { stop: 0.1 },
-  process: { open: 0.21, stop: 'start' },
   contact: { stop: 'end' },
 };
 
@@ -66,12 +91,13 @@ export const HERO = {
   ] as IHeroTitlePart[],
 };
 
+// Срок ответа не пишем, пока его не подтвердила команда (doc/FLAME_DEV_WEBSITE_COPY.md).
 export const CTA_BAND = {
-  text: 'Есть задача? Расскажите, ответим в течение дня.',
-  question: 'Есть задача?',
-  // Ответ делится на две части: у вариантов «в течение дня» выделено градиентом.
-  answerLead: 'Расскажите, ответим ',
-  answerAccent: 'в\u00A0течение дня.',
+  text: 'Что хотите запустить? Обсудим задачу и предложим следующий шаг',
+  question: 'Что хотите запустить?',
+  // Ответ делится на две части: у вариантов вторая выделена градиентом.
+  answerLead: 'Обсудим задачу и ',
+  answerAccent: 'предложим следующий шаг',
 };
 
 // Варианты блока «Есть задача?» (см. components/sections/CtaBand/variants.ts).
@@ -86,7 +112,7 @@ export const CTA_DAY = {
     { time: '10:04', text: 'Вы пишете в форму или в Telegram' },
     { time: '10:30', text: 'Менеджер проекта читает задачу' },
     { time: '12:00', text: 'Смотрим вместе с разработчиком и дизайнером' },
-    { time: '15:30', text: 'Задаём уточняющие вопросы, если они есть' },
+    { time: '15:30', text: 'Задаем уточняющие вопросы, если они есть' },
     { time: '18:00', text: 'Отвечаем: подход, команда, следующий шаг' },
   ] as ICtaDayStep[],
   final: 'Оценку сроков и бюджета дадим за 2–3 дня',
@@ -97,7 +123,7 @@ export const CTA_REEL = {
   lead: 'Есть задача? Расскажите, ',
   middle: 'ответим в\u00A0течение',
   // Привычные сроки зачёркиваются и уезжают, барабан встаёт на последний.
-  words: ['полугода', 'месяца', 'недели', 'трёх дней'],
+  words: ['полугода', 'месяца', 'недели', 'трех дней'],
   final: 'дня.',
 };
 
@@ -107,12 +133,12 @@ export const CTA_ROUTE = ['Ваша задача', 'Менеджер проек�
 
 export const CONTACT = {
   title: 'Расскажите о задаче',
-  text: 'Ответим в течение дня. Оценку сроков и бюджета дадим за 2–3 дня.',
+  text: 'Что хотите запустить, для кого и к какому сроку? Обсудим подход и предложим следующий шаг',
   telegram: { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' } satisfies IContactLink,
   links: [
     { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' },
-    { label: 'Написать на hello@flame.dev', href: 'mailto:hello@flame.dev', icon: 'mail' },
-    { label: 'Скачать презентацию (PDF)', href: '/flame-dev.pdf', icon: 'deck' },
+    { label: 'Написать на почту', href: 'mailto:hello@flame.dev', icon: 'mail' },
+    // «Скачать презентацию» вернуть, когда в public/ появится актуальный flame-dev.pdf.
   ] as IContactLink[],
   // Вариант «Маркер»: тот же текст, обещания по срокам выделяются маркером по скроллу.
   textMarked: [
@@ -123,26 +149,28 @@ export const CONTACT = {
     { text: '.' },
   ] as { text: string; mark?: boolean }[],
   // Вариант «Чат»: подпись под пузырём с текстом, как время сообщения.
-  chatTime: '12:04 · ответим в течение дня',
+  chatTime: '12:04',
   form: {
     name: { label: 'Имя', placeholder: 'Как к вам обращаться' },
     contact: { label: 'Telegram или почта', placeholder: '@username или mail@company.ru' },
-    message: { label: 'Коротко о задаче', placeholder: 'Что делаем, к какому сроку, есть ли бюджет' },
+    message: { label: 'Коротко о проекте', placeholder: 'Можно начать с нескольких предложений или ссылки на материалы' },
     optional: 'по желанию',
-    submit: 'Отправить',
-    sending: 'Отправляем…',
-    hint: 'Ответим в течение дня. Без спама и рассылок.',
-    error: 'Не отправилось. Напишите нам напрямую:',
+    submit: 'Отправить заявку',
+    sending: 'Отправляем заявку',
+    hint: 'Готовое ТЗ необязательно',
+    error: 'Не удалось отправить заявку. Попробуйте еще раз или напишите нам напрямую в',
     errorLink: 'Telegram',
-    successTitle: 'Заявка у нас',
-    successText: 'Ответим в течение дня — в Telegram или на почту, которую вы оставили.',
-    again: 'Отправить ещё одну',
+    successTitle: 'Спасибо, заявка отправлена',
+    successText: 'Свяжемся с вами по указанному контакту',
+    again: 'Отправить еще одну',
   },
 };
 
 export const FOOTER_EMAIL = 'hello@flame.dev';
 
 export const FOOTER_COPYRIGHT = '© 2026 Flame Dev';
+
+export const FOOTER_TAGLINE = 'Разработка сайтов, сервисов и AI-решений';
 
 // Подвал «Колонки»: кто мы одной фразой и ссылки по смыслу.
 export const FOOTER_ABOUT = 'Команда разработки внутри Flame: платформы, спецпроекты, 3D и AI.';
@@ -184,8 +212,9 @@ export const FOOTER_LINKS: INavItem[] = [
   { label: 'Flame CGI', href: 'https://flamecgi.com' },
   { label: 'Flame AI', href: 'https://app.flameai.studio' },
 ];
-export const CASES_TITLE = 'Проекты, которые работают';
+export const CASES_TITLE = 'Опыт в проектах';
+export const CASES_TEXT = 'Сайты для брендов, цифровые платформы и системы для бизнеса. В каждом проекте показываем задачу, нашу работу и результат';
 export const CASES_ALL_LABEL = 'Все кейсы';
 export const CASES_INDEX_TITLE = 'Кейсы';
 export const CASE_LIVE_LABEL = 'Открыть проект';
-export const SERVICES_TITLE = 'Что мы делаем';
+export const SERVICES_TITLE = 'Что разработаем для вас';

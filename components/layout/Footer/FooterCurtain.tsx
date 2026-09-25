@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo/Logo';
 import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
-import { FOOTER_COPYRIGHT, FOOTER_EMAIL, FOOTER_LINKS } from '@/data/site';
+import { FOOTER_COPYRIGHT, FOOTER_EMAIL, FOOTER_LINKS, FOOTER_TAGLINE } from '@/data/site';
 import FooterLink from './FooterLink';
 import styles from './FooterCurtain.module.scss';
 
-// Вариант «Шторка»: подвал лежит под страницей, контент уезжает вверх и открывает его.
+// Подвал-шторка: лежит под страницей, контент уезжает вверх и открывает его.
 // Страница должна перекрывать подвал: атрибут на <html> поднимает <main> над ним (стили в модуле).
 const FooterCurtain = () => {
   useEffect(() => {
@@ -26,6 +26,7 @@ const FooterCurtain = () => {
           <Link href="/" className={styles.curtain__logo} aria-label="Flame Dev">
             <Logo variant="footer" />
           </Link>
+          <p className={styles.curtain__tagline}>{FOOTER_TAGLINE}</p>
           <a href={`mailto:${FOOTER_EMAIL}`} className={styles.curtain__email}>
             {FOOTER_EMAIL}
           </a>

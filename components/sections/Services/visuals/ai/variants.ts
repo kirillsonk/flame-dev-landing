@@ -13,8 +13,8 @@ export const AI_DEMO_VARIANTS: AiDemoVariant[] = [
   'invoice',
 ];
 
-// Заявка с подсветкой полей — основной вариант: связь «фраза ↔ поле CRM» понятна с первого взгляда.
-export const DEFAULT_AI_DEMO: AiDemoVariant = 'fields';
+// Выбран основным 2026-09-24; на главной подключён напрямую (Home.tsx).
+export const DEFAULT_AI_DEMO: AiDemoVariant = 'invoice';
 
 export const parseAiDemo = (value?: string): AiDemoVariant =>
   AI_DEMO_VARIANTS.includes(value as AiDemoVariant) ? (value as AiDemoVariant) : DEFAULT_AI_DEMO;

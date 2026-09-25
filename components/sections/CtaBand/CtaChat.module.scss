@@ -171,13 +171,8 @@
 }
 
 .chat__button {
-  transition: box-shadow 0.3s var(--ease);
-
   @include mobile {
     width: 100%;
   }
 }
 
-.chat__input[data-ready='true'] .chat__button {
-  box-shadow: 0 0 3.2rem color-mix(in srgb, var(--color-action-accent) 45%, transparent);
-}

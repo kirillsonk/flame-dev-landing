@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
 import Header from '@/components/layout/Header/Header';
-import FooterSection from '@/components/layout/Footer/FooterSection';
-import { SHOW_VARIANT_PANEL } from '@/components/layout/VariantPanel/variantStore';
+import FooterCurtain from '@/components/layout/Footer/FooterCurtain';
 import RevealController from '@/components/layout/RevealController/RevealController';
 import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
+import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import './globals.scss';
 
 const firsNeue = localFont({
@@ -21,12 +21,12 @@ const firsNeue = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Flame Dev — сложные системы и спецпроекты для брендов',
-  description: 'Разработка, дизайн и видеопродакшн в одной команде. Coca-Cola, Росатом, AliExpress, Purina, VK.',
+  title: 'Flame Dev | Разработка сайтов, сервисов и AI-решений',
+  description: 'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск',
   icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'Flame Dev',
-    description: 'Сложные системы и спецпроекты для брендов.',
+    description: 'Разработка сайтов, сервисов и AI-решений',
     siteName: 'Flame Dev',
     locale: 'ru_RU',
     type: 'website',
@@ -39,7 +39,6 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       lang="ru"
       className={firsNeue.variable}
       data-scroll-behavior="smooth"
-      data-variant-panel={SHOW_VARIANT_PANEL ? '' : undefined}
     >
       <head>
         <noscript>
@@ -50,9 +49,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <div id="top" />
         <Header />
         {children}
-        <FooterSection />
-        {/* Плавающая кнопка «Обсудить проект» в правом нижнем углу отключена (2026-09-16): CTA в шапке и в секциях. */}
+        <FooterCurtain />
         <MobileCtaBar />
+        <ScrollTop />
         <RevealController />
         <AnchorScroll />
       </body>

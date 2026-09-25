@@ -5,7 +5,7 @@
 .invoice {
   @include ai-frame;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 1.6rem;
   font-variant-numeric: tabular-nums;
   @include mobile {
@@ -63,8 +63,12 @@
   font-weight: 400;
   text-align: right;
   transition: box-shadow 0.3s;
+  // Числа не переносятся: «5 900» в две строки читалось как два значения.
+  white-space: nowrap;
+
   &:first-child {
     text-align: left;
+    white-space: normal;
   }
   @include mobile {
     padding: 0.2rem 0.3rem;
@@ -75,9 +79,7 @@
   filter: blur(1.2px);
 }
 .invoice__paperCell--scan {
-  box-shadow:
-    inset 0 -0.2rem 0 var(--color-action-accent),
-    0 1.2rem 1.6rem -1.2rem var(--color-action-accent);
+  box-shadow: inset 0 -0.2rem 0 var(--color-action-accent);
 }
 .invoice__box {
   --tone: var(--color-action-accent);
@@ -142,8 +144,12 @@
   color: var(--color-text-dim);
   font-weight: 400;
   text-align: right;
+  // Числа не переносятся: «5 900» в две строки читалось как два значения.
+  white-space: nowrap;
+
   &:first-child {
     text-align: left;
+    white-space: normal;
   }
   @include mobile {
     padding: 0.4rem;
@@ -154,8 +160,12 @@
   border-bottom: 1px solid var(--color-border);
   text-align: right;
   transition: background-color 0.3s;
+  // Числа не переносятся: «5 900» в две строки читалось как два значения.
+  white-space: nowrap;
+
   &:first-child {
     text-align: left;
+    white-space: normal;
   }
   @include mobile {
     padding: 0.4rem;
@@ -175,6 +185,7 @@
   color: var(--color-demo-gold);
 }
 .invoice__fix {
+  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

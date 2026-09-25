@@ -53,6 +53,11 @@
   align-self: flex-start;
 }
 
+.curtain__tagline {
+  @include text-body;
+  color: var(--color-text-dim);
+}
+
 .curtain__email {
   @include text-display;
   @include focus-ring;

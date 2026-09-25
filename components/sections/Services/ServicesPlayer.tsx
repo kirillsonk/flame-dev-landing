@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import { SERVICES, SERVICES_PLAYER_CHIPS } from '@/data/services';
 import { SERVICES_TITLE } from '@/data/site';
@@ -15,7 +16,7 @@ export interface ServicesPlayerProps {
 }
 
 const ServicesPlayer = ({ demos }: ServicesPlayerProps) => {
-  const { sectionRef } = useServicesPlayer(SERVICES.length);
+  const { sectionRef, goTo } = useServicesPlayer(SERVICES.length);
 
   return (
     <section ref={sectionRef} className={styles.player} id="services">
@@ -25,7 +26,8 @@ const ServicesPlayer = ({ demos }: ServicesPlayerProps) => {
       <div className={styles.player__grid}>
         <ol className={styles.player__nav}>
           {SERVICES.map((item, index) => (
-            <li key={item.slug} className={styles.player__item} data-part="item">
+            // --order: на мобильном список и сцены сливаются в одну колонку, услуга и ее демо идут парой.
+            <li key={item.slug} className={styles.player__item} data-part="item" style={{ '--order': index * 2 } as CSSProperties}>
               <div className={styles.player__top}>
                 <span className={styles.player__number}>{String(index + 1).padStart(2, '0')}</span>
                 <h3 className={styles.player__name}>{item.title}</h3>
@@ -45,23 +47,29 @@ const ServicesPlayer = ({ demos }: ServicesPlayerProps) => {
         </ol>
         <div className={styles.player__deck}>
           <div className={styles.player__screen}>
-            {SERVICES.map((item) => (
+            {SERVICES.map((item, index) => (
               // data-part="visual" — контракт с визуалами: RosatomScene ищет эту обёртку и слушает
               // на ней `demo-visibility-change`, чтобы останавливать рендер, пока сцена неактивна.
-              <div key={item.slug} className={styles.player__scene} data-part="visual" data-kind={item.visual}>
+              <div
+                key={item.slug}
+                className={styles.player__scene}
+                data-part="visual"
+                data-kind={item.visual}
+                style={{ '--order': index * 2 + 1 } as CSSProperties}
+              >
                 <ServiceVisual kind={item.visual} demos={demos} />
               </div>
             ))}
           </div>
-          <div className={styles.player__rail} aria-hidden="true">
+          <div className={styles.player__rail}>
             <div className={styles.player__chips}>
-              {SERVICES_PLAYER_CHIPS.map((chip) => (
-                <span key={chip} className={styles.player__chip} data-part="chip">
+              {SERVICES_PLAYER_CHIPS.map((chip, index) => (
+                <button key={chip} type="button" className={styles.player__chip} data-part="chip" onClick={() => goTo(index)}>
                   {chip}
-                </span>
+                </button>
               ))}
             </div>
-            <div className={styles.player__track}>
+            <div className={styles.player__track} aria-hidden="true">
               <span className={styles.player__progress} data-part="progress" />
             </div>
           </div>

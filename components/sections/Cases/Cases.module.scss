@@ -29,11 +29,20 @@
 }
 
 .cases__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-card);
   padding-top: var(--space-heading);
 }
 
 .cases__title {
   @include text-display;
+}
+
+.cases__text {
+  @include text-body;
+  max-width: 64rem;
+  color: var(--color-text-dim);
 }
 
 .cases__rows {

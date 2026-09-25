@@ -41,7 +41,7 @@ export const AI_FIELDS = {
   count: (found: number, total: number) => `${found} из ${total} полей`,
   fields: [
     { key: 'type', name: 'Тип', tone: 'accent' },
-    { key: 'scope', name: 'Объём', tone: 'gold' },
+    { key: 'scope', name: 'Объем', tone: 'gold' },
     { key: 'budget', name: 'Бюджет', tone: 'success' },
     { key: 'term', name: 'Срок', tone: 'fire' },
     { key: 'contact', name: 'Контакт', tone: 'primary' },
@@ -101,7 +101,7 @@ export const AI_THEMES = {
     { key: 'price', name: 'Цена', tone: 'gold' },
   ] as { key: string; name: string; tone: AiTone }[],
   reviews: [
-    { group: 'delivery', positive: false, text: 'Заказ ехал 9 дней вместо обещанных трёх', key: 'опоздание на 6 дней' },
+    { group: 'delivery', positive: false, text: 'Заказ ехал 9 дней вместо обещанных трех', key: 'опоздание на 6 дней' },
     { group: 'quality', positive: true, text: 'Кроссовки сели идеально, материал плотный', key: 'точная посадка' },
     { group: 'support', positive: true, text: 'Оператор вернул деньги за 10 минут', key: 'быстрый возврат' },
     {
@@ -111,10 +111,10 @@ export const AI_THEMES = {
       key: 'курьер без звонка',
     },
     { group: 'price', positive: false, text: 'Дороговато, у конкурентов на 15% дешевле', key: 'дороже на 15%' },
-    { group: 'quality', positive: true, text: 'Цвет совпал с фото, приятно удивлён', key: 'цвет как на фото' },
+    { group: 'quality', positive: true, text: 'Цвет совпал с фото, приятно удивлен', key: 'цвет как на фото' },
     { group: 'delivery', positive: false, text: 'Трекинг не обновлялся четыре дня', key: 'трекинг молчит' },
     { group: 'support', positive: false, text: 'В чате ответили только на следующий день', key: 'ответ через сутки' },
-    { group: 'quality', positive: false, text: 'Шов разошёлся через две недели носки', key: 'разошёлся шов' },
+    { group: 'quality', positive: false, text: 'Шов разошелся через две недели носки', key: 'разошелся шов' },
     { group: 'delivery', positive: false, text: 'Привезли не в тот пункт выдачи', key: 'не тот пункт выдачи' },
     { group: 'price', positive: true, text: 'За такое качество цена честная', key: 'цена оправдана' },
     { group: 'delivery', positive: true, text: 'В Москве привезли на следующий день', key: 'доставка за день' },
@@ -129,10 +129,10 @@ export type AiVideoStyle = 'cine' | 'neon' | 'mini';
 export const AI_VIDEO = {
   brand: 'Flame AI',
   mode: 'демо-режим',
-  promptLabel: 'О чём ролик',
+  promptLabel: 'О чем ролик',
   examplesLabel: 'Примеры промптов',
   examples: [
-    { tab: 'Кроссовки', prompt: 'Беговые кроссовки для города: утренняя пробежка на рассвете, лёгкость и скорость' },
+    { tab: 'Кроссовки', prompt: 'Беговые кроссовки для города: утренняя пробежка на рассвете, легкость и скорость' },
     { tab: 'Кофейня', prompt: 'Кофейня у метро: ночная смена, неон и капучино с собой' },
     { tab: 'Фестиваль', prompt: 'Летний фестиваль: солнце, музыка у воды и билеты со скидкой' },
   ],
@@ -152,7 +152,7 @@ export const AI_VIDEO = {
   again: 'Сгенерировать заново ✦',
   stages: ['Сценарий', 'Раскадровка', 'Озвучка', 'Рендер'],
   duration: '15 сек',
-  changed: 'Промпт изменён',
+  changed: 'Промпт изменен',
   ready: (ratio: string) => `Готово · 15 сек · ${ratio}`,
   fallback: 'Ваш продукт',
   moods: [
@@ -202,7 +202,7 @@ export const AI_DOCUMENTS = {
       meta: '1 стр · 184 КБ',
       ext: 'PDF',
       tone: 'fire',
-      type: 'Счёт на оплату',
+      type: 'Счет на оплату',
       confidence: '98%',
       route: '→ Бухгалтерия · оплатить до 30.09',
       fields: [
@@ -388,13 +388,13 @@ export const AI_RAG = {
           doc: 'Регламент HR v4.pdf',
           section: '§5.2',
           score: 0.92,
-          fragment: 'Заявление на отпуск подаётся в [HR-боте] не позднее чем за [14 календарных дней].',
+          fragment: 'Заявление на отпуск подается в [HR-боте] не позднее чем за [14 календарных дней].',
         },
         {
           doc: 'Регламент HR v4.pdf',
           section: '§5.5',
           score: 0.85,
-          fragment: 'Отпуск согласует [руководитель направления]; при пересечении с релизом — ещё и тимлид.',
+          fragment: 'Отпуск согласует [руководитель направления]; при пересечении с релизом — еще и тимлид.',
         },
         {
           doc: 'Онбординг.notion',
@@ -404,7 +404,7 @@ export const AI_RAG = {
         },
       ],
       answer:
-        'Подайте заявление в HR-боте минимум за 14 дней{1}. Его согласует руководитель направления, а если отпуск пересекается с релизом — ещё и тимлид{2}. Первые 6 месяцев работы отпуск берут по отдельному согласованию{3}.',
+        'Подайте заявление в HR-боте минимум за 14 дней{1}. Его согласует руководитель направления, а если отпуск пересекается с релизом — еще и тимлид{2}. Первые 6 месяцев работы отпуск берут по отдельному согласованию{3}.',
     },
     {
       question: 'За сколько отвечает поддержка?',
@@ -423,7 +423,7 @@ export const AI_RAG = {
           fragment: 'Критичные инциденты (сайт недоступен) — ответ [до 5 минут круглосуточно].',
         },
         {
-          doc: 'Отчёт поддержки, август.xlsx',
+          doc: 'Отчет поддержки, август.xlsx',
           section: 'Итоги',
           score: 0.58,
           fragment: 'Средний фактический первый ответ за август — [6 минут 40 секунд].',
@@ -461,13 +461,13 @@ export const AI_MODERATION = {
   } as Record<AiModerationLabel, { name: string; stat: string; tone: AiTone }>,
   fixes: (count: number) => `Ручных правок: ${count}`,
   fixesHint: 'Не согласны с AI — нажмите «Вернуть» или «Скрыть». Правки уходят в примеры для дообучения.',
-  fixed: (text: string, label: string) => `«${text}» → ${label}. Пример сохранён для дообучения.`,
+  fixed: (text: string, label: string) => `«${text}» → ${label}. Пример сохранен для дообучения.`,
   /** Признаки спама для ручной правки «Скрыть». */
   spamHint: /ссылк|заработ|%/,
   stream: [
     {
       who: 'Ирина',
-      text: 'Заказывала в пятницу, пришло в понедельник. Всё целое, спасибо!',
+      text: 'Заказывала в пятницу, пришло в понедельник. Все целое, спасибо!',
       label: 'ok',
       confidence: 0.97,
     },
@@ -483,11 +483,11 @@ export const AI_MODERATION = {
     { who: 'Денис', text: 'Курьер опять опоздал, это уже третий раз. Кошмар какой-то', label: 'ok', confidence: 0.72 },
     {
       who: 'promo.shop',
-      text: 'Скидки -90% на всё только сегодня → ссылка в профиле',
+      text: 'Скидки -90% на все только сегодня → ссылка в профиле',
       label: 'spam',
       confidence: 0.96,
     },
-    { who: 'Анна', text: 'Поддержка ответила за 5 минут и всё решила', label: 'ok', confidence: 0.99 },
+    { who: 'Анна', text: 'Поддержка ответила за 5 минут и все решила', label: 'ok', confidence: 0.99 },
     { who: 'Макс', text: 'Руки бы оторвать тому, кто упаковывал', label: 'tox', confidence: 0.61 },
     { who: 'Светлана', text: 'Подскажите, есть ли доставка в Казань?', label: 'ok', confidence: 0.98 },
     { who: 'crypto_boss', text: 'Удвою твои деньги за сутки, гарантия 100%', label: 'spam', confidence: 0.98 },
@@ -506,9 +506,9 @@ export const AI_INVOICE = {
   total: 272600,
   title: 'Накладная № 318',
   go: 'Распознать скан',
-  busy: 'Распознаём…',
+  busy: 'Распознаем…',
   again: 'Распознать заново',
-  headers: ['Товар', 'Кол-во', 'Цена, ₽', 'Сумма, ₽'],
+  headers: ['Товар', 'Кол.', 'Цена, ₽', 'Сумма, ₽'],
   placeholder: '———',
   rows: [
     ['Кроссовки Run Pro', '24', '5 900', '141 600'],
@@ -520,9 +520,7 @@ export const AI_INVOICE = {
   doubt: { row: 1, col: 1, read: '1?0', options: ['120', '100', '180'] },
   fixPrompt: 'Кол-во носков размыто · уверенность 62%. Вариант:',
   checkLabel: 'Проверка итога',
-  waiting: 'ждёт распознавания',
-  formula: '24×5 900 + ?×450 + 40×890 + 60×690',
-  mismatch: 'не сходится с 272 600',
+  waiting: 'ждет распознавания',
   sum: (value: string) => `Сумма строк: ${value} ₽`,
   ok: '✓ сходится с итогом',
   bad: '≠ 272 600 — проверьте',

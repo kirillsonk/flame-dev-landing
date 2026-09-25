@@ -10,10 +10,15 @@ export interface BaseLangSwitchProps {
   className?: string;
 }
 
-// Переключатель пока только визуальный: английской версии нет, язык страницы не меняется.
+// Языки с подсказкой (hint) ещё не готовы. Пока готов один язык, переключатель не показываем:
+// так просит BRAND.md — EN появится вместе с английской версией.
+const READY_LANGS = LANGS.filter((lang) => !lang.hint).length;
+
 const BaseLangSwitch = ({ className }: BaseLangSwitchProps) => {
   const [active, setActive] = useState(LANGS[0].code);
   const index = LANGS.findIndex((lang) => lang.code === active);
+
+  if (READY_LANGS < 2) return null;
 
   return (
     <div className={clsx(styles.langSwitch, className)} role="group" aria-label="Язык сайта">

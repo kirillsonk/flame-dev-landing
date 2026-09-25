@@ -43,7 +43,7 @@ const CtaChat = () => {
             <span ref={draftRef} className={styles.chat__draft} data-placeholder={CTA_CHAT.placeholder} />
             <span className={styles.chat__caret} />
           </span>
-          <BaseButton href="#contact" size="l" arrow className={styles.chat__button}>
+          <BaseButton href="#contact" size="l" className={styles.chat__button}>
             {CTA_LABEL}
           </BaseButton>
         </div>

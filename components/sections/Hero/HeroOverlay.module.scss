@@ -1,7 +1,7 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
-// Кадр лежит во всю ширину окна, поверх него — переключатель проектов сверху и текст снизу.
+// Кадр лежит во всю ширину окна, поверх него — заголовок и кнопка снизу.
 // Экран на всю высоту окна: шапка прозрачная и лежит поверх кадра, поэтому секция
 // поднимается под неё на её высоту — иначе экран начинается ниже и низ уходит за край.
 .heroOverlay {
@@ -18,9 +18,8 @@
   height: 100%;
 }
 
-// Порядок слоёв задан явно: кадры → затемнение → подложка низа → контент.
-// Иначе въезжающий кадр (у него свой z-index) на время анимации оказывается поверх затемнения.
-// Фрейм с обоими слотами: по скроллу GSAP ведёт его top/left/width/height и радиус
+// Порядок слоёв задан явно: кадр → затемнение → подложка низа → контент.
+// Фрейм с роликом: по скроллу GSAP ведёт его top/left/width/height и радиус
 // из полного экрана в карточку 16:9, overflow режет ролики по скруглению.
 .heroOverlay__frame {
   position: absolute;
@@ -52,63 +51,6 @@
   }
 }
 
-// Смена кадра — диафрагма: новый раскрывается кругом из активной вкладки. Центр приходит
-// из компонента в --iris-x / --iris-y; запасное значение — левый нижний угол, где стоят вкладки.
-// Предыдущий кадр всё это время лежит слоем ниже, поэтому провала в пустоту нет.
-// Край круга растушёван: две границы радиуса едут с отступом друг от друга, поэтому переход
-// читается как раскрытие диафрагмы, а не как резкая обрезка.
-@property --iris-r {
-  syntax: '<percentage>';
-  inherits: false;
-  initial-value: 0%;
-}
-
-@property --iris-edge {
-  syntax: '<percentage>';
-  inherits: false;
-  initial-value: 0%;
-}
-
-// Передний (устоявшийся) кадр выше заднего слота, въезжающий — выше обоих.
-.heroOverlay__video--front {
-  z-index: 1;
-}
-
-.heroOverlay__video--enter {
-  z-index: 2;
-  mask-image: radial-gradient(
-    circle at var(--iris-x, 14%) var(--iris-y, 86%),
-    #000 var(--iris-r),
-    transparent var(--iris-edge)
-  );
-  -webkit-mask-image: radial-gradient(
-    circle at var(--iris-x, 14%) var(--iris-y, 86%),
-    #000 var(--iris-r),
-    transparent var(--iris-edge)
-  );
-  animation: hero-iris 1.6s cubic-bezier(0.33, 0, 0.2, 1) both;
-}
-
-// Круг раскрывается с широкой растушёвкой и одновременно проявляется по прозрачности:
-// без этого граница читается как резкая обрезка, даже на большой длительности.
-@keyframes hero-iris {
-  from {
-    --iris-r: 0%;
-    --iris-edge: 22%;
-    opacity: 0;
-    scale: 1.05;
-  }
-  35% {
-    opacity: 1;
-  }
-  to {
-    --iris-r: 145%;
-    --iris-edge: 178%;
-    opacity: 1;
-    scale: 1;
-  }
-}
-
 // Затемнение слева, снизу и общее: в кадре есть светлые сцены (до чистого белого),
 // а заголовок белый — без этой подложки он местами пропадает.
 // По скроллу GSAP уводит его почти в ноль, и кадр открывается целиком.
@@ -134,8 +76,8 @@
 }
 
 // Подложка под нижним блоком. Она не участвует в раскрытии: общее затемнение по скроллу
-// уходит почти в ноль, а переключатель, подпись кадра и кнопка остаются на экране — без
-// собственной подложки они ложатся прямо на светлый кадр и теряются.
+// уходит почти в ноль, а кнопка остаётся на экране — без собственной подложки
+// она ложится прямо на светлый кадр и теряется.
 .heroOverlay__shade {
   position: absolute;
   inset: auto 0 0 0;
@@ -155,7 +97,7 @@
   position: relative;
   z-index: 4;
   // Контейнер на всю высоту секции лежит поверх карточки: клики пропускаем насквозь,
-  // ловят их только сами блоки с текстом и переключателем.
+  // ловят их только сами блоки с текстом и кнопкой.
   pointer-events: none;
   display: flex;
   flex-direction: column;
@@ -168,74 +110,6 @@
   padding-bottom: var(--space-heading);
 }
 
-// Переключатель проектов внизу, рядом с кнопкой: подписи в строку, под активной —
-// полоса времени кадра. На узком экране список прокручивается вбок.
-.heroOverlay__switch {
-  display: flex;
-  gap: var(--space-card);
-  min-width: 0;
-
-  @include mobile {
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 0.4rem;
-  }
-}
-
-.heroOverlay__tab {
-  @include text-body(500);
-  @include focus-ring;
-  position: relative;
-  flex: 0 0 auto;
-  padding-bottom: 1.2rem;
-  // Светлее, чем --color-text-dim: тот рассчитан на плоский тёмный фон, а здесь под текстом
-  // идёт кадр. На измеренной подложке (81 по яркости) приглушённый серый давал 2.8:1.
-  color: color-mix(in srgb, var(--color-text) 84%, transparent);
-  transition: color 0.2s ease-out;
-
-  @include hover {
-    color: var(--color-text);
-  }
-}
-
-.heroOverlay__tab--active {
-  color: var(--color-text);
-}
-
-// Дорожка со скруглёнными концами; заливка растёт через clip-path, поэтому скругления
-// не сплющиваются, как это было бы при масштабировании по ширине.
-.heroOverlay__line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 0.3rem;
-  border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--color-text) 16%, transparent);
-  opacity: 0.6;
-  transition: opacity 0.2s ease-out;
-
-  &::after {
-    content: '';
-    display: block;
-    height: 100%;
-    border-radius: var(--radius-pill);
-    background: var(--gradient-action);
-    box-shadow: 0 0 1.4rem color-mix(in srgb, var(--color-action-accent) 45%, transparent);
-    clip-path: inset(0 100% 0 0 round var(--radius-pill));
-  }
-}
-
-.heroOverlay__tab--active .heroOverlay__line {
-  opacity: 1;
-}
-
-// Заливка — прогресс ролика: компонент пишет в --slide-rest долю, которая ещё не доиграна,
-// на каждом кадре (requestAnimationFrame), поэтому отдельного transition не нужно.
-.heroOverlay__tab--active .heroOverlay__line::after {
-  clip-path: inset(0 var(--slide-rest, 100%) 0 0 round var(--radius-pill));
-}
-
 .heroOverlay__text {
   display: flex;
   flex-direction: column;
@@ -243,79 +117,331 @@
   pointer-events: auto;
 }
 
+.heroOverlay__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding: 0;
+  list-style: none;
+}
+
+// Пилюли как чипы прежнего заголовка (Hero.module.scss): белые, тянутся за курсором
+// (--chip-x/--chip-y пишет useChipMagnet), на ховере инвертируются и чуть растут.
+.heroOverlay__pill {
+  @include text-body(500);
+  --chip-x: 0px;
+  --chip-y: 0px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.6rem;
+  padding: 0 1.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  color: var(--color-bg);
+  transform: translate(var(--chip-x), var(--chip-y));
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.45s var(--ease);
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  @include interact {
+    z-index: 1;
+    transform: translate(var(--chip-x), var(--chip-y)) scale(1.08);
+  }
+}
+
+// «Сайты»: выделение слоя как в Figma. Пилюля остается светлым объектом и чуть поворачивается,
+// вокруг синяя рамка с белыми хэндлами, над пилюлей бейдж с размером (data-meta пишет useChipSize).
+.heroOverlay__pill--frame {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.6rem;
+    background:
+      linear-gradient(var(--color-text), var(--color-text)) left 0.1rem top 0.1rem / 0.6rem 0.6rem no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) right 0.1rem top 0.1rem / 0.6rem 0.6rem no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) left 0.1rem bottom 0.1rem / 0.6rem 0.6rem no-repeat,
+      linear-gradient(var(--color-text), var(--color-text)) right 0.1rem bottom 0.1rem / 0.6rem 0.6rem no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left top / 0.8rem 0.8rem no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right top / 0.8rem 0.8rem no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left bottom / 0.8rem 0.8rem no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right bottom / 0.8rem 0.8rem no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0 top 0.4rem / 100% 1px no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0 bottom 0.4rem / 100% 1px no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) left 0.4rem top 0 / 1px 100% no-repeat,
+      linear-gradient(var(--color-action-primary), var(--color-action-primary)) right 0.4rem top 0 / 1px 100% no-repeat;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+    pointer-events: none;
+  }
+
+  &::before {
+    @include text-body(500);
+    content: attr(data-meta);
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    padding: 0 0.8rem;
+    border-radius: var(--radius-control);
+    background: var(--color-action-primary);
+    color: var(--color-text);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, -0.2rem);
+    transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+    pointer-events: none;
+  }
+
+  @include interact {
+    transform: translate(var(--chip-x), var(--chip-y)) rotate(-3deg) scale(1.08);
+
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &::before {
+      opacity: 1;
+      transform: translate(-50%, -1.2rem);
+    }
+  }
+}
+
+// «Сервисы»: темная консоль, слово прокручивается сквозь системы и возвращается синим.
+// Ширина пилюли задана словом в потоке и не меняется.
+.heroOverlay__pill--roll {
+  @include interact {
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 1px var(--color-text);
+  }
+}
+
+.heroOverlay__slot {
+  position: relative;
+  display: inline-block;
+  // clip, а не hidden: hidden сдвигает базовую линию inline-block на нижний край.
+  overflow: clip;
+}
+
+.heroOverlay__roll {
+  display: inline-block;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.heroOverlay__rollItem {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--color-action-accent);
+}
+
+.heroOverlay__rollItem--last {
+  color: var(--color-action-primary-hover);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroOverlay__pill--roll:hover .heroOverlay__roll {
+    transform: translateY(var(--slot-shift));
+  }
+}
+
+.heroOverlay__pill--roll:focus-visible .heroOverlay__roll {
+  transform: translateY(var(--slot-shift));
+}
+
+// «Спецпроекты»: игровой отскок со сжатием, из пилюли выпрыгивают три звезды.
+.heroOverlay__pill--game {
+  @include interact {
+    background: var(--color-demo-gold);
+    animation: hero-pill-bounce 0.6s var(--ease);
+  }
+}
+
+.heroOverlay__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    background: var(--color-demo-gold);
+    clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroOverlay__pill--game:hover .heroOverlay__stars i {
+    animation: hero-pill-star 0.8s var(--ease) forwards;
+  }
+}
+
+.heroOverlay__pill--game:focus-visible .heroOverlay__stars i {
+  animation: hero-pill-star 0.8s var(--ease) forwards;
+}
+
+// Разлет звезд задается переменными: влево вверх, вверх, вправо вверх.
+.heroOverlay__stars i:nth-child(1) {
+  --star-x: -3.2rem;
+  --star-y: -2.8rem;
+  --star-r: -40deg;
+}
+
+.heroOverlay__stars i:nth-child(2) {
+  --star-x: 0.4rem;
+  --star-y: -3.8rem;
+  --star-r: 20deg;
+  animation-delay: 0.06s;
+}
+
+.heroOverlay__stars i:nth-child(3) {
+  --star-x: 3.4rem;
+  --star-y: -2.6rem;
+  --star-r: 60deg;
+  animation-delay: 0.12s;
+}
+
+@keyframes hero-pill-bounce {
+  0% {
+    transform: translate(var(--chip-x), var(--chip-y)) scale(1);
+  }
+  30% {
+    transform: translate(var(--chip-x), var(--chip-y)) translateY(-0.6rem) scale(1.12, 0.92);
+  }
+  55% {
+    transform: translate(var(--chip-x), var(--chip-y)) translateY(0.1rem) scale(0.96, 1.06);
+  }
+  100% {
+    transform: translate(var(--chip-x), var(--chip-y)) scale(1.08);
+  }
+}
+
+@keyframes hero-pill-star {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--star-x), var(--star-y)) rotate(var(--star-r)) scale(1);
+  }
+}
+
+// «AI»: пилюля темнеет, по тексту идет перелив фирменного градиента, будто он генерируется,
+// слева проявляется искра.
+.heroOverlay__pill--spark {
+  &::before {
+    content: '✦';
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    color: var(--color-action-accent);
+    transition: max-width 0.35s var(--ease), margin 0.35s var(--ease), opacity 0.25s var(--ease);
+  }
+
+  @include interact {
+    // Два слоя с разным клипом: градиент режется по буквам, темная заливка — по пилюле.
+    background-image:
+      linear-gradient(100deg, var(--color-text) 20%, var(--color-action-accent) 45%, var(--color-action-primary-hover) 55%, var(--color-text) 80%),
+      linear-gradient(var(--color-bg), var(--color-bg));
+    background-size: 250% 100%, 100% 100%;
+    background-clip: text, border-box;
+    -webkit-background-clip: text, border-box;
+    color: transparent;
+    box-shadow: inset 0 0 0 1px var(--color-action-primary);
+    animation: hero-pill-shimmer 1.4s linear infinite;
+
+    &::before {
+      max-width: 2rem;
+      margin-right: 0.6rem;
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes hero-pill-shimmer {
+  to {
+    background-position: -250% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroOverlay__pill,
+  .heroOverlay__stars i {
+    animation: none !important;
+  }
+}
+
 .heroOverlay__title {
   @include text-display;
-  // Как в текущем первом экране: среднее начертание вместо жирного.
-  font-weight: 500;
-  // Интерлиньяж выше, чем в миксине: пилюля выше строки, и при 1.1 соседние строки
-  // накладываются друг на друга.
-  line-height: 1.32;
-  // Без ограничения ширины, как в основном hero: фраза ложится в три строки, а не в четыре.
   text-wrap: balance;
 }
 
-// Нижний блок остаётся на месте при прокрутке: переключатель, подпись кадра и кнопка.
+// На десктопе каждая часть заголовка с новой строки (перенос после «идеи»),
+// на телефоне перенос определяет ширина.
+.heroOverlay__line {
+  display: block;
+
+  @include mobile {
+    display: inline;
+  }
+}
+
+// Описание светлее --color-text-dim: под текстом идёт кадр, а не плоский фон.
+.heroOverlay__lead {
+  @include text-body;
+  max-width: 64rem;
+  color: var(--color-text-cold);
+}
+
+// Нижний блок с кнопкой остаётся на месте при прокрутке.
 .heroOverlay__foot {
   display: flex;
   align-items: flex-end;
   pointer-events: auto;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-card);
 
   @include mobile {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: stretch;
   }
 }
 
-// Описание кейса внутри карточки: нижний левый угол фрейма поверх роликов, со скримом,
-// как у карточек кейсов. Видимость ведёт таймлайн скролла.
-.heroOverlay__info {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 3;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-card);
-  padding: var(--space-heading) var(--space-card) var(--space-card);
-  background: linear-gradient(0deg, color-mix(in srgb, var(--color-bg) 85%, transparent) 0%, transparent 100%);
-
-  @include mobile {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.heroOverlay__caption {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  max-width: 72rem;
-}
-
-.heroOverlay__captionTitle {
-  @include text-title;
-  font-weight: 500;
-  color: var(--color-text);
-}
-
-.heroOverlay__captionText {
-  @include text-body;
-  // Полностью белая: на светлых пиках кадра полупрозрачная давала меньше 4:1.
-  color: var(--color-text);
-  opacity: 0.8;
-}
-
-// Переход на страницу активного кейса — рядом с основной кнопкой.
-.heroOverlay__link {
+.heroOverlay__secondary {
   @include text-body(500);
   @include focus-ring;
   display: inline-flex;
   align-items: center;
   gap: 0.8rem;
-  white-space: nowrap;
+  min-height: var(--size-button);
+  padding: 0 1.2rem;
   color: var(--color-text);
+  white-space: nowrap;
+
+  @include mobile {
+    justify-content: center;
+  }
 }
 
 .heroOverlay__arrow {
@@ -323,7 +449,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .heroOverlay__link:hover .heroOverlay__arrow {
+  .heroOverlay__secondary:hover .heroOverlay__arrow {
     translate: 0.4rem 0;
   }
 }

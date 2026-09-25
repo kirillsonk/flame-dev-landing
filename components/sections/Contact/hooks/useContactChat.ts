@@ -21,9 +21,11 @@ export interface IUseContactChat {
 const BUBBLE_FROM = { autoAlpha: 0, scale: 0.4, y: 30, transformOrigin: '0% 100%' };
 
 /**
- * Секция пинится на 160% экрана: «печатает…» → пузырь заголовка → снова «печатает…» →
+ * Секция пинится на 100% экрана: «печатает…» → пузырь заголовка → снова «печатает…» →
  * пузырь со сроками → иконки быстрыми ответами → форма выезжает снизу, поля по очереди.
- * На мобильном без пина, при reduced motion — статичный блок.
+ * На мобильном без пина: переписка один раз проигрывается по времени, когда блок входит в экран.
+ * Скраб по высоте секции проявлял поля формы, только когда она уже уезжала вверх.
+ * При reduced motion — статичный блок.
  */
 const useContactChat = (): IUseContactChat => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -53,9 +55,11 @@ const useContactChat = (): IUseContactChat => {
       const tl = gsap.timeline({
         defaults: { ease: 'back.out(1.6)' },
         scrollTrigger: desktop
-          ? { trigger: section, start: 'top top', end: '+=160%', pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true }
-          : { trigger: section, start: 'top 80%', end: 'bottom 70%', scrub: 0.6, invalidateOnRefresh: true },
+          ? { trigger: section, start: 'top top', end: '+=100%', pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true }
+          : { trigger: section, start: 'top 75%', toggleActions: 'play none none none' },
       });
+      // Без скраба длительности таймлайна — секунды: на телефоне вся переписка укладывается примерно в 1,5 с.
+      if (!desktop) tl.timeScale(2.2);
 
       tl.fromTo(typing, { autoAlpha: 0, scale: 0.6, transformOrigin: '0% 100%' }, { autoAlpha: 1, scale: 1, duration: 0.3 }, 0)
         .to(typing, { autoAlpha: 0, scale: 0.6, duration: 0.2, ease: 'power2.in' }, 0.6)

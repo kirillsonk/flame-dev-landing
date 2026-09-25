@@ -117,38 +117,35 @@ const AiInvoice = () => {
             ))}
           </tbody>
         </table>
-        {done && quantity === null && (
+        {/* Спорная ячейка и сверка итога делят одно место: пока количество не выбрано, итог не сверить,
+            а вдвоём они не помещаются в рамку сцены. */}
+        {done && quantity === null ? (
           <div className={styles.invoice__fix}>
             <span>{copy.fixPrompt}</span>
             <AiChips label={copy.fixPrompt} items={doubt.options} onSelect={(index) => choose(doubt.options[index])} />
           </div>
+        ) : (
+          <div
+            className={clsx(
+              styles.invoice__check,
+              check === 'ok' && styles['invoice__check--ok'],
+              check === 'bad' && styles['invoice__check--bad'],
+            )}
+          >
+            {check === 'waiting' && (
+              <>
+                <span>{copy.checkLabel}</span>
+                <b className={styles.invoice__verdict}>{copy.waiting}</b>
+              </>
+            )}
+            {check !== 'waiting' && quantity !== null && (
+              <>
+                <span>{sumText}</span>
+                <b className={styles.invoice__verdict}>{check === 'ok' ? copy.ok : copy.bad}</b>
+              </>
+            )}
+          </div>
         )}
-        <div
-          className={clsx(
-            styles.invoice__check,
-            check === 'ok' && styles['invoice__check--ok'],
-            check === 'bad' && styles['invoice__check--bad'],
-          )}
-        >
-          {check === 'waiting' && (
-            <>
-              <span>{copy.checkLabel}</span>
-              <b className={styles.invoice__verdict}>{copy.waiting}</b>
-            </>
-          )}
-          {check !== 'waiting' && quantity === null && (
-            <>
-              <span>{copy.formula}</span>
-              <b className={styles.invoice__verdict}>{copy.mismatch}</b>
-            </>
-          )}
-          {check !== 'waiting' && quantity !== null && (
-            <>
-              <span>{sumText}</span>
-              <b className={styles.invoice__verdict}>{check === 'ok' ? copy.ok : copy.bad}</b>
-            </>
-          )}
-        </div>
       </section>
     </div>
   );
