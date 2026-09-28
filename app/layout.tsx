@@ -39,8 +39,10 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       lang="ru"
       className={firsNeue.variable}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('flame-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}})()` }} />
         <noscript>
           <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
         </noscript>

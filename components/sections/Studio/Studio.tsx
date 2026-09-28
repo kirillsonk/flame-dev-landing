@@ -1,11 +1,13 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import { CASES } from '@/data/cases';
-import { PROCESS_STEPS, PROCESS_NOTE } from '@/data/process';
+import { PROCESS_NOTE } from '@/data/process';
 import { CTA_LABEL, HERO_INTRO } from '@/data/site';
-import { STUDIO, FEATURED_CASES, CASE_CAPTIONS } from '@/data/studio';
+import { STUDIO } from '@/data/studio';
 import ProjectVisual from './ProjectVisual';
+import FeaturedProject from './FeaturedProject';
+import CaseGallery from './CaseGallery';
+import FlameProcess from './FlameProcess';
 import FlameField from './FlameField';
 import ServiceShowcase from './ServiceShowcase';
 import BriefContact from '@/components/sections/Brief/BriefContact';
@@ -26,27 +28,17 @@ const Studio = () => {
             <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div className={styles.hero__project}>
-          <div className={styles.hero__projectTop}><span>{STUDIO.feature.label}</span><span>Flame Dev / 01</span></div>
+        <FeaturedProject>
           <ProjectVisual item={feature} />
           <Link href={`/cases/${feature.slug}`} className={styles.hero__caption}>
             <div><h2>{STUDIO.feature.title}</h2><p>{STUDIO.feature.description}</p></div><span aria-label={STUDIO.feature.link}>↗</span>
           </Link>
-        </div>
+        </FeaturedProject>
         <div className={styles.hero__signature}><span>{STUDIO.signature}</span><span aria-hidden="true">↓</span></div>
       </section>
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>
-        <div className={styles.projects}>
-          {FEATURED_CASES.map((slug, index) => {
-            const item = CASES.find((entry) => entry.slug === slug)!;
-            const poster = item.videoWide?.poster ?? item.video?.poster ?? item.poster;
-            return <Link data-reveal className={styles.project} href={`/cases/${slug}`} key={slug}>
-              <div className={styles.project__image}>{poster && <Image src={poster} alt={item.title} fill sizes="(max-width: 900px) 100vw, 50vw" />}<span className={styles.project__number}>0{index + 1}</span><span className={styles.project__arrow} aria-hidden="true">↗</span></div>
-              <div className={styles.project__head}><h3>{item.title}</h3><span>{item.tags[0]}</span></div><p>{CASE_CAPTIONS[slug]}</p>
-            </Link>;
-          })}
-        </div>
+        <CaseGallery />
         <Link href="/cases" className={styles.allProjects}>{STUDIO.cases.all}<span aria-hidden="true">↗</span></Link>
       </section>
       <section className={styles.services} id="services">
@@ -55,7 +47,7 @@ const Studio = () => {
       </section>
       <section className={styles.section} id="process">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.process.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.process.title}</h2></div><p className={styles.section__intro}>{PROCESS_NOTE}</p></div>
-        <ol className={styles.process}>{PROCESS_STEPS.map((step, index) => <li key={step.title} data-reveal><span>0{index + 1}</span><h3>{step.title}</h3><p>{step.description}</p></li>)}</ol>
+        <FlameProcess />
       </section>
       <BriefContact />
     </div>

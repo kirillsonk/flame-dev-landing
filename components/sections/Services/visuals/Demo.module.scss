@@ -71,7 +71,7 @@
 .button--primary {
   background: var(--color-action-primary);
   border-color: var(--color-action-primary);
-  color: var(--color-text);
+  color: var(--color-on-action);
   @include hover {
     background: var(--color-action-primary-hover);
   }

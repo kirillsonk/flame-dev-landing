@@ -125,6 +125,7 @@
 // Раскрытие: на устройствах с мышью в покое виден только кружок со стрелкой, подпись выезжает.
 // На тач-экранах наведения нет — подпись видна всегда.
 .cta--reveal {
+  color: var(--color-on-action);
   gap: 0;
   padding: 0 0.8rem;
   background: var(--color-action-primary);
@@ -171,6 +172,7 @@
 
 // Волна по буквам: буквы по очереди приподнимаются и светлеют; задержку пишет компонент.
 .cta--wave {
+  color: var(--color-on-action);
   gap: 0;
   background: var(--color-action-primary);
 }
@@ -183,13 +185,13 @@
 
 .cta--wave:focus-visible .cta__char {
   transform: translateY(-0.3rem);
-  color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-text));
+  color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-on-action));
 }
 
 @media (hover: hover) and (pointer: fine) {
   .cta--wave:hover .cta__char {
     transform: translateY(-0.3rem);
-    color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-text));
+    color: color-mix(in srgb, var(--color-action-accent) 30%, var(--color-on-action));
   }
 }
 
@@ -202,3 +204,5 @@
     transition: color 0.2s var(--ease);
   }
 }
+
+.cta--border, .cta--spot { @include interact { color: var(--color-on-action); } }

@@ -1,4 +1,4 @@
-:root {
+:root, [data-theme="dark"] {
   // Серая база — как на остальных сайтах Flame (landingv2, Tilda).
   --color-bg: #262525;
   --color-surface: #2d2c2c;
@@ -24,6 +24,32 @@
   --color-success: #31d269;
   --color-error: #ff6b7a;
 
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #eef0f4;
+  --color-surface: #f8f9fb;
+  --color-elevated: #e3e7ee;
+  --color-border: #d3d9e2;
+  --color-border-strong: #8591a2;
+  --color-text: #202733;
+  --color-text-dim: #626c7b;
+  --color-text-cold: #515f71;
+  --color-action-primary: #1029ff;
+  --color-action-primary-hover: #243de0;
+  --color-action-accent: #007caa;
+  --gradient-action: linear-gradient(90deg, #1029ff 55%, #009ebd 100%);
+  --gradient-text: linear-gradient(90deg, #1029ff 0%, #007fba 100%);
+  --color-fire: #ce350e;
+  --color-fire-light: #e54922;
+  --color-demo-gold: #916615;
+  --color-success: #167541;
+  --color-error: #bb2946;
+}
+
+:root {
   --type-display: 8rem;
   --type-title: 2.4rem;
   --type-body: 1.6rem;

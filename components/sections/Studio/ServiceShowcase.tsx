@@ -34,7 +34,7 @@ const ServiceShowcase = () => {
           <a href="#contact" className={styles.link}>{STUDIO.services.link}<span aria-hidden="true">↗</span></a>
           <p className={styles.caption}>{SHOWCASE.captions[active]}</p>
         </div>
-        <div id="service-demo" className={styles.stage} role="region" aria-label={`${SHOWCASE.demoLabel} · ${SHOWCASE.tabs[active]}`}>
+        <div data-theme="dark" id="service-demo" className={styles.stage} role="region" aria-label={`${SHOWCASE.demoLabel} · ${SHOWCASE.tabs[active]}`}>
           <div className={styles.scene} key={active}>{inView ? <Demo /> : <Loading />}</div>
         </div>
       </div>

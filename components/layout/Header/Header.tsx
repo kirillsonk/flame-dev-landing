@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import clsx from 'clsx';
 import Logo from '@/components/ui/Logo/Logo';
+import ThemeToggle from '@/components/ui/ThemeToggle/ThemeToggle';
 import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
 import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
 import CtaButton from '@/components/cta/CtaButton/CtaButton';
@@ -44,6 +45,7 @@ const Header = () => {
             </div>
             <div className={styles.header__actions}>
               <BaseLangSwitch className={styles.header__lang} />
+              <div className={styles.header__theme}><ThemeToggle /></div>
               {variant === 'contacts' && (
                 <div className={styles.header__contacts}>
                   {HEADER_CONTACTS.map((link) => {
@@ -69,6 +71,7 @@ const Header = () => {
           </nav>
 
           <div className={styles.header__mobile}>
+            <ThemeToggle />
             <BaseLangSwitch />
             <button
               type="button"
