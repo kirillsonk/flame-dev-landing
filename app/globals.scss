@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 :root {
   // Серая база — как на остальных сайтах Flame (landingv2, Tilda).
   --color-bg: #262525;
@@ -70,7 +68,7 @@
   --z-dev: 60;
 }
 
-@media screen and (max-width: 768px) and (orientation: portrait) {
+@media screen and (max-width: 900px) {
   :root {
     --type-display: 4rem;
     --space-heading: 3.2rem;
@@ -98,22 +96,16 @@
 }
 
 html {
-  font-size: 10px;
+  font-size: 62.5%;
   scroll-behavior: smooth;
   // Шапка липкая: к моменту перехода по якорю она уже в тонком состоянии.
   scroll-padding-top: var(--size-header-compact);
 
-  @media screen and (max-width: 768px) and (orientation: portrait) {
+  @media screen and (max-width: 900px) {
     scroll-padding-top: var(--size-header);
   }
 
-  @media screen and (max-width: 1440px) {
-    font-size: math.div(10, 1440) * 100vw;
-  }
 
-  @media screen and (max-width: 768px) and (orientation: portrait) {
-    font-size: math.div(10, 390) * 100vw;
-  }
 }
 
 body {

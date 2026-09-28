@@ -1,0 +1,5 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+.review { @include section; padding-bottom: 0; h1 { --type-display: 4.8rem; @include text-display; margin: 3.2rem 0 2rem; } > p, > a { @include text-body; color: var(--color-text-cold); } @include mobile { h1 { --type-display: 3.6rem; } } }
+.review__tabs { display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 3.2rem 0 2.4rem; button { @include text-body; @include focus-ring; border: 1px solid var(--color-border-strong); border-radius: var(--radius-pill); padding: 1.2rem 2rem; } button[aria-pressed='true'] { background: var(--color-action-primary); border-color: var(--color-action-primary); } }
+.review__note { min-height: 4.8rem; }

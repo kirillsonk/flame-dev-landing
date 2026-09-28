@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
 import Header from '@/components/layout/Header/Header';
-import FooterCurtain from '@/components/layout/Footer/FooterCurtain';
+import Footer from '@/components/layout/Footer/Footer';
 import RevealController from '@/components/layout/RevealController/RevealController';
 import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
@@ -49,7 +49,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <div id="top" />
         <Header />
         {children}
-        <FooterCurtain />
+        <Footer />
         <MobileCtaBar />
         <ScrollTop />
         <RevealController />

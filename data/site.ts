@@ -45,10 +45,10 @@ export const LANGS: ILang[] = [
 ];
 
 export const NAV: INavItem[] = [
-  { label: 'Кейсы', href: '#cases' },
-  { label: 'Услуги', href: '#services' },
-  { label: 'Подход', href: '#process' },
-  { label: 'Контакты', href: '#contact' },
+  { label: 'Кейсы', href: '/#cases' },
+  { label: 'Услуги', href: '/#services' },
+  { label: 'Подход', href: '/#process' },
+  { label: 'Контакты', href: '/#contact' },
 ];
 
 export const CTA_LABEL = 'Обсудить проект';
@@ -142,11 +142,9 @@ export const CONTACT = {
   ] as IContactLink[],
   // Вариант «Маркер»: тот же текст, обещания по срокам выделяются маркером по скроллу.
   textMarked: [
-    { text: 'Ответим ' },
-    { text: 'в течение дня', mark: true },
-    { text: '. Оценку сроков и бюджета дадим ' },
-    { text: 'за 2–3 дня', mark: true },
-    { text: '.' },
+    { text: 'Начнем с вашей задачи. ' },
+    { text: 'Предложим подход', mark: true },
+    { text: ' и согласуем следующий шаг' },
   ] as { text: string; mark?: boolean }[],
   // Вариант «Чат»: подпись под пузырём с текстом, как время сообщения.
   chatTime: '12:04',
