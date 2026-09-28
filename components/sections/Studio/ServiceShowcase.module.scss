@@ -1,0 +1,19 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.showcase { position: relative; }
+.tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--color-border-strong); @include mobile { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tab { @include text-body; @include focus-ring; display: flex; align-items: center; gap: 1.6rem; text-align: left; padding: 2.4rem 1.6rem; color: var(--color-text-cold); transition: background .25s, color .25s; > span:first-child { color: var(--color-text-dim); } > span:last-child { margin-left: auto; } @include hover { background: var(--color-elevated); color: var(--color-text); } @include mobile { gap: .8rem; padding: 1.6rem 1rem; } }
+.tab--active { color: var(--color-text); background: var(--color-action-primary); > span:first-child { color: inherit; } }
+.body { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); gap: 4.8rem; padding-top: 3.2rem; @include mobile { grid-template-columns: minmax(0, 1fr); gap: 2.4rem; } }
+.copy { display: flex; flex-direction: column; align-items: flex-start; padding-top: 1.6rem; animation: arrive .45s var(--ease); h3 { @include text-title; margin-bottom: 2.4rem; } }
+.label { @include text-body; color: var(--color-text-dim); margin-bottom: 4rem; @include mobile { margin-bottom: 1.6rem; } }
+.description { @include text-body; color: var(--color-text-cold); }
+.link { @include text-body; @include focus-ring; display: flex; gap: 2.4rem; padding-block: 2rem; margin-top: 1.2rem; border-bottom: 1px solid var(--color-border-strong); }
+.caption { @include text-body; color: var(--color-text-dim); margin-top: auto; padding-top: 6rem; max-width: 26rem; @include mobile { display: none; } }
+.stage { position: relative; min-width: 0; height: 60rem; border: 1px solid var(--color-border); border-radius: var(--radius-panel); overflow: hidden; background: var(--color-bg); box-shadow: 0 2rem 8rem color-mix(in srgb, var(--color-action-primary) 9%, transparent); @include mobile { height: 66rem; } }
+.scene { height: 100%; animation: arrive .5s var(--ease); }
+.loading { @include text-body; display: grid; place-items: center; height: 100%; padding: 4rem; color: var(--color-text-cold); }
+.note { @include text-body; color: var(--color-text-dim); padding-top: 2.4rem; }
+@keyframes arrive { from { opacity: .3; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .scene, .copy { animation: none; } .tab { transition: none; } }

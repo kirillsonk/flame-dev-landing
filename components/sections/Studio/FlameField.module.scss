@@ -1,0 +1,9 @@
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--color-action-primary) 7%, transparent), transparent 65%);
+  canvas { display: block; width: 100%; height: 100%; }
+}

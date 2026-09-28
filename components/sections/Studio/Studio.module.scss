@@ -1,17 +1,16 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
-.studio { overflow: clip; background: var(--color-bg); }
+.studio { overflow: clip; position: relative; isolation: isolate; }
 .eyebrow { @include text-body; color: var(--color-text-cold); margin-bottom: 2.4rem; }
 .hero { @include container; display: grid; grid-template-columns: 1.2fr 1fr; gap: 4.8rem; align-items: center; padding-top: 7.2rem; position: relative; isolation: isolate; @include mobile { grid-template-columns: 1fr; padding-top: 3.2rem; gap: 3.6rem; } }
-.hero__copy { min-width: 0; }
+.hero__copy { min-width: 0; animation: heroCopy .9s var(--ease) both; }
 .hero__title { --type-display: 7.2rem; @include text-display; margin-bottom: 3.2rem; span { display: block; } @include mobile { --type-display: 4rem; } }
-.hero__accent { color: var(--color-text-cold); }
+.hero__accent { @include gradient-text; }
 .hero__text { @include text-body; max-width: 49rem; color: var(--color-text-cold); margin-bottom: 3.2rem; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 2.4rem; @include mobile { gap: .6rem 2rem; } }
 .textLink { @include text-body; @include focus-ring; display: inline-flex; gap: 1.6rem; align-items: center; padding-block: 1.4rem; }
-.hero__flame { position: absolute; width: 64rem; height: 73rem; right: -12rem; top: -8rem; z-index: -1; stroke: var(--color-action-primary); stroke-width: 1.1; opacity: .45; transform: rotate(18deg); filter: drop-shadow(0 0 24px var(--color-action-primary)); @include mobile { width: 40rem; height: 55rem; top: 30rem; right: -16rem; opacity: .25; } }
-.hero__project { min-width: 0; position: relative; margin-top: 6rem; padding: 1.2rem; background: linear-gradient(145deg, var(--color-elevated), var(--color-surface)); border: 1px solid var(--color-border-strong); border-radius: var(--radius-panel); box-shadow: 0 3rem 9rem color-mix(in srgb, var(--color-action-primary) 9%, transparent); @include mobile { margin-top: 0; } }
+.hero__project { animation: heroProject 1.2s var(--ease) both; min-width: 0; position: relative; margin-top: 6rem; transform: perspective(1200px) rotateY(-6deg) rotateZ(2deg); transition: transform .65s var(--ease); padding: 1.2rem; background: linear-gradient(145deg, var(--color-elevated), var(--color-surface)); border: 1px solid var(--color-border-strong); border-radius: var(--radius-panel); box-shadow: 0 3rem 9rem color-mix(in srgb, var(--color-action-primary) 9%, transparent); @include hover { transform: perspective(1200px) rotateY(0) rotateZ(0); } @include mobile { margin-top: 0; transform: none; } }
 .hero__projectTop { @include text-body; display: flex; justify-content: space-between; padding: .6rem .8rem 1.6rem; color: var(--color-text-cold); }
 .visual { aspect-ratio: 16 / 10; position: relative; border-radius: var(--radius-control); overflow: hidden; background: var(--color-bg); video { width: 100%; height: 100%; object-fit: cover; } }
 .visual__play { @include text-body; @include focus-ring; position: absolute; bottom: 1.6rem; left: 1.6rem; display: flex; align-items: center; gap: .8rem; background: var(--color-bg); border: 1px solid var(--color-border-strong); padding: 1rem 1.6rem; border-radius: var(--radius-pill); }
@@ -28,9 +27,21 @@
 .project__arrow { position: absolute; bottom: 1.6rem; right: 1.6rem; background: var(--color-bg); border: 1px solid var(--color-border-strong); border-radius: 50%; width: 4rem; height: 4rem; display: grid; place-items: center; }
 .project__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1.6rem; margin-top: 2rem; h3 { @include text-title; } > span { @include text-body; color: var(--color-text-dim); flex-shrink: 0; } @include mobile { flex-wrap: wrap; gap: .8rem; } }
 .allProjects { @include text-body; @include focus-ring; display: flex; align-items: center; justify-content: space-between; padding: 2.4rem 0; border-bottom: 1px solid var(--color-border-strong); margin-top: 4rem; }
-.services { @include section; background: linear-gradient(150deg, var(--color-surface), var(--color-bg)); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
-.services__list { border-top: 1px solid var(--color-border-strong); }
-.service { display: grid; grid-template-columns: 4rem 1fr 1fr 4.8rem; gap: 3.2rem; align-items: start; padding-block: 3.2rem; border-bottom: 1px solid var(--color-border); h3 { @include text-title; max-width: 33rem; } p { @include text-body; color: var(--color-text-cold); } > a { @include focus-ring; display: grid; place-items: center; width: 4.8rem; height: 4.8rem; border-radius: 50%; border: 1px solid var(--color-border-strong); } @include mobile { grid-template-columns: 3rem 1fr; gap: 1.6rem; p { grid-column: 2; } > a { display: none; } } }
-.service__number { @include text-body; color: var(--color-text-dim); }
+.services { @include section; background: color-mix(in srgb, var(--color-surface) 85%, transparent); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
 .process { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 2.4rem; li { border-top: 1px solid var(--color-border-strong); padding-top: 2.4rem; } span { @include text-body; color: var(--color-text-cold); } h3 { @include text-title; margin: 3.2rem 0 1.6rem; } p { @include text-body; color: var(--color-text-cold); } @include mobile { grid-template-columns: 1fr; h3 { margin-top: 1.2rem; } } }
 @media (prefers-reduced-motion: reduce) { .project__image img { transition: none; } }
+
+.hero__signature > span:last-child { color: var(--color-action-accent); }
+.project:nth-child(even) { margin-top: 7.2rem; @include mobile { margin-top: 0; } }
+.project__arrow { transition: transform .35s var(--ease), background .35s; }
+.project { @include hover { .project__arrow { transform: rotate(45deg); background: var(--color-action-primary); } } }
+.process li { position: relative; background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 80%, transparent), transparent); }
+.process li::before { content: ''; position: absolute; top: -1px; left: 0; width: 0; height: 2px; background: var(--gradient-action); transition: width 1.2s var(--ease); }
+.process li:global(.is-revealed)::before { width: 100%; }
+@keyframes heroCopy { from { opacity: 0; translate: 0 2.4rem; } to { opacity: 1; translate: 0 0; } }
+@keyframes heroProject { from { opacity: 0; translate: 3rem 2rem; } to { opacity: 1; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero__copy, .hero__project { animation: none; }
+  .hero__project { transform: none; transition: none; }
+  .process li::before, .project__arrow { transition: none; }
+}
