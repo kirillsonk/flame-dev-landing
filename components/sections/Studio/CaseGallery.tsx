@@ -70,7 +70,7 @@ const CaseGallery = () => {
         </Link>
       </div>
       <div className={styles.gallery__controls}>
-        <span aria-live="polite" aria-atomic="true">0{active + 1}<span className={styles.gallery__total}> / 0{projects.length}</span><span className={styles.gallery__sr}> · {item.title}</span></span>
+        <span className={styles.gallery__sr} aria-live="polite" aria-atomic="true">{item.title}</span>
         <div className={styles.gallery__track} aria-hidden="true"><span style={{ width: `${(active + 1) / projects.length * 100}%` }} /></div>
         <button type="button" onClick={() => select(active - 1)} aria-label={CASE_GALLERY.previous}>←</button>
         <button type="button" onClick={() => select(active + 1)} aria-label={CASE_GALLERY.next}>→</button>
@@ -78,7 +78,6 @@ const CaseGallery = () => {
     </div>
     <div ref={indexRef} className={styles.gallery__index} role="group" aria-label={CASE_GALLERY.index}>
       {projects.map((project, index) => <button type="button" ref={node => { buttons.current[index] = node; }} key={project.slug} className={clsx(styles.gallery__item, active === index && styles['gallery__item--active'])} aria-pressed={active === index} aria-controls="selected-case" onClick={() => select(index)} onKeyDown={event => onKey(event, index)}>
-        <span className={styles.gallery__number}>0{index + 1}</span>
         <span className={styles.gallery__thumb}>{poster(index) && <Image src={poster(index)!} alt="" fill sizes="72px" />}</span>
         <span className={styles.gallery__name}>{project.title}<span>{project.tags[0]}</span></span>
         <span className={styles.gallery__indicator} aria-hidden="true">↗</span>

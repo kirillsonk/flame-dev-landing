@@ -1,25 +1,21 @@
 import type { CSSProperties } from 'react';
 import { FLAME_PROCESS } from '@/data/appearance';
-import { FLAME_BASE } from '@/components/sections/Services/flame';
 import styles from './FlameProcess.module.scss';
 
 const icons = [
-  <g key="discover"><circle cx="24" cy="24" r="15" /><path d="m30 18-4 10-8 2 4-10 8-2ZM24 5v4m0 30v4M5 24h4m30 0h4" /></g>,
-  <g key="structure"><rect x="17" y="7" width="14" height="10" rx="2" /><rect x="5" y="31" width="14" height="10" rx="2" /><rect x="29" y="31" width="14" height="10" rx="2" /><path d="M24 17v7H12v7m12-7h12v7" /></g>,
-  <g key="design"><path d="m12 35 4-13L32 6l10 10-16 16-14 3Zm4-13 10 10M28 10l10 10M7 42h34" /><circle cx="22" cy="24" r="2" /></g>,
-  <g key="code"><path d="m15 10-10 10 10 10m18-20 10 10-10 10M27 7l-6 26m5 5 5 5 12-12" /></g>,
-  <g key="launch"><path d="M19 29c-1-9 7-20 22-22 0 15-10 24-21 23Zm0 0-8 8m10-23-10 1-5 10 12-1m16 2-1 11-10 5 1-12M10 33c-4 1-5 5-5 10 5 0 9-1 10-5" /><circle cx="31" cy="17" r="4" /></g>,
+  <g key="discover"><rect x="7" y="8" width="27" height="23" rx="11.5" /><path d="M19 34a11 11 0 0 0 22-2c0-4-2-7-5-9" /><circle cx="15" cy="19.5" r="1" /><circle cx="21" cy="19.5" r="1" /><circle cx="27" cy="19.5" r="1" /></g>,
+  <g key="structure"><rect x="16" y="6" width="16" height="12" rx="6" /><rect x="4" y="31" width="16" height="12" rx="6" /><rect x="28" y="31" width="16" height="12" rx="6" /><path d="M24 18v4c0 3-2 4-5 4h-3c-3 0-4 2-4 5m12-9c0 3 2 4 5 4h3c3 0 4 2 4 5" /></g>,
+  <g key="design"><path d="M24 6C14 6 6 14 6 24s8 18 18 18h2c4 0 6-4 4-7-2-4 0-7 4-7h2c4 0 6-3 6-6C42 13 34 6 24 6Z" /><circle cx="16" cy="16" r="2" /><circle cx="26" cy="13" r="2" /><circle cx="35" cy="18" r="2" /><circle cx="13" cy="27" r="2" /></g>,
+  <g key="code"><rect x="5" y="7" width="38" height="34" rx="10" /><path d="M6 17h36m-23 7-3 2c-2 1-2 3 0 4l3 2m10-8 3 2c2 1 2 3 0 4l-3 2" /><circle cx="13" cy="12" r=".8" /><circle cx="18" cy="12" r=".8" /></g>,
+  <g key="launch"><circle cx="24" cy="24" r="17" /><path d="m16 24 5 5c1 1 2 1 3 0l9-10" /></g>,
 ];
 const FlameProcess = () => <ol className={styles.process}>
   {FLAME_PROCESS.map((step, index) => <li className={styles.process__step} key={step.title} data-reveal style={{ '--step': index } as CSSProperties}>
     <div className={styles.process__visual} aria-hidden="true">
-      <svg className={styles.process__flame} viewBox="-.06 .1 1.12 .98" fill="none">
-        <defs><linearGradient id={`process-flame-${index}`} x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse"><stop stopColor="var(--color-action-accent)" /><stop offset=".6" stopColor="var(--color-action-primary)" /><stop offset="1" stopColor="var(--color-action-accent)" /></linearGradient></defs>
-        <path className={styles.process__fill} d={FLAME_BASE} fill={`url(#process-flame-${index})`} />
-        <path className={styles.process__outline} d={FLAME_BASE} stroke={`url(#process-flame-${index})`} strokeWidth=".008" pathLength="1" />
-      </svg>
-      <svg className={styles.process__icon} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icons[index]}</svg>
-      <span className={styles.process__number}>0{index + 1}</span>
+      <span className={styles.process__orbit} />
+      <span className={styles.process__disc}>
+        <svg className={styles.process__icon} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icons[index]}</svg>
+      </span>
     </div>
     <h3>{step.title}</h3><p>{step.description}</p>
   </li>)}

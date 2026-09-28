@@ -3,8 +3,8 @@
 
 .showcase { position: relative; }
 .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--color-border-strong); @include mobile { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.tab { @include text-body; @include focus-ring; display: flex; align-items: center; gap: 1.6rem; text-align: left; padding: 2.4rem 1.6rem; color: var(--color-text-cold); transition: background .25s, color .25s; > span:first-child { color: var(--color-text-dim); } > span:last-child { margin-left: auto; } @include hover { background: var(--color-elevated); color: var(--color-text); } @include mobile { gap: .8rem; padding: 1.6rem 1rem; } }
-.tab--active { color: var(--color-on-action); background: var(--color-action-primary); > span:first-child { color: inherit; } }
+.tab { @include text-body; @include focus-ring; display: flex; align-items: center; gap: 1.6rem; text-align: left; padding: 2.4rem 1.6rem; color: var(--color-text-cold); transition: background .25s, color .25s; > span:last-child { margin-left: auto; } @include hover { background: var(--color-elevated); color: var(--color-text); } @include mobile { gap: .8rem; padding: 1.6rem 1rem; } }
+.tab--active { color: var(--color-on-action); background: var(--color-action-primary); }
 .body { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); gap: 4.8rem; padding-top: 3.2rem; @include mobile { grid-template-columns: minmax(0, 1fr); gap: 2.4rem; } }
 .copy { display: flex; flex-direction: column; align-items: flex-start; padding-top: 1.6rem; animation: arrive .45s var(--ease); h3 { @include text-title; margin-bottom: 2.4rem; } }
 .label { @include text-body; color: var(--color-text-dim); margin-bottom: 4rem; @include mobile { margin-bottom: 1.6rem; } }

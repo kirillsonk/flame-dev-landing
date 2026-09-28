@@ -17,7 +17,7 @@ const FeaturedProject = ({ children }: FeaturedProjectProps) => {
       <div className={styles.hero__projectTop}>
         <span>{STUDIO.feature.label}</span>
         <button type="button" className={styles.hero__motion} onClick={() => setPaused(!paused)} aria-label={paused ? APPEARANCE.resume : APPEARANCE.pause} title={paused ? APPEARANCE.resume : APPEARANCE.pause} aria-pressed={paused}>
-          <span>Flame Dev / 01</span><svg viewBox="0 0 16 16" aria-hidden="true">{paused ? <path d="m5 3 7 5-7 5Z" fill="currentColor" /> : <path d="M5 3v10M11 3v10" stroke="currentColor" strokeWidth="2" />}</svg>
+          <span>Flame Dev</span><svg viewBox="0 0 16 16" aria-hidden="true">{paused ? <path d="m5 3 7 5-7 5Z" fill="currentColor" /> : <path d="M5 3v10M11 3v10" stroke="currentColor" strokeWidth="2" />}</svg>
         </button>
       </div>
       {children}

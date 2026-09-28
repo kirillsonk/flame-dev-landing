@@ -24,7 +24,7 @@ const ServiceShowcase = () => {
   return (
     <div className={styles.showcase} ref={ref}>
       <div className={styles.tabs} role="group" aria-label={STUDIO.services.title.replace('\n', ' ')}>
-        {SHOWCASE.tabs.map((label, index) => <button key={label} type="button" aria-pressed={index === active} aria-controls="service-demo" className={clsx(styles.tab, index === active && styles['tab--active'])} onClick={() => setActive(index)}><span>0{index + 1}</span>{label}<span aria-hidden="true">↗</span></button>)}
+        {SHOWCASE.tabs.map((label, index) => <button key={label} type="button" aria-pressed={index === active} aria-controls="service-demo" className={clsx(styles.tab, index === active && styles['tab--active'])} onClick={() => setActive(index)}>{label}<span aria-hidden="true">↗</span></button>)}
       </div>
       <div className={styles.body}>
         <div className={styles.copy} key={item.slug}>
