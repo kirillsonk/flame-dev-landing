@@ -8,12 +8,20 @@
 .hero__accent { @include gradient-text; background-size: 200% 100%; animation: accentShift 6s ease-in-out infinite alternate; }
 .hero__text { @include text-body; max-width: 49rem; color: var(--color-text-cold); margin-bottom: 3.2rem; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 2.4rem; @include mobile { gap: .6rem 2rem; } }
-.textLink { @include text-body; @include focus-ring; display: inline-flex; gap: 1.6rem; align-items: center; padding-block: 1.4rem; }
+.textLink { @include text-body(500); @include focus-ring; position: relative; display: inline-flex; gap: 1.2rem; align-items: center; padding-block: 1.4rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } }
+// Короткая черта под «Смотреть кейсы» дорисовывается на всю длину при наведении
+.textLink::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: .2rem; border-radius: var(--radius-pill); background: var(--gradient-action); transform-origin: left center; scale: .3 1; transition: scale .5s var(--ease); }
+.textLink:hover::after, .textLink:focus-visible::after { scale: 1 1; }
+// «Обсудить проект» на первом экране: сплошная фирменная пилюля, стрелка в светлом круге.
+// Два класса, чтобы перебить базовый primary из другого модуля
+.actions .heroCta { background: var(--color-action-primary); border-color: transparent; color: var(--color-on-action); box-shadow: 0 1.2rem 3.2rem color-mix(in srgb, var(--color-action-primary) 35%, transparent); transition: background-color .25s, box-shadow .4s var(--ease); @include hover { background: var(--color-action-primary-hover); box-shadow: 0 1.6rem 4.8rem color-mix(in srgb, var(--color-action-primary) 50%, transparent); } }
+.actions .heroCta::before { display: none; }
+.actions .heroCta > span { background: var(--color-on-action); color: var(--color-action-primary); }
 .section { @include section; }
 .section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 4rem; margin-bottom: 4.8rem; @include mobile { flex-direction: column; align-items: flex-start; gap: 2rem; margin-bottom: 3.2rem; } }
 .section__title { --type-display: 4.8rem; @include text-display; white-space: pre-line; @include mobile { --type-display: 3.6rem; } }
 .section__intro { @include text-body; max-width: 35rem; color: var(--color-text-cold); }
-.allProjects { @include text-body; @include focus-ring; display: flex; align-items: center; justify-content: space-between; padding: 2.4rem 0; border-bottom: 1px solid var(--color-border-strong); margin-top: 4rem; }
+.allProjects { @include text-body; @include focus-ring; display: flex; align-items: center; justify-content: space-between; padding: 2.4rem 0; border-bottom: 1px solid var(--color-border-strong); margin-top: 4rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } }
 .services { @include section; background: color-mix(in srgb, var(--color-surface) 85%, transparent); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
 @keyframes accentShift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes heroCopy { from { opacity: 0; translate: 0 2.4rem; } to { opacity: 1; translate: 0 0; } }

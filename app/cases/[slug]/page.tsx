@@ -6,6 +6,7 @@ import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import Poster from '@/components/ui/Poster/Poster';
 import { CASES } from '@/data/cases';
 import { CASE_LIVE_LABEL } from '@/data/site';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './page.module.scss';
 
 export interface CasePageProps {
@@ -49,7 +50,7 @@ const CasePage = async ({ params }: CasePageProps) => {
         <div className={styles.case__actions}>
           {item.live && (
             <a href={item.live} target="_blank" rel="noreferrer" className={styles.case__live}>
-              {CASE_LIVE_LABEL} <span aria-hidden="true">↗</span>
+              {CASE_LIVE_LABEL} <BaseArrow />
             </a>
           )}
           <CtaButton href="/#contact" />

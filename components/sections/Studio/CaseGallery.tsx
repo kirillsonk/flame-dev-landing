@@ -10,6 +10,7 @@ import { FEATURED_CASES, CASE_CAPTIONS, CASE_TYPES } from '@/data/studio';
 import { CASE_GALLERY } from '@/data/appearance';
 import { HANDOFF_EVENT } from './hooks/useHeroMorph';
 import type { IHandoffDetail } from './hooks/useHeroMorph';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './CaseGallery.module.scss';
 
 const projects = FEATURED_CASES.map(slug => CASES.find(item => item.slug === slug)!);
@@ -82,22 +83,22 @@ const CaseGallery = () => {
           {poster((active + offset) % projects.length) && <Image src={poster((active + offset) % projects.length)!} alt="" fill sizes="(max-width: 900px) 90vw, 60vw" />}
         </div>)}
         <Link id="selected-case" className={clsx(styles.gallery__card, direction < 0 && styles['gallery__card--reverse'], quiet && styles['gallery__card--quiet'])} href={`/cases/${item.slug}`} key={item.slug} aria-label={`${CASE_GALLERY.open} · ${item.title}`}>
-          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={item.title} fill sizes="(max-width: 900px) 90vw, 60vw" />}<span className={styles.gallery__tag}>{CASE_TYPES[item.slug]}</span><span className={styles.gallery__arrow} aria-hidden="true">↗</span></div>
+          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={item.title} fill sizes="(max-width: 900px) 90vw, 60vw" />}<span className={styles.gallery__tag}>{CASE_TYPES[item.slug]}</span><span className={styles.gallery__arrow} aria-hidden="true"><BaseArrow size="l" /></span></div>
           <div className={styles.gallery__caption}><h3>{item.title}</h3><p>{CASE_CAPTIONS[item.slug]}</p></div>
         </Link>
       </div>
       <div className={styles.gallery__controls} data-morph-part>
         <span className={styles.gallery__sr} aria-live="polite" aria-atomic="true">{item.title}</span>
         <div className={styles.gallery__track} aria-hidden="true"><span style={{ width: `${(active + 1) / projects.length * 100}%` }} /></div>
-        <button type="button" onClick={() => select(active - 1)} aria-label={CASE_GALLERY.previous}>←</button>
-        <button type="button" onClick={() => select(active + 1)} aria-label={CASE_GALLERY.next}>→</button>
+        <button type="button" onClick={() => select(active - 1)} aria-label={CASE_GALLERY.previous}><BaseArrow direction="left" /></button>
+        <button type="button" onClick={() => select(active + 1)} aria-label={CASE_GALLERY.next}><BaseArrow direction="right" /></button>
       </div>
     </div>
     <div ref={indexRef} className={styles.gallery__index} data-morph-index role="group" aria-label={CASE_GALLERY.index}>
       {projects.map((project, index) => <button type="button" ref={node => { buttons.current[index] = node; }} key={project.slug} className={clsx(styles.gallery__item, active === index && styles['gallery__item--active'])} aria-pressed={active === index} aria-controls="selected-case" onClick={() => select(index)} onKeyDown={event => onKey(event, index)}>
-        <span className={styles.gallery__thumb}>{poster(index) && <Image src={poster(index)!} alt="" fill sizes="72px" />}</span>
+        <span className={styles.gallery__thumb}>{poster(index) && <Image src={poster(index)!} alt="" fill sizes="(max-width: 900px) 240px, 120px" />}</span>
         <span className={styles.gallery__name}>{project.title}<span>{CASE_TYPES[project.slug]}</span></span>
-        <span className={styles.gallery__indicator} aria-hidden="true">↗</span>
+        <span className={styles.gallery__indicator} aria-hidden="true"><BaseArrow /></span>
       </button>)}
     </div>
   </div>;

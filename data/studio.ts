@@ -5,7 +5,7 @@ export const STUDIO = {
   cases: { eyebrow: 'Портфолио', title: 'Наши проекты', text: 'Спецпроекты, цифровые платформы и инструменты для бизнеса', all: 'Все проекты' },
   services: { eyebrow: 'Примеры решений', title: 'Что можем разработать', link: 'Обсудить задачу' },
   process: { eyebrow: 'Подход', title: 'Этапы работы' },
-  contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', brief: 'Вернуться к вопросам', direct: 'У меня уже есть ТЗ', link: 'hello@flame.dev' },
+  contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', brief: 'Вернуться к вопросам', direct: 'У меня уже есть ТЗ', link: 'hello@flamedev.pro' },
 };
 export const FEATURED_CASES = ['tibia', 'amatour', 'rosatom', 'coca-cola-delivery-club', 'flame-ai', 'purina-vk'];
 export const CASE_TYPES: Record<string, string> = {

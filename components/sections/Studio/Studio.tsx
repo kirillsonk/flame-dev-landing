@@ -10,6 +10,7 @@ import FlameField from './FlameField';
 import ServiceShowcase from './ServiceShowcase';
 import BriefContact from '@/components/sections/Brief/BriefContact';
 import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './Studio.module.scss';
 
 const Studio = () => {
@@ -22,15 +23,15 @@ const Studio = () => {
           <h1 className={styles.hero__title}>{STUDIO.title.map((line, index) => <span key={line} className={index === 2 ? styles.hero__accent : undefined}>{line}</span>)}</h1>
           <p className={styles.hero__text}>{STUDIO.text}</p>
           <div className={styles.actions}>
-            <BaseButton href="#contact" size="l">{CTA_LABEL}</BaseButton>
-            <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <span aria-hidden="true">↗</span></a>
+            <BaseButton href="#contact" size="l" arrow className={styles.heroCta}>{CTA_LABEL}</BaseButton>
+            <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <BaseArrow /></a>
           </div>
         </div>
       </HeroStage>
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>
         <CaseGallery />
-        <Link href="/cases" className={styles.allProjects}>{STUDIO.cases.all}<span aria-hidden="true">↗</span></Link>
+        <Link href="/cases" className={styles.allProjects}>{STUDIO.cases.all}<BaseArrow size="l" /></Link>
       </section>
       <section className={styles.services} id="services">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.services.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.services.title}</h2></div></div>

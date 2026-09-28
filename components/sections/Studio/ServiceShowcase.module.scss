@@ -7,7 +7,7 @@
 .direction__button { @include text-title; @include focus-ring; width: 100%; display: flex; align-items: center; gap: 1.6rem; justify-content: space-between; padding: 2.4rem 0; text-align: left; color: var(--color-text-dim); transition: color .25s; span { @include text-body; font-weight: 400; color: var(--color-text-cold); } @include hover { color: var(--color-text); } @include mobile { padding: 1.8rem 0; } }
 .direction--active .direction__button { color: var(--color-text); span { color: var(--color-action-accent); } }
 .direction__details { padding: 0 3.2rem 2.4rem 0; p { @include text-body; color: var(--color-text-cold); } }
-.link { @include text-body; @include focus-ring; display: inline-flex; gap: 2.4rem; padding-top: 2rem; }
+.link { @include text-body; @include focus-ring; display: inline-flex; align-items: center; gap: 1.2rem; padding-top: 2rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } }
 .player { flex: 2 1 68rem; min-width: 0; max-width: 100%; }
 .stage { color: var(--color-text); position: relative; min-width: 0; height: 60rem; border: 1px solid var(--color-border); border-radius: var(--radius-panel); overflow: hidden; background: var(--color-bg); @include mobile { height: 70rem; } }
 .scene { height: 100%; animation: arrive .5s var(--ease); }

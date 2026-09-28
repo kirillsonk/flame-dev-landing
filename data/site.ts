@@ -137,7 +137,7 @@ export const CONTACT = {
   telegram: { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' } satisfies IContactLink,
   links: [
     { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' },
-    { label: 'Написать на почту', href: 'mailto:hello@flame.dev', icon: 'mail' },
+    { label: 'Написать на почту', href: 'mailto:hello@flamedev.pro', icon: 'mail' },
     // «Скачать презентацию» вернуть, когда в public/ появится актуальный flame-dev.pdf.
   ] as IContactLink[],
   // Вариант «Маркер»: тот же текст, обещания по срокам выделяются маркером по скроллу.
@@ -164,7 +164,7 @@ export const CONTACT = {
   },
 };
 
-export const FOOTER_EMAIL = 'hello@flame.dev';
+export const FOOTER_EMAIL = 'hello@flamedev.pro';
 
 export const FOOTER_COPYRIGHT = '© 2026 Flame Dev';
 
@@ -186,7 +186,7 @@ export const FOOTER_COLUMNS: IFooterColumn[] = [
     title: 'Связаться',
     links: [
       { label: 'Telegram', href: 'https://t.me/flamedev' },
-      { label: 'hello@flame.dev', href: 'mailto:hello@flame.dev' },
+      { label: 'hello@flamedev.pro', href: 'mailto:hello@flamedev.pro' },
       { label: 'Презентация PDF', href: '/flame-dev.pdf' },
     ],
   },
@@ -195,7 +195,7 @@ export const FOOTER_COLUMNS: IFooterColumn[] = [
 // Подвал «Контакты-плашки»: те же ссылки, что в блоке контактов, но с видимыми подписями.
 export const FOOTER_CHIPS: IContactLink[] = [
   { label: 'Telegram', href: 'https://t.me/flamedev', icon: 'telegram' },
-  { label: 'hello@flame.dev', href: 'mailto:hello@flame.dev', icon: 'mail' },
+  { label: 'hello@flamedev.pro', href: 'mailto:hello@flamedev.pro', icon: 'mail' },
   { label: 'Презентация PDF', href: '/flame-dev.pdf', icon: 'deck' },
 ];
 

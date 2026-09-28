@@ -35,15 +35,33 @@ const anchorRange = (el: Element, id: string) => {
 
 
 /**
- * Переход к якорю: без прокрутки через страницу. Блок сразу открывается в точке `open`,
- * и анимация плавно проигрывается до точки `stop` — вперёд или назад. Без анимации совсем — если так
- * задано в ANCHORS, при reduced motion или когда точка совпадает со стартом.
+ * Плавная прокрутка к обычной секции. По пути подгружаются демо и постеры, высота страницы
+ * меняется: после остановки точка пересчитывается и прокрутка один раз доводится
+ */
+const glideTo = (el: Element, id: string) => {
+  window.scrollTo({ top: anchorRange(el, id).to, behavior: 'smooth' });
+  const settle = () => {
+    const target = anchorRange(el, id).to;
+    if (Math.abs(window.scrollY - target) > 4) window.scrollTo({ top: target, behavior: 'smooth' });
+  };
+  window.addEventListener('scrollend', settle, { once: true });
+};
+
+/**
+ * Переход к якорю. Запиненный блок сразу открывается в точке `open`, и анимация плавно
+ * проигрывается до точки `stop`. Обычная секция доезжает плавной прокруткой.
+ * Без анимации совсем — если так задано в ANCHORS или при reduced motion
  */
 const scrollToAnchor = (id: string, animated: boolean) => {
   const el = document.getElementById(id);
   if (!el) return false;
-  const { from, to } = anchorRange(el, id);
   const motion = animated && !ANCHORS[id]?.instant && window.matchMedia(MOTION_QUERY).matches;
+  if (!pinOf(el)) {
+    if (motion) glideTo(el, id);
+    else jump(anchorRange(el, id).to);
+    return true;
+  }
+  const { from, to } = anchorRange(el, id);
   jump(motion ? from : to);
   if (motion && to !== from) window.scrollTo({ top: to, behavior: 'smooth' });
   return true;

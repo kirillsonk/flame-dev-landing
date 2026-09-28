@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
-import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './BaseButton.module.scss';
 
 type ButtonVariant = 'primary' | 'inverse' | 'chrome' | 'ghost';
@@ -28,7 +28,7 @@ const BaseButton = ({ variant = 'primary', size = 'm', block = false, arrow = fa
       {children}
       {arrow && (
         <span className={styles.button__slot} aria-hidden="true">
-          <BaseIcon name="arrow" className={styles.button__icon} />
+          <BaseArrow direction="right" className={styles.button__icon} />
         </span>
       )}
     </>

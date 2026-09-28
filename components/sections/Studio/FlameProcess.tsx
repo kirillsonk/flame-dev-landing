@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { FLAME_PROCESS } from '@/data/appearance';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './FlameProcess.module.scss';
 
 const icons = [
@@ -9,6 +10,7 @@ const icons = [
   <g key="code"><rect x="5" y="7" width="38" height="34" rx="10" /><path d="M6 17h36m-23 7-3 2c-2 1-2 3 0 4l3 2m10-8 3 2c2 1 2 3 0 4l-3 2" /><circle cx="13" cy="12" r=".8" /><circle cx="18" cy="12" r=".8" /></g>,
   <g key="launch"><circle cx="24" cy="24" r="17" /><path d="m16 24 5 5c1 1 2 1 3 0l9-10" /></g>,
 ];
+// Этапы соединены стрелками с бегущим огоньком: один процесс, а не пять отдельных карточек
 const FlameProcess = () => <ol className={styles.process}>
   {FLAME_PROCESS.map((step, index) => <li className={styles.process__step} key={step.title} data-reveal style={{ '--step': index } as CSSProperties}>
     <div className={styles.process__visual} aria-hidden="true">
@@ -17,6 +19,7 @@ const FlameProcess = () => <ol className={styles.process}>
         <svg className={styles.process__icon} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icons[index]}</svg>
       </span>
     </div>
+    {index < FLAME_PROCESS.length - 1 && <span className={styles.process__link} aria-hidden="true"><span className={styles.process__pulse} /><BaseArrow direction="right" className={styles.process__head} /></span>}
     <h3>{step.title}</h3><p>{step.description}</p>
   </li>)}
 </ol>;

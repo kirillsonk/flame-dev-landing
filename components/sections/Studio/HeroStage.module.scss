@@ -20,7 +20,7 @@
 // Сцена: ядро по центру, остальные кадры едут вокруг него по орбитам (см. useOrbit).
 // Слоты всех кадров совпадают с рамкой ядра, положение на орбите задает трансформация [data-orbit-item].
 // Слоты пропускают курсор, иначе стопка слотов над ядром перехватывала бы наведение
-.orbit { position: relative; z-index: 1; min-width: 0; height: 64rem; animation: orbitIn 1.4s var(--ease) .1s both; @include mobile { display: flex; gap: 1.6rem; height: auto; margin-inline: var(--space-gutter-bleed); padding: 2.4rem var(--space-gutter) 4rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; } }
+.orbit { position: relative; z-index: 1; min-width: 0; height: 64rem; animation: orbitIn 1.4s var(--ease) .1s both; @include mobile { display: flex; gap: 1.6rem; height: auto; margin-inline: var(--space-gutter-bleed); padding: 2.4rem var(--space-gutter) 4rem; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; } }
 .orbit__slot { position: absolute; left: 19%; top: 50%; width: 54%; aspect-ratio: 16 / 10; translate: 0 -50%; pointer-events: none; @include mobile { position: relative; left: auto; top: auto; width: auto; flex: 0 0 76%; translate: none; scroll-snap-align: center; } }
 .orbit__slot--0 { @include mobile { margin-top: 2.4rem; } }
 .orbit__slot--2 { @include mobile { margin-top: 4rem; } }
