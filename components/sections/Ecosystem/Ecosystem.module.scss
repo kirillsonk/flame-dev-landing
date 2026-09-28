@@ -2,21 +2,22 @@
 @use '../../../styles/mixins' as *;
 
 .ecosystem {
-  @include container;
-  padding-top: var(--space-heading);
-  padding-bottom: var(--space-section);
+  @include section;
+  border-top: 1px solid var(--color-border);
 }
 
 .ecosystem__title {
+  --type-display: 4.8rem;
   @include text-display;
   margin-bottom: var(--space-heading);
+
+  @include mobile { --type-display: 3.6rem; }
 }
 
 .ecosystem__links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-grid-gap);
-  max-width: 96rem;
 
   @include mobile {
     grid-template-columns: 1fr;
@@ -27,19 +28,54 @@
   @include focus-ring;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 1.6rem;
+  padding: 3.2rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-elevated) 80%, transparent), color-mix(in srgb, var(--color-surface) 90%, transparent));
+  transition: border-color .25s, background .25s;
+
+  @include hover {
+    border-color: var(--color-action-accent);
+    background: color-mix(in srgb, var(--color-action-primary) 8%, var(--color-surface));
+  }
+
+  @include mobile {
+    padding: 2.4rem;
+  }
 }
 
 .ecosystem__linkTitle {
   @include text-title;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
   transition: color 0.15s ease-out;
+
+  > span {
+    color: var(--color-text-cold);
+    transition: transform .25s;
+  }
 }
 
 .ecosystem__link:hover .ecosystem__linkTitle {
   color: var(--color-action-primary-hover);
+
+  > span { transform: translate(.3rem, -.3rem); }
 }
 
 .ecosystem__linkText {
   @include text-body;
-  color: var(--color-text-dim);
+  color: var(--color-text-cold);
+}
+
+.ecosystem__linkUrl {
+  @include text-body;
+  padding-top: 1.6rem;
+  color: var(--color-text-cold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecosystem__link, .ecosystem__linkTitle, .ecosystem__linkTitle > span { transition: none; }
+  .ecosystem__link:hover .ecosystem__linkTitle > span { transform: none; }
 }

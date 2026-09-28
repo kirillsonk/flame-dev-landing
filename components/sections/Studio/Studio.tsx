@@ -9,6 +9,7 @@ import FlameProcess from './FlameProcess';
 import FlameField from './FlameField';
 import ServiceShowcase from './ServiceShowcase';
 import BriefContact from '@/components/sections/Brief/BriefContact';
+import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
 import styles from './Studio.module.scss';
 
 const Studio = () => {
@@ -40,6 +41,7 @@ const Studio = () => {
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.process.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.process.title}</h2></div><p className={styles.section__intro}>{PROCESS_NOTE}</p></div>
         <FlameProcess />
       </section>
+      <Ecosystem />
       <BriefContact />
     </div>
   );
