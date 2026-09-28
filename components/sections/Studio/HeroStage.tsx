@@ -7,7 +7,7 @@ import { CASES } from '@/data/cases';
 import { FEATURED_CASES } from '@/data/studio';
 import HeroOrbit from './HeroOrbit';
 import useHeroMorph from './hooks/useHeroMorph';
-import useFloat from './hooks/useFloat';
+import useOrbit from './hooks/useOrbit';
 import styles from './HeroStage.module.scss';
 
 export interface HeroStageProps {
@@ -17,13 +17,15 @@ export interface HeroStageProps {
 
 const items = FEATURED_CASES.map(slug => CASES.find(item => item.slug === slug)!);
 
-// Первый экран «Созвездие»: кадры проектов летают вокруг слогана, по скроллу собираются в колоду «Наших проектов»
+// Первый экран «Созвездие»: кадры проектов едут по орбитам вокруг ядра, по скроллу собираются в колоду «Наших проектов»
 const HeroStage = ({ children }: HeroStageProps) => {
   const ref = useRef<HTMLElement>(null);
   const [morphing, setMorphing] = useState(false);
+  const [core, setCore] = useState(0);
 
-  useHeroMorph(ref, 'orbit', () => items[0].slug, setMorphing);
-  useFloat(ref, 'orbit');
+  const { coreRef } = useOrbit(ref, setCore);
+  // Галерея подхватывает проект, который стоял в ядре
+  useHeroMorph(ref, 'orbit', () => items[coreRef.current].slug, setMorphing);
 
   return (
     <section ref={ref} id="hero" className={clsx(styles.hero, morphing && styles['hero--morphing'])}>
@@ -33,7 +35,7 @@ const HeroStage = ({ children }: HeroStageProps) => {
         <span className={clsx(styles.aurora__blob, styles['aurora__blob--3'])} />
       </div>
       <div className={styles.hero__copy} data-morph-fade>{children}</div>
-      <HeroOrbit items={items} morphing={morphing} />
+      <HeroOrbit items={items} core={core} morphing={morphing} />
     </section>
   );
 };

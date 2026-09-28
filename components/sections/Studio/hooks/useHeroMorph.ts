@@ -57,7 +57,8 @@ const fit = (source: IBox, target: IBox, sourceRadius: number, targetRadius: num
 /**
  * Перелет визуала первого экрана в колоду «Наших проектов» по скроллу.
  * Источники в hero: `[data-morph-source]` (card, back-1, back-2, extra) с неподвижным родителем
- * `[data-morph-slot]`, по нему и считается геометрия. Цели в галерее: `[data-morph-target]`.
+ * `[data-morph-slot]`, по нему и считается геометрия. Роли зависят от кадра в ядре и сверяются в начале перелета.
+ * Цели в галерее: `[data-morph-target]`.
  * Колода и список проектов проявляются в конце, источник в этот момент гаснет поверх карты.
  * Смещение источника линейно по прокрутке, поэтому к концу диапазона он стоит ровно на карте
  */
@@ -115,6 +116,10 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
 
       let handed = false;
       let morphing = false;
+      // Роли кадров зависят от того, какой кадр в ядре: твины кадров пересобираются, если роли сменились
+      let built = '';
+      let sourceTweens: gsap.core.Tween[] = [];
+      const roles = () => sources.map(source => source.dataset.morphSource).join();
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
@@ -128,6 +133,7 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
           onUpdate: (self) => {
             morphState.progress = self.progress;
             const active = self.progress > .01;
+            if (active && !morphing && roles() !== built) build();
             if (active !== morphing) { morphing = active; toggle.current(active); }
             if (self.progress > .8 && !handed) {
               handed = true;
@@ -137,15 +143,24 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
         },
       });
 
+      function build() {
+        sourceTweens.forEach(tween => tween.kill());
+        measure();
+        built = roles();
+        sourceTweens = sources.flatMap((source) => {
+          const extra = source.dataset.morphSource === 'extra';
+          const move = gsap.fromTo(source,
+            { x: 0, y: 0, scale: 1, rotation: 0, clipPath: () => get(source).from },
+            { x: () => get(source).x, y: () => get(source).y, scale: () => get(source).scale, rotation: () => get(source).rotation, clipPath: () => get(source).clip, duration: extra ? .7 : .92, ease: 'none' });
+          const fade = gsap.to(source, { opacity: 0, duration: extra ? .3 : .08, ease: 'power1.in' });
+          timeline.add(move, extra ? .06 : .04).add(fade, extra ? .46 : .92);
+          return [move, fade];
+        });
+        timeline.render(timeline.totalTime(), true, true);
+      }
+
       timeline.to(fades, { opacity: 0, y: -48, filter: 'blur(8px)', duration: .32 }, 0);
-      sources.forEach((source) => {
-        const extra = source.dataset.morphSource === 'extra';
-        timeline.fromTo(source,
-          { x: 0, y: 0, scale: 1, rotation: 0, clipPath: () => get(source).from },
-          { x: () => get(source).x, y: () => get(source).y, scale: () => get(source).scale, rotation: () => get(source).rotation, clipPath: () => get(source).clip, duration: extra ? .7 : .92 },
-          extra ? .06 : .04);
-        timeline.to(source, { opacity: 0, duration: extra ? .3 : .08, ease: 'power1.in' }, extra ? .46 : .92);
-      });
+      build();
       timeline.fromTo(deckParts, { opacity: 0 }, { opacity: 1, duration: .1 }, .88);
       if (index) timeline.fromTo(index, { opacity: 0, x: 64 }, { opacity: 1, x: 0, duration: .36, ease: 'power2.out' }, .64);
 
