@@ -8,6 +8,7 @@
 .gallery__back--2 { transform: translateY(-2.4rem) rotate(-3deg) scale(.95); }
 .gallery__card { @include focus-ring; display: block; position: relative; padding: 1rem; border-radius: var(--radius-panel); border: 1px solid var(--color-border-strong); background: var(--color-surface); box-shadow: 0 2.4rem 8rem color-mix(in srgb, var(--color-action-primary) 8%, transparent); transform-origin: 20% 80%; animation: cardEnter .7s var(--ease) both; @include hover { .gallery__image img { transform: scale(1.04); } .gallery__arrow { background: var(--color-action-primary); color: var(--color-on-action); transform: rotate(45deg); } } }
 .gallery__card--reverse { transform-origin: 80% 80%; animation-name: cardReverse; }
+.gallery__card--quiet { animation: none; }
 .gallery__image { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-control); background: var(--color-bg); img { object-fit: cover; transition: transform .8s var(--ease); } }
 .gallery__tag { @include text-body; position: absolute; top: 1.6rem; left: 1.6rem; padding: .5rem 1.2rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); background: var(--color-bg); }
 .gallery__arrow { position: absolute; bottom: 1.6rem; right: 1.6rem; width: 4.8rem; height: 4.8rem; display: grid; place-items: center; border: 1px solid var(--color-border-strong); border-radius: 50%; background: var(--color-bg); transition: transform .5s var(--ease), background .3s, color .3s; }

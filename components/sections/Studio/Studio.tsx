@@ -3,7 +3,7 @@ import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import { PROCESS_NOTE } from '@/data/process';
 import { CTA_LABEL, HERO_INTRO } from '@/data/site';
 import { STUDIO } from '@/data/studio';
-import FeaturedProject from './FeaturedProject';
+import HeroStage from './HeroStage';
 import CaseGallery from './CaseGallery';
 import FlameProcess from './FlameProcess';
 import FlameField from './FlameField';
@@ -16,7 +16,7 @@ const Studio = () => {
   return (
     <div className={styles.studio}>
       <FlameField />
-      <section className={styles.hero} id="hero">
+      <HeroStage>
         <div className={styles.hero__copy}>
           <p className={styles.eyebrow}>{STUDIO.eyebrow}</p>
           <h1 className={styles.hero__title}>{STUDIO.title.map((line, index) => <span key={line} className={index === 2 ? styles.hero__accent : undefined}>{line}</span>)}</h1>
@@ -26,8 +26,7 @@ const Studio = () => {
             <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <FeaturedProject />
-      </section>
+      </HeroStage>
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>
         <CaseGallery />

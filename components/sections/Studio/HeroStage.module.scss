@@ -1,0 +1,65 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Угол переливающейся кромки портала: анимируется как число, поэтому зарегистрирован
+@property --portal-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+// Слой выше «Наших проектов»: визуал пролетает поверх следующей секции и ложится в колоду
+.hero { @include container; position: relative; z-index: 2; display: grid; align-items: center; gap: 4.8rem; min-height: var(--size-hero-view); padding-block: 5.6rem 6.4rem; @include mobile { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-block: 3.2rem 4.8rem; gap: 3.6rem; } }
+.hero--morphing { [data-morph-source] { pointer-events: none; } }
+.hero__copy { position: relative; z-index: 3; min-width: 0; }
+
+// Сияние: три размытых пятна фирменных цветов медленно дрейфуют за визуалом
+.aurora { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.aurora__blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .5; animation: aurora 18s ease-in-out infinite alternate; }
+.aurora__blob--1 { width: 56rem; height: 56rem; right: 2%; top: 4%; background: radial-gradient(circle, var(--color-action-primary), transparent 68%); }
+.aurora__blob--2 { width: 38rem; height: 38rem; right: 34%; top: 38%; background: radial-gradient(circle, var(--color-action-accent), transparent 68%); opacity: .38; animation-duration: 23s; animation-delay: -7s; }
+.aurora__blob--3 { width: 30rem; height: 30rem; right: 10%; bottom: -4%; background: radial-gradient(circle, var(--color-fire), transparent 68%); opacity: .22; animation-duration: 27s; animation-delay: -13s; }
+.aurora--orbit { .aurora__blob--1 { right: 18%; top: 10%; } }
+// Поверх шоурила сияние тонирует кадр, а не лежит под ним
+.aurora--full { z-index: 2; .aurora__blob { mix-blend-mode: screen; opacity: .28; } }
+@keyframes aurora { 0% { translate: 0 0; scale: 1; } 50% { translate: -7rem 4rem; scale: 1.18; } 100% { translate: 5rem -3rem; scale: .9; } }
+
+// Портал: шоурил в раме с переливающейся кромкой, рама парит и наклоняется за курсором
+.hero--portal { grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr); @include mobile { grid-template-columns: minmax(0, 1fr); } }
+.portal { position: relative; z-index: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.4rem; }
+.portal__slot { position: relative; aspect-ratio: 16 / 11; }
+.portal__float { position: absolute; inset: 0; will-change: transform; animation: portalIn 1.4s var(--ease) .15s both; }
+.portal__media { position: absolute; inset: 0; overflow: hidden; border-radius: 3.2rem; clip-path: inset(0 round 3.2rem); background: var(--color-bg); }
+.portal__ring { position: absolute; inset: -1px; border-radius: 3.2rem; pointer-events: none; }
+.portal__ring::before, .portal__ring::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: conic-gradient(from var(--portal-angle), var(--color-action-primary), var(--color-action-accent), var(--color-fire-light), var(--color-action-primary) 70%, var(--color-action-accent)); animation: portalSpin 9s linear infinite; }
+.portal__ring::before { padding: 1px; mask: linear-gradient(var(--color-text) 0 0) content-box exclude, linear-gradient(var(--color-text) 0 0); -webkit-mask-composite: xor; }
+.portal__ring::after { z-index: -1; inset: 1.6rem; filter: blur(48px); opacity: .55; }
+.portal__caption { padding-inline: .8rem; }
+@keyframes portalSpin { to { --portal-angle: 360deg; } }
+@keyframes portalIn { from { opacity: 0; translate: 4rem 2.4rem; scale: .94; } to { opacity: 1; translate: 0 0; scale: 1; } }
+
+// Созвездие: кадры проектов на разной глубине, ближние три при скролле ложатся в колоду галереи
+.hero--orbit { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); @include mobile { grid-template-columns: minmax(0, 1fr); } }
+.orbit { position: relative; z-index: 1; min-width: 0; height: 64rem; animation: orbitIn 1.4s var(--ease) .1s both; @include mobile { height: 36rem; } }
+.orbit__slot { position: absolute; aspect-ratio: 16 / 10; }
+.orbit__slot--0 { z-index: 5; left: 8%; top: 22%; width: 62%; @include mobile { left: 0; top: 18%; width: 78%; } }
+.orbit__slot--1 { z-index: 4; left: 58%; top: 2%; width: 42%; @include mobile { left: 56%; top: 0; width: 44%; } }
+.orbit__slot--2 { z-index: 4; left: 62%; top: 60%; width: 38%; @include mobile { left: 58%; top: 64%; width: 42%; } }
+.orbit__slot--3 { z-index: 2; left: 0; top: 70%; width: 26%; @include mobile { display: none; } }
+.orbit__slot--4 { z-index: 1; left: 32%; top: 83%; width: 20%; @include mobile { display: none; } }
+.orbit__slot--5 { z-index: 1; left: 36%; top: -3%; width: 19%; @include mobile { display: none; } }
+.orbit__float { position: absolute; inset: 0; will-change: transform; }
+.orbit__frame { @include focus-ring; position: absolute; inset: 0; display: block; overflow: hidden; border-radius: 1.6rem; clip-path: inset(0 round 1.6rem); background: var(--color-surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-text) 14%, transparent); video { width: 100%; height: 100%; object-fit: cover; transition: opacity .5s, filter .5s, scale .8s var(--ease); } @include hover { video { scale: 1.04; } } }
+.orbit__frame--far { video { opacity: .55; filter: blur(2px) saturate(.7); } }
+.orbit__frame--hovered { video { opacity: 1; filter: none; } }
+.orbit__label { position: absolute; left: 1.2rem; bottom: 1.2rem; right: 1.2rem; pointer-events: none; }
+.orbit__chip { @include text-body; @include glass; display: inline-grid; padding: .8rem 1.4rem; border-radius: var(--radius-control); opacity: 0; translate: 0 .8rem; transition: opacity .35s, translate .5s var(--ease); span { color: var(--color-text-cold); } }
+.orbit__frame--hovered .orbit__chip { opacity: 1; translate: 0 0; }
+@keyframes orbitIn { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
+
+// Во весь экран: шоурил под шапкой на всю ширину окна, слоган поверх затемнения
+.hero--full { grid-template-columns: minmax(0, 1fr) auto; align-items: end; min-height: var(--size-hero-full); margin-top: var(--offset-header-overlay); padding-block: 16rem 5.6rem; @include mobile { grid-template-columns: minmax(0, 1fr); align-items: end; min-height: var(--size-hero-full); padding-block: 12rem 4rem; } }
+.full { position: absolute; z-index: 0; top: 0; bottom: 0; left: 50%; width: 100vw; translate: -50% 0; }
+.full__media { position: absolute; inset: 0; overflow: hidden; }
+.full__veil { position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, color-mix(in srgb, var(--color-bg) 94%, transparent), color-mix(in srgb, var(--color-bg) 72%, transparent) 40%, transparent 72%), linear-gradient(0deg, color-mix(in srgb, var(--color-bg) 85%, transparent), transparent 50%); }
+.full__caption { position: relative; z-index: 3; min-width: 36rem; flex-direction: column; align-items: flex-start; @include mobile { min-width: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__blob, .portal__float, .portal__ring::before, .portal__ring::after, .orbit { animation: none; }
+}
