@@ -1,7 +1,0 @@
-@use '../../../styles/typography' as *;
-@use '../../../styles/mixins' as *;
-
-.switch { @include glass; @include text-body; position: fixed; z-index: var(--z-dev); left: 2.4rem; bottom: 2.4rem; display: flex; align-items: center; gap: .4rem; padding: .6rem; border-radius: var(--radius-pill); box-shadow: 0 1.6rem 4.8rem color-mix(in srgb, var(--color-bg) 60%, transparent); @include mobile { left: 1.2rem; right: 1.2rem; bottom: 8.8rem; overflow-x: auto; } }
-.switch__label { padding-inline: 1.2rem .8rem; color: var(--color-text-dim); white-space: nowrap; }
-.switch__option { @include focus-ring; padding: .8rem 1.4rem; border-radius: var(--radius-pill); white-space: nowrap; transition: background .25s, color .25s; @include hover { background: var(--color-elevated); } }
-.switch__option--active { background: var(--color-action-primary); color: var(--color-on-action); @include hover { background: var(--color-action-primary-hover); } }

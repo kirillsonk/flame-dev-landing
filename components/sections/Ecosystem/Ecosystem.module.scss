@@ -2,80 +2,65 @@
 @use '../../../styles/mixins' as *;
 
 .ecosystem {
-  @include section;
+  @include container;
+  @include text-body;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem 4rem;
+  padding-block: 1.6rem;
   border-top: 1px solid var(--color-border);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block: 2rem;
+  }
 }
 
 .ecosystem__title {
-  --type-display: 4.8rem;
-  @include text-display;
-  margin-bottom: var(--space-heading);
-
-  @include mobile { --type-display: 3.6rem; }
+  color: var(--color-text-dim);
+  white-space: nowrap;
 }
 
 .ecosystem__links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-grid-gap);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 3.2rem;
 
   @include mobile {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
 .ecosystem__link {
   @include focus-ring;
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  padding: 3.2rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-panel);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-elevated) 80%, transparent), color-mix(in srgb, var(--color-surface) 90%, transparent));
-  transition: border-color .25s, background .25s;
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: .4rem;
 
   @include hover {
-    border-color: var(--color-action-accent);
-    background: color-mix(in srgb, var(--color-action-primary) 8%, var(--color-surface));
-  }
-
-  @include mobile {
-    padding: 2.4rem;
+    .ecosystem__name { color: var(--color-action-accent); }
+    .ecosystem__arrow { translate: .3rem -.3rem; color: var(--color-action-accent); }
   }
 }
 
-.ecosystem__linkTitle {
-  @include text-title;
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  transition: color 0.15s ease-out;
-
-  > span {
-    color: var(--color-text-cold);
-    transition: transform .25s;
-  }
+.ecosystem__name {
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color .25s;
 }
 
-.ecosystem__link:hover .ecosystem__linkTitle {
-  color: var(--color-action-primary-hover);
-
-  > span { transform: translate(.3rem, -.3rem); }
-}
-
-.ecosystem__linkText {
-  @include text-body;
+.ecosystem__text {
   color: var(--color-text-cold);
 }
 
-.ecosystem__linkUrl {
-  @include text-body;
-  padding-top: 1.6rem;
-  color: var(--color-text-cold);
+.ecosystem__arrow {
+  color: var(--color-text-dim);
+  transition: translate .3s var(--ease), color .25s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ecosystem__link, .ecosystem__linkTitle, .ecosystem__linkTitle > span { transition: none; }
-  .ecosystem__link:hover .ecosystem__linkTitle > span { transform: none; }
+  .ecosystem__name, .ecosystem__arrow { transition: none; }
 }
