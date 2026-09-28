@@ -1,31 +1,32 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import type { ICase } from '@/data/types';
-import { STUDIO } from '@/data/studio';
 import styles from './Studio.module.scss';
 
-export interface ProjectVisualProps { item: ICase }
+export interface ProjectVisualProps { item: ICase; active: boolean }
 
-const ProjectVisual = ({ item }: ProjectVisualProps) => {
+const ProjectVisual = ({ item, active }: ProjectVisualProps) => {
   const video = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
   const source = item.videoWide ?? item.video;
+  useEffect(() => {
+    const node = video.current;
+    if (!node) return;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      if (active && !document.hidden && !motion.matches) void node.play().catch(() => {});
+      else node.pause();
+    };
+    sync();
+    motion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    return () => { node.pause(); motion.removeEventListener('change', sync); document.removeEventListener('visibilitychange', sync); };
+  }, [active]);
   if (!source) return null;
-  const toggle = async () => {
-    if (!video.current) return;
-    if (playing) video.current.pause();
-    else { try { await video.current.play(); } catch { setPlaying(false); } }
-  };
-  return (
-    <div className={styles.visual}>
-      <video ref={video} poster={source.poster} preload="none" playsInline muted loop onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}>
-        <source src={source.mp4} type="video/mp4" />
-      </video>
-      <button type="button" className={styles.visual__play} onClick={toggle} aria-pressed={playing}>
-        <span aria-hidden="true">{playing ? 'Ⅱ' : '▷'}</span> {playing ? STUDIO.feature.pause : STUDIO.feature.play}
-      </button>
-    </div>
-  );
+  return <div className={styles.visual}>
+    <video ref={video} poster={source.poster} preload="metadata" playsInline muted loop aria-hidden="true">
+      <source src={source.mp4} type="video/mp4" />
+    </video>
+  </div>;
 };
 export default ProjectVisual;

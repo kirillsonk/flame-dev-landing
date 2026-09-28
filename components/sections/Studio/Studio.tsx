@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import BaseButton from '@/components/ui/BaseButton/BaseButton';
-import { CASES } from '@/data/cases';
 import { PROCESS_NOTE } from '@/data/process';
 import { CTA_LABEL, HERO_INTRO } from '@/data/site';
 import { STUDIO } from '@/data/studio';
-import ProjectVisual from './ProjectVisual';
 import FeaturedProject from './FeaturedProject';
 import CaseGallery from './CaseGallery';
 import FlameProcess from './FlameProcess';
@@ -14,7 +12,6 @@ import BriefContact from '@/components/sections/Brief/BriefContact';
 import styles from './Studio.module.scss';
 
 const Studio = () => {
-  const feature = CASES.find((item) => item.slug === STUDIO.feature.slug)!;
   return (
     <div className={styles.studio}>
       <FlameField />
@@ -28,13 +25,7 @@ const Studio = () => {
             <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <FeaturedProject>
-          <ProjectVisual item={feature} />
-          <Link href={`/cases/${feature.slug}`} className={styles.hero__caption}>
-            <div><h2>{STUDIO.feature.title}</h2><p>{STUDIO.feature.description}</p></div><span aria-label={STUDIO.feature.link}>↗</span>
-          </Link>
-        </FeaturedProject>
-        <div className={styles.hero__signature}><span>{STUDIO.signature}</span><span aria-hidden="true">↓</span></div>
+        <FeaturedProject />
       </section>
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>

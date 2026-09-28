@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { CASES } from '@/data/cases';
-import { FEATURED_CASES, CASE_CAPTIONS } from '@/data/studio';
+import { FEATURED_CASES, CASE_CAPTIONS, CASE_TYPES } from '@/data/studio';
 import { CASE_GALLERY } from '@/data/appearance';
 import styles from './CaseGallery.module.scss';
 
@@ -65,7 +65,7 @@ const CaseGallery = () => {
           {poster((active + offset) % projects.length) && <Image src={poster((active + offset) % projects.length)!} alt="" fill sizes="(max-width: 900px) 90vw, 60vw" />}
         </div>)}
         <Link id="selected-case" className={clsx(styles.gallery__card, direction < 0 && styles['gallery__card--reverse'])} href={`/cases/${item.slug}`} key={item.slug} aria-label={`${CASE_GALLERY.open} · ${item.title}`}>
-          <div className={styles.gallery__image}>{poster(active) && <Image src={poster(active)!} alt={item.title} fill sizes="(max-width: 900px) 90vw, 60vw" />}<span className={styles.gallery__tag}>{item.tags[0]}</span><span className={styles.gallery__arrow} aria-hidden="true">↗</span></div>
+          <div className={styles.gallery__image}>{poster(active) && <Image src={poster(active)!} alt={item.title} fill sizes="(max-width: 900px) 90vw, 60vw" />}<span className={styles.gallery__tag}>{CASE_TYPES[item.slug]}</span><span className={styles.gallery__arrow} aria-hidden="true">↗</span></div>
           <div className={styles.gallery__caption}><h3>{item.title}</h3><p>{CASE_CAPTIONS[item.slug]}</p></div>
         </Link>
       </div>
@@ -79,7 +79,7 @@ const CaseGallery = () => {
     <div ref={indexRef} className={styles.gallery__index} role="group" aria-label={CASE_GALLERY.index}>
       {projects.map((project, index) => <button type="button" ref={node => { buttons.current[index] = node; }} key={project.slug} className={clsx(styles.gallery__item, active === index && styles['gallery__item--active'])} aria-pressed={active === index} aria-controls="selected-case" onClick={() => select(index)} onKeyDown={event => onKey(event, index)}>
         <span className={styles.gallery__thumb}>{poster(index) && <Image src={poster(index)!} alt="" fill sizes="72px" />}</span>
-        <span className={styles.gallery__name}>{project.title}<span>{project.tags[0]}</span></span>
+        <span className={styles.gallery__name}>{project.title}<span>{CASE_TYPES[project.slug]}</span></span>
         <span className={styles.gallery__indicator} aria-hidden="true">↗</span>
       </button>)}
     </div>

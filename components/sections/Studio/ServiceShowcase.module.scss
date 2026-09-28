@@ -1,19 +1,18 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
-.showcase { position: relative; }
-.tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--color-border-strong); @include mobile { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.tab { @include text-body; @include focus-ring; display: flex; align-items: center; gap: 1.6rem; text-align: left; padding: 2.4rem 1.6rem; color: var(--color-text-cold); transition: background .25s, color .25s; > span:last-child { margin-left: auto; } @include hover { background: var(--color-elevated); color: var(--color-text); } @include mobile { gap: .8rem; padding: 1.6rem 1rem; } }
-.tab--active { color: var(--color-on-action); background: var(--color-action-primary); }
-.body { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); gap: 4.8rem; padding-top: 3.2rem; @include mobile { grid-template-columns: minmax(0, 1fr); gap: 2.4rem; } }
-.copy { display: flex; flex-direction: column; align-items: flex-start; padding-top: 1.6rem; animation: arrive .45s var(--ease); h3 { @include text-title; margin-bottom: 2.4rem; } }
-.label { @include text-body; color: var(--color-text-dim); margin-bottom: 4rem; @include mobile { margin-bottom: 1.6rem; } }
-.description { @include text-body; color: var(--color-text-cold); }
-.link { @include text-body; @include focus-ring; display: flex; gap: 2.4rem; padding-block: 2rem; margin-top: 1.2rem; border-bottom: 1px solid var(--color-border-strong); }
-.caption { @include text-body; color: var(--color-text-dim); margin-top: auto; padding-top: 6rem; max-width: 26rem; @include mobile { display: none; } }
-.stage { color: var(--color-text); position: relative; min-width: 0; height: 60rem; border: 1px solid var(--color-border); border-radius: var(--radius-panel); overflow: hidden; background: var(--color-bg); box-shadow: 0 2rem 8rem color-mix(in srgb, var(--color-action-primary) 9%, transparent); @include mobile { height: 66rem; } }
+.showcase { display: flex; flex-wrap: wrap; gap: 5.6rem; align-items: flex-start; @include mobile { gap: 3.2rem; } }
+.directions { flex: 1 1 34rem; min-width: 0; border-top: 1px solid var(--color-border-strong); }
+.direction { border-bottom: 1px solid var(--color-border-strong); }
+.direction__button { @include text-title; @include focus-ring; width: 100%; display: flex; align-items: center; gap: 1.6rem; justify-content: space-between; padding: 2.4rem 0; text-align: left; color: var(--color-text-dim); transition: color .25s; span { @include text-body; font-weight: 400; color: var(--color-text-cold); } @include hover { color: var(--color-text); } @include mobile { padding: 1.8rem 0; } }
+.direction--active .direction__button { color: var(--color-text); span { color: var(--color-action-accent); } }
+.direction__details { padding: 0 3.2rem 2.4rem 0; p { @include text-body; color: var(--color-text-cold); } }
+.link { @include text-body; @include focus-ring; display: inline-flex; gap: 2.4rem; padding-top: 2rem; }
+.player { flex: 2 1 68rem; min-width: 0; max-width: 100%; }
+.stage { color: var(--color-text); position: relative; min-width: 0; height: 60rem; border: 1px solid var(--color-border); border-radius: var(--radius-panel); overflow: hidden; background: var(--color-bg); @include mobile { height: 70rem; } }
 .scene { height: 100%; animation: arrive .5s var(--ease); }
+.rail { display: flex; align-items: center; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; button { @include text-body; @include focus-ring; display: flex; align-items: center; gap: .8rem; padding: 1rem 1.6rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-pill); color: var(--color-text-cold); transition: border-color .25s, color .25s; span { width: .6rem; height: .6rem; border-radius: 50%; background: currentColor; } } button[aria-pressed='true'] { border-color: var(--color-action-accent); color: var(--color-text); span { background: var(--color-action-accent); box-shadow: 0 0 1rem var(--color-action-accent); } } @include mobile { gap: .6rem; button { padding: 1rem 1.4rem; } } }
+.caption { @include text-body; color: var(--color-text-dim); margin-left: auto; @include mobile { flex-basis: 100%; padding-top: .8rem; } }
 .loading { @include text-body; display: grid; place-items: center; height: 100%; padding: 4rem; color: var(--color-text-cold); }
-.note { @include text-body; color: var(--color-text-dim); padding-top: 2.4rem; }
 @keyframes arrive { from { opacity: .3; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
-@media (prefers-reduced-motion: reduce) { .scene, .copy { animation: none; } .tab { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .scene { animation: none; } .direction__button, .rail button { transition: none; } }
