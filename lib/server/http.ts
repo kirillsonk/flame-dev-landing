@@ -8,7 +8,9 @@ export const json = (data: unknown, status = 200) => Response.json(data, { statu
 
 export const readPayload = async (request: Request, maxBytes = 16000): Promise<unknown> => {
   const origin = request.headers.get('origin');
-  if (origin && origin !== new URL(request.url).origin) throw new Error('origin');
+  // Next.js can normalize the internal URL to localhost; Host retains the public authority
+  const authority = request.headers.get('host') ?? new URL(request.url).host;
+  if (origin && new URL(origin).host !== authority) throw new Error('origin');
   if (!request.body) throw new Error('body');
   const reader = request.body.getReader();
   const decoder = new TextDecoder();
