@@ -12,11 +12,12 @@
 // Короткая черта под «Смотреть кейсы» дорисовывается на всю длину при наведении
 .textLink::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: .2rem; border-radius: var(--radius-pill); background: var(--gradient-action); transform-origin: left center; scale: .3 1; transition: scale .5s var(--ease); }
 .textLink:hover::after, .textLink:focus-visible::after { scale: 1 1; }
-// «Обсудить проект» на первом экране: сплошная фирменная пилюля, стрелка в светлом круге.
-// Два класса, чтобы перебить базовый primary из другого модуля
-.actions .heroCta { background: var(--color-action-primary); border-color: transparent; color: var(--color-on-action); box-shadow: 0 1.2rem 3.2rem color-mix(in srgb, var(--color-action-primary) 35%, transparent); transition: background-color .25s, box-shadow .4s var(--ease); @include hover { background: var(--color-action-primary-hover); box-shadow: 0 1.6rem 4.8rem color-mix(in srgb, var(--color-action-primary) 50%, transparent); } }
-.actions .heroCta::before { display: none; }
-.actions .heroCta > span { background: var(--color-on-action); color: var(--color-action-primary); }
+// «Обсудить проект» на первом экране: темная пилюля с градиентной кромкой из пары «Смотреть кейсы»,
+// при наведении синяя заливка перетекает слева направо. Два класса, чтобы перебить primary из другого модуля
+.actions .heroCta { gap: 1.2rem; background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border-color: transparent; color: var(--color-text); transition: color .35s; svg { transition: translate .45s var(--ease); } @include hover { color: var(--color-on-action); svg { translate: .4rem 0; } } }
+.actions .heroCta::before { background: var(--gradient-action); animation: none; }
+.actions .heroCta::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--gradient-action); transform-origin: left center; scale: 0 1; transition: scale .55s var(--ease); }
+.actions .heroCta:hover::after, .actions .heroCta:focus-visible::after { scale: 1 1; }
 .section { @include section; }
 .section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 4rem; margin-bottom: 4.8rem; @include mobile { flex-direction: column; align-items: flex-start; gap: 2rem; margin-bottom: 3.2rem; } }
 .section__title { --type-display: 4.8rem; @include text-display; white-space: pre-line; @include mobile { --type-display: 3.6rem; } }

@@ -23,7 +23,7 @@ const Studio = () => {
           <h1 className={styles.hero__title}>{STUDIO.title.map((line, index) => <span key={line} className={index === 2 ? styles.hero__accent : undefined}>{line}</span>)}</h1>
           <p className={styles.hero__text}>{STUDIO.text}</p>
           <div className={styles.actions}>
-            <BaseButton href="#contact" size="l" arrow className={styles.heroCta}>{CTA_LABEL}</BaseButton>
+            <BaseButton href="#contact" size="l" className={styles.heroCta}>{CTA_LABEL}<BaseArrow direction="right" /></BaseButton>
             <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <BaseArrow /></a>
           </div>
         </div>
