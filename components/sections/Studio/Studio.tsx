@@ -19,7 +19,6 @@ const Studio = () => {
       <FlameField />
       <HeroStage>
         <div className={styles.hero__copy}>
-          <p className={styles.eyebrow}>{STUDIO.eyebrow}</p>
           <h1 className={styles.hero__title}>{STUDIO.title.map((line, index) => <span key={line} className={index === 2 ? styles.hero__accent : undefined}>{line}</span>)}</h1>
           <p className={styles.hero__text}>{STUDIO.text}</p>
           <div className={styles.actions}>

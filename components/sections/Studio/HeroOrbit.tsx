@@ -36,6 +36,9 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
 
   return (
     <div className={styles.orbit} data-carousel>
+      <div className={styles.orbit__paths} data-morph-fade aria-hidden="true">
+        {[1, 2, 3, 4].map(path => <span key={path} className={clsx(styles.orbit__path, styles[`orbit__path--${path}`])} />)}
+      </div>
       {items.map((item, index) => {
         const source = item.videoWide ?? item.video;
         if (!source) return null;

@@ -43,8 +43,21 @@
 .orbit__label { position: absolute; left: 1.2rem; bottom: 1.2rem; right: 1.2rem; pointer-events: none; }
 .orbit__chip { @include text-body; @include glass; display: inline-grid; transform-origin: 0 100%; padding: .8rem 1.4rem; border-radius: var(--radius-control); opacity: 0; translate: 0 .8rem; transition: opacity .35s, translate .5s var(--ease); span { color: var(--color-text-cold); } @include mobile { opacity: 1; translate: 0 0; padding: .4rem 1rem; span { display: none; } } }
 .orbit__frame--core .orbit__chip { opacity: 1; translate: 0 0; transition-delay: .45s; }
+// Орбиты вокруг ядра: тонкие эллипсы с центром в ядре, наклоны как у дорожек в useOrbit.
+// Передняя половина ярче задней, по двум орбитам скользит огонек
+.orbit__paths { position: absolute; inset: 0; z-index: 0; pointer-events: none; @include mobile { display: none; } }
+.orbit__path { position: absolute; left: 46%; top: 50%; translate: -50% -50%; border: 1px solid color-mix(in srgb, var(--color-action-accent) 32%, transparent); border-radius: 50%; mask-image: linear-gradient(180deg, transparent, var(--color-text) 60%); }
+.orbit__path::after { content: ''; position: absolute; inset: -1px; padding: 1px; border-radius: inherit; background: conic-gradient(from var(--ring-angle), transparent 0 84%, var(--color-action-accent) 97%, transparent); mask: linear-gradient(var(--color-text) 0 0) content-box exclude, linear-gradient(var(--color-text) 0 0); -webkit-mask-composite: xor; animation: ringSpin 16s linear infinite; }
+.orbit__path--1 { width: 92%; height: 66%; rotate: 2deg; }
+.orbit__path--2 { width: 104%; height: 80%; rotate: -14deg; border-color: color-mix(in srgb, var(--color-action-primary) 30%, transparent); }
+.orbit__path--2::after { display: none; }
+.orbit__path--3 { width: 70%; height: 48%; rotate: 8deg; }
+.orbit__path--3::after { animation-duration: 11s; animation-direction: reverse; }
+.orbit__path--4 { width: 122%; height: 96%; rotate: -6deg; border-color: color-mix(in srgb, var(--color-text) 10%, transparent); }
+.orbit__path--4::after { display: none; }
 @keyframes orbitIn { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
+  .orbit__path::after { animation: none; display: none; }
   .aurora__blob, .orbit, .orbit__ring::before, .orbit__ring::after { animation: none; }
 }

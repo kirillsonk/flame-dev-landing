@@ -6,18 +6,16 @@
 .hero__copy { min-width: 0; animation: heroCopy .9s var(--ease) both; }
 .hero__title { --type-display: 7.2rem; @include text-display; margin-bottom: 3.2rem; span { display: block; } @include mobile { --type-display: 4rem; } }
 .hero__accent { @include gradient-text; background-size: 200% 100%; animation: accentShift 6s ease-in-out infinite alternate; }
-.hero__text { @include text-body; max-width: 49rem; color: var(--color-text-cold); margin-bottom: 3.2rem; }
+.hero__text { @include text-body; max-width: 58rem; color: var(--color-text-cold); margin-bottom: 3.2rem; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 2.4rem; @include mobile { gap: .6rem 2rem; } }
-.textLink { @include text-body(500); @include focus-ring; position: relative; display: inline-flex; gap: 1.2rem; align-items: center; padding-block: 1.4rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } }
-// Короткая черта под «Смотреть кейсы» дорисовывается на всю длину при наведении
-.textLink::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: .2rem; border-radius: var(--radius-pill); background: var(--gradient-action); transform-origin: left center; scale: .3 1; transition: scale .5s var(--ease); }
-.textLink:hover::after, .textLink:focus-visible::after { scale: 1 1; }
-// «Обсудить проект» на первом экране: темная пилюля с градиентной кромкой из пары «Смотреть кейсы»,
-// при наведении синяя заливка перетекает слева направо. Два класса, чтобы перебить primary из другого модуля
-.actions .heroCta { gap: 1.2rem; background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border-color: transparent; color: var(--color-text); transition: color .35s; svg { transition: translate .45s var(--ease); } @include hover { color: var(--color-on-action); svg { translate: .4rem 0; } } }
+.textLink { @include text-body(500); @include focus-ring; position: relative; display: inline-flex; gap: 1.2rem; align-items: center; padding-block: 1.4rem; svg { transition: translate .4s var(--ease); } @include hover { svg { translate: .2rem -.2rem; } } }
+// Черта под «Смотреть кейсы» на всю длину, при наведении становится ярче
+.textLink::after { content: ''; position: absolute; left: 0; right: 0; bottom: .6rem; height: .2rem; border-radius: var(--radius-pill); background: var(--gradient-action); opacity: .45; transition: opacity .35s; }
+.textLink:hover::after, .textLink:focus-visible::after { opacity: 1; }
+// «Обсудить проект» на первом экране: темная пилюля с градиентной кромкой, при наведении чуть плотнее и мягко светится.
+// Два класса, чтобы перебить primary из другого модуля
+.actions .heroCta { gap: 1.2rem; background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border-color: transparent; color: var(--color-text); transition: background-color .35s, box-shadow .45s var(--ease); svg { transition: translate .45s var(--ease); } @include hover { background: color-mix(in srgb, var(--color-action-primary) 24%, var(--color-surface)); box-shadow: 0 1rem 3.2rem color-mix(in srgb, var(--color-action-primary) 22%, transparent); svg { translate: .3rem 0; } } }
 .actions .heroCta::before { background: var(--gradient-action); animation: none; }
-.actions .heroCta::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--gradient-action); transform-origin: left center; scale: 0 1; transition: scale .55s var(--ease); }
-.actions .heroCta:hover::after, .actions .heroCta:focus-visible::after { scale: 1 1; }
 .section { @include section; }
 .section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 4rem; margin-bottom: 4.8rem; @include mobile { flex-direction: column; align-items: flex-start; gap: 2rem; margin-bottom: 3.2rem; } }
 .section__title { --type-display: 4.8rem; @include text-display; white-space: pre-line; @include mobile { --type-display: 3.6rem; } }

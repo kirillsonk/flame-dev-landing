@@ -54,8 +54,8 @@ export const WHY_LAYERS = {
 export const ECOSYSTEM_TITLE = 'Flame — это еще и';
 
 export const ECOSYSTEM_CARDS: IEcosystemCard[] = [
-  { title: 'Flame CGI', description: 'Видеопродакшн и CGI для брендов', href: 'https://flamecgi.com', label: 'flamecgi.com →' },
-  { title: 'Flame AI', description: 'AI-платформа для генерации видео', href: 'https://app.flameai.studio', label: 'app.flameai.studio →' },
+  { title: 'Flame CGI', description: 'Видеопродакшн и CGI для брендов', href: 'https://flamecgi.com', label: 'flamecgi.com →', logo: 'cgi' },
+  { title: 'Flame AI', description: 'AI-платформа для генерации видео', href: 'https://app.flameai.studio', label: 'app.flameai.studio →', logo: 'ai' },
 ];
 
 // Вариант «Бегущие строки» (marquee): верхняя строка — заголовок, нижняя — продукты контуром.

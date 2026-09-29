@@ -82,6 +82,8 @@ export interface IEcosystemCard {
   description: string;
   href: string;
   label: string;
+  /** Логотип продукта в ленте «Flame — это еще и» */
+  logo?: 'cgi' | 'ai';
 }
 
 /** Строка титров: роль и имя, либо роль и карточка продукта (индекс в ECOSYSTEM_CARDS). */
