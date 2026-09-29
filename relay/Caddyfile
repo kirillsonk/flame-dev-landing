@@ -1,0 +1,4 @@
+# HTTPS для ретранслятора: Caddy сам получает и продлевает сертификат Let's Encrypt
+{$RELAY_DOMAIN} {
+	reverse_proxy relay:8080
+}

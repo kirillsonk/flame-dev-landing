@@ -1,4 +1,5 @@
 import { readPayload, type IServerEnv } from '@/lib/server/http';
+import { hasTelegram, telegramSend } from '@/lib/server/upstream';
 import { ValidationError } from 'yup';
 import { leadValidationSchema } from '@/components/sections/Contact/LeadForm.validationSchema';
 
@@ -20,10 +21,7 @@ export async function handleLead(request: Request, env: IServerEnv) {
     return Response.json({ error: 'validation', details }, { status: 400 });
   }
 
-  const token = env.TELEGRAM_BOT_TOKEN;
-  const chatId = env.TELEGRAM_CHAT_ID;
-
-  if (!token || !chatId) {
+  if (!hasTelegram(env)) {
     console.error('[lead] delivery is not configured');
     return Response.json({ error: 'unavailable' }, { status: 503 });
   }
@@ -38,12 +36,7 @@ export async function handleLead(request: Request, env: IServerEnv) {
     .join('\n');
 
   try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-      signal: AbortSignal.timeout(10_000),
-    });
+    const res = await telegramSend(env, { text, parse_mode: 'HTML' }, 12_000);
 
     if (!res.ok) {
       console.error('[lead] delivery failed', res.status);

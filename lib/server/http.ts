@@ -3,6 +3,9 @@ export interface IServerEnv {
   OPENAI_MODEL?: string;
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
+  /** Ретранслятор в Европе и общий пароль к нему: боевой сервер ходит во внешние сервисы только через него */
+  RELAY_URL?: string;
+  RELAY_SECRET?: string;
 }
 export const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 
