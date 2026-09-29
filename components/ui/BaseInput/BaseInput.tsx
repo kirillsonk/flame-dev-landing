@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import clsx from 'clsx';
+import { NO_RECORD } from '@/components/layout/Metrika/metrikaConfig';
 import styles from './BaseInput.module.scss';
 
 interface BaseInputCommonProps {
@@ -33,9 +34,9 @@ const BaseInput = ({ label, error, note, className, multiline, id, name, ...rest
       </div>
       <div className={styles.field__box}>
         {multiline ? (
-          <textarea id={fieldId} name={name} className={clsx(styles.field__control, styles['field__control--multiline'])} {...a11y} {...(rest as TextareaHTMLAttributes<HTMLTextAreaElement>)} />
+          <textarea id={fieldId} name={name} className={clsx(styles.field__control, styles['field__control--multiline'], NO_RECORD)} {...a11y} {...(rest as TextareaHTMLAttributes<HTMLTextAreaElement>)} />
         ) : (
-          <input id={fieldId} name={name} className={styles.field__control} {...a11y} {...(rest as InputHTMLAttributes<HTMLInputElement>)} />
+          <input id={fieldId} name={name} className={clsx(styles.field__control, NO_RECORD)} {...a11y} {...(rest as InputHTMLAttributes<HTMLInputElement>)} />
         )}
         <span className={styles.field__line} aria-hidden="true" />
       </div>

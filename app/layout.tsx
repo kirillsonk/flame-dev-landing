@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import RevealController from '@/components/layout/RevealController/RevealController';
 import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
+import Metrika from '@/components/layout/Metrika/Metrika';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import './globals.scss';
@@ -56,6 +57,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <ScrollTop />
         <RevealController />
         <AnchorScroll />
+        <Metrika />
       </body>
     </html>
   );
