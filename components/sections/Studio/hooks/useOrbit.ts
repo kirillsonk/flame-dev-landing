@@ -74,7 +74,7 @@ const mix = (a: number, b: number, t: number) => a + (b - a) * t;
  * Наведенный кадр по дуге подлетает в ядро, бывшее ядро по дуге уходит на его место, орбита доворачивается.
  * Кадры: `[data-orbit-item]` с `data-index` внутри неподвижного слота, затемнение `[data-orbit-dim]`.
  * Слоты всех кадров совпадают с ядром, поэтому перелет в галерею считает геометрию от одной рамки.
- * На телефоне кадры стоят лентой: поворот и масштаб зависят от расстояния до центра ленты
+ * Мобильная компоновка скрывает сцену и не запускает вычисления орбит
  */
 const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number) => void): IUseOrbit => {
   const coreRef = useRef(0);
@@ -108,6 +108,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const resize = new ResizeObserver(() => {
       size.w = stage.offsetWidth;
       size.h = stage.offsetHeight;
+      if (motion.matches && !mobile.matches) render(0);
     });
     resize.observe(stage);
 
@@ -177,17 +178,6 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       });
     };
 
-    const renderMobile = (time: number) => {
-      const middle = stage.scrollLeft + stage.clientWidth / 2;
-      items.forEach(({ element, slot }, index) => {
-        const offset = (slot.offsetLeft + slot.offsetWidth / 2 - middle) / stage.clientWidth;
-        const distance = Math.min(Math.abs(offset), 1.2);
-        const t = time * .0004 + index * 1.9;
-        const y = Math.cos(t * 1.3) * 7 + distance * 18;
-        element.style.transform = `perspective(900px) translate3d(0, ${y}px, 0) rotateY(${-offset * 30}deg) rotateZ(${offset * 5 + Math.sin(t) * 1.2}deg) scale(${1 - distance * .16})`;
-      });
-    };
-
     // Намерение навести: кандидат под курсором и время, когда курсор на него заехал
     const intent = { index: -1, since: 0 };
     let lockUntil = 0;
@@ -213,6 +203,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       lockUntil = performance.now() + LOCK_MS;
       intent.index = -1;
       callback.current(index);
+      if (quick) render(0);
     };
 
     const hit = (target: EventTarget | null): number => {
@@ -232,14 +223,11 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     };
 
     const render = (time: number) => {
+      if (mobile.matches || size.w === 0 || size.h === 0) return;
       const dt = last ? Math.min(time - last, 64) / 1000 : 0;
       last = time;
       // Гаснет к 80% перелета, чтобы к посадке в галерею слой уже стоял ровно
-      const calm = Math.max(0, 1 - morphState.progress * 1.25);
-      if (mobile.matches) {
-        renderMobile(time);
-        return;
-      }
+      const calm = motion.matches ? 1 : Math.max(0, 1 - morphState.progress * 1.25);
       pace.value += ((pointer.inside ? HOVER_SPEED : 1) - pace.value) * Math.min(1, dt * 3);
       if (!motion.matches) orbit.angle += ORBIT.speed * dt * pace.value;
       checkIntent(time);
@@ -248,7 +236,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const tick = () => render(performance.now());
 
     const start = () => {
-      if (running || !visible || document.hidden) return;
+      if (running || !visible || document.hidden || mobile.matches || motion.matches) return;
       running = true;
       last = 0;
       gsap.ticker.add(tick);
@@ -302,28 +290,49 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     });
     const visibility = () => (document.hidden ? stop() : start());
     // Слой уже вне окна, но еще летит в галерею: кадр на каждый скролл, чтобы наклон погас вместе с перелетом
-    const scroll = () => { if (!running) tick(); };
+    const scroll = () => {
+      if (!running && !mobile.matches && !motion.matches && !document.hidden && morphState.progress > 0 && morphState.progress < 1) tick();
+    };
 
-    const reset = () => items.forEach(({ element, slot, dim }) => {
+    const reset = () => items.forEach((item) => {
+      const { element, slot, dim } = item;
       element.style.transform = '';
       slot.style.zIndex = '';
+      item.zIndex = '';
       if (dim) dim.style.opacity = '';
     });
+    const mode = () => {
+      stop();
+      if (mobile.matches) {
+        reset();
+        return;
+      }
+      size.w = stage.offsetWidth;
+      size.h = stage.offsetHeight;
+      if (motion.matches) {
+        gsap.killTweensOf([spread, orbit, ...items.map(item => item.core)]);
+        spread.value = 1;
+        items.forEach((item, index) => { item.core.value = index === coreRef.current ? 1 : 0; });
+        pointer.x = pointer.y = smooth.x = smooth.y = 0;
+        render(0);
+      } else start();
+    };
 
-    if (!motion.matches) gsap.to(spread, { value: 1, duration: 1.8, ease: 'expo.out', delay: .15 });
+    if (!motion.matches && !mobile.matches) gsap.to(spread, { value: 1, duration: 1.8, ease: 'expo.out', delay: .15 });
     else spread.value = 1;
 
-    observer.observe(root);
+    observer.observe(stage);
     window.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('scroll', scroll, { passive: true });
-    stage.addEventListener('scroll', scroll, { passive: true });
     stage.addEventListener('pointermove', stageMove, { passive: true });
     stage.addEventListener('pointerleave', stageLeave);
     stage.addEventListener('pointerdown', down);
     stage.addEventListener('click', click);
     stage.addEventListener('focusin', focus);
     document.addEventListener('visibilitychange', visibility);
-    start();
+    motion.addEventListener('change', mode);
+    mobile.addEventListener('change', mode);
+    mode();
 
     return () => {
       stop();
@@ -332,13 +341,14 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       gsap.killTweensOf([spread, orbit, ...items.map(item => item.core)]);
       window.removeEventListener('pointermove', move);
       window.removeEventListener('scroll', scroll);
-      stage.removeEventListener('scroll', scroll);
       stage.removeEventListener('pointermove', stageMove);
       stage.removeEventListener('pointerleave', stageLeave);
       stage.removeEventListener('pointerdown', down);
       stage.removeEventListener('click', click);
       stage.removeEventListener('focusin', focus);
       document.removeEventListener('visibilitychange', visibility);
+      motion.removeEventListener('change', mode);
+      mobile.removeEventListener('change', mode);
       reset();
     };
   }, [rootRef]);

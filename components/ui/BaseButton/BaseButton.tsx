@@ -1,16 +1,17 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
+import Link from 'next/link';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './BaseButton.module.scss';
 
-type ButtonVariant = 'primary' | 'inverse' | 'chrome' | 'ghost';
+type ButtonVariant = 'primary' | 'secondary' | 'text' | 'inverse' | 'chrome' | 'ghost';
 type ButtonSize = 'm' | 'l';
 
 interface BaseButtonCommonProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   block?: boolean;
-  /** Круглый слот со стрелкой у правого края — для главных CTA. */
+  /** Необязательная стрелка без отдельной круглой подложки */
   arrow?: boolean;
   className?: string;
   children: ReactNode;
@@ -36,6 +37,9 @@ const BaseButton = ({ variant = 'primary', size = 'm', block = false, arrow = fa
 
   if (rest.href !== undefined) {
     const { href, ...anchorProps } = rest as ButtonAsLink;
+    if (href.startsWith('/')) {
+      return <Link href={href} className={classes} {...anchorProps}>{content}</Link>;
+    }
     return (
       <a href={href} className={classes} {...anchorProps}>
         {content}

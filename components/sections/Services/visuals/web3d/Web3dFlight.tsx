@@ -80,7 +80,7 @@ const Web3dFlight = () => {
       <div className={w3d.web3d__bar}>
         <button
           type="button"
-          disabled={failed}
+          disabled={failed || stop === 0}
           className={clsx(ui.button, w3d.web3d__control)}
           aria-label={copy.back}
           onClick={() => sceneRef.current?.step(-1)}
@@ -89,7 +89,7 @@ const Web3dFlight = () => {
         </button>
         <button
           type="button"
-          disabled={failed}
+          disabled={failed || stop === copy.stops.length - 1}
           className={clsx(ui.button, ui['button--primary'])}
           onClick={() => sceneRef.current?.step(1)}
         >

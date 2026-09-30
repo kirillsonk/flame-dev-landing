@@ -110,7 +110,7 @@ const TibiaReport = () => {
           {copy.pdf}
         </button>
       </div>
-      <div className={styles.report__main}>
+      <div className={clsx(styles.report__main, sheet && styles['report__main--sheet'])}>
         <div className={styles.report__kpis} inert={sheet}>
           {copy.kpis.map((label, index) => (
             <div key={label} className={styles.report__kpi}>

@@ -10,16 +10,7 @@
   gap: var(--space-card);
 }
 
-.case__back {
-  @include text-body(500);
-  @include focus-ring;
-  color: var(--color-text-dim);
-  transition: color 0.15s ease-out;
-
-  @include hover {
-    color: var(--color-text);
-  }
-}
+.case__back { align-self: flex-start; }
 
 .case__title {
   @include text-display;
@@ -71,16 +62,5 @@
   @include mobile {
     flex-direction: column;
     align-items: stretch;
-  }
-}
-
-.case__live {
-  @include text-body(500);
-  @include focus-ring;
-  color: var(--color-text);
-  transition: color 0.15s ease-out;
-
-  @include hover {
-    color: var(--color-action-primary-hover);
   }
 }

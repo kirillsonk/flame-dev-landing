@@ -10,7 +10,7 @@
   align-items: flex-end;
   pointer-events: none;
   @include mobile {
-    top: 9.6rem;
+    top: 15.2rem;
     right: 1.6rem;
   }
 }
@@ -48,6 +48,10 @@
   transition: color 0.2s;
   @include hover {
     color: var(--color-text);
+  }
+  @include mobile {
+    min-height: 4.4rem;
+    min-width: 4.4rem;
   }
 }
 .flight__stop--active {

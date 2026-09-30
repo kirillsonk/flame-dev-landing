@@ -101,6 +101,19 @@ const CaseGallery = () => {
         <span className={styles.gallery__indicator} aria-hidden="true"><BaseArrow /></span>
       </button>)}
     </div>
+    <ul className={styles.gallery__swipe} aria-label={CASE_GALLERY.index}>
+      {projects.map((project, index) => <li key={project.slug} className={styles.gallery__slide}>
+        <Link href={`/cases/${project.slug}`} className={styles.gallery__mobileCard} aria-label={`${CASE_GALLERY.open} · ${project.title}`}>
+          <div className={styles.gallery__image}>
+            {poster(index) && <Image src={poster(index)!} alt="" fill loading={index === 0 ? 'eager' : 'lazy'} sizes="(max-width: 900px) 85vw, 1px" />}
+          </div>
+          <div className={styles.gallery__mobileCaption}>
+            <h3>{project.title}</h3>
+            <p>{CASE_TYPES[project.slug]}</p>
+          </div>
+        </Link>
+      </li>)}
+    </ul>
   </div>;
 };
 export default CaseGallery;

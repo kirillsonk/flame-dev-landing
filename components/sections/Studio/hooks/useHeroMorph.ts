@@ -124,9 +124,9 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
         defaults: { ease: 'none' },
         scrollTrigger: {
           start: 0,
-          // Посадка, когда секция встает к верху окна: заголовок и колода видны целиком
+          // Совпадает с остановкой якоря: секция встает под фиксированной шапкой
           endTrigger: cases,
-          end: 'top top',
+          end: () => `top ${parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0}px`,
           scrub: .5,
           invalidateOnRefresh: true,
           onRefreshInit: measure,

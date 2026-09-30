@@ -20,6 +20,10 @@
   border-radius: var(--radius-pill);
   color: var(--color-text-cold);
   text-align: left;
+  @include mobile {
+    min-width: 4.4rem;
+    min-height: 4.4rem;
+  }
   transition:
     border-color 0.2s,
     color 0.2s,

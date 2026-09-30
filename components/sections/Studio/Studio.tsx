@@ -21,15 +21,15 @@ const Studio = () => {
           <h1 className={styles.hero__title}>{STUDIO.title.map((line, index) => <span key={line} className={index === 2 ? styles.hero__accent : undefined}>{line}</span>)}</h1>
           <p className={styles.hero__text}>{STUDIO.text}</p>
           <div className={styles.actions}>
-            <BaseButton href="#contact" size="l" className={styles.heroCta}>{CTA_LABEL}<BaseArrow direction="right" /></BaseButton>
-            <a className={styles.textLink} href="#cases">{HERO_INTRO.secondary.label} <BaseArrow /></a>
+            <BaseButton href="#contact" size="l">{CTA_LABEL}</BaseButton>
+            <BaseButton variant="text" href="#cases">{HERO_INTRO.secondary.label} <BaseArrow direction="right" /></BaseButton>
           </div>
         </div>
       </HeroStage>
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>
         <CaseGallery />
-        <div className={styles.more}><BaseButton href="/cases" size="l" className={styles.heroCta}>{STUDIO.cases.all}<BaseArrow direction="right" /></BaseButton></div>
+        <div className={styles.more}><BaseButton href="/cases" variant="secondary" arrow>{STUDIO.cases.all}</BaseButton></div>
       </section>
       <section className={styles.services} id="services">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.services.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.services.title}</h2></div></div>

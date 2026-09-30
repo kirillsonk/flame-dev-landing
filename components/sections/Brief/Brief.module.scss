@@ -3,14 +3,13 @@
 // Фон и линия на всю ширину окна, сетка внутри контейнера: иначе на широком экране по бокам остаются поля без подложки
 .contact { border-top: 1px solid var(--color-border); background: radial-gradient(ellipse at 0 80%, color-mix(in srgb, var(--color-action-primary) 9%, transparent), transparent 60%); }
 .contact__inner { @include section; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8rem; @include mobile { grid-template-columns: 1fr; gap: 3.2rem; } }
-.contact__intro { h2 { --type-display: 6rem; @include text-display; white-space: pre-line; margin: 2.4rem 0; } > p { @include text-body; color: var(--color-text-cold); max-width: 36rem; } > a { @include text-title; @include focus-ring; display: inline-flex; align-items: center; gap: 1.2rem; margin-top: 3.2rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } } @include mobile { h2 { --type-display: 4.4rem; } } }
+.contact__intro { h2 { --type-display: 6rem; @include text-display; white-space: pre-line; } @include mobile { h2 { --type-display: 4.4rem; } } }
 .contact__form { min-width: 0; }
 .brief { padding: 3.2rem; background: color-mix(in srgb, var(--color-surface) 92%, transparent); border: 1px solid var(--color-border); border-radius: var(--radius-panel); @include mobile { padding: 2rem; } }
 .brief { @include text-body; display: flex; flex-direction: column; gap: 2.4rem; }
-.brief__meta { color: var(--color-text-cold); }
 .brief__progress { list-style: none; display: flex; gap: .8rem; li { height: .3rem; border-radius: var(--radius-pill); flex: 1; background: var(--color-elevated); } li.brief__progress--active { background: var(--color-action-accent); } }
 .brief__sr { @include sr-only; }
-.brief__question { @include text-title; outline: none; }
+.brief__question { @include text-title; outline: none; scroll-margin-top: calc(var(--size-header) + 1.6rem); }
 .brief__body { display: flex; flex-direction: column; gap: 2rem; min-height: 22rem; }
 .options { border: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
 .option { @include text-body; display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem 1.6rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-pill); cursor: pointer; input { accent-color: var(--color-action-primary); width: 1.8rem; height: 1.8rem; flex-shrink: 0; } i { margin-left: auto; font-style: normal; } &:has(input:checked) { border-color: var(--color-action-accent); background: color-mix(in srgb, var(--color-action-primary) 12%, var(--color-surface)); } &:focus-within { outline: 2px solid var(--color-action-accent); outline-offset: 2px; } }

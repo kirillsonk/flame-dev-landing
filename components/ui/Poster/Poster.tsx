@@ -20,7 +20,7 @@ export interface PosterProps {
 }
 
 const Poster = ({ item, playing = true, zoomOnHover = false, showTitle = true, wide = false, className }: PosterProps) => {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const { ref, inView } = useInView<HTMLDivElement>({ rootMargin: '0px' });
   const videoRef = useRef<HTMLVideoElement>(null);
   const source = wide ? item.videoWide ?? item.video : item.video;
   const [from, to] = item.colors;
@@ -29,13 +29,23 @@ const Poster = ({ item, playing = true, zoomOnHover = false, showTitle = true, w
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (inView && playing && !reduced) {
-      video.play().catch(() => undefined);
-    } else {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      if (inView && playing && !motion.matches && !document.hidden) {
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    };
+    sync();
+    motion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    return () => {
       video.pause();
-    }
-  }, [inView, playing]);
+      motion.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', sync);
+    };
+  }, [inView, playing, source?.mp4]);
 
   return (
     <div
@@ -45,6 +55,7 @@ const Poster = ({ item, playing = true, zoomOnHover = false, showTitle = true, w
     >
       {source && (
         <video
+          key={source.mp4}
           ref={videoRef}
           className={styles.poster__video}
           muted
@@ -54,8 +65,8 @@ const Poster = ({ item, playing = true, zoomOnHover = false, showTitle = true, w
           poster={source.poster}
           aria-hidden="true"
         >
-          {source.webm && <source src={source.webm} type="video/webm" />}
           <source src={source.mp4} type="video/mp4" />
+          {source.webm && <source src={source.webm} type="video/webm" />}
         </video>
       )}
       {!source && item.poster && (

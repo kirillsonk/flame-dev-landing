@@ -9,6 +9,7 @@
   gap: 1.6rem;
   font-variant-numeric: tabular-nums;
   @include mobile {
+    height: auto;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.2rem;
   }
@@ -51,6 +52,9 @@
   gap: 1rem;
   margin-bottom: 1.2rem;
   font-weight: 700;
+  @include mobile {
+    flex-wrap: wrap;
+  }
 }
 .invoice__paperTable {
   width: 100%;
@@ -185,6 +189,7 @@
   color: var(--color-demo-gold);
 }
 .invoice__fix {
+  --verdict: var(--color-demo-gold);
   margin-top: auto;
   display: flex;
   flex-wrap: wrap;

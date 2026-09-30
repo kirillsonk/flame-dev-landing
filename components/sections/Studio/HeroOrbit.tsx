@@ -21,21 +21,46 @@ const morphRole = (index: number, core: number, count: number) => {
 };
 
 // Ядро по центру, остальные кадры едут вокруг него по орбитам (см. useOrbit).
-// Вокруг ядра переливается кромка. На телефоне кадры стоят лентой с горизонтальной прокруткой
+// Вокруг ядра переливается кромка. На телефоне сцена скрыта, проекты показаны в отдельной галерее
 const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
+  const stage = useRef<HTMLDivElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    videos.current.forEach((video, index) => {
+    const node = stage.current;
+    if (!node) return;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = window.matchMedia('(min-width: 901px)');
+    const currentVideos = videos.current;
+    let visible = false;
+    const sync = () => currentVideos.forEach((video, index) => {
       if (!video) return;
-      if (index === (morphing ? -1 : core) && !motion) void video.play().catch(() => {});
-      else video.pause();
+      if (index === core && !morphing && visible && desktop.matches && !motion.matches && !document.hidden) {
+        // Attach only the visible core video: the mobile layout never downloads hidden hero clips
+        const source = items[index].videoWide ?? items[index].video;
+        if (!video.getAttribute('src') && source) video.src = source.mp4;
+        void video.play().catch(() => undefined);
+      } else video.pause();
     });
-  }, [core, morphing]);
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    });
+    observer.observe(node);
+    motion.addEventListener('change', sync);
+    desktop.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    return () => {
+      observer.disconnect();
+      motion.removeEventListener('change', sync);
+      desktop.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', sync);
+      currentVideos.forEach(video => video?.pause());
+    };
+  }, [core, morphing, items]);
 
   return (
-    <div className={styles.orbit} data-carousel>
+    <div ref={stage} className={styles.orbit} data-carousel>
       <div className={styles.orbit__paths} data-morph-fade aria-hidden="true">
         {[1, 2, 3, 4].map(path => <span key={path} className={clsx(styles.orbit__path, styles[`orbit__path--${path}`])} />)}
       </div>
@@ -53,9 +78,7 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
                 data-morph-source={morphRole(index, core, items.length)}
                 aria-label={`${HERO_STAGE.open} · ${item.title}`}
               >
-                <video ref={(node) => { videos.current[index] = node; }} poster={source.poster} preload={index === 0 ? 'auto' : 'none'} muted loop playsInline aria-hidden="true">
-                  <source src={source.mp4} type="video/mp4" />
-                </video>
+                <video ref={(node) => { videos.current[index] = node; }} poster={source.poster} preload="none" muted loop playsInline aria-hidden="true" />
                 <span className={styles.orbit__dim} data-orbit-dim aria-hidden="true" />
                 <span className={styles.orbit__label} data-morph-fade>
                   <span className={styles.orbit__chip}>{item.title}<span>{CASE_TYPES[item.slug]}</span></span>

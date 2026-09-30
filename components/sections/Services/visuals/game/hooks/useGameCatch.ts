@@ -76,6 +76,7 @@ const pickKind = () => {
  */
 const useGameCatch = (active: boolean) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const paths = useRef<Partial<Record<keyof typeof PATHS, Path2D>>>({});
   const [phase, setPhase] = useState<CatchPhase>('idle');
   const [score, setScore] = useState(0);
   const [left, setLeft] = useState<number>(copy.duration);
@@ -147,7 +148,8 @@ const useGameCatch = (active: boolean) => {
         ctx.stroke();
       } else {
         ctx.fillStyle = colors[item.kind];
-        ctx.fill(new Path2D(PATHS[item.kind]));
+        const path = paths.current[item.kind] ?? (paths.current[item.kind] = new Path2D(PATHS[item.kind]));
+        ctx.fill(path);
       }
       ctx.restore();
     });

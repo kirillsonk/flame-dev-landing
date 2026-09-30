@@ -5,7 +5,7 @@ import { FOOTER_ABOUT, FOOTER_COLUMNS, FOOTER_COPYRIGHT } from '@/data/site';
 import FooterLink from './FooterLink';
 import styles from './FooterColumns.module.scss';
 
-// Вариант «Колонки»: кто мы, разделы, экосистема и контакты, снизу копирайт и язык.
+// Вариант «Колонки»: кто мы, разделы и контакты, снизу копирайт и язык.
 const FooterColumns = () => {
   return (
     <footer className={styles.columns}>

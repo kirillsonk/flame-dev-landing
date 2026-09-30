@@ -15,10 +15,12 @@
   gap: 0.8rem;
   min-height: var(--size-button);
   --pad: 2.4rem;
-  padding: 0 var(--pad);
+  padding: 1rem var(--pad);
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
-  white-space: nowrap;
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.4;
   transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out;
 
   @include focus-ring;
@@ -34,22 +36,15 @@
   --pad: 4rem;
 }
 
-// Слот со стрелкой прижат к правому краю: паддинг съедается отрицательным полем.
+// Стрелка встроена в кнопку, без дополнительной кнопки-круга внутри
 .button__slot {
   display: grid;
   place-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
-  margin-right: calc(var(--pad) / -2);
-  border-radius: var(--radius-pill);
-  background: color-mix(in srgb, currentColor 20%, transparent);
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
   overflow: hidden;
   transition: background-color 0.15s ease-out, color 0.15s ease-out;
-}
-
-.button--l .button__slot {
-  width: 4rem;
-  height: 4rem;
 }
 
 .button__slot .button__icon {
@@ -58,11 +53,6 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .button--primary:hover .button__slot {
-    background: var(--color-action-accent);
-    color: var(--color-bg);
-  }
-
   .button:hover .button__icon {
     animation: button-arrow 0.45s var(--ease);
   }
@@ -146,7 +136,7 @@
   }
 }
 
-.button--chrome {
+.button--chrome, .button--secondary {
   background: var(--color-surface);
   border-color: var(--color-border);
   color: var(--color-text);
@@ -154,6 +144,26 @@
   @include hover {
     background: var(--color-elevated);
   }
+}
+
+.button--text {
+  position: relative;
+  background: transparent;
+  --pad: 0rem;
+  border-radius: var(--radius-control);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: .6rem;
+    height: .2rem;
+    background: var(--gradient-action);
+    opacity: .45;
+    transition: opacity .2s;
+  }
+
+  @include interact { &::after { opacity: 1; } }
 }
 
 .button--ghost {
@@ -164,4 +174,8 @@
   @include hover {
     color: var(--color-text);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:hover .button__icon { animation: none; }
 }

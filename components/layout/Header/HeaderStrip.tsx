@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { HEADER_STRIP } from '@/data/site';
 import styles from './HeaderStrip.module.scss';
 
@@ -7,9 +8,9 @@ const HeaderStrip = () => {
     <div className={styles.strip}>
       <span className={styles.strip__dot} aria-hidden="true" />
       <span className={styles.strip__text}>{HEADER_STRIP.text}</span>
-      <a href="#contact" className={styles.strip__link}>
+      <Link href="/#contact" className={styles.strip__link}>
         {HEADER_STRIP.link}
-      </a>
+      </Link>
     </div>
   );
 };

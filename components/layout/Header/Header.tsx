@@ -21,26 +21,26 @@ const HEADER_CONTACTS = CONTACT.links.filter((link) => link.icon !== 'deck');
 const Header = () => {
   const { value } = useStoredVariant('header');
   const variant = parseHeader(value);
-  const { menuOpen, compact, progressRef, toggleMenu, closeMenu } = useHeaderState();
+  const { menuOpen, mobile, compact, headerRef, navRef, burgerRef, progressRef, toggleMenu, closeMenu } = useHeaderState();
   const { linksRef, blobRef, onLinkEnter, onLinksLeave } = useHeaderBlob(variant === 'blob');
   const blob = variant === 'blob';
 
   return (
     <>
       {variant === 'strip' && <HeaderStrip />}
-      <header className={clsx(styles.header, styles[`header--${variant}`], menuOpen && styles['header--open'], compact && styles['header--compact'])}>
+      <header ref={headerRef} className={clsx(styles.header, styles[`header--${variant}`], menuOpen && styles['header--open'], compact && styles['header--compact'])}>
         <div className={styles.header__inner}>
           <Link href="/" className={styles.header__logo} onClick={closeMenu} aria-label="Flame dev">
             <Logo />
           </Link>
 
-          <nav id="header-nav" className={styles.header__nav} aria-label="Разделы">
+          <nav ref={navRef} id="header-nav" className={styles.header__nav} aria-label="Разделы" inert={mobile && !menuOpen} aria-hidden={mobile && !menuOpen ? true : undefined}>
             <div ref={linksRef} className={styles.header__links} onMouseLeave={blob ? onLinksLeave : undefined}>
               {blob && <span ref={blobRef} className={styles.header__blob} aria-hidden="true" />}
               {NAV.map((item) => (
-                <a key={item.href} href={item.href} className={styles.header__link} onClick={closeMenu} onMouseEnter={blob ? onLinkEnter : undefined}>
-                  {item.label}
-                </a>
+                <Link key={item.href} href={item.href} className={styles.header__link} onClick={closeMenu} onMouseEnter={blob ? onLinkEnter : undefined}>
+                  <span className={styles.header__linkText}>{item.label}</span>
+                </Link>
               ))}
             </div>
             <div className={styles.header__actions}>
@@ -66,7 +66,7 @@ const Header = () => {
                   })}
                 </div>
               )}
-              <CtaButton className={styles.header__cta} onClick={closeMenu} />
+              <CtaButton href="/#contact" className={styles.header__cta} onClick={closeMenu} />
             </div>
           </nav>
 
@@ -74,6 +74,7 @@ const Header = () => {
             <ThemeToggle />
             <BaseLangSwitch />
             <button
+              ref={burgerRef}
               type="button"
               className={styles.header__burger}
               aria-expanded={menuOpen}

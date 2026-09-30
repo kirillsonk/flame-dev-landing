@@ -117,12 +117,11 @@ const AiInvoice = () => {
             ))}
           </tbody>
         </table>
-        {/* Спорная ячейка и сверка итога делят одно место: пока количество не выбрано, итог не сверить,
-            а вдвоём они не помещаются в рамку сцены. */}
-        {done && quantity === null ? (
+        {done && check !== 'ok' ? (
           <div className={styles.invoice__fix}>
             <span>{copy.fixPrompt}</span>
-            <AiChips label={copy.fixPrompt} items={doubt.options} onSelect={(index) => choose(doubt.options[index])} />
+            <AiChips label={copy.fixPrompt} items={doubt.options} selected={quantity === null ? undefined : doubt.options.indexOf(quantity)} onSelect={(index) => choose(doubt.options[index])} />
+            {quantity !== null && <b className={styles.invoice__verdict}>{copy.bad}</b>}
           </div>
         ) : (
           <div

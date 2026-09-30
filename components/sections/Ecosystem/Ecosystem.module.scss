@@ -16,14 +16,17 @@
   padding-block: 2.4rem;
 
   @include mobile {
-    flex-direction: column;
-    align-items: stretch;
+    padding-block: 1.6rem;
   }
 }
 
 .ecosystem__title {
   white-space: nowrap;
   opacity: .72;
+
+  @include mobile {
+    @include sr-only;
+  }
 }
 
 // Продукты всегда в одну строку двумя равными колонками, в столбец не встают
@@ -42,20 +45,20 @@
 .ecosystem__link {
   @include focus-ring(var(--color-on-action));
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: .8rem 1.6rem;
   padding-block: .4rem;
 
   @include hover {
-    .ecosystem__arrow { translate: .3rem -.3rem; }
     .ecosystem__text { opacity: 1; }
   }
 
-  // Узкий экран: логотип со стрелкой, описание под ними
+  // На телефоне лента остается парой спокойных логотипов с удобной зоной касания
   @include mobile {
-    grid-template-columns: auto auto;
-    justify-content: start;
+    display: flex;
+    justify-content: center;
+    min-height: var(--size-button);
   }
 }
 
@@ -79,15 +82,10 @@
   transition: opacity .25s;
 
   @include mobile {
-    grid-row: 2;
-    grid-column: 1 / -1;
+    display: none;
   }
 }
 
-.ecosystem__arrow {
-  transition: translate .3s var(--ease);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ecosystem__text, .ecosystem__arrow { transition: none; }
+  .ecosystem__text { transition: none; }
 }

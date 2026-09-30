@@ -83,7 +83,7 @@ const useTibiaReport = (): IUseTibiaReport => {
 
   useEffect(() => {
     if (!sheet) return;
-    const focus = window.setTimeout(() => closeRef.current?.focus(), 50);
+    const focus = window.setTimeout(() => closeRef.current?.focus({ preventScroll: true }), 50);
     const build = window.setTimeout(() => setBuilt(true), BUILD_MS);
     return () => {
       window.clearTimeout(focus);
@@ -98,7 +98,7 @@ const useTibiaReport = (): IUseTibiaReport => {
 
   const closeSheet = () => {
     setSheet(false);
-    pdfRef.current?.focus();
+    pdfRef.current?.focus({ preventScroll: true });
   };
 
   return {

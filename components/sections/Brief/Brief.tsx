@@ -14,14 +14,16 @@ const Brief = () => {
   const heading = useRef<HTMLHeadingElement>(null);
   const previousStep = useRef(0);
   useEffect(() => {
-    if (previousStep.current !== b.step) heading.current?.focus();
+    if (previousStep.current !== b.step && heading.current) {
+      heading.current.focus({ preventScroll: true });
+      heading.current.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    }
     previousStep.current = b.step;
   }, [b.step]);
   if (b.status === 'success') return <div className={styles.brief} role="status"><h3 className={styles.brief__question}>{BRIEF.success}</h3><p>{BRIEF.successText}</p><BaseButton onClick={b.restart}>{BRIEF.another}</BaseButton></div>;
   const title = [BRIEF.typeQuestion, BRIEF.goalQuestion, BRIEF.detailTitle, BRIEF.timingQuestion, BRIEF.reviewTitle][b.step];
   return (
     <form className={styles.brief} onSubmit={(event) => { event.preventDefault(); if (b.step === 4) void b.submit(); else void b.next(); }}>
-      <div className={styles.brief__meta}><span>{BRIEF.title}</span></div>
       <ol className={styles.brief__progress} aria-label={BRIEF.title}>{BRIEF.steps.map((label, index) => <li key={label} aria-current={index === b.step ? 'step' : undefined} className={index <= b.step ? styles['brief__progress--active'] : undefined}><span className={styles.brief__sr}>{label}</span></li>)}</ol>
       {b.step > 0 && b.step < 4 && <div className={styles.brief__history}><p className={styles.brief__answer}>{b.type}</p>{b.step > 1 && <p className={styles.brief__answer}>{b.goal}</p>}</div>}
       <div className={styles.brief__message}><span className={styles.brief__sender}>{BRIEF.assistant}</span><h3 className={styles.brief__question} ref={heading} tabIndex={-1}>{title}</h3></div>

@@ -16,4 +16,14 @@
 @keyframes linkIn { from { scale: 0 1; } to { scale: 1 1; } }
 @keyframes pulseRun { 0% { left: 0; opacity: 0; } 15%, 80% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
 @keyframes pulseDrop { 0% { top: 0; opacity: 0; } 15%, 80% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@media (min-width: 901px) and (max-width: 1100px) {
+  .process { gap: 1.6rem; }
+  .process__step h3 { font-size: clamp(1.7rem, 1.8vw, 2rem); }
+}
+@media (max-width: 359px) {
+  .process__step { grid-template-columns: 6.4rem minmax(0, 1fr); }
+  .process__visual { width: 6.4rem; height: 6.4rem; }
+  .process__icon { width: 3.2rem; height: 3.2rem; }
+  .process__link { top: 8rem; left: 3.1rem; }
+}
 @media (prefers-reduced-motion: reduce) { .process__step:global(.is-revealed) .process__visual, .process__step:global(.is-revealed) .process__link { animation: none; } .process__pulse { display: none; } .process__step:hover .process__orbit { transform: rotate(calc(var(--step) * 34deg)); } .process__step:hover .process__disc, .process__step:hover .process__icon { transform: none; } }

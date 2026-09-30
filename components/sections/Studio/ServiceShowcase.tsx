@@ -8,6 +8,7 @@ import { SERVICES, SERVICES_PLAYER_CHIPS } from '@/data/services';
 import { STUDIO } from '@/data/studio';
 import { SHOWCASE } from '@/data/showcase';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
+import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import styles from './ServiceShowcase.module.scss';
 
 const Loading = () => <p className={styles.loading} role="status">{SHOWCASE.loading}</p>;
@@ -28,12 +29,12 @@ const ServiceShowcase = () => {
         <h3><button type="button" className={styles.direction__button} aria-expanded={index === active} aria-controls={`${id}-${item.slug}`} onClick={() => setActive(index)}>{item.title}<span aria-hidden="true">{active === index ? '−' : '+'}</span></button></h3>
         <div id={`${id}-${item.slug}`} hidden={active !== index} className={styles.direction__details}>
           <p>{item.description}</p>
-          <a href="#contact" className={styles.link}>{STUDIO.services.link}<BaseArrow /></a>
+          <BaseButton href="#contact" variant="text" className={styles.link}>{STUDIO.services.link}<BaseArrow direction="right" /></BaseButton>
         </div>
       </div>)}
     </div>
     <div className={styles.player}>
-      <div data-theme="dark" data-part="visual" id={`${id}-demo`} className={styles.stage} role="region" aria-label={`${SHOWCASE.demoLabel} · ${SHOWCASE.names[active]}`}>
+      <div data-theme="dark" data-part="visual" id={`${id}-demo`} className={clsx(styles.stage, (active === 0 || active === 3) && styles['stage--document'])} role="region" aria-label={`${SHOWCASE.demoLabel} · ${SHOWCASE.names[active]}`}>
         <div className={styles.scene} key={active}>{inView ? <Demo /> : <Loading />}</div>
       </div>
       <div className={styles.rail} role="group" aria-label={SHOWCASE.demoLabel}>

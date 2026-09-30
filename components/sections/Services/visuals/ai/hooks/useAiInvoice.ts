@@ -43,6 +43,9 @@ const useAiInvoice = () => {
     cellText: (row: number, col: number) => {
       if (!isShown(row, col)) return copy.placeholder;
       if (isDoubt(row, col)) return quantity ?? doubt.read;
+      if (row === doubt.row && col === 3 && quantity !== null) {
+        return NUMBER.format(toNumber(quantity) * toNumber(copy.rows[row][2]));
+      }
       return copy.rows[row][col];
     },
     recognize: () => {

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import { notFound } from 'next/navigation';
 import CtaButton from '@/components/cta/CtaButton/CtaButton';
 import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import Poster from '@/components/ui/Poster/Poster';
 import { CASES } from '@/data/cases';
-import { CASE_LIVE_LABEL } from '@/data/site';
+import { CASE_BACK_LABEL, CASE_LIVE_LABEL } from '@/data/site';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './page.module.scss';
 
@@ -30,9 +30,9 @@ const CasePage = async ({ params }: CasePageProps) => {
 
   return (
     <main className={styles.case}>
-      <Link href="/cases" className={styles.case__back}>
-        ← Все проекты
-      </Link>
+      <BaseButton href="/cases" variant="secondary" className={styles.case__back}>
+        <BaseArrow direction="left" />{CASE_BACK_LABEL}
+      </BaseButton>
 
       <h1 className={styles.case__title}>{item.title}</h1>
       <p className={styles.case__text}>{item.description}</p>
@@ -49,9 +49,9 @@ const CasePage = async ({ params }: CasePageProps) => {
         <p className={styles.case__note}>Подробный разбор проекта готовим — тексты в работе.</p>
         <div className={styles.case__actions}>
           {item.live && (
-            <a href={item.live} target="_blank" rel="noreferrer" className={styles.case__live}>
+            <BaseButton href={item.live} target="_blank" rel="noreferrer" variant="secondary">
               {CASE_LIVE_LABEL} <BaseArrow />
-            </a>
+            </BaseButton>
           )}
           <CtaButton href="/#contact" />
         </div>

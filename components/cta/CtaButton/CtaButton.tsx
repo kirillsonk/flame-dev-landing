@@ -33,9 +33,9 @@ const CtaButton = ({ href = '#contact', block = false, className, onClick, tabIn
   const { value } = useStoredVariant('ctaButton');
   const variant = parseCtaButton(value);
 
-  if (variant === 'current') {
+  if (variant === 'current' || variant === 'beam') {
     return (
-      <BaseButton href={href} arrow block={block} className={className} onClick={onClick} tabIndex={tabIndex}>
+      <BaseButton href={href} block={block} className={className} onClick={onClick} tabIndex={tabIndex}>
         {CTA_LABEL}
       </BaseButton>
     );

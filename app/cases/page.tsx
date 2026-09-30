@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import CasesCatalog from '@/components/sections/Cases/CasesCatalog';
 import BriefContact from '@/components/sections/Brief/BriefContact';
 import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
@@ -21,7 +21,7 @@ const CasesPage = () => {
     <main className={styles.page}>
       <StarField />
       <div className={styles.page__inner}>
-        <Link href="/" className={styles.page__back}><BaseArrow direction="left" />{CASES_BACK_LABEL}</Link>
+        <BaseButton href="/" variant="secondary" className={styles.page__back}><BaseArrow direction="left" />{CASES_BACK_LABEL}</BaseButton>
         <h1 className={styles.page__title}>{CASES_INDEX_TITLE}</h1>
         <CasesCatalog items={CASES} />
       </div>
