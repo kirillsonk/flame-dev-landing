@@ -6,12 +6,24 @@ import { usePathname } from 'next/navigation';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import { METRIKA_HOSTS, METRIKA_ID, reachGoal, visitParams } from './metrikaConfig';
 
-// Официальный код счетчика, запуск только на боевом домене
+// Код счетчика, запуск только на боевом домене. Очередь ym и init создаются сразу, цели и параметры
+// копятся в ней. Сам tag.js грузится позже: его разбор и первый запуск занимают основной поток на сотни
+// миллисекунд, и на телефоне первое нажатие после загрузки (например, на бургер) срабатывало с задержкой.
+// Ждем полторы секунды без касаний и клавиш после загрузки страницы, но не дольше восьми секунд
 const SNIPPET = `if (${JSON.stringify(METRIKA_HOSTS)}.indexOf(location.hostname) !== -1) {
-(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
-for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=${METRIKA_ID}', 'ym');
+(function(m,e,t,r,i){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+var events=['pointerdown','touchstart','keydown','wheel'],last=0,since=0,done=false;
+var mark=function(){last=Date.now()};
+var load=function(){for(var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return}}
+var k=e.createElement(t),a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)};
+var check=function(){if(done){return}var now=Date.now();
+if(now-last<1500&&now-since<8000){setTimeout(check,250);return}
+done=true;events.forEach(function(n){m.removeEventListener(n,mark,true)});
+(m.requestIdleCallback||function(f){setTimeout(f,1)})(load,{timeout:1000})};
+var start=function(){since=last=Date.now();setTimeout(check,1500)};
+events.forEach(function(n){m.addEventListener(n,mark,{capture:true,passive:true})});
+if(e.readyState==='complete'){start()}else{m.addEventListener('load',start)}})
+(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=${METRIKA_ID}','ym');
 ym(${METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 }`;
 
