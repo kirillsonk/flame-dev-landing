@@ -1,6 +1,7 @@
 :root, [data-theme="dark"] {
   // Серая база — как на остальных сайтах Flame (landingv2, Tilda).
   --color-bg: #262525;
+  --color-brand-band: #202020;
   --color-surface: #2d2c2c;
   --color-elevated: #3d3d3e;
   --color-border: #3d3d3e;
@@ -30,6 +31,7 @@
 [data-theme="light"] {
   color-scheme: light;
   --color-bg: #eef0f4;
+  --color-brand-band: #e3e7ee;
   --color-surface: #f8f9fb;
   --color-elevated: #e3e7ee;
   --color-border: #d3d9e2;

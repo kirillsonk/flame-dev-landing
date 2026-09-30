@@ -27,6 +27,13 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
   const { t } = useLocale();
   const stage = useRef<HTMLDivElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
+  const playback = useRef({ core, morphing });
+  const syncPlayback = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    playback.current = { core, morphing };
+    syncPlayback.current?.();
+  }, [core, morphing]);
 
   useEffect(() => {
     const node = stage.current;
@@ -37,13 +44,16 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
     let visible = false;
     const sync = () => currentVideos.forEach((video, index) => {
       if (!video) return;
-      if (index === core && !morphing && visible && desktop.matches && !motion.matches && !document.hidden) {
+      const active = playback.current;
+      if (index === active.core && !active.morphing && visible && desktop.matches && !motion.matches && !document.hidden) {
         // Attach only the visible core video: the mobile layout never downloads hidden hero clips
         const source = items[index].videoWide ?? items[index].video;
         if (!video.getAttribute('src') && source) video.src = source.mp4;
-        void video.play().catch(() => undefined);
+        if (video.paused) void video.play().catch(() => undefined);
       } else video.pause();
     });
+    // Смена ядра и начало скролла синхронизируют воспроизведение без пересоздания observer.
+    syncPlayback.current = sync;
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       sync();
@@ -53,13 +63,14 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
     desktop.addEventListener('change', sync);
     document.addEventListener('visibilitychange', sync);
     return () => {
+      syncPlayback.current = null;
       observer.disconnect();
       motion.removeEventListener('change', sync);
       desktop.removeEventListener('change', sync);
       document.removeEventListener('visibilitychange', sync);
       currentVideos.forEach(video => video?.pause());
     };
-  }, [core, morphing, items]);
+  }, [items]);
 
   return (
     <div ref={stage} className={styles.orbit} data-carousel>

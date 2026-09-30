@@ -12,6 +12,7 @@ import FlameField from './FlameField';
 import ServiceShowcase from './ServiceShowcase';
 import BriefContact from '@/components/sections/Brief/BriefContact';
 import Ecosystem from '@/components/sections/Ecosystem/Ecosystem';
+import ClientStrip from '@/components/sections/ClientStrip/ClientStrip';
 import styles from './Studio.module.scss';
 
 const Studio = () => {
@@ -34,6 +35,7 @@ const Studio = () => {
         <CaseGallery />
         <div className={styles.more}><BaseButton href="/cases" variant="secondary">{t(STUDIO.cases.all)}</BaseButton></div>
       </section>
+      <ClientStrip />
       <section className={styles.services} id="services">
         <div className={styles.section__head} data-reveal><h2 className={styles.section__title}>{t(STUDIO.services.title)}</h2></div>
         <ServiceShowcase />

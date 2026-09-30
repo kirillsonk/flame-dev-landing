@@ -13,6 +13,7 @@ export const briefEn: Record<string, string> = {
   'Сервис или платформа': 'Service or platform',
   'Спецпроект': 'Brand experience',
   'AI-решение': 'AI solution',
+  'Что-то другое': 'Something else',
   'Пока не определились': 'Not sure yet',
   'Что будем создавать?': 'What would you like to build?',
   'Какую задачу должен решить проект?': 'What should the project achieve?',

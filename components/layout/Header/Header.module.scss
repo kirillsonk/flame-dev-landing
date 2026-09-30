@@ -114,7 +114,7 @@
   @include focus-ring;
 
   @include mobile {
-    width: clamp(8.4rem, calc(100vw - 23.6rem), 12rem);
+    width: clamp(7.6rem, calc(100vw - 24.4rem), 12rem);
     flex-shrink: 0;
     svg { width: 100%; height: auto; }
   }
@@ -237,7 +237,7 @@
   @include mobile {
     display: flex;
     align-items: center;
-    gap: .4rem;
+    gap: .8rem;
   }
 }
 

@@ -15,6 +15,7 @@ export interface IHandoffDetail { slug: string }
 
 interface IBox { x: number; y: number; w: number; h: number }
 interface IFit { x: number; y: number; scale: number; rotation: number; clip: string; from: string }
+type MorphRole = 'card' | 'back-1' | 'back-2' | 'extra';
 
 const MEDIA = '(min-width: 901px) and (prefers-reduced-motion: no-preference)';
 
@@ -76,7 +77,7 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
     if (!hero || !cases) return;
     const mm = gsap.matchMedia();
 
-    mm.add(MEDIA, () => {
+    mm.add(MEDIA, (context) => {
       // Колода стоит на месте, а карта внутри пересоздается при смене проекта: ее ищем при каждом пересчете
       const deck = cases.querySelector<HTMLElement>('[data-morph-deck]');
       const findCard = () => cases.querySelector<HTMLElement>('[data-morph-target="card"]') ?? deck!;
@@ -87,32 +88,36 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
       const fades = hero.querySelectorAll<HTMLElement>('[data-morph-fade]');
       hero.dataset.morph = '';
 
-      // Геометрия считается один раз на пересчет ScrollTrigger, значения твинов берутся из кэша
-      const cache = new Map<HTMLElement, IFit>();
+      // Все роли измеряем при refresh, а не на первом scroll после смены ядра.
+      // Переключение проекта меняет роль карточки, но не геометрию ее неподвижного слота.
+      const cache = new Map<HTMLElement, Record<MorphRole, IFit>>();
       const measure = () => {
         cache.clear();
         const target = findCard();
         const card = box(target);
         const cardRadius = radius(target);
+        const backs = (['back-1', 'back-2'] as const).map(role => {
+          const element = cases.querySelector<HTMLElement>(`[data-morph-target="${role}"]`);
+          return element ? { ...backBox(element), radius: radius(element) } : null;
+        });
         sources.forEach((source) => {
           const slot = source.closest('[data-morph-slot]') ?? source.parentElement!;
           const from = box(slot);
-          const role = source.dataset.morphSource;
-          const back = role === 'back-1' || role === 'back-2' ? cases.querySelector<HTMLElement>(`[data-morph-target="${role}"]`) : null;
-          if (back) {
-            const { box: to, rotation } = backBox(back);
-            cache.set(source, fit(from, to, radius(source), radius(back), rotation));
-          } else if (role === 'extra') {
-            // Лишние кадры созвездия уходят в глубину колоды и гаснут
-            const center = { x: card.x + card.w / 2 - from.w * .1, y: card.y + card.h / 2 - from.h * .1, w: from.w * .2, h: from.h * .2 };
-            cache.set(source, fit(from, center, radius(source), radius(source)));
-          } else {
-            cache.set(source, fit(from, card, radius(source), cardRadius));
-          }
+          const sourceRadius = radius(source);
+          const front = fit(from, card, sourceRadius, cardRadius);
+          const backFits = backs.map(back => back ? fit(from, back.box, sourceRadius, back.radius, back.rotation) : front);
+          // Лишние кадры созвездия уходят в глубину колоды и гаснут
+          const center = { x: card.x + card.w / 2 - from.w * .1, y: card.y + card.h / 2 - from.h * .1, w: from.w * .2, h: from.h * .2 };
+          cache.set(source, {
+            card: front,
+            'back-1': backFits[0],
+            'back-2': backFits[1],
+            extra: fit(from, center, sourceRadius, sourceRadius),
+          });
         });
       };
       measure();
-      const get = (source: HTMLElement) => cache.get(source)!;
+      const get = (source: HTMLElement) => cache.get(source)![source.dataset.morphSource as MorphRole];
 
       let handed = false;
       let morphing = false;
@@ -133,7 +138,6 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
           onUpdate: (self) => {
             morphState.progress = self.progress;
             const active = self.progress > .01;
-            if (active && !morphing && roles() !== built) build();
             if (active !== morphing) { morphing = active; toggle.current(active); }
             if (self.progress > .8 && !handed) {
               handed = true;
@@ -145,7 +149,6 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
 
       function build() {
         sourceTweens.forEach(tween => tween.kill());
-        measure();
         built = roles();
         sourceTweens = sources.flatMap((source) => {
           const extra = source.dataset.morphSource === 'extra';
@@ -164,6 +167,13 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
       timeline.fromTo(deckParts, { opacity: 0 }, { opacity: 1, duration: .1 }, .88);
       if (index) timeline.fromTo(index, { opacity: 0, x: 64 }, { opacity: 1, x: 0, duration: .36, ease: 'power2.out' }, .64);
 
+      // React обновляет роли при смене ядра. Подготовка проходит до следующего кадра,
+      // поэтому начало скролла не создает твины и не вызывает синхронный пересчет layout.
+      const roleObserver = new MutationObserver(() => context.add(() => {
+        if (roles() !== built) build();
+      }));
+      sources.forEach(source => roleObserver.observe(source, { attributes: true, attributeFilter: ['data-morph-source'] }));
+
       // Шрифты и постеры меняют высоту страницы после первого расчета
       const settle = window.setTimeout(() => ScrollTrigger.refresh(), 1800);
       const onLoad = () => ScrollTrigger.refresh();
@@ -172,6 +182,7 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
       return () => {
         window.clearTimeout(settle);
         window.removeEventListener('load', onLoad);
+        roleObserver.disconnect();
         delete hero.dataset.morph;
         morphState.progress = 0;
         if (morphing) toggle.current(false);

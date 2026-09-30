@@ -1,41 +1,36 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
-// Лента во всю ширину экрана фирменного синего, текст и логотипы белые в обеих темах
 .ecosystem {
   @include text-body;
+}
+
+.ecosystem__heading {
+  @include container;
+  padding-bottom: 1.6rem;
+}
+
+.ecosystem__title {
+  color: var(--color-text-cold);
+}
+
+// Лента во всю ширину экрана фирменного синего, текст и логотипы белые в обеих темах
+.ecosystem__band {
   background: var(--color-action-primary);
   color: var(--color-on-action);
 }
 
 .ecosystem__inner {
   @include container;
-  display: flex;
-  align-items: center;
-  gap: 1.6rem 4.8rem;
-  padding-block: 2.4rem;
+  padding-block: 2rem;
 
   @include mobile {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.2rem;
-    padding-block: 1.6rem;
-  }
-}
-
-.ecosystem__title {
-  white-space: nowrap;
-  opacity: .72;
-
-  @include mobile {
-    text-align: center;
-    white-space: normal;
+    padding-block: 1.2rem;
   }
 }
 
 // Продукты всегда в одну строку двумя равными колонками, в столбец не встают
 .ecosystem__links {
-  flex: 1 1 0;
   min-width: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -61,7 +56,7 @@
   // На телефоне лента остается парой спокойных логотипов с удобной зоной касания
   @include mobile {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: var(--size-button);
   }
 }

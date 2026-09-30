@@ -26,6 +26,8 @@ interface IOrbitItem {
   /** Дуга перелета, знак выбирает сторону */
   arc: number;
   zIndex: string;
+  transform: string;
+  dimOpacity: string;
 }
 
 interface IPose {
@@ -101,6 +103,8 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       core: { value: index === coreRef.current ? 1 : 0 },
       arc: 1,
       zIndex: '',
+      transform: '',
+      dimOpacity: '',
     }));
     if (items.length === 0) return;
 
@@ -119,6 +123,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const pace = { value: 1 };
     let last = 0;
     let visible = true;
+    let heroVisible = true;
     let running = false;
 
     const seatPose = (index: number, time: number): IPose => {
@@ -169,8 +174,17 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
         const px = smooth.x * (8 + depth * 10);
         const py = smooth.y * (6 + depth * 6);
         const total = 1 + (scale - 1) * calm;
-        item.element.style.transform = `perspective(1400px) translate3d(${(x + px) * calm}px, ${(y + py) * calm}px, 0) rotateX(${rx * calm}deg) rotateY(${ry * calm}deg) scale(${total})`;
-        if (item.dim) item.dim.style.opacity = String(((1 - depth) / 2) * .62 * (1 - c) * calm);
+        const transform = `perspective(1400px) translate3d(${(x + px) * calm}px, ${(y + py) * calm}px, 0) rotateX(${rx * calm}deg) rotateY(${ry * calm}deg) scale(${total})`;
+        const dimOpacity = String(((1 - depth) / 2) * .62 * (1 - c) * calm);
+        // Последняя часть перелета уже неподвижна: не инвалидируем одинаковые стили каждый кадр.
+        if (item.transform !== transform) {
+          item.element.style.transform = transform;
+          item.transform = transform;
+        }
+        if (item.dim && item.dimOpacity !== dimOpacity) {
+          item.dim.style.opacity = dimOpacity;
+          item.dimOpacity = dimOpacity;
+        }
         // Ядро над задней орбитой, передняя проходит поверх. Кадр в перелете выше всех
         const moving = c > .02 && c < .98;
         const z = moving ? (item.seat < 0 ? 30 : 25) : item.seat < 0 ? 10 : depth > 0 ? 11 + Math.round(depth * 4) : 2 + Math.round((depth + 1) * 3);
@@ -284,11 +298,21 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       if (index >= 0 && (event.target as HTMLElement).matches(':focus-visible')) swap(index);
     };
 
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+    const syncDecorations = () => {
+      root.toggleAttribute('data-hero-paused', !heroVisible || document.hidden);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === stage) visible = entry.isIntersecting;
+        if (entry.target === root) heroVisible = entry.isIntersecting;
+      });
+      syncDecorations();
       if (visible) start(); else stop();
     });
-    const visibility = () => (document.hidden ? stop() : start());
+    const visibility = () => {
+      syncDecorations();
+      if (document.hidden) stop(); else start();
+    };
     // Слой уже вне окна, но еще летит в галерею: кадр на каждый скролл, чтобы наклон погас вместе с перелетом
     const scroll = () => {
       if (!running && !mobile.matches && !motion.matches && !document.hidden && morphState.progress > 0 && morphState.progress < 1) tick();
@@ -299,6 +323,8 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       element.style.transform = '';
       slot.style.zIndex = '';
       item.zIndex = '';
+      item.transform = '';
+      item.dimOpacity = '';
       if (dim) dim.style.opacity = '';
     });
     const mode = () => {
@@ -322,6 +348,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     else spread.value = 1;
 
     observer.observe(stage);
+    observer.observe(root);
     window.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('scroll', scroll, { passive: true });
     stage.addEventListener('pointermove', stageMove, { passive: true });
@@ -349,6 +376,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       document.removeEventListener('visibilitychange', visibility);
       motion.removeEventListener('change', mode);
       mobile.removeEventListener('change', mode);
+      root.removeAttribute('data-hero-paused');
       reset();
     };
   }, [rootRef]);

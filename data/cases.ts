@@ -1,6 +1,6 @@
 import type { ICase } from './types';
 
-// Две равные колонки, все карточки одного размера, порядок — по значимости.
+// Общий реестр проектов: порядок публичного каталога задается отдельно в CATALOG_CASES.
 // Первый тег — категория, её показывают чип в карточке и hero-лента. `logo` — файлы в public/logos/, пока нет.
 // `video` — прежние вертикальные нарезки, `videoWide` — горизонтальные ролики для текущих карточек и hero.
 // 27 широких роликов сверены с папкой Google Drive 30 сентября 2026 года, см. doc/MEDIA_AUDIT_2026-09-30.md.
@@ -119,13 +119,33 @@ const LEGACY_CASES: ICase[] = [
   { slug: 'nonton', title: 'Нонтон', colors: ['#F4E3C1', '#2B2B2B'], description: 'Квиз-подбор мебели по зонам дома.', tags: ['промо', 'квиз'], poster: '/cases/nonton.jpg', videoWide: { mp4: '/videos/nonton-wide.mp4?v=20260930', poster: '/videos/nonton-wide.jpg?v=20260930' }, live: 'https://nonton.mw.team' },
   { slug: 'teboil', title: 'Teboil', colors: ['#003D8F', '#E30613'], description: 'Лендинг «Качество Teboil» и пять статей о заботе о двигателе.', tags: ['сайт', 'контент'], poster: '/cases/teboil.jpg', videoWide: { mp4: '/videos/teboil-wide.mp4?v=20260930', poster: '/videos/teboil-wide.jpg?v=20260930' }, live: 'https://teboil.mw.team' },
   { slug: 'purina-nestle', title: 'Purina × Mail', colors: ['#EAF2FF', '#E30613'], description: '«Пушистая анкета»: сбор лидов, карточки питомцев и розыгрыш.', tags: ['промо', 'лиды'], poster: '/cases/purina-nestle.jpg', videoWide: { mp4: '/videos/purina-nestle-wide.mp4?v=20260917', webm: '/videos/purina-nestle-wide.webm?v=20260917', poster: '/videos/purina-nestle-wide.jpg?v=20260917' }, live: 'https://purina-nestle.mw.team' },
-  { slug: 'total', title: 'Total Quartz', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: подбор масла и безопасное вождение.', tags: ['промо', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
-  { slug: 'total-2022', title: 'Total 2022', colors: ['#E30613', '#FFFFFF'], description: 'Уроки, тесты и розыгрыш о зимнем вождении.', tags: ['промо', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
+  { slug: 'total', title: 'Total', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: подбор масла и безопасное вождение.', tags: ['промо', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
+  { slug: 'total-2022', title: 'Total', colors: ['#E30613', '#FFFFFF'], description: 'Уроки, тесты и розыгрыш о зимнем вождении.', tags: ['промо', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
   { slug: 'teva', title: 'Teva', colors: ['#00A19A', '#FFFFFF'], description: 'Многошаговая форма регистрации врачей с OTP-верификацией.', tags: ['сервис', 'формы'], poster: '/cases/teva.jpg', videoWide: { mp4: '/videos/teva-wide.mp4?v=20260930', poster: '/videos/teva-wide.jpg?v=20260930' }, live: 'https://teva-form.mw.team' },
   { slug: 'huawei', title: 'Huawei × Hi-Tech', colors: ['#FFFFFF', '#CF0A2C'], description: 'Спецпроект 2020 с обзорами и новостями от редакции Hi-Tech Mail.', tags: ['спецпроект', 'медиа'], poster: '/cases/huawei.jpg', videoWide: { mp4: '/videos/huawei-wide.mp4?v=20260930', poster: '/videos/huawei-wide.jpg?v=20260930' }, live: 'https://huawei.hi-tech.mail.ru/' },
 ];
 
 CASES.push(...LEGACY_CASES);
+
+// Российские бренды открывают каталог в другом порядке, чем на главной.
+// Затем идут платформы и проекты с более сложными пользовательскими сценариями.
+const CATALOG_PRIORITY = [
+  'rosatom', 'vtb', 'sovcombank', 'rostelecom', 'tinkoff', 'halva', 'sozidanie',
+  'amatour', 'tibia', 'flame-ai', 'weleda', 'majorpack', 'teva', 'purina-vk', 'geely',
+];
+const catalogPrioritySlugs = new Set(CATALOG_PRIORITY);
+
+// Второй ролик Total остается доступен по старой прямой ссылке, но не дублирует каталог.
+const ARCHIVED_CASE_SLUGS = new Set(['total-2022']);
+
+export const CATALOG_CASES: ICase[] = [
+  ...CATALOG_PRIORITY.map((slug) => {
+    const item = CASES.find((entry) => entry.slug === slug);
+    if (!item) throw new Error(`Case catalog: unknown case slug "${slug}"`);
+    return item;
+  }),
+  ...CASES.filter((item) => !catalogPrioritySlugs.has(item.slug) && !ARCHIVED_CASE_SLUGS.has(item.slug)),
+];
 
 // Две бегущие строки на главной: верхняя едет справа налево, нижняя слева направо.
 export const CASES_MARQUEE: [string[], string[]] = [
