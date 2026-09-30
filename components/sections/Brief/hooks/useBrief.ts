@@ -1,16 +1,25 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { BRIEF } from '@/data/brief';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import useLeadSubmit from '@/components/sections/Contact/hooks/useLeadSubmit';
+import type { Locale } from '@/lib/i18n';
+
+type QuestionTranslations = Record<Locale, string[]>;
+interface ISummaryEdit { text: string; input: string }
+const isQuestionPair = (value: unknown): value is string[] => Array.isArray(value) && value.length === 2 && value.every((question: unknown) => typeof question === 'string' && question.trim().length > 0 && question.length <= 400);
 
 const useBrief = () => {
+  const { locale, t } = useLocale();
   const [step, setStep] = useState(0);
   const [type, setType] = useState(BRIEF.types[0]);
   const [goal, setGoal] = useState('');
-  const [questions, setQuestions] = useState<string[]>(BRIEF.standardQuestions);
+  // Both versions describe the same questions in the same order, so changing
+  // the interface language never changes what an existing answer refers to.
+  const [questionTranslations, setQuestionTranslations] = useState<QuestionTranslations | null>(null);
   const [answers, setAnswers] = useState(['', '']);
   const [timing, setTiming] = useState(BRIEF.timings[2]);
   const [date, setDate] = useState('');
-  const [summary, setSummary] = useState('');
+  const [summaryEdit, setSummaryEdit] = useState<ISummaryEdit | null>(null);
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [busy, setBusy] = useState(false);
@@ -18,51 +27,47 @@ const useBrief = () => {
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [questionInput, setQuestionInput] = useState('');
-  const [summaryOutdated, setSummaryOutdated] = useState(false);
-  const summaryInput = useRef('');
   const lead = useLeadSubmit();
-  const details = questions.map((question, index) => `${question}\n${answers[index].trim() || BRIEF.unknown}`).join('\n\n');
-  const makeSummary = () => `${BRIEF.labels.type} · ${type}\n\n${BRIEF.labels.goal}\n${goal.trim()}\n\n${details}\n\n${BRIEF.labels.timing}\n${timing}${timing === BRIEF.timings[0] && date.trim() ? ` · ${date.trim()}` : ''}`;
+  const questions = questionTranslations?.[locale] ?? BRIEF.standardQuestions.map(question => t(question));
+  const details = questions.map((question, index) => `${question}\n${answers[index].trim() || t(BRIEF.unknown)}`).join('\n\n');
+  const draft = `${t(BRIEF.labels.type)} · ${t(type)}\n\n${t(BRIEF.labels.goal)}\n${goal.trim()}\n\n${details}\n\n${t(BRIEF.labels.timing)}\n${t(timing)}${timing === BRIEF.timings[0] && date.trim() ? ` · ${date.trim()}` : ''}`;
+  const summary = summaryEdit?.text ?? draft;
+  // Compare content rather than translated labels. A language switch updates
+  // an untouched draft but never overwrites text edited by the visitor or AI.
+  const summaryInput = JSON.stringify([type, goal.trim(), questionTranslations, answers.map(answer => answer.trim()), timing, timing === BRIEF.timings[0] ? date.trim() : '']);
+  const summaryOutdated = summaryEdit !== null && summaryEdit.input !== summaryInput;
+  const setSummary = (text: string) => setSummaryEdit({ text, input: summaryEdit?.input ?? summaryInput });
 
   const context = `${type}|${goal.trim()}`;
   const requestQuestions = async (clearAnswers = false) => {
     if (busy) return;
     setBusy(true);
     try {
-      const res = await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'questions', type, goal }), signal: AbortSignal.timeout(25_000) });
+      const res = await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'questions', type, goal, locale }), signal: AbortSignal.timeout(25_000) });
       const data = await res.json();
-      if (res.ok && Array.isArray(data.questions) && data.questions.length === 2 && data.questions.every((value: unknown) => typeof value === 'string')) {
-        setQuestions(data.questions); setAi(data.mode === 'ai');
-      } else { setQuestions(BRIEF.standardQuestions); setAi(false); }
-    } catch { setQuestions(BRIEF.standardQuestions); setAi(false); }
+      if (res.ok && isQuestionPair(data.questions) && isQuestionPair(data.translatedQuestions)) {
+        setQuestionTranslations(locale === 'en' ? { en: data.questions, ru: data.translatedQuestions } : { ru: data.questions, en: data.translatedQuestions });
+        setAi(data.mode === 'ai');
+      } else { setQuestionTranslations(null); setAi(false); }
+    } catch { setQuestionTranslations(null); setAi(false); }
     if (clearAnswers) setAnswers(['', '']);
     setQuestionInput(context);
     setBusy(false);
   };
-  const refreshSummary = () => {
-    const draft = makeSummary();
-    setSummary(draft); summaryInput.current = draft; setSummaryOutdated(false);
-  };
+  const refreshSummary = () => setSummaryEdit(null);
   const next = async () => {
     if (busy) return;
     setError(''); setNotice('');
     if (step === 1 && goal.trim().length < 10) { setError(BRIEF.required); return; }
     if (step === 1 && answers.every((answer) => !answer.trim()) && questionInput !== context) await requestQuestions();
     if (step === 2) setQuestionInput(context);
-    if (step === 3) {
-      const draft = makeSummary();
-      if (summaryInput.current !== draft) {
-        if (!summary || summary === summaryInput.current) refreshSummary();
-        else setSummaryOutdated(true);
-      }
-    }
     setStep((value) => Math.min(value + 1, 4));
   };
   const improve = async () => {
     if (busy || lead.status === 'sending') return;
     setBusy(true); setNotice('');
     try {
-      const res = await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'summary', type, goal, details: summary }), signal: AbortSignal.timeout(25_000) });
+      const res = await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'summary', type, goal, details: summary, locale }), signal: AbortSignal.timeout(25_000) });
       const data = await res.json();
       if (!res.ok || data.mode !== 'ai' || typeof data.summary !== 'string' || !data.summary.trim()) throw new Error('unavailable');
       setSummary(data.summary);
@@ -76,7 +81,7 @@ const useBrief = () => {
     await lead.submit({ name: name.trim(), contact: contact.trim(), message: summary, source: 'brief' });
   };
   const restart = () => {
-    lead.reset(); setStep(0); setType(BRIEF.types[0]); setGoal(''); setAnswers(['', '']); setQuestions(BRIEF.standardQuestions); setTiming(BRIEF.timings[2]); setDate(''); setSummary(''); setName(''); setContact(''); setAi(false); setError(''); setNotice(''); setQuestionInput(''); summaryInput.current = ''; setSummaryOutdated(false);
+    lead.reset(); setStep(0); setType(BRIEF.types[0]); setGoal(''); setAnswers(['', '']); setQuestionTranslations(null); setTiming(BRIEF.timings[2]); setDate(''); setSummaryEdit(null); setName(''); setContact(''); setAi(false); setError(''); setNotice(''); setQuestionInput('');
   };
   return { step, setStep, type, setType, goal, setGoal, questions, answers, setAnswers, timing, setTiming, date, setDate, summary, setSummary, name, setName, contact, setContact, busy, ai, notice, error, questionsOutdated: questionInput !== context, refreshQuestions: () => requestQuestions(true), summaryOutdated, refreshSummary, next, improve, submit, restart, status: lead.status };
 };

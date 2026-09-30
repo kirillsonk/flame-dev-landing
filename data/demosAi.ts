@@ -521,7 +521,7 @@ export const AI_INVOICE = {
   fixPrompt: 'Кол-во носков размыто · уверенность 62%. Вариант:',
   checkLabel: 'Проверка итога',
   waiting: 'ждет распознавания',
-  sum: (value: string) => `Сумма строк: ${value} ₽`,
+  sumTemplate: 'Сумма строк: {value} ₽',
   ok: '✓ сходится с итогом',
   bad: '≠ 272 600 — проверьте',
 };

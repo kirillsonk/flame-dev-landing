@@ -6,6 +6,7 @@ import type { ICase } from '@/data/types';
 import { CASE_FILTERS, caseMatchesFilter } from '@/data/cases';
 import CaseTile from './CaseTile';
 import styles from './CasesCatalog.module.scss';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 
 export interface CasesCatalogProps {
   items: ICase[];
@@ -17,6 +18,7 @@ const COLUMNS = 3;
 // с разной скоростью (CSS scroll-driven animation, без JS). Карточки раскладываются
 // по колонкам по кругу, поэтому после фильтра колонки остаются ровными.
 const CasesCatalog = ({ items }: CasesCatalogProps) => {
+  const { t } = useLocale();
   const [filterId, setFilterId] = useState(CASE_FILTERS[0].id);
   const filter = CASE_FILTERS.find((entry) => entry.id === filterId) ?? CASE_FILTERS[0];
   const visible = items.filter((item) => caseMatchesFilter(item, filter));
@@ -24,17 +26,16 @@ const CasesCatalog = ({ items }: CasesCatalogProps) => {
 
   return (
     <div className={styles.catalog}>
-      <div className={styles.catalog__tabs} role="tablist" aria-label="Тип работ">
+      <div className={styles.catalog__tabs} role="group" aria-label={t('Тип работ')}>
         {CASE_FILTERS.map((entry) => (
           <button
             key={entry.id}
             type="button"
-            role="tab"
-            aria-selected={entry.id === filterId}
+            aria-pressed={entry.id === filterId}
             className={clsx(styles.catalog__tab, entry.id === filterId && styles['catalog__tab--active'])}
             onClick={() => setFilterId(entry.id)}
           >
-            {entry.label}
+            {t(entry.label)}
           </button>
         ))}
       </div>

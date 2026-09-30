@@ -2,12 +2,11 @@
 @use '../../../styles/mixins' as *;
 
 .studio { overflow: clip; position: relative; isolation: isolate; }
-.eyebrow { @include text-body; color: var(--color-text-cold); margin-bottom: 2.4rem; }
 .hero__copy { min-width: 0; animation: heroCopy .9s var(--ease) both; }
 .hero__title { --type-display: clamp(5.2rem, 5vw, 7.2rem); @include text-display; margin-bottom: 3.2rem; span { display: block; } @include mobile { --type-display: 4rem; } }
 .hero__accent { @include gradient-text; background-size: 200% 100%; animation: accentShift 6s ease-in-out infinite alternate; }
 .hero__text { @include text-body; max-width: 58rem; color: var(--color-text-cold); margin-bottom: 3.2rem; }
-.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 2.4rem; @include mobile { gap: .6rem 2rem; } }
+.actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); align-items: stretch; gap: 1.2rem; max-width: 52rem; a { padding-inline: 2rem; } }
 .section { @include section; }
 .section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 4rem; margin-bottom: 4.8rem; @include mobile { flex-direction: column; align-items: flex-start; gap: 2rem; margin-bottom: 3.2rem; } }
 .section__title { --type-display: 4.8rem; @include text-display; white-space: pre-line; @include mobile { --type-display: 3.6rem; } }

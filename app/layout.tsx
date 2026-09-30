@@ -8,6 +8,7 @@ import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import Metrika from '@/components/layout/Metrika/Metrika';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
+import LocaleProvider from '@/components/i18n/LocaleProvider';
 import './globals.scss';
 
 const firsNeue = localFont({
@@ -23,8 +24,6 @@ const firsNeue = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://flamedev.pro'),
-  title: 'Flame dev | Разработка сайтов, сервисов и AI-решений',
-  description: 'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск',
   openGraph: {
     title: 'Flame dev',
     description: 'Разработка сайтов, сервисов и AI-решений',
@@ -49,15 +48,17 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         </noscript>
       </head>
       <body>
-        <div id="top" />
-        <Header />
-        {children}
-        <Footer />
-        <MobileCtaBar />
-        <ScrollTop />
-        <RevealController />
-        <AnchorScroll />
-        <Metrika />
+        <LocaleProvider>
+          <div id="top" />
+          <Header />
+          {children}
+          <Footer />
+          <MobileCtaBar />
+          <ScrollTop />
+          <RevealController />
+          <AnchorScroll />
+          <Metrika />
+        </LocaleProvider>
       </body>
     </html>
   );

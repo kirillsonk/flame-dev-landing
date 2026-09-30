@@ -13,7 +13,7 @@ export interface IUseHeaderBlob {
  * и переезжает под пункт под курсором. Секции главной пересоздаются меню вариантов,
  * поэтому раздел ищется по якорю на каждом кадре прокрутки, а не наблюдателем за узлами.
  */
-const useHeaderBlob = (enabled: boolean): IUseHeaderBlob => {
+const useHeaderBlob = (enabled: boolean, locale: string): IUseHeaderBlob => {
   const linksRef = useRef<HTMLDivElement>(null);
   const blobRef = useRef<HTMLSpanElement>(null);
   const hovered = useRef<HTMLAnchorElement | null>(null);
@@ -33,7 +33,7 @@ const useHeaderBlob = (enabled: boolean): IUseHeaderBlob => {
     let frame = 0;
     const sync = () => {
       frame = 0;
-      const links = Array.from(linksRef.current?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? []);
+      const links = Array.from(linksRef.current?.querySelectorAll<HTMLAnchorElement>('a[href*="#"]') ?? []);
       const middle = window.innerHeight / 2;
       active.current =
         links.find((link) => {
@@ -53,7 +53,7 @@ const useHeaderBlob = (enabled: boolean): IUseHeaderBlob => {
       window.removeEventListener('resize', schedule);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [enabled]);
+  }, [enabled, locale]);
 
   const onLinkEnter = (event: MouseEvent<HTMLAnchorElement>) => {
     hovered.current = event.currentTarget;

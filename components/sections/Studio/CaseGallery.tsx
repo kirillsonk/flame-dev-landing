@@ -12,6 +12,7 @@ import { HANDOFF_EVENT } from './hooks/useHeroMorph';
 import type { IHandoffDetail } from './hooks/useHeroMorph';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import styles from './CaseGallery.module.scss';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 
 const projects = FEATURED_CASES.map(slug => CASES.find(item => item.slug === slug)!);
 const poster = (index: number) => {
@@ -20,6 +21,7 @@ const poster = (index: number) => {
 };
 
 const CaseGallery = () => {
+  const { t } = useLocale();
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   // Проект пришел с первого экрана: карта встает без анимации входа, ее скрывает перелет
@@ -66,7 +68,7 @@ const CaseGallery = () => {
     select(next);
     buttons.current[(next + projects.length) % projects.length]?.focus();
   };
-  return <div className={styles.gallery} aria-label={CASE_GALLERY.label}>
+  return <div className={styles.gallery} aria-label={t(CASE_GALLERY.label)}>
     <div className={styles.gallery__stage}>
       <div className={styles.gallery__deck} data-morph-part data-morph-deck onTouchStart={event => { const touch = event.touches[0]; start.current = { x: touch.clientX, y: touch.clientY }; }} onTouchEnd={event => {
         const touch = event.changedTouches[0];
@@ -82,34 +84,33 @@ const CaseGallery = () => {
         {[2, 1].map(offset => <div className={clsx(styles.gallery__back, styles[`gallery__back--${offset}`])} key={offset} data-morph-target={`back-${offset}`} aria-hidden="true">
           {poster((active + offset) % projects.length) && <Image src={poster((active + offset) % projects.length)!} alt="" fill sizes="(max-width: 900px) 90vw, 60vw" />}
         </div>)}
-        <Link id="selected-case" className={clsx(styles.gallery__card, direction < 0 && styles['gallery__card--reverse'], quiet && styles['gallery__card--quiet'])} href={`/cases/${item.slug}`} key={item.slug} aria-label={`${CASE_GALLERY.open} · ${item.title}`}>
-          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={item.title} fill sizes="(max-width: 900px) 90vw, 60vw" />}<span className={styles.gallery__tag}>{CASE_TYPES[item.slug]}</span><span className={styles.gallery__arrow} aria-hidden="true"><BaseArrow size="l" /></span></div>
-          <div className={styles.gallery__caption}><h3>{item.title}</h3><p>{CASE_CAPTIONS[item.slug]}</p></div>
+        <Link id="selected-case" className={clsx(styles.gallery__card, direction < 0 && styles['gallery__card--reverse'], quiet && styles['gallery__card--quiet'])} href={`/cases/${item.slug}`} key={item.slug} aria-label={`${t(CASE_GALLERY.open)} · ${t(item.title)}`}>
+          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={t(item.title)} fill sizes="(max-width: 900px) 90vw, 60vw" />}</div>
+          <div className={styles.gallery__caption}><span className={styles.gallery__type}>{t(CASE_TYPES[item.slug])}</span><h3>{t(item.title)}</h3><p>{t(CASE_CAPTIONS[item.slug])}</p></div>
         </Link>
       </div>
       <div className={styles.gallery__controls} data-morph-part>
-        <span className={styles.gallery__sr} aria-live="polite" aria-atomic="true">{item.title}</span>
+        <span className={styles.gallery__sr} aria-live="polite" aria-atomic="true">{t(item.title)}</span>
         <div className={styles.gallery__track} aria-hidden="true"><span style={{ width: `${(active + 1) / projects.length * 100}%` }} /></div>
-        <button type="button" onClick={() => select(active - 1)} aria-label={CASE_GALLERY.previous}><BaseArrow direction="left" /></button>
-        <button type="button" onClick={() => select(active + 1)} aria-label={CASE_GALLERY.next}><BaseArrow direction="right" /></button>
+        <button type="button" onClick={() => select(active - 1)} aria-label={t(CASE_GALLERY.previous)}><BaseArrow direction="left" /></button>
+        <button type="button" onClick={() => select(active + 1)} aria-label={t(CASE_GALLERY.next)}><BaseArrow direction="right" /></button>
       </div>
     </div>
-    <div ref={indexRef} className={styles.gallery__index} data-morph-index role="group" aria-label={CASE_GALLERY.index}>
+    <div ref={indexRef} className={styles.gallery__index} data-morph-index role="group" aria-label={t(CASE_GALLERY.index)}>
       {projects.map((project, index) => <button type="button" ref={node => { buttons.current[index] = node; }} key={project.slug} className={clsx(styles.gallery__item, active === index && styles['gallery__item--active'])} aria-pressed={active === index} aria-controls="selected-case" onClick={() => select(index)} onKeyDown={event => onKey(event, index)}>
         <span className={styles.gallery__thumb}>{poster(index) && <Image src={poster(index)!} alt="" fill sizes="(max-width: 900px) 240px, 120px" />}</span>
-        <span className={styles.gallery__name}>{project.title}<span>{CASE_TYPES[project.slug]}</span></span>
-        <span className={styles.gallery__indicator} aria-hidden="true"><BaseArrow /></span>
+        <span className={styles.gallery__name}>{t(project.title)}<span>{t(CASE_TYPES[project.slug])}</span></span>
       </button>)}
     </div>
-    <ul className={styles.gallery__swipe} aria-label={CASE_GALLERY.index}>
+    <ul className={styles.gallery__swipe} aria-label={t(CASE_GALLERY.index)}>
       {projects.map((project, index) => <li key={project.slug} className={styles.gallery__slide}>
-        <Link href={`/cases/${project.slug}`} className={styles.gallery__mobileCard} aria-label={`${CASE_GALLERY.open} · ${project.title}`}>
+        <Link href={`/cases/${project.slug}`} className={styles.gallery__mobileCard} aria-label={`${t(CASE_GALLERY.open)} · ${t(project.title)}`}>
           <div className={styles.gallery__image}>
             {poster(index) && <Image src={poster(index)!} alt="" fill loading={index === 0 ? 'eager' : 'lazy'} sizes="(max-width: 900px) 85vw, 1px" />}
           </div>
           <div className={styles.gallery__mobileCaption}>
-            <h3>{project.title}</h3>
-            <p>{CASE_TYPES[project.slug]}</p>
+            <h3>{t(project.title)}</h3>
+            <p>{t(CASE_TYPES[project.slug])}</p>
           </div>
         </Link>
       </li>)}

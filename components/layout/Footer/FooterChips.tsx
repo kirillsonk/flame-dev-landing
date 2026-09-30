@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo/Logo';
 import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
-import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
 import { FOOTER_CHIPS, FOOTER_COPYRIGHT, FOOTER_LINKS } from '@/data/site';
 import FooterLink from './FooterLink';
 import styles from './FooterChips.module.scss';
@@ -32,7 +31,6 @@ const FooterChips = () => {
             {FOOTER_LINKS.map((item) => (
               <FooterLink key={item.href} item={item} className={styles.chips__link} />
             ))}
-            <BaseLangSwitch />
           </nav>
         </div>
       </div>

@@ -81,7 +81,7 @@ const useHeaderState = (): IUseHeaderState => {
       }
       if (e.key !== 'Tab') return;
       const items = Array.from(headerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [])
-        .filter((item) => item.getClientRects().length > 0 && getComputedStyle(item).visibility !== 'hidden' && !item.closest('[inert]'));
+        .filter((item) => item.tabIndex >= 0 && item.getClientRects().length > 0 && getComputedStyle(item).visibility !== 'hidden' && !item.closest('[inert]'));
       const first = items[0];
       const last = items.at(-1);
       if (!first || !last) return;

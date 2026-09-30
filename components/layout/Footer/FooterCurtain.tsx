@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo/Logo';
-import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
 import { FOOTER_COPYRIGHT, FOOTER_EMAIL, FOOTER_LINKS, FOOTER_TAGLINE } from '@/data/site';
 import FooterLink from './FooterLink';
 import styles from './FooterCurtain.module.scss';
@@ -38,7 +37,6 @@ const FooterCurtain = () => {
             ))}
           </nav>
           <div className={styles.curtain__meta}>
-            <BaseLangSwitch />
             <span>{FOOTER_COPYRIGHT}</span>
           </div>
         </div>

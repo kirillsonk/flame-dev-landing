@@ -96,6 +96,10 @@
   --z-dev: 60;
 }
 
+@media screen and (min-width: 901px) and (max-width: 1100px) {
+  :root { --space-gutter: 2.4rem; }
+}
+
 @media screen and (max-width: 900px) {
   :root {
     --type-display: 4rem;

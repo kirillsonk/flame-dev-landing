@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AI_INVOICE as copy } from '@/data/demosAi';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import useDemoActive from './useDemoActive';
 import useReducedMotion from './useReducedMotion';
 import useTimeline from './useTimeline';
@@ -7,13 +8,14 @@ import useTimeline from './useTimeline';
 /** На строку: старт строки и четыре ячейки; в конце — пауза перед проверкой итога. */
 const EVENTS_PER_ROW = 5;
 const DELAYS = [...copy.rows.flatMap((_, row) => [row ? 260 : 0, 120, 90, 90, 90]), 780];
-const NUMBER = new Intl.NumberFormat('ru-RU');
 
 const toNumber = (value: string) => Number(value.replace(/\s/g, ''));
 
 export type AiInvoiceCheck = 'waiting' | 'bad' | 'ok';
 
 const useAiInvoice = () => {
+  const { locale, t } = useLocale();
+  const number = useMemo(() => new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'ru-RU'), [locale]);
   const { ref, active } = useDemoActive<HTMLDivElement>();
   const { reduced } = useReducedMotion();
   const timeline = useTimeline({ delays: DELAYS, active, reduced });
@@ -35,7 +37,7 @@ const useAiInvoice = () => {
     done,
     quantity,
     check,
-    sumText: copy.sum(NUMBER.format(sum)),
+    sumText: t(copy.sumTemplate, { value: number.format(sum) }),
     scanRow: running && step > 0 ? Math.min(copy.rows.length - 1, Math.floor((step - 1) / EVENTS_PER_ROW)) : -1,
     isShown,
     /** Ячейка распознана неуверенно и ещё не подтверждена человеком. */
@@ -44,9 +46,9 @@ const useAiInvoice = () => {
       if (!isShown(row, col)) return copy.placeholder;
       if (isDoubt(row, col)) return quantity ?? doubt.read;
       if (row === doubt.row && col === 3 && quantity !== null) {
-        return NUMBER.format(toNumber(quantity) * toNumber(copy.rows[row][2]));
+        return number.format(toNumber(quantity) * toNumber(copy.rows[row][2]));
       }
-      return copy.rows[row][col];
+      return col === 0 ? t(copy.rows[row][col]) : number.format(toNumber(copy.rows[row][col]));
     },
     recognize: () => {
       setQuantity(null);

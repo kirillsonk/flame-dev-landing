@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo/Logo';
-import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
 import { FOOTER_ABOUT, FOOTER_COLUMNS, FOOTER_COPYRIGHT } from '@/data/site';
 import FooterLink from './FooterLink';
 import styles from './FooterColumns.module.scss';
 
-// Вариант «Колонки»: кто мы, разделы и контакты, снизу копирайт и язык.
+// Вариант «Колонки»: кто мы, разделы и контакты, снизу копирайт.
 const FooterColumns = () => {
   return (
     <footer className={styles.columns}>
@@ -32,7 +31,6 @@ const FooterColumns = () => {
         </div>
         <div className={styles.columns__bottom}>
           <span>{FOOTER_COPYRIGHT}</span>
-          <BaseLangSwitch />
         </div>
       </div>
     </footer>

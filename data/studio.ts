@@ -4,10 +4,15 @@ export const STUDIO = {
   cases: { eyebrow: 'Портфолио', title: 'Наши проекты', text: 'Спецпроекты, цифровые платформы и инструменты для бизнеса', all: 'Смотреть все проекты' },
   services: { eyebrow: 'Примеры решений', title: 'Что можем разработать', link: 'Обсудить задачу' },
   process: { eyebrow: 'Подход', title: 'Этапы работы' },
-  contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', link: 'hello@flamedev.pro' },
+  contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', link: 'start@flamedev.pro' },
 };
-export const FEATURED_CASES = ['tibia', 'amatour', 'rosatom', 'coca-cola-delivery-club', 'flame-ai', 'purina-vk'];
+export const FEATURED_CASES = ['halva', 'vtb', 'tinkoff', 'rostelecom', 'sozidanie', 'rosatom'];
 export const CASE_TYPES: Record<string, string> = {
+  halva: 'Интерактивная промоигра',
+  vtb: 'Промопроект с экосистемой VK',
+  tinkoff: 'Промосайт банковских карт',
+  rostelecom: 'Интерактивный лендинг',
+  sozidanie: 'Сайт благотворительного фонда',
   tibia: 'Система учета и логистики',
   amatour: 'Платформа теннисных турниров',
   rosatom: 'Интерактивный 3D-проект',
@@ -16,6 +21,11 @@ export const CASE_TYPES: Record<string, string> = {
   'purina-vk': 'Мини-приложение VK',
 };
 export const CASE_CAPTIONS: Record<string, string> = {
+  halva: 'Игра о покупках с интерактивным тестом и параллаксом',
+  vtb: 'Новогодние привилегии по картам в экосистеме VK',
+  tinkoff: 'Промосайт о балансе повседневных финансов',
+  rostelecom: 'Возможности видеонаблюдения в интерактивных историях',
+  sozidanie: 'Помощь фонду через онлайн-пожертвования',
   tibia: 'Маркировка, логистика и работа со сканирующими терминалами',
   amatour: 'Турниры, рейтинги и личные кабинеты в одной платформе',
   rosatom: '3D и интерактив для проекта «Умный атом»',

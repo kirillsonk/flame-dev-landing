@@ -32,7 +32,7 @@ export const BRIEF = {
   error: 'Заявку не удалось отправить. Все ответы сохранены, попробуйте снова или напишите нам на почту',
   success: 'Спасибо, заявка отправлена', successText: 'Свяжемся с вами по указанному контакту',
   another: 'Начать новый бриф',
-  email: 'hello@flamedev.pro',
+  email: 'start@flamedev.pro',
   labels: { type: 'Проект', goal: 'Задача', details: 'Детали', timing: 'Сроки' },
 };
 export const FORM_REVIEW = {

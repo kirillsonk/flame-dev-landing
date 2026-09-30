@@ -9,6 +9,7 @@ import HeroOrbit from './HeroOrbit';
 import useHeroMorph from './hooks/useHeroMorph';
 import useOrbit from './hooks/useOrbit';
 import styles from './HeroStage.module.scss';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 
 export interface HeroStageProps {
   /** Слоган, подзаголовок и кнопки */
@@ -19,13 +20,14 @@ const items = FEATURED_CASES.map(slug => CASES.find(item => item.slug === slug)!
 
 // Первый экран «Созвездие»: кадры проектов едут по орбитам вокруг ядра, по скроллу собираются в колоду «Наших проектов»
 const HeroStage = ({ children }: HeroStageProps) => {
+  const { locale } = useLocale();
   const ref = useRef<HTMLElement>(null);
   const [morphing, setMorphing] = useState(false);
   const [core, setCore] = useState(0);
 
   const { coreRef } = useOrbit(ref, setCore);
   // Галерея подхватывает проект, который стоял в ядре
-  useHeroMorph(ref, 'orbit', () => items[coreRef.current].slug, setMorphing);
+  useHeroMorph(ref, `orbit-${locale}`, () => items[coreRef.current].slug, setMorphing);
 
   return (
     <section ref={ref} id="hero" className={clsx(styles.hero, morphing && styles['hero--morphing'])}>

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import type { ICase } from '@/data/types';
 import { CASE_TYPES, HERO_STAGE } from '@/data/studio';
 import styles from './HeroStage.module.scss';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 
 export interface HeroOrbitProps {
   items: ICase[];
@@ -23,6 +24,7 @@ const morphRole = (index: number, core: number, count: number) => {
 // Ядро по центру, остальные кадры едут вокруг него по орбитам (см. useOrbit).
 // Вокруг ядра переливается кромка. На телефоне сцена скрыта, проекты показаны в отдельной галерее
 const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
+  const { t } = useLocale();
   const stage = useRef<HTMLDivElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -76,12 +78,12 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
                 href={`/cases/${item.slug}`}
                 className={clsx(styles.orbit__frame, isCore && styles['orbit__frame--core'])}
                 data-morph-source={morphRole(index, core, items.length)}
-                aria-label={`${HERO_STAGE.open} · ${item.title}`}
+                aria-label={`${t(HERO_STAGE.open)} · ${t(item.title)}`}
               >
                 <video ref={(node) => { videos.current[index] = node; }} poster={source.poster} preload="none" muted loop playsInline aria-hidden="true" />
                 <span className={styles.orbit__dim} data-orbit-dim aria-hidden="true" />
                 <span className={styles.orbit__label} data-morph-fade>
-                  <span className={styles.orbit__chip}>{item.title}<span>{CASE_TYPES[item.slug]}</span></span>
+                  <span className={styles.orbit__chip}>{t(item.title)}<span>{t(CASE_TYPES[item.slug])}</span></span>
                 </span>
               </Link>
             </div>
