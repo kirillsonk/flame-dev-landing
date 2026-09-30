@@ -1,7 +1,8 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 // Фон и линия на всю ширину окна, сетка внутри контейнера: иначе на широком экране по бокам остаются поля без подложки
-.contact { border-top: 1px solid var(--color-border); background: radial-gradient(ellipse at 0 80%, color-mix(in srgb, var(--color-action-primary) 9%, transparent), transparent 60%); }
+.contactGroup { background: radial-gradient(ellipse at 0 80%, color-mix(in srgb, var(--color-action-primary) 9%, transparent), transparent 60%); }
+.contact { border-top: 1px solid var(--color-border); }
 .contact__inner { @include section; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8rem; @include mobile { grid-template-columns: 1fr; gap: 3.2rem; } }
 .contact__intro { h2 { --type-display: 6rem; @include text-display; white-space: pre-line; } @include mobile { h2 { --type-display: 4.4rem; } } }
 .contact__form { min-width: 0; }

@@ -44,8 +44,7 @@ const Studio = () => {
         <div className={styles.section__head} data-reveal><h2 className={styles.section__title}>{t(STUDIO.process.title)}</h2><p className={styles.section__intro}>{t(PROCESS_NOTE)}</p></div>
         <FlameProcess />
       </section>
-      <BriefContact />
-      <Ecosystem />
+      <BriefContact><Ecosystem /></BriefContact>
     </div>
   );
 };

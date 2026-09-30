@@ -10,12 +10,9 @@
   border-block: 1px solid var(--color-border);
   color: var(--color-text-cold);
   padding-block: 2.4rem;
-  padding-right: var(--space-gutter);
-  gap: 1.6rem;
 
   @include mobile {
     padding-block: 1.6rem;
-    gap: .8rem;
   }
 }
 
@@ -30,7 +27,7 @@
 .clients__track {
   display: flex;
   width: max-content;
-  animation: clientsTravel 56s linear infinite;
+  animation: clientsTravel 100s linear infinite;
   animation-play-state: paused;
 }
 
@@ -39,13 +36,13 @@
   align-items: center;
   justify-content: space-around;
   min-width: 100vw;
-  gap: 7.2rem;
-  padding-inline: 3.6rem;
+  gap: 8.4rem;
+  padding-inline: 4.2rem;
   list-style: none;
 
   @include mobile {
-    gap: 4.8rem;
-    padding-inline: 2.4rem;
+    gap: 5.6rem;
+    padding-inline: 2.8rem;
   }
 }
 
@@ -86,28 +83,19 @@
   @include mobile { height: 4.8rem; margin-block: -.6rem; }
 }
 
-.clients__pause {
-  @include focus-ring;
-  flex: 0 0 4.4rem;
-  height: 4.4rem;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius-control);
-  color: var(--color-text-dim);
-  transition: color .2s var(--ease), background .2s var(--ease);
-  @include hover { color: var(--color-text); background: var(--color-elevated); }
-}
+.clients__logo--solid { filter: brightness(0) invert(1); }
 
 .clients[data-running='true'] .clients__track { animation-play-state: running; }
 @media (hover: hover) and (pointer: fine) {
   .clients__viewport:hover .clients__track { animation-play-state: paused; }
 }
 :global([data-theme='light']) .clients { --logo-filter: grayscale(1); }
+:global([data-theme='light']) .clients__logo--solid { filter: brightness(0); }
 
 @keyframes clientsTravel { to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
   .clients__viewport { overflow-x: auto; mask-image: none; }
   .clients__track { animation: none; }
-  .clients__group[aria-hidden='true'], .clients__pause { display: none; }
+  .clients__group[aria-hidden='true'] { display: none; }
 }

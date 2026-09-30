@@ -19,8 +19,7 @@ const CasesPage = () => {
         <h1 className={styles.page__title}><LocalizedText>{CASES_INDEX_TITLE}</LocalizedText></h1>
         <CasesCatalog items={CATALOG_CASES} />
       </div>
-      <BriefContact />
-      <Ecosystem />
+      <BriefContact><Ecosystem /></BriefContact>
     </main>
   );
 };

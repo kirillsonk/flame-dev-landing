@@ -1,7 +1,6 @@
 export const siteEn: Record<string, string> = {
   'Бренды из проектов команды': 'Brands from our team’s projects',
-  'Приостановить движение логотипов': 'Pause the logo strip',
-  'Продолжить движение логотипов': 'Resume the logo strip',
+  'Гольфстрим': 'Gulfstream',
   'ВТБ': 'VTB',
   'Т-Банк': 'T-Bank',
   'Одноклассники': 'Odnoklassniki',

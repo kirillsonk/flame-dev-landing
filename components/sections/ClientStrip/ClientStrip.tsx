@@ -11,7 +11,6 @@ import styles from './ClientStrip.module.scss';
 const ClientStrip = () => {
   const { t } = useLocale();
   const { ref, inView } = useInView<HTMLElement>({ rootMargin: '0px', threshold: 0 });
-  const [paused, setPaused] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -31,7 +30,7 @@ const ClientStrip = () => {
   }, []);
 
   return (
-    <section ref={ref} className={styles.clients} aria-label={t(CLIENT_STRIP.title)} data-running={inView && !hidden && !paused}>
+    <section ref={ref} className={styles.clients} aria-label={t(CLIENT_STRIP.title)} data-running={inView && !hidden}>
       <div className={styles.clients__viewport} tabIndex={reducedMotion ? 0 : undefined} role={reducedMotion ? 'group' : undefined} aria-label={reducedMotion ? t(CLIENT_STRIP.title) : undefined}>
         <div className={styles.clients__track}>
           {[false, true].map(duplicate => (
@@ -39,7 +38,11 @@ const ClientStrip = () => {
               {CLIENT_BRANDS.map(brand => (
                 <li key={brand.id} className={styles.clients__brand}>
                   <Image
-                    className={clsx(brand.caption ? styles.clients__icon : styles.clients__logo, (brand.id === 'tbank' || brand.id === 'rostelecom') && styles['clients__logo--padded'])}
+                    className={clsx(
+                      brand.icon || brand.caption ? styles.clients__icon : styles.clients__logo,
+                      (brand.id === 'tbank' || brand.id === 'rostelecom') && styles['clients__logo--padded'],
+                      brand.solid && styles['clients__logo--solid'],
+                    )}
                     src={`/brands/${brand.id}.${brand.extension ?? 'svg'}`}
                     alt={brand.caption || duplicate ? '' : t(brand.name)}
                     width={brand.width}
@@ -52,18 +55,6 @@ const ClientStrip = () => {
           ))}
         </div>
       </div>
-      <button
-        className={styles.clients__pause}
-        type="button"
-        onClick={() => setPaused(value => !value)}
-        aria-pressed={paused}
-        aria-label={t(paused ? CLIENT_STRIP.resume : CLIENT_STRIP.pause)}
-        title={t(paused ? CLIENT_STRIP.resume : CLIENT_STRIP.pause)}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          {paused ? <path d="M4 2.5v11L13 8z" /> : <path d="M4 2.5h2.5v11H4zm5.5 0H12v11H9.5z" />}
-        </svg>
-      </button>
     </section>
   );
 };
