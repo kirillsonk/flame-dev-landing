@@ -5,15 +5,15 @@ export const WHY_TITLE = 'Один подрядчик вместо трех';
 export const WHY_CARDS: IWhyCard[] = [
   {
     title: 'Разработка, дизайн и видео вместе',
-    description: 'Обычно сайт делает студия, ролик — продакшн, а склеивать это приходится вам. Здесь все в одном месте, и результат выглядит цельно.',
+    description: 'Обычно сайт делает студия, ролик делает продакшн, а склеивать это приходится вам. Здесь все в одном месте, и результат выглядит цельно',
   },
   {
     title: 'Опыт с брендами и корпорациями',
-    description: 'Coca-Cola, Росатом, AliExpress, Purina, VK. Знаем, как работать с брендбуками, юристами и согласованиями, и не срываем даты запуска.',
+    description: 'Coca-Cola, Росатом, AliExpress, Purina, VK. Знаем, как работать с брендбуками, юристами и согласованиями, и не срываем даты запуска',
   },
   {
-    title: 'Flame AI — продукт, который мы построили сами',
-    description: 'AI-платформа генерации рекламных видео: собственный фронтенд, пайплайн генерации и биллинг.',
+    title: 'Flame AI это продукт, который мы построили сами',
+    description: 'AI-платформа генерации рекламных видео: собственный фронтенд, пайплайн генерации и биллинг',
     featured: true,
   },
 ];
@@ -30,11 +30,11 @@ export const WHY_EQUATION = {
   terms: ['Студия', 'Продакшн', 'Дизайн-бюро'],
   before: '3 договора',
   after: '1 договор',
-  label: 'Студия плюс продакшн плюс дизайн-бюро — это Flame dev и один договор',
+  label: 'Студия плюс продакшн плюс дизайн-бюро это Flame dev и один договор',
 };
 
 export const WHY_PUZZLE = {
-  lead: 'Сайт, ролик и дизайн делаются одной командой — детали подходят друг к другу без переделок.',
+  lead: 'Сайт, ролик и дизайн делаются одной командой, детали подходят друг к другу без переделок',
   tags: ['Сайт · ролик · дизайн', 'Бренды'],
 };
 
@@ -51,7 +51,7 @@ export const WHY_LAYERS = {
   button: 'Попробовать',
 };
 
-export const ECOSYSTEM_TITLE = 'Flame — это еще и';
+export const ECOSYSTEM_TITLE = 'Flame это еще и';
 
 export const ECOSYSTEM_CARDS: IEcosystemCard[] = [
   { title: 'Flame CGI', description: 'Видеопродакшн и CGI для брендов', href: 'https://flamecgi.com', label: 'flamecgi.com →', logo: 'cgi' },
@@ -77,7 +77,7 @@ export const ECOSYSTEM_CREDITS: IEcosystemCredit[] = [
 
 // Вариант «Токены» (tokens): заголовок выдаётся токенами, продукты печатаются как продолжения.
 export const ECOSYSTEM_TOKENS = {
-  heading: ['Flame', '—', 'это', 'еще', 'и'],
+  heading: ['Flame', 'это', 'еще', 'и'],
   counter: 'tokens',
   meta: ['temperature 0.7', 'stream: on'],
 };

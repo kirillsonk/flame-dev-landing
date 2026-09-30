@@ -13,27 +13,34 @@
   // Ниже полосы шапка прозрачная и кликов не ловит: там уже контент страницы.
   pointer-events: none;
 
-  // В полном состоянии шапка прозрачная и лежит поверх первого экрана;
-  // стекло наливается, только когда она утончается.
+  // В самом верху страницы шапка прозрачная и лежит поверх первого экрана.
+  // Стекло всегда на месте и плавно проявляется прозрачностью, как только страница поехала:
+  // размытие нельзя плавно включить, а прозрачность слоя можно
   &::before {
     content: '';
     position: absolute;
     inset: 0 0 auto 0;
     height: var(--bar);
-    background: transparent;
-    transition: height 0.3s var(--ease), background-color 0.3s var(--ease);
+    background: color-mix(in srgb, var(--color-bg) 58%, transparent);
+    backdrop-filter: blur(22px) saturate(120%);
+    -webkit-backdrop-filter: blur(22px) saturate(120%);
+    opacity: 0;
+    transition: height 0.3s var(--ease), opacity 0.35s var(--ease), background-color 0.3s var(--ease);
   }
+}
+
+.header--scrolled::before,
+.header--open::before {
+  opacity: 1;
 }
 
 .header--compact {
   --bar: var(--size-header-compact);
 }
 
-// Тонкая полоса — стекло: фон почти прозрачный, читаемость держит размытие.
+// Тонкая полоса — то же стекло: фон почти прозрачный, читаемость держит размытие.
 .header--compact::before {
-  background: color-mix(in srgb, var(--color-bg) 58%, transparent);
-  backdrop-filter: blur(22px) saturate(120%);
-  -webkit-backdrop-filter: blur(22px) saturate(120%);
+  opacity: 1;
 }
 
 .header--open::before {
@@ -208,7 +215,9 @@
 
 // На мобильном переключатель живёт в полосе шапки — она видна и при открытом меню,
 // поэтому в самом меню он не нужен.
-.header__lang {
+// Два класса: у одиночного тот же вес, что у .langSwitch из другого модуля, и в боевой сборке
+// порядок стилей другой, переключатель всплывал в мобильном меню
+.header__actions .header__lang {
   @include mobile {
     display: none;
   }

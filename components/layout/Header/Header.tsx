@@ -23,14 +23,14 @@ const Header = () => {
   const { locale, t } = useLocale();
   const { value } = useStoredVariant('header');
   const variant = parseHeader(value);
-  const { menuOpen, mobile, compact, headerRef, navRef, burgerRef, progressRef, toggleMenu, closeMenu } = useHeaderState();
+  const { menuOpen, mobile, compact, scrolled, headerRef, navRef, burgerRef, progressRef, toggleMenu, closeMenu } = useHeaderState();
   const { linksRef, blobRef, onLinkEnter, onLinksLeave } = useHeaderBlob(variant === 'blob', locale);
   const blob = variant === 'blob';
 
   return (
     <>
       {variant === 'strip' && <HeaderStrip />}
-      <header ref={headerRef} className={clsx(styles.header, styles[`header--${variant}`], menuOpen && styles['header--open'], compact && styles['header--compact'])}>
+      <header ref={headerRef} className={clsx(styles.header, styles[`header--${variant}`], menuOpen && styles['header--open'], compact && styles['header--compact'], scrolled && styles['header--scrolled'])}>
         <button type="button" className={styles.header__backdrop} onClick={closeMenu} tabIndex={-1} aria-hidden="true" aria-label={t('Закрыть меню')} />
         <div className={styles.header__inner}>
           <Link href="/" className={styles.header__logo} onClick={closeMenu} aria-label="Flame dev">

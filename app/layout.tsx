@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer/Footer';
 import RevealController from '@/components/layout/RevealController/RevealController';
 import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import Metrika from '@/components/layout/Metrika/Metrika';
+import CookieNotice from '@/components/layout/CookieNotice/CookieNotice';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import LocaleProvider from '@/components/i18n/LocaleProvider';
@@ -58,6 +59,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           <RevealController />
           <AnchorScroll />
           <Metrika />
+          <CookieNotice />
         </LocaleProvider>
       </body>
     </html>

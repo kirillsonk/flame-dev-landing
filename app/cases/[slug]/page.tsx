@@ -4,7 +4,7 @@ import CtaButton from '@/components/cta/CtaButton/CtaButton';
 import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import Poster from '@/components/ui/Poster/Poster';
 import { CASES } from '@/data/cases';
-import { CASE_BACK_LABEL, CASE_LIVE_LABEL } from '@/data/site';
+import { CASE_BACK_LABEL, CASE_CTA_LABEL, CASE_LIVE_LABEL } from '@/data/site';
 import LocalizedText from '@/components/i18n/LocalizedText';
 import styles from './page.module.scss';
 
@@ -39,14 +39,14 @@ const CasePage = async ({ params }: CasePageProps) => {
       <Poster item={item} wide showTitle={false} className={styles.case__poster} />
 
       <div className={styles.case__foot}>
-        <p className={styles.case__note}><LocalizedText>Подробный разбор проекта готовим — тексты в работе.</LocalizedText></p>
+        <p className={styles.case__note}><LocalizedText>Подробный разбор проекта готовим, тексты в работе</LocalizedText></p>
         <div className={styles.case__actions}>
           {item.live && (
             <BaseButton href={item.live} target="_blank" rel="noreferrer" variant="secondary">
               <LocalizedText>{CASE_LIVE_LABEL}</LocalizedText>
             </BaseButton>
           )}
-          <CtaButton href="/#contact" />
+          <CtaButton href="/#contact" label={CASE_CTA_LABEL} />
         </div>
       </div>
     </main>

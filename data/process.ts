@@ -89,7 +89,7 @@ export const PROCESS_STOPWATCH: {
   week: 'неделя',
   day: 'день',
   head: ['Круг', 'Шаг', 'Отсечка'],
-  empty: '— : —',
+  empty: '· : ·',
   laps: [
     { day: 3, split: '2–3 дня' },
     { day: 14, split: 'нед 2' },
@@ -97,13 +97,13 @@ export const PROCESS_STOPWATCH: {
     { day: 91, split: 'нед 13' },
     { day: 98, split: 'нед 14' },
   ],
-  note: 'Отсечки — пример графика среднего проекта.',
+  note: 'Отсечки показывают пример графика среднего проекта',
 };
 
 // «Лента времени»: подписи карточек и линейка недель под лентой.
 export const PROCESS_TIMELINE = {
   stepLabel: 'Шаг',
-  end: 'Дальше — поддержка по SLA.',
+  end: 'Дальше поддержка по SLA',
   weekLabel: 'неделя',
   weeks: 14,
   rulerCells: 20,

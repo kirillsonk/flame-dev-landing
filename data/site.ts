@@ -75,7 +75,7 @@ export const ANCHORS: Record<string, IAnchor> = {
 export const HERO = {
   title: [
     { text: 'Сложные системы и спецпроекты для брендов: ' },
-    { text: 'дизайн', chip: { kind: 'design', href: '#cases', meta: '— × —' }, suffix: ',' },
+    { text: 'дизайн', chip: { kind: 'design', href: '#cases', meta: '· × ·' }, suffix: ',' },
     { text: ' ' },
     { text: 'разработка', chip: { kind: 'dev', href: '#services', stack: ['Django', 'Go', 'React', 'Next.js'] } },
     { text: ' ' },
@@ -124,10 +124,10 @@ export const CTA_REEL = {
   middle: 'ответим в\u00A0течение',
   // Привычные сроки зачёркиваются и уезжают, барабан встаёт на последний.
   words: ['полугода', 'месяца', 'недели', 'трех дней'],
-  final: 'дня.',
+  final: 'дня',
 };
 
-export const CTA_CURVE = ['Есть задача? Расскажите,', 'ответим в течение дня.'];
+export const CTA_CURVE = ['Есть задача? Расскажите,', 'ответим в течение дня'];
 
 export const CTA_ROUTE = ['Ваша задача', 'Менеджер проекта', 'Дизайн и разработка', 'Ответ в течение дня'];
 
@@ -171,7 +171,7 @@ export const FOOTER_COPYRIGHT = '© 2026 Flame dev';
 export const FOOTER_TAGLINE = 'Разработка сайтов, сервисов и AI-решений';
 
 // Подвал «Колонки»: кто мы одной фразой и ссылки по смыслу.
-export const FOOTER_ABOUT = 'Команда разработки внутри Flame: платформы, спецпроекты, 3D и AI.';
+export const FOOTER_ABOUT = 'Команда разработки внутри Flame: платформы, спецпроекты, 3D и AI';
 
 export const FOOTER_COLUMNS: IFooterColumn[] = [
   { title: 'Разделы', links: NAV },
@@ -205,5 +205,14 @@ export const CASES_ALL_LABEL = 'Все кейсы';
 export const CASES_INDEX_TITLE = 'Кейсы';
 export const CASES_BACK_LABEL = 'На главную';
 export const CASE_BACK_LABEL = 'Все проекты';
-export const CASE_LIVE_LABEL = 'Открыть проект';
+// На странице кейса «проект» двусмысленен: одна кнопка ведет на сайт кейса, вторая про задачу посетителя
+export const CASE_LIVE_LABEL = 'Открыть сайт проекта';
+export const CASE_CTA_LABEL = 'Обсудить ваш проект';
 export const SERVICES_TITLE = 'Что разработаем для вас';
+
+// Уведомление о cookie: тонкая плашка внизу, закрывается одной кнопкой
+export const COOKIE_NOTICE = {
+  label: 'Уведомление о cookie',
+  text: 'Сайт использует cookie и Яндекс Метрику',
+  accept: 'Хорошо',
+};

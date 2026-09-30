@@ -17,7 +17,10 @@ export const shellEn: Record<string, string> = {
   'Написать на почту': 'Email us',
   'Обсудить проект': 'Discuss a project',
   'Оценку сроков и бюджета дадим за 2–3 дня': 'Get a timeline and budget estimate in 2–3 days',
-  'Flame — это еще и': 'More from Flame',
+  'Flame это еще и': 'More from Flame',
   'Видеопродакшн и CGI для брендов': 'Video production and CGI for brands',
   'AI-платформа для генерации видео': 'AI video generation platform',
+  'Уведомление о cookie': 'Cookie notice',
+  'Сайт использует cookie и Яндекс Метрику': 'This site uses cookies and Yandex Metrica',
+  'Хорошо': 'OK',
 };

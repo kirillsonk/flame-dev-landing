@@ -17,6 +17,8 @@ export interface IUseHeaderState {
   menuOpen: boolean;
   mobile: boolean;
   compact: boolean;
+  /** Страница ушла от самого верха: под шапкой проявляется стекло */
+  scrolled: boolean;
   headerRef: RefObject<HTMLElement | null>;
   navRef: RefObject<HTMLElement | null>;
   burgerRef: RefObject<HTMLButtonElement | null>;
@@ -30,6 +32,7 @@ const useHeaderState = (): IUseHeaderState => {
   const [menuOpen, setMenuOpen] = useState(false);
   const mobile = useSyncExternalStore(subscribeMobile, getMobileSnapshot, getServerMobileSnapshot);
   const [compact, setCompact] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
@@ -43,6 +46,7 @@ const useHeaderState = (): IUseHeaderState => {
       const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 10;
       // Гистерезис: включаем позже, выключаем раньше. У одного порога состояние дребезжит.
       setCompact((on) => (on ? window.scrollY > rem * 4 : window.scrollY > rem * 10));
+      setScrolled(window.scrollY > 8);
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       const read = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
       progressRef.current?.style.setProperty('--read', read.toFixed(4));
@@ -119,6 +123,7 @@ const useHeaderState = (): IUseHeaderState => {
     menuOpen,
     mobile,
     compact,
+    scrolled,
     headerRef,
     navRef,
     burgerRef,

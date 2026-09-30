@@ -15,6 +15,8 @@ export interface CtaButtonProps {
   className?: string;
   onClick?: () => void;
   tabIndex?: number;
+  /** Свой текст вместо «Обсудить проект», русская строка из data */
+  label?: string;
 }
 
 // Шаг задержки между буквами в «Волне», мс.
@@ -29,9 +31,9 @@ const setSpot = (event: PointerEvent<HTMLAnchorElement>) => {
 };
 
 // Кнопка «Обсудить проект»; вид выбирается меню вариантов (группа ctaButton).
-const CtaButton = ({ href = '#contact', block = false, className, onClick, tabIndex }: CtaButtonProps) => {
+const CtaButton = ({ href = '#contact', block = false, className, onClick, tabIndex, label: source = CTA_LABEL }: CtaButtonProps) => {
   const { t } = useLocale();
-  const label = t(CTA_LABEL);
+  const label = t(source);
   const { value } = useStoredVariant('ctaButton');
   const variant = parseCtaButton(value);
 
