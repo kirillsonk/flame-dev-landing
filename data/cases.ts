@@ -107,7 +107,7 @@ const LEGACY_CASES: ICase[] = [
   { slug: 'geely', title: 'Geely × Авто Mail', colors: ['#1C2A3F', '#00B4E6'], description: '«Опережая время»: автопрогулка на Geely Tugella по прогрессивной архитектуре Москвы', tags: ['спецпроект', 'скролл'], poster: '/cases/geely.jpg', videoWide: { mp4: '/videos/geely-wide.mp4?v=20260930', poster: '/videos/geely-wide.jpg?v=20260930' }, live: 'https://geely.mw.team' },
   { slug: 'sovcombank', title: 'Совкомбанк', colors: ['#0A2A5E', '#E8322F'], description: '«Финансовый ситком»: мини-сериал со сценами и выборами зрителя', tags: ['спецпроект', 'интерактив'], poster: '/cases/sovcombank.jpg', videoWide: { mp4: '/videos/sovcombank-wide.mp4?v=20260930', poster: '/videos/sovcombank-wide.jpg?v=20260930' }, live: 'https://sovcombank.mw.team' },
   { slug: 'halva', title: 'Карта «Халва»', colors: ['#E31E24', '#FFFFFF'], description: 'Игра-тест про уровень в шопинге с параллаксом на GSAP', tags: ['промо', 'игра'], poster: '/cases/halva.jpg', videoWide: { mp4: '/videos/halva-wide.mp4?v=20260930', poster: '/videos/halva-wide.jpg?v=20260930' }, live: 'https://halva.mw.team' },
-  { slug: 'tinkoff', title: 'Тинькофф', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промо-лендинг карт «Как сбалансировать жизнь» с трекингом кликов', tags: ['промо', 'лендинг'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
+  { slug: 't-bank', title: 'Т-Банк', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промо-лендинг карт «Как сбалансировать жизнь» с трекингом кликов', tags: ['промо', 'лендинг'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
   { slug: 'vtb', title: 'ВТБ × VK', colors: ['#0A2896', '#FFFFFF'], description: '«Новый год с ВТБ»: привилегии по картам в связке с экосистемой VK', tags: ['промо', 'лендинг'], poster: '/cases/vtb.jpg', videoWide: { mp4: '/videos/vtb-wide.mp4?v=20260930', poster: '/videos/vtb-wide.jpg?v=20260930' }, live: 'https://vtb-landing.mw.team' },
   { slug: 'weleda', title: 'Weleda', colors: ['#F2D7D9', '#7A1F2B'], description: '«Искусство красоты»: квиз, витрина продукта и 3D-сцена на Three.js', tags: ['спецпроект', '3D / WebGL'], poster: '/cases/weleda.jpg', videoWide: { mp4: '/videos/weleda-wide.mp4?v=20260930', poster: '/videos/weleda-wide.jpg?v=20260930' }, live: 'https://weleda.mw.team' },
   { slug: 'camay', title: 'Camay', colors: ['#F7C8A8', '#C2185B'], description: 'Каталог ароматов со звуковыми «композициями» и заказом на Ozon', tags: ['промо', 'звук'], poster: '/cases/camay.jpg', videoWide: { mp4: '/videos/camay-wide.mp4?v=20260930', poster: '/videos/camay-wide.jpg?v=20260930' }, live: 'https://camay.mw.team' },
@@ -130,7 +130,7 @@ CASES.push(...LEGACY_CASES);
 // Российские бренды открывают каталог в другом порядке, чем на главной.
 // Затем идут платформы и проекты с более сложными пользовательскими сценариями.
 const CATALOG_PRIORITY = [
-  'rosatom', 'vtb', 'sovcombank', 'rostelecom', 'tinkoff', 'halva', 'sozidanie',
+  'rosatom', 'vtb', 'sovcombank', 'rostelecom', 't-bank', 'halva', 'sozidanie',
   'amatour', 'tibia', 'flame-ai', 'weleda', 'majorpack', 'teva', 'purina-vk', 'geely',
 ];
 const catalogPrioritySlugs = new Set(CATALOG_PRIORITY);
@@ -149,7 +149,7 @@ export const CATALOG_CASES: ICase[] = [
 
 // Две бегущие строки на главной: верхняя едет справа налево, нижняя слева направо.
 export const CASES_MARQUEE: [string[], string[]] = [
-  ['coca-cola-delivery-club', 'mercedes', 'rosatom', 'sovcombank', 'halva', 'tinkoff', 'camay', 'weleda'],
+  ['coca-cola-delivery-club', 'mercedes', 'rosatom', 'sovcombank', 'halva', 't-bank', 'camay', 'weleda'],
   ['flame-ai', 'vtb', 'tibia', 'buscopan', 'amatour', 'no-spa', 'kotex', 'rostelecom'],
 ];
 
@@ -158,7 +158,7 @@ export const CASES_MARQUEE: [string[], string[]] = [
 // экрана стоят там, где видны в стартовом кадре: верхний ряд показывает начало,
 // нижний — конец, туда и летит карточка при переходе (useHomeTransition, вариант 3).
 export const CASES_TILT: string[][] = [
-  ['coca-cola-delivery-club', 'rosatom', 'mercedes', 'sovcombank', 'halva', 'tinkoff', 'camay', 'weleda'],
+  ['coca-cola-delivery-club', 'rosatom', 'mercedes', 'sovcombank', 'halva', 't-bank', 'camay', 'weleda'],
   ['vtb', 'buscopan', 'no-spa', 'kotex', 'rostelecom', 'flame-ai', 'tibia', 'amatour'],
 ];
 

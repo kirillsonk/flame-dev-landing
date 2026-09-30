@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   output: sitesExport ? 'export' : standalone ? 'standalone' : undefined,
   images: { unoptimized: sitesExport, localPatterns: [{ pathname: '/videos/**' }, { pathname: '/cases/**' }, { pathname: '/logos/**' }, { pathname: '/brands/**', search: '' }] },
   transpilePackages: ['three'],
+  // Кейс переименован вслед за банком: старые ссылки на «Тинькофф» ведут на новый адрес
+  async redirects() {
+    if (sitesExport) return [];
+    return [{ source: '/cases/tinkoff', destination: '/cases/t-bank', permanent: true }];
+  },
   async headers() {
     if (sitesExport) return [];
     return [

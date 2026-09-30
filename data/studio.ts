@@ -6,11 +6,11 @@ export const STUDIO = {
   process: { eyebrow: 'Подход', title: 'Этапы работы' },
   contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', link: 'start@flamedev.pro' },
 };
-export const FEATURED_CASES = ['halva', 'vtb', 'tinkoff', 'rostelecom', 'sozidanie', 'rosatom'];
+export const FEATURED_CASES = ['halva', 'vtb', 't-bank', 'rostelecom', 'sozidanie', 'rosatom'];
 export const CASE_TYPES: Record<string, string> = {
   halva: 'Интерактивная промоигра',
   vtb: 'Промопроект с экосистемой VK',
-  tinkoff: 'Промосайт банковских карт',
+  't-bank': 'Промосайт банковских карт',
   rostelecom: 'Интерактивный лендинг',
   sozidanie: 'Сайт благотворительного фонда',
   tibia: 'Система учета и логистики',
@@ -23,7 +23,7 @@ export const CASE_TYPES: Record<string, string> = {
 export const CASE_CAPTIONS: Record<string, string> = {
   halva: 'Игра о покупках с интерактивным тестом и параллаксом',
   vtb: 'Новогодние привилегии по картам в экосистеме VK',
-  tinkoff: 'Промосайт о балансе повседневных финансов',
+  't-bank': 'Промосайт о балансе повседневных финансов',
   rostelecom: 'Возможности видеонаблюдения в интерактивных историях',
   sozidanie: 'Помощь фонду через онлайн-пожертвования',
   tibia: 'Маркировка, логистика и работа со сканирующими терминалами',

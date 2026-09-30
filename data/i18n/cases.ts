@@ -7,7 +7,6 @@ export const casesEn: Record<string, string> = {
   'Совкомбанк': 'Sovcombank',
   'Карта «Халва»': 'Halva Card',
   'Т-Банк': 'T-Bank',
-  'Тинькофф': 'Tinkoff',
   'ВТБ × VK': 'VTB × VK',
   'Но-Шпа': 'No-Spa',
   'Ростелеком': 'Rostelecom',
