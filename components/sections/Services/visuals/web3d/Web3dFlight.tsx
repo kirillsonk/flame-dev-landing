@@ -3,6 +3,7 @@
 import { useId, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { WEB3D_FLIGHT as copy } from '@/data/demosWeb3d';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import ui from '@/components/sections/Services/visuals/Demo.module.scss';
 import w3d from './Web3d.module.scss';
 import { FlightScene } from './FlightScene';
@@ -14,6 +15,7 @@ const EXPONENTS = copy.stops.map((stop) => stop.exponent);
 
 // «Полёт в микромир»: перетаскивание, стрелки и кнопки ведут камеру от молекулы воды к кваркам.
 const Web3dFlight = () => {
+  const { t } = useLocale();
   const hintId = useId();
   const progressRef = useRef<HTMLDivElement>(null);
   const [stop, setStop] = useState(0);
@@ -36,23 +38,23 @@ const Web3dFlight = () => {
         className={w3d.web3d__view}
         tabIndex={0}
         role="application"
-        aria-label={copy.label}
+        aria-label={t(copy.label)}
         aria-describedby={hintId}
       />
       <div className={w3d.web3d__head}>
         <div className={ui.header}>
-          <span className={ui.wordmark}>{copy.name}</span>
-          <span className={ui.badge}>{copy.badge}</span>
+          <span className={ui.wordmark}>{t(copy.name)}</span>
+          <span className={ui.badge}>{t(copy.badge)}</span>
         </div>
-        <h4 className={ui.title}>{copy.title}</h4>
+        <h4 className={ui.title}>{t(copy.title)}</h4>
       </div>
       <div className={styles.flight__scale}>
-        <span className={w3d.web3d__dim}>{copy.scale}</span>
+        <span className={w3d.web3d__dim}>{t(copy.scale)}</span>
         <b className={clsx(styles.flight__exponent, w3d.web3d__number)}>
-          {powerOfTen(exponent)} {copy.unit}
+          {powerOfTen(exponent)} {t(copy.unit)}
         </b>
       </div>
-      <nav className={styles.flight__rail} aria-label={copy.stopsLabel}>
+      <nav className={styles.flight__rail} aria-label={t(copy.stopsLabel)}>
         {copy.stops.map((item, index) => (
           <button
             key={item.title}
@@ -60,40 +62,40 @@ const Web3dFlight = () => {
             disabled={failed}
             className={clsx(styles.flight__stop, index === stop && styles['flight__stop--active'])}
             aria-current={index === stop ? 'step' : undefined}
-            aria-label={`${copy.stop} ${index + 1}: ${item.title}`}
+            aria-label={`${t(copy.stop)} ${index + 1}: ${t(item.title)}`}
             onClick={() => sceneRef.current?.goTo(index)}
           >
             <i className={styles.flight__dot} />
-            <span className={styles.flight__name}>{item.title}</span>
+            <span className={styles.flight__name}>{t(item.title)}</span>
           </button>
         ))}
       </nav>
       <div className={clsx(w3d.web3d__card, styles.flight__card)} aria-live="polite">
         <div key={stop} className={w3d.web3d__swap}>
           <div className={w3d.web3d__dim}>
-            {copy.stop} {stop + 1} {copy.of} {copy.stops.length}
+            {t(copy.stop)} {stop + 1} {t(copy.of)} {copy.stops.length}
           </div>
-          <div className={clsx(w3d.web3d__title, styles.flight__heading)}>{current.title}</div>
-          <div className={clsx(w3d.web3d__dim, styles.flight__text)}>{current.text}</div>
+          <div className={clsx(w3d.web3d__title, styles.flight__heading)}>{t(current.title)}</div>
+          <div className={clsx(w3d.web3d__dim, styles.flight__text)}>{t(current.text)}</div>
         </div>
       </div>
       <div className={w3d.web3d__bar}>
         <button
           type="button"
-          disabled={failed}
+          disabled={failed || stop === 0}
           className={clsx(ui.button, w3d.web3d__control)}
-          aria-label={copy.back}
+          aria-label={t(copy.back)}
           onClick={() => sceneRef.current?.step(-1)}
         >
           ↑
         </button>
         <button
           type="button"
-          disabled={failed}
+          disabled={failed || stop === copy.stops.length - 1}
           className={clsx(ui.button, ui['button--primary'])}
           onClick={() => sceneRef.current?.step(1)}
         >
-          {copy.deeper}
+          {t(copy.deeper)}
         </button>
         <button
           type="button"
@@ -101,14 +103,14 @@ const Web3dFlight = () => {
           className={ui.button}
           onClick={() => sceneRef.current?.goTo(0)}
         >
-          {copy.reset}
+          {t(copy.reset)}
         </button>
         <span id={hintId} className={w3d.web3d__hint}>
-          {copy.hint}
+          {t(copy.hint)}
         </span>
       </div>
       <div ref={progressRef} className={styles.flight__progress} />
-      {failed && <p className={w3d.web3d__fallback}>{copy.fallback}</p>}
+      {failed && <p className={w3d.web3d__fallback}>{t(copy.fallback)}</p>}
     </div>
   );
 };

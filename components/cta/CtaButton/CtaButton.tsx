@@ -3,7 +3,7 @@
 import type { PointerEvent } from 'react';
 import clsx from 'clsx';
 import BaseButton from '@/components/ui/BaseButton/BaseButton';
-import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import useStoredVariant from '@/components/layout/VariantPanel/hooks/useStoredVariant';
 import { CTA_LABEL } from '@/data/site';
 import { parseCtaButton } from './variants';
@@ -30,13 +30,15 @@ const setSpot = (event: PointerEvent<HTMLAnchorElement>) => {
 
 // Кнопка «Обсудить проект»; вид выбирается меню вариантов (группа ctaButton).
 const CtaButton = ({ href = '#contact', block = false, className, onClick, tabIndex }: CtaButtonProps) => {
+  const { t } = useLocale();
+  const label = t(CTA_LABEL);
   const { value } = useStoredVariant('ctaButton');
   const variant = parseCtaButton(value);
 
-  if (variant === 'current') {
+  if (variant === 'current' || variant === 'beam') {
     return (
-      <BaseButton href={href} arrow block={block} className={className} onClick={onClick} tabIndex={tabIndex}>
-        {CTA_LABEL}
+      <BaseButton href={href} block={block} className={className} onClick={onClick} tabIndex={tabIndex}>
+        {label}
       </BaseButton>
     );
   }
@@ -48,25 +50,20 @@ const CtaButton = ({ href = '#contact', block = false, className, onClick, tabIn
     <a
       href={href}
       className={clsx(styles.cta, styles[`cta--${variant}`], block && styles['cta--block'], className)}
-      aria-label={wave ? CTA_LABEL : undefined}
+      aria-label={wave ? label : undefined}
       tabIndex={tabIndex}
       onClick={onClick}
       onPointerEnter={spot ? setSpot : undefined}
       onPointerLeave={spot ? setSpot : undefined}
     >
       {wave ? (
-        Array.from(CTA_LABEL).map((char, index) => (
+        Array.from(label).map((char, index) => (
           <span key={index} className={styles.cta__char} style={{ transitionDelay: `${index * WAVE_STEP}ms` }} aria-hidden="true">
             {char}
           </span>
         ))
       ) : (
-        <span className={styles.cta__label}>{CTA_LABEL}</span>
-      )}
-      {variant === 'reveal' && (
-        <span className={styles.cta__slot} aria-hidden="true">
-          <BaseIcon name="arrow" className={styles.cta__icon} />
-        </span>
+        <span className={styles.cta__label}>{label}</span>
       )}
     </a>
   );

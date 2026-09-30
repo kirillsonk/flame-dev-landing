@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo/Logo';
-import BaseLangSwitch from '@/components/ui/BaseLangSwitch/BaseLangSwitch';
 import CtaButton from '@/components/cta/CtaButton/CtaButton';
 import { FOOTER_COPYRIGHT, FOOTER_EMAIL, FOOTER_LINKS } from '@/data/site';
 import FooterLink from './FooterLink';
@@ -32,7 +31,6 @@ const FooterCard = () => {
           </div>
           <div className={styles.card__bottom}>
             <span>{FOOTER_COPYRIGHT}</span>
-            <BaseLangSwitch />
           </div>
         </div>
       </div>

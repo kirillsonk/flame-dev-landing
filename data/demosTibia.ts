@@ -179,6 +179,6 @@ export const TIBIA_REPORT = {
   rows: ['Смена', 'Принято труб', 'Отгружено', 'Ошибки сканирования', 'Подпись'],
   signature: 'мастер смены, ЭЦП',
   building: 'Собираем страницу…',
-  file: (warehouse: string, days: number) => `✓ otchet_sklad_${warehouse === 'all' ? 'vse' : warehouse}_${days}d.pdf · 212 КБ`,
+  fileTemplate: '✓ otchet_sklad_{warehouse}_{days}d.pdf · 212 КБ',
   close: 'Закрыть',
 };

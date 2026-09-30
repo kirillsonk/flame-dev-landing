@@ -26,6 +26,8 @@ interface IOrbitItem {
   /** Дуга перелета, знак выбирает сторону */
   arc: number;
   zIndex: string;
+  transform: string;
+  dimOpacity: string;
 }
 
 interface IPose {
@@ -74,7 +76,7 @@ const mix = (a: number, b: number, t: number) => a + (b - a) * t;
  * Наведенный кадр по дуге подлетает в ядро, бывшее ядро по дуге уходит на его место, орбита доворачивается.
  * Кадры: `[data-orbit-item]` с `data-index` внутри неподвижного слота, затемнение `[data-orbit-dim]`.
  * Слоты всех кадров совпадают с ядром, поэтому перелет в галерею считает геометрию от одной рамки.
- * На телефоне кадры стоят лентой: поворот и масштаб зависят от расстояния до центра ленты
+ * Мобильная компоновка скрывает сцену и не запускает вычисления орбит
  */
 const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number) => void): IUseOrbit => {
   const coreRef = useRef(0);
@@ -101,6 +103,8 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       core: { value: index === coreRef.current ? 1 : 0 },
       arc: 1,
       zIndex: '',
+      transform: '',
+      dimOpacity: '',
     }));
     if (items.length === 0) return;
 
@@ -108,6 +112,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const resize = new ResizeObserver(() => {
       size.w = stage.offsetWidth;
       size.h = stage.offsetHeight;
+      if (motion.matches && !mobile.matches) render(0);
     });
     resize.observe(stage);
 
@@ -118,6 +123,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const pace = { value: 1 };
     let last = 0;
     let visible = true;
+    let heroVisible = true;
     let running = false;
 
     const seatPose = (index: number, time: number): IPose => {
@@ -168,23 +174,21 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
         const px = smooth.x * (8 + depth * 10);
         const py = smooth.y * (6 + depth * 6);
         const total = 1 + (scale - 1) * calm;
-        item.element.style.transform = `perspective(1400px) translate3d(${(x + px) * calm}px, ${(y + py) * calm}px, 0) rotateX(${rx * calm}deg) rotateY(${ry * calm}deg) scale(${total})`;
-        if (item.dim) item.dim.style.opacity = String(((1 - depth) / 2) * .62 * (1 - c) * calm);
+        const transform = `perspective(1400px) translate3d(${(x + px) * calm}px, ${(y + py) * calm}px, 0) rotateX(${rx * calm}deg) rotateY(${ry * calm}deg) scale(${total})`;
+        const dimOpacity = String(((1 - depth) / 2) * .62 * (1 - c) * calm);
+        // Последняя часть перелета уже неподвижна: не инвалидируем одинаковые стили каждый кадр.
+        if (item.transform !== transform) {
+          item.element.style.transform = transform;
+          item.transform = transform;
+        }
+        if (item.dim && item.dimOpacity !== dimOpacity) {
+          item.dim.style.opacity = dimOpacity;
+          item.dimOpacity = dimOpacity;
+        }
         // Ядро над задней орбитой, передняя проходит поверх. Кадр в перелете выше всех
         const moving = c > .02 && c < .98;
         const z = moving ? (item.seat < 0 ? 30 : 25) : item.seat < 0 ? 10 : depth > 0 ? 11 + Math.round(depth * 4) : 2 + Math.round((depth + 1) * 3);
         setZ(item, String(z));
-      });
-    };
-
-    const renderMobile = (time: number) => {
-      const middle = stage.scrollLeft + stage.clientWidth / 2;
-      items.forEach(({ element, slot }, index) => {
-        const offset = (slot.offsetLeft + slot.offsetWidth / 2 - middle) / stage.clientWidth;
-        const distance = Math.min(Math.abs(offset), 1.2);
-        const t = time * .0004 + index * 1.9;
-        const y = Math.cos(t * 1.3) * 7 + distance * 18;
-        element.style.transform = `perspective(900px) translate3d(0, ${y}px, 0) rotateY(${-offset * 30}deg) rotateZ(${offset * 5 + Math.sin(t) * 1.2}deg) scale(${1 - distance * .16})`;
       });
     };
 
@@ -213,6 +217,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       lockUntil = performance.now() + LOCK_MS;
       intent.index = -1;
       callback.current(index);
+      if (quick) render(0);
     };
 
     const hit = (target: EventTarget | null): number => {
@@ -232,14 +237,11 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     };
 
     const render = (time: number) => {
+      if (mobile.matches || size.w === 0 || size.h === 0) return;
       const dt = last ? Math.min(time - last, 64) / 1000 : 0;
       last = time;
       // Гаснет к 80% перелета, чтобы к посадке в галерею слой уже стоял ровно
-      const calm = Math.max(0, 1 - morphState.progress * 1.25);
-      if (mobile.matches) {
-        renderMobile(time);
-        return;
-      }
+      const calm = motion.matches ? 1 : Math.max(0, 1 - morphState.progress * 1.25);
       pace.value += ((pointer.inside ? HOVER_SPEED : 1) - pace.value) * Math.min(1, dt * 3);
       if (!motion.matches) orbit.angle += ORBIT.speed * dt * pace.value;
       checkIntent(time);
@@ -248,7 +250,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     const tick = () => render(performance.now());
 
     const start = () => {
-      if (running || !visible || document.hidden) return;
+      if (running || !visible || document.hidden || mobile.matches || motion.matches) return;
       running = true;
       last = 0;
       gsap.ticker.add(tick);
@@ -296,34 +298,68 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       if (index >= 0 && (event.target as HTMLElement).matches(':focus-visible')) swap(index);
     };
 
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+    const syncDecorations = () => {
+      root.toggleAttribute('data-hero-paused', !heroVisible || document.hidden);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === stage) visible = entry.isIntersecting;
+        if (entry.target === root) heroVisible = entry.isIntersecting;
+      });
+      syncDecorations();
       if (visible) start(); else stop();
     });
-    const visibility = () => (document.hidden ? stop() : start());
+    const visibility = () => {
+      syncDecorations();
+      if (document.hidden) stop(); else start();
+    };
     // Слой уже вне окна, но еще летит в галерею: кадр на каждый скролл, чтобы наклон погас вместе с перелетом
-    const scroll = () => { if (!running) tick(); };
+    const scroll = () => {
+      if (!running && !mobile.matches && !motion.matches && !document.hidden && morphState.progress > 0 && morphState.progress < 1) tick();
+    };
 
-    const reset = () => items.forEach(({ element, slot, dim }) => {
+    const reset = () => items.forEach((item) => {
+      const { element, slot, dim } = item;
       element.style.transform = '';
       slot.style.zIndex = '';
+      item.zIndex = '';
+      item.transform = '';
+      item.dimOpacity = '';
       if (dim) dim.style.opacity = '';
     });
+    const mode = () => {
+      stop();
+      if (mobile.matches) {
+        reset();
+        return;
+      }
+      size.w = stage.offsetWidth;
+      size.h = stage.offsetHeight;
+      if (motion.matches) {
+        gsap.killTweensOf([spread, orbit, ...items.map(item => item.core)]);
+        spread.value = 1;
+        items.forEach((item, index) => { item.core.value = index === coreRef.current ? 1 : 0; });
+        pointer.x = pointer.y = smooth.x = smooth.y = 0;
+        render(0);
+      } else start();
+    };
 
-    if (!motion.matches) gsap.to(spread, { value: 1, duration: 1.8, ease: 'expo.out', delay: .15 });
+    if (!motion.matches && !mobile.matches) gsap.to(spread, { value: 1, duration: 1.8, ease: 'expo.out', delay: .15 });
     else spread.value = 1;
 
+    observer.observe(stage);
     observer.observe(root);
     window.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('scroll', scroll, { passive: true });
-    stage.addEventListener('scroll', scroll, { passive: true });
     stage.addEventListener('pointermove', stageMove, { passive: true });
     stage.addEventListener('pointerleave', stageLeave);
     stage.addEventListener('pointerdown', down);
     stage.addEventListener('click', click);
     stage.addEventListener('focusin', focus);
     document.addEventListener('visibilitychange', visibility);
-    start();
+    motion.addEventListener('change', mode);
+    mobile.addEventListener('change', mode);
+    mode();
 
     return () => {
       stop();
@@ -332,13 +368,15 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       gsap.killTweensOf([spread, orbit, ...items.map(item => item.core)]);
       window.removeEventListener('pointermove', move);
       window.removeEventListener('scroll', scroll);
-      stage.removeEventListener('scroll', scroll);
       stage.removeEventListener('pointermove', stageMove);
       stage.removeEventListener('pointerleave', stageLeave);
       stage.removeEventListener('pointerdown', down);
       stage.removeEventListener('click', click);
       stage.removeEventListener('focusin', focus);
       document.removeEventListener('visibilitychange', visibility);
+      motion.removeEventListener('change', mode);
+      mobile.removeEventListener('change', mode);
+      root.removeAttribute('data-hero-paused');
       reset();
     };
   }, [rootRef]);

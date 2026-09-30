@@ -1,11 +1,12 @@
 import type { ICase } from './types';
 
-// Две равные колонки, все карточки одного размера, порядок — по значимости.
+// Общий реестр проектов: порядок публичного каталога задается отдельно в CATALOG_CASES.
 // Первый тег — категория, её показывают чип в карточке и hero-лента. `logo` — файлы в public/logos/, пока нет.
-// Coca-Cola, Росатом, Flame AI, Tibia (система + лендинг Okamus), Amatour — реальные записи экрана (нарезка 2026-09-16):
-// `video` 9:16 для ленты hero, `videoWide` 16:9 для карточек. Остальные — тестовые видео из landingv2.
+// `video` — прежние вертикальные нарезки, `videoWide` — горизонтальные ролики для текущих карточек и hero.
+// 27 широких роликов сверены с папкой Google Drive 30 сентября 2026 года, см. doc/MEDIA_AUDIT_2026-09-30.md.
+// Flame AI и Purina × Mail используют отдельные исходники. Okamus — прежнее название Tibia, соответствие подтверждено владельцем.
 // `?v=` — сброс кэша: файлы перезаписаны под теми же именами, а Cache-Control на неделю.
-// Amatour и Tibia: лупы разбавлены стоковыми кадрами с людьми (Mixkit, свободная лицензия).
+// Старые вертикальные лупы Amatour и Tibia разбавлены стоковыми кадрами с людьми (Mixkit, свободная лицензия).
 export const CASES: ICase[] = [
   {
     slug: 'coca-cola-delivery-club',
@@ -106,7 +107,7 @@ const LEGACY_CASES: ICase[] = [
   { slug: 'geely', title: 'Geely × Авто Mail', colors: ['#1C2A3F', '#00B4E6'], description: '«Опережая время»: автопрогулка на Geely Tugella по прогрессивной архитектуре Москвы.', tags: ['спецпроект', 'скролл'], poster: '/cases/geely.jpg', videoWide: { mp4: '/videos/geely-wide.mp4?v=20260930', poster: '/videos/geely-wide.jpg?v=20260930' }, live: 'https://geely.mw.team' },
   { slug: 'sovcombank', title: 'Совкомбанк', colors: ['#0A2A5E', '#E8322F'], description: '«Финансовый ситком»: мини-сериал со сценами и выборами зрителя.', tags: ['спецпроект', 'интерактив'], poster: '/cases/sovcombank.jpg', videoWide: { mp4: '/videos/sovcombank-wide.mp4?v=20260930', poster: '/videos/sovcombank-wide.jpg?v=20260930' }, live: 'https://sovcombank.mw.team' },
   { slug: 'halva', title: 'Карта «Халва»', colors: ['#E31E24', '#FFFFFF'], description: 'Игра-тест про уровень в шопинге с параллаксом на GSAP.', tags: ['промо', 'игра'], poster: '/cases/halva.jpg', videoWide: { mp4: '/videos/halva-wide.mp4?v=20260930', poster: '/videos/halva-wide.jpg?v=20260930' }, live: 'https://halva.mw.team' },
-  { slug: 'tinkoff', title: 'Т-Банк', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промо-лендинг карт «Как сбалансировать жизнь» с трекингом кликов.', tags: ['промо', 'лендинг'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
+  { slug: 'tinkoff', title: 'Тинькофф', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промо-лендинг карт «Как сбалансировать жизнь» с трекингом кликов.', tags: ['промо', 'лендинг'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
   { slug: 'vtb', title: 'ВТБ × VK', colors: ['#0A2896', '#FFFFFF'], description: '«Новый год с ВТБ»: привилегии по картам в связке с экосистемой VK.', tags: ['промо', 'лендинг'], poster: '/cases/vtb.jpg', videoWide: { mp4: '/videos/vtb-wide.mp4?v=20260930', poster: '/videos/vtb-wide.jpg?v=20260930' }, live: 'https://vtb-landing.mw.team' },
   { slug: 'weleda', title: 'Weleda', colors: ['#F2D7D9', '#7A1F2B'], description: '«Искусство красоты»: квиз, витрина продукта и 3D-сцена на Three.js.', tags: ['спецпроект', '3D / WebGL'], poster: '/cases/weleda.jpg', videoWide: { mp4: '/videos/weleda-wide.mp4?v=20260930', poster: '/videos/weleda-wide.jpg?v=20260930' }, live: 'https://weleda.mw.team' },
   { slug: 'camay', title: 'Camay', colors: ['#F7C8A8', '#C2185B'], description: 'Каталог ароматов со звуковыми «композициями» и заказом на Ozon.', tags: ['промо', 'звук'], poster: '/cases/camay.jpg', videoWide: { mp4: '/videos/camay-wide.mp4?v=20260930', poster: '/videos/camay-wide.jpg?v=20260930' }, live: 'https://camay.mw.team' },
@@ -118,13 +119,33 @@ const LEGACY_CASES: ICase[] = [
   { slug: 'nonton', title: 'Нонтон', colors: ['#F4E3C1', '#2B2B2B'], description: 'Квиз-подбор мебели по зонам дома.', tags: ['промо', 'квиз'], poster: '/cases/nonton.jpg', videoWide: { mp4: '/videos/nonton-wide.mp4?v=20260930', poster: '/videos/nonton-wide.jpg?v=20260930' }, live: 'https://nonton.mw.team' },
   { slug: 'teboil', title: 'Teboil', colors: ['#003D8F', '#E30613'], description: 'Лендинг «Качество Teboil» и пять статей о заботе о двигателе.', tags: ['сайт', 'контент'], poster: '/cases/teboil.jpg', videoWide: { mp4: '/videos/teboil-wide.mp4?v=20260930', poster: '/videos/teboil-wide.jpg?v=20260930' }, live: 'https://teboil.mw.team' },
   { slug: 'purina-nestle', title: 'Purina × Mail', colors: ['#EAF2FF', '#E30613'], description: '«Пушистая анкета»: сбор лидов, карточки питомцев и розыгрыш.', tags: ['промо', 'лиды'], poster: '/cases/purina-nestle.jpg', videoWide: { mp4: '/videos/purina-nestle-wide.mp4?v=20260917', webm: '/videos/purina-nestle-wide.webm?v=20260917', poster: '/videos/purina-nestle-wide.jpg?v=20260917' }, live: 'https://purina-nestle.mw.team' },
-  { slug: 'total', title: 'Total Quartz', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: подбор масла и безопасное вождение.', tags: ['промо', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
-  { slug: 'total-2022', title: 'Total 2022', colors: ['#E30613', '#FFFFFF'], description: 'Уроки, тесты и розыгрыш о зимнем вождении.', tags: ['промо', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
+  { slug: 'total', title: 'Total', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: подбор масла и безопасное вождение.', tags: ['промо', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
+  { slug: 'total-2022', title: 'Total', colors: ['#E30613', '#FFFFFF'], description: 'Уроки, тесты и розыгрыш о зимнем вождении.', tags: ['промо', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
   { slug: 'teva', title: 'Teva', colors: ['#00A19A', '#FFFFFF'], description: 'Многошаговая форма регистрации врачей с OTP-верификацией.', tags: ['сервис', 'формы'], poster: '/cases/teva.jpg', videoWide: { mp4: '/videos/teva-wide.mp4?v=20260930', poster: '/videos/teva-wide.jpg?v=20260930' }, live: 'https://teva-form.mw.team' },
   { slug: 'huawei', title: 'Huawei × Hi-Tech', colors: ['#FFFFFF', '#CF0A2C'], description: 'Спецпроект 2020 с обзорами и новостями от редакции Hi-Tech Mail.', tags: ['спецпроект', 'медиа'], poster: '/cases/huawei.jpg', videoWide: { mp4: '/videos/huawei-wide.mp4?v=20260930', poster: '/videos/huawei-wide.jpg?v=20260930' }, live: 'https://huawei.hi-tech.mail.ru/' },
 ];
 
 CASES.push(...LEGACY_CASES);
+
+// Российские бренды открывают каталог в другом порядке, чем на главной.
+// Затем идут платформы и проекты с более сложными пользовательскими сценариями.
+const CATALOG_PRIORITY = [
+  'rosatom', 'vtb', 'sovcombank', 'rostelecom', 'tinkoff', 'halva', 'sozidanie',
+  'amatour', 'tibia', 'flame-ai', 'weleda', 'majorpack', 'teva', 'purina-vk', 'geely',
+];
+const catalogPrioritySlugs = new Set(CATALOG_PRIORITY);
+
+// Второй ролик Total остается доступен по старой прямой ссылке, но не дублирует каталог.
+const ARCHIVED_CASE_SLUGS = new Set(['total-2022']);
+
+export const CATALOG_CASES: ICase[] = [
+  ...CATALOG_PRIORITY.map((slug) => {
+    const item = CASES.find((entry) => entry.slug === slug);
+    if (!item) throw new Error(`Case catalog: unknown case slug "${slug}"`);
+    return item;
+  }),
+  ...CASES.filter((item) => !catalogPrioritySlugs.has(item.slug) && !ARCHIVED_CASE_SLUGS.has(item.slug)),
+];
 
 // Две бегущие строки на главной: верхняя едет справа налево, нижняя слева направо.
 export const CASES_MARQUEE: [string[], string[]] = [

@@ -16,7 +16,7 @@
 .catalog__tab {
   @include text-body;
   @include focus-ring;
-  height: 3.6rem;
+  min-height: 4.4rem;
   padding: 0 1.4rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
@@ -34,10 +34,10 @@
   color: var(--color-bg);
 }
 
-.catalog__columns {
+.catalog__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-grid-gap);
+  gap: var(--space-heading) var(--space-grid-gap);
   align-items: start;
 
   @include mobile {
@@ -45,22 +45,20 @@
   }
 }
 
-.catalog__column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-heading);
+.catalog__position {
+  min-width: 0;
 }
 
 // Параллакс по скроллу: средняя колонка отстаёт, крайние чуть обгоняют. Только там, где
 // браузер умеет scroll-driven animations; иначе колонки просто стоят. На мобильном одна колонка.
 @supports (animation-timeline: scroll()) {
-  @media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
-    .catalog__column {
+  @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+    .catalog__position {
       animation: catalog-lead linear both;
       animation-timeline: scroll(root);
     }
 
-    .catalog__column:nth-child(2) {
+    .catalog__position:nth-child(3n + 2) {
       animation-name: catalog-lag;
     }
   }
@@ -80,6 +78,10 @@
 
 .catalog__item {
   animation: catalog-in 0.45s var(--ease) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 @keyframes catalog-in {

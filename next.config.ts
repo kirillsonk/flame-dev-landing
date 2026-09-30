@@ -6,7 +6,7 @@ const standalone = process.env.NEXT_STANDALONE === '1';
 
 const nextConfig: NextConfig = {
   output: sitesExport ? 'export' : standalone ? 'standalone' : undefined,
-  images: { unoptimized: sitesExport, localPatterns: [{ pathname: '/videos/**' }, { pathname: '/cases/**' }, { pathname: '/logos/**' }] },
+  images: { unoptimized: sitesExport, localPatterns: [{ pathname: '/videos/**' }, { pathname: '/cases/**' }, { pathname: '/logos/**' }, { pathname: '/brands/**', search: '' }] },
   transpilePackages: ['three'],
   async headers() {
     if (sitesExport) return [];

@@ -41,7 +41,7 @@ export const HERO_INTRO = {
 
 export const LANGS: ILang[] = [
   { code: 'ru', label: 'RU' },
-  { code: 'en', label: 'EN', hint: 'Английская версия готовится' },
+  { code: 'en', label: 'EN' },
 ];
 
 export const NAV: INavItem[] = [
@@ -137,7 +137,7 @@ export const CONTACT = {
   telegram: { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' } satisfies IContactLink,
   links: [
     { label: 'Написать в Telegram', href: 'https://t.me/flamedev', icon: 'telegram' },
-    { label: 'Написать на почту', href: 'mailto:hello@flamedev.pro', icon: 'mail' },
+    { label: 'Написать на почту', href: 'mailto:start@flamedev.pro', icon: 'mail' },
     // «Скачать презентацию» вернуть, когда в public/ появится актуальный flame-dev.pdf.
   ] as IContactLink[],
   // Вариант «Маркер»: тот же текст, обещания по срокам выделяются маркером по скроллу.
@@ -164,7 +164,7 @@ export const CONTACT = {
   },
 };
 
-export const FOOTER_EMAIL = 'hello@flamedev.pro';
+export const FOOTER_EMAIL = 'start@flamedev.pro';
 
 export const FOOTER_COPYRIGHT = '© 2026 Flame dev';
 
@@ -176,17 +176,10 @@ export const FOOTER_ABOUT = 'Команда разработки внутри Fl
 export const FOOTER_COLUMNS: IFooterColumn[] = [
   { title: 'Разделы', links: NAV },
   {
-    title: 'Экосистема',
-    links: [
-      { label: 'Flame CGI', href: 'https://flamecgi.com' },
-      { label: 'Flame AI', href: 'https://app.flameai.studio' },
-    ],
-  },
-  {
     title: 'Связаться',
     links: [
       { label: 'Telegram', href: 'https://t.me/flamedev' },
-      { label: 'hello@flamedev.pro', href: 'mailto:hello@flamedev.pro' },
+      { label: 'start@flamedev.pro', href: 'mailto:start@flamedev.pro' },
       { label: 'Презентация PDF', href: '/flame-dev.pdf' },
     ],
   },
@@ -195,7 +188,7 @@ export const FOOTER_COLUMNS: IFooterColumn[] = [
 // Подвал «Контакты-плашки»: те же ссылки, что в блоке контактов, но с видимыми подписями.
 export const FOOTER_CHIPS: IContactLink[] = [
   { label: 'Telegram', href: 'https://t.me/flamedev', icon: 'telegram' },
-  { label: 'hello@flamedev.pro', href: 'mailto:hello@flamedev.pro', icon: 'mail' },
+  { label: 'start@flamedev.pro', href: 'mailto:start@flamedev.pro', icon: 'mail' },
   { label: 'Презентация PDF', href: '/flame-dev.pdf', icon: 'deck' },
 ];
 
@@ -205,15 +198,12 @@ export const HEADER_STRIP = {
   link: 'Обсудить проект',
 };
 
-export const FOOTER_LINKS: INavItem[] = [
-  ...NAV,
-  { label: 'Flame CGI', href: 'https://flamecgi.com' },
-  { label: 'Flame AI', href: 'https://app.flameai.studio' },
-];
+export const FOOTER_LINKS: INavItem[] = [...NAV];
 export const CASES_TITLE = 'Опыт в проектах';
 export const CASES_TEXT = 'Сайты для брендов, цифровые платформы и системы для бизнеса. В каждом проекте показываем задачу, нашу работу и результат';
 export const CASES_ALL_LABEL = 'Все кейсы';
 export const CASES_INDEX_TITLE = 'Кейсы';
 export const CASES_BACK_LABEL = 'На главную';
+export const CASE_BACK_LABEL = 'Все проекты';
 export const CASE_LIVE_LABEL = 'Открыть проект';
 export const SERVICES_TITLE = 'Что разработаем для вас';

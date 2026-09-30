@@ -9,11 +9,20 @@
 .process__step:global(.is-revealed) .process__visual { animation: circleIn 1s var(--ease) calc(var(--step) * .1s) both; }
 @keyframes circleIn { from { opacity: 0; transform: scale(.88) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
 .process__link { position: absolute; top: 6.9rem; left: 15.2rem; right: -1.2rem; height: .2rem; border-radius: var(--radius-pill); background: linear-gradient(90deg, color-mix(in srgb, var(--color-action-primary) 25%, transparent), color-mix(in srgb, var(--color-action-accent) 80%, transparent)); transform-origin: left center; @include mobile { top: 10.4rem; bottom: -2.4rem; left: 4.3rem; right: auto; width: .2rem; height: auto; background: linear-gradient(180deg, color-mix(in srgb, var(--color-action-primary) 25%, transparent), color-mix(in srgb, var(--color-action-accent) 80%, transparent)); transform-origin: center top; } }
-.process__head { position: absolute; top: 50%; right: -.8rem; translate: 0 -50%; color: var(--color-action-accent); @include mobile { top: auto; right: auto; bottom: -.8rem; left: 50%; translate: -50% 0; rotate: 90deg; } }
 .process__pulse { position: absolute; top: 50%; left: 0; width: .8rem; height: .8rem; border-radius: 50%; translate: -50% -50%; background: var(--color-action-accent); box-shadow: 0 0 1.2rem var(--color-action-accent); opacity: 0; animation: pulseRun 2.8s var(--ease) calc(var(--step) * .56s) infinite; @include mobile { top: 0; left: 50%; animation-name: pulseDrop; } }
 .process__step:global(.is-revealed) .process__link { animation: linkIn .8s var(--ease) calc(var(--step) * .1s + .4s) both; @include mobile { animation-name: linkDown; } }
 @keyframes linkDown { from { scale: 1 0; } to { scale: 1 1; } }
 @keyframes linkIn { from { scale: 0 1; } to { scale: 1 1; } }
 @keyframes pulseRun { 0% { left: 0; opacity: 0; } 15%, 80% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
 @keyframes pulseDrop { 0% { top: 0; opacity: 0; } 15%, 80% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@media (min-width: 901px) and (max-width: 1100px) {
+  .process { gap: 1.6rem; }
+  .process__step h3 { font-size: clamp(1.7rem, 1.8vw, 2rem); }
+}
+@media (max-width: 359px) {
+  .process__step { grid-template-columns: 6.4rem minmax(0, 1fr); }
+  .process__visual { width: 6.4rem; height: 6.4rem; }
+  .process__icon { width: 3.2rem; height: 3.2rem; }
+  .process__link { top: 8rem; left: 3.1rem; }
+}
 @media (prefers-reduced-motion: reduce) { .process__step:global(.is-revealed) .process__visual, .process__step:global(.is-revealed) .process__link { animation: none; } .process__pulse { display: none; } .process__step:hover .process__orbit { transform: rotate(calc(var(--step) * 34deg)); } .process__step:hover .process__disc, .process__step:hover .process__icon { transform: none; } }

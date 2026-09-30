@@ -19,8 +19,9 @@
   font-variant-numeric: tabular-nums;
   @include mobile {
     --size-donut: 9.6rem;
+    height: auto;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
   }
 }
 
@@ -56,6 +57,7 @@
   @include mobile {
     grid-column: 1 / -1;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1.2rem;
@@ -83,6 +85,9 @@
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+  @include mobile {
+    height: 4.4rem;
+  }
   @include focus-ring(var(--color-action-accent));
   &::-webkit-slider-runnable-track {
     height: 0.4rem;
@@ -118,7 +123,8 @@
   border-radius: var(--radius-pill);
   background: var(--color-bg);
   @include mobile {
-    flex: 0 0 72%;
+    flex: 1 0 20rem;
+    max-width: 100%;
   }
 }
 
@@ -136,7 +142,7 @@
     background: var(--color-elevated);
   }
   @include mobile {
-    min-height: 3rem;
+    min-height: 4.4rem;
   }
 }
 
@@ -165,7 +171,7 @@
   }
   @include mobile {
     grid-column: 1 / -1;
-    min-height: var(--size-button-compact);
+    min-height: 4.4rem;
     margin-top: 0;
   }
 }
@@ -181,6 +187,13 @@
   @include mobile {
     gap: 0.8rem;
     padding: 1.2rem 1.6rem 1.6rem;
+  }
+}
+
+.report__main--sheet .report__kpis,
+.report__main--sheet .report__charts {
+  @include mobile {
+    display: none;
   }
 }
 
@@ -294,6 +307,10 @@
   gap: 0.3rem;
   min-height: 6rem;
   border-bottom: 1px solid var(--color-border);
+  @include mobile {
+    flex: none;
+    height: 16rem;
+  }
 }
 
 .report__day {
@@ -364,6 +381,9 @@
   justify-content: space-between;
   gap: 1.6rem;
   white-space: nowrap;
+  @include mobile {
+    gap: 0.8rem;
+  }
 }
 
 .report__share {
@@ -390,7 +410,10 @@
     transform 0.6s var(--ease),
     visibility 0s 0.6s;
   @include mobile {
-    inset: 0.8rem;
+    position: static;
+    display: none;
+    overflow: visible;
+    transform: none;
     padding: 1.6rem;
   }
 }
@@ -399,6 +422,9 @@
   transform: none;
   visibility: visible;
   transition: transform 0.6s var(--ease);
+  @include mobile {
+    display: flex;
+  }
 }
 
 .report__meta {
@@ -460,6 +486,9 @@
   background: var(--ink);
   color: var(--paper);
   @include focus-ring(var(--color-action-primary));
+  @include mobile {
+    min-height: 4.4rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

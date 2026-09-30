@@ -6,25 +6,44 @@
 .gallery__back { position: absolute; inset: 0 1rem 2rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-panel); overflow: hidden; background: var(--color-surface); pointer-events: none; img { object-fit: cover; opacity: .22; } }
 .gallery__back--1 { transform: translateY(-1.2rem) rotate(2deg) scale(.975); }
 .gallery__back--2 { transform: translateY(-2.4rem) rotate(-3deg) scale(.95); }
-.gallery__card { @include focus-ring; display: block; position: relative; padding: 1rem; border-radius: var(--radius-panel); border: 1px solid var(--color-border-strong); background: var(--color-surface); box-shadow: 0 2.4rem 8rem color-mix(in srgb, var(--color-action-primary) 8%, transparent); transform-origin: 20% 80%; animation: cardEnter .7s var(--ease) both; @include hover { .gallery__image img { transform: scale(1.04); } .gallery__arrow { background: var(--color-action-primary); color: var(--color-on-action); transform: rotate(45deg); } } }
+.gallery__card { @include focus-ring; display: block; position: relative; padding: 1rem; border-radius: var(--radius-panel); border: 1px solid var(--color-border-strong); background: var(--color-surface); box-shadow: 0 2.4rem 8rem color-mix(in srgb, var(--color-action-primary) 8%, transparent); transform-origin: 20% 80%; animation: cardEnter .7s var(--ease) both; @include hover { .gallery__image img { transform: scale(1.04); } } }
 .gallery__card--reverse { transform-origin: 80% 80%; animation-name: cardReverse; }
 .gallery__card--quiet { animation: none; }
 .gallery__image { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-control); background: var(--color-bg); img { object-fit: cover; transition: transform .8s var(--ease); } }
-.gallery__tag { @include text-body; position: absolute; top: 1.6rem; left: 1.6rem; padding: .5rem 1.2rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); background: var(--color-bg); }
-.gallery__arrow { position: absolute; bottom: 1.6rem; right: 1.6rem; width: 4.8rem; height: 4.8rem; display: grid; place-items: center; border: 1px solid var(--color-border-strong); border-radius: 50%; background: var(--color-bg); transition: transform .5s var(--ease), background .3s, color .3s; }
 .gallery__caption { padding: 2.4rem 1.4rem 1.6rem; min-height: 12.4rem; h3 { @include text-title; } p { @include text-body; margin-top: .8rem; color: var(--color-text-cold); max-width: 48rem; } @include mobile { min-height: 14.8rem; padding: 2rem .6rem 1.2rem; } }
 .gallery__controls { @include text-body; display: flex; align-items: center; gap: 1rem; margin-top: 2.4rem; button { @include focus-ring; display: grid; place-items: center; width: 4.4rem; height: 4.4rem; border: 1px solid var(--color-border); border-radius: 50%; transition: background .25s; @include hover { background: var(--color-elevated); } } }
 .gallery__track { height: 1px; background: var(--color-border); flex: 1; margin-right: 2rem; span { display: block; height: 2px; background: var(--gradient-action); transition: width .7s var(--ease); } }
-// Проекты списком отдельных карточек: превью, название, стрелка в плашке. Активная с градиентной обводкой
+// Превью и название; активный проект выделен фирменной кромкой
 .gallery__index { min-width: 0; display: flex; flex-direction: column; gap: .8rem; @include mobile { flex-direction: row; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; padding-block: .4rem 1rem; scrollbar-width: none; } }
-.gallery__item { @include text-body; @include focus-ring; position: relative; isolation: isolate; display: grid; grid-template-columns: 10.4rem minmax(0, 1fr) auto; align-items: center; width: 100%; gap: 1.6rem; text-align: left; padding: 1rem 1.6rem 1rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: color-mix(in srgb, var(--color-surface) 70%, transparent); transition: background .35s, border-color .35s, translate .5s var(--ease); @include hover { background: var(--color-surface); border-color: var(--color-border-strong); translate: -.4rem 0; } @include mobile { flex: 0 0 24rem; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 1.2rem; padding: 1rem 1rem 1.4rem; scroll-snap-align: start; } }
+.gallery__item { @include text-body; @include focus-ring; position: relative; isolation: isolate; display: grid; grid-template-columns: 10.4rem minmax(0, 1fr); align-items: center; width: 100%; gap: 1.6rem; text-align: left; padding: 1rem 1.6rem 1rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: color-mix(in srgb, var(--color-surface) 70%, transparent); transition: background .35s, border-color .35s, translate .5s var(--ease); @include hover { background: var(--color-surface); border-color: var(--color-border-strong); translate: -.4rem 0; } @include mobile { flex: 0 0 24rem; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 1.2rem; padding: 1rem 1rem 1.4rem; scroll-snap-align: start; } }
 .gallery__item::before { content: ''; position: absolute; inset: -1px; z-index: -1; padding: 1px; border-radius: inherit; background: linear-gradient(120deg, var(--color-action-primary), var(--color-action-accent) 55%, var(--color-fire-light)); mask: linear-gradient(var(--color-text) 0 0) content-box exclude, linear-gradient(var(--color-text) 0 0); opacity: 0; transition: opacity .4s; }
-.gallery__item--active { border-color: transparent; background: linear-gradient(110deg, color-mix(in srgb, var(--color-action-primary) 16%, var(--color-surface)), var(--color-surface)); box-shadow: 0 1.6rem 4rem color-mix(in srgb, var(--color-action-primary) 14%, transparent); .gallery__indicator { background: var(--color-action-accent); color: var(--color-bg); } .gallery__thumb { opacity: 1; } .gallery__thumb img { scale: 1.06; } }
+.gallery__item--active { border-color: transparent; background: linear-gradient(110deg, color-mix(in srgb, var(--color-action-primary) 16%, var(--color-surface)), var(--color-surface)); box-shadow: 0 1.6rem 4rem color-mix(in srgb, var(--color-action-primary) 14%, transparent); .gallery__thumb { opacity: 1; } .gallery__thumb img { scale: 1.06; } }
 .gallery__item--active::before { opacity: 1; }
 .gallery__thumb { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius-control); opacity: .75; transition: opacity .3s; img { object-fit: cover; transition: scale .8s var(--ease); } @include mobile { grid-column: 1 / -1; } }
 .gallery__name { font-weight: 500; min-width: 0; span { display: block; font-weight: 400; color: var(--color-text-cold); margin-top: .2rem; } }
-.gallery__indicator { display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--color-elevated); color: var(--color-text-cold); transition: background .3s, color .3s; @include mobile { align-self: start; } }
 .gallery__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.gallery__swipe { display: none; list-style: none; }
+.gallery__slide { min-width: 0; }
+.gallery__mobileCard { @include focus-ring; display: flex; flex-direction: column; height: 100%; padding: .8rem; border: 1px solid var(--color-border); border-radius: var(--radius-panel); background: var(--color-surface); }
+.gallery__mobileCaption { padding: 2rem 1.2rem 1.6rem; h3 { @include text-title; overflow-wrap: anywhere; } p { @include text-body; margin-top: .8rem; color: var(--color-text-cold); } }
+@include mobile {
+  .gallery { display: block; }
+  .gallery__stage, .gallery__index { display: none; }
+  .gallery__swipe {
+    display: flex;
+    gap: 1.6rem;
+    margin-inline: var(--space-gutter-bleed);
+    padding: .4rem var(--space-gutter) 1.6rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-gutter);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+  .gallery__slide { flex: 0 0 88%; scroll-snap-align: start; }
+}
 @keyframes cardEnter { from { opacity: .2; transform: translate3d(2.4rem, .8rem, -70px) rotateY(7deg) rotateZ(2deg); } to { opacity: 1; transform: none; } }
 @keyframes cardReverse { from { opacity: .2; transform: translate3d(-2.4rem, .8rem, -70px) rotateY(-7deg) rotateZ(-2deg); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .gallery__card { animation: none; } .gallery__card:hover .gallery__image img { transform: none; } }
+.gallery__type { @include text-body; display: block; margin-bottom: .8rem; color: var(--color-text-cold); }

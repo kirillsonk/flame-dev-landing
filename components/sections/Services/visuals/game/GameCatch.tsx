@@ -1,6 +1,7 @@
 'use client';
 import clsx from 'clsx';
-import { GAME_CATCH as copy } from '@/data/demosGame';
+import { GAME_CATCH as copy, GAME_PROMO } from '@/data/demosGame';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import ui from '@/components/sections/Services/visuals/Demo.module.scss';
 import GameFrame from './GameFrame';
 import GameIcon from './GameIcon';
@@ -11,15 +12,16 @@ import useGameCatch from './hooks/useGameCatch';
 import styles from './GameCatch.module.scss';
 
 const GameCatch = () => {
+  const { locale, t } = useLocale();
   const { ref, active } = useDemoActive<HTMLDivElement>();
   const { canvasRef, ...game } = useGameCatch(active);
 
   return (
     <GameFrame
       ref={ref}
-      tag={copy.tag}
-      title={copy.title}
-      hint={copy.hint}
+      tag={t(copy.tag)}
+      title={t(copy.title)}
+      hint={t(copy.hint)}
       extra={
         <ul className={styles.gameCatch__legend}>
           {copy.legend.map((item) => (
@@ -28,7 +30,7 @@ const GameCatch = () => {
                 kind={item.kind}
                 className={clsx(styles.gameCatch__legendIcon, styles[`gameCatch__legendIcon--${item.kind}`])}
               />
-              {item.label}
+              {t(item.label)}
               <b className={styles.gameCatch__legendPoints}>
                 {item.points > 0 ? `+${item.points}` : `−${Math.abs(item.points)}`}
               </b>
@@ -39,11 +41,11 @@ const GameCatch = () => {
       foot={
         <div className={styles.gameCatch__stats}>
           <GameStat
-            label={copy.time}
+            label={t(copy.time)}
             value={`0:${String(game.left).padStart(2, '0')}`}
             low={game.phase === 'playing' && game.left <= 5}
           />
-          <GameStat label={copy.score} value={game.score} />
+          <GameStat label={t(copy.score)} value={new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'ru-RU').format(game.score)} />
         </div>
       }
     >
@@ -52,7 +54,7 @@ const GameCatch = () => {
           ref={canvasRef}
           className={styles.gameCatch__canvas}
           tabIndex={0}
-          aria-label={copy.canvas}
+          aria-label={t(copy.canvas)}
           onPointerMove={game.onPointerMove}
           onPointerDown={game.onPointerDown}
           onKeyDown={game.onKeyDown}
@@ -61,23 +63,23 @@ const GameCatch = () => {
         />
         {game.phase === 'idle' && (
           <div className={styles.gameCatch__start}>
-            <p className={styles.gameCatch__intro}>{copy.intro}</p>
+            <p className={styles.gameCatch__intro}>{t(copy.intro)}</p>
             <button
               type="button"
               className={clsx(ui.button, ui['button--primary'], styles.gameCatch__go)}
               onClick={game.start}
             >
-              {copy.start}
+              {t(copy.start)}
             </button>
           </div>
         )}
         {game.result && (
           <GamePromo
-            label={game.result.label}
-            prize={game.result.prize}
+            label={`${t(copy.winLabel)} · ${new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'ru-RU').format(game.score)} ${t(GAME_PROMO.points)}`}
+            prize={t(game.result.prize)}
             code={game.result.code}
-            note={copy.note}
-            again={copy.again}
+            note={t(copy.note)}
+            again={t(copy.again)}
             onAgain={game.start}
           />
         )}

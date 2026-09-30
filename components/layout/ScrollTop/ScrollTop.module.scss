@@ -32,9 +32,8 @@
     background: var(--color-action-primary);
   }
 
-  // На мобильном выше плашки CTA: её высота — кнопка и два отступа по 0,8rem.
   @include mobile {
-    bottom: 8.8rem;
+    display: none;
   }
 }
 

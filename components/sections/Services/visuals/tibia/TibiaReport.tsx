@@ -1,13 +1,13 @@
 'use client';
 
-import { useId } from 'react';
+import { useId, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import clsx from 'clsx';
 import { TIBIA_REPORT as copy } from '@/data/demosTibia';
+import { useLocale } from '@/components/i18n/LocaleProvider';
 import useTibiaReport, { DAYS_MAX, DAYS_MIN } from './hooks/useTibiaReport';
 import styles from './TibiaReport.module.scss';
 
-const NUMBER = new Intl.NumberFormat('ru-RU');
 const SIZE_CLASSES = ['report__swatch--a', 'report__swatch--b', 'report__swatch--c', 'report__swatch--d'];
 const RADIUS = 15.9;
 const CIRCLE = 2 * Math.PI * RADIUS;
@@ -23,6 +23,8 @@ const plural = (value: number, [one, few, many]: [string, string, string]) => {
 
 // Отчёт за смену: период, склад и смена перестраивают графики и KPI, «PDF» собирает страницу отчёта.
 const TibiaReport = () => {
+  const { locale, t } = useLocale();
+  const number = useMemo(() => new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'ru-RU'), [locale]);
   const rangeId = useId();
   const {
     closeRef,
@@ -40,9 +42,9 @@ const TibiaReport = () => {
     closeSheet,
   } = useTibiaReport();
   const kpis = [
-    `${NUMBER.format(data.received)} ${copy.pieces}`,
-    `${NUMBER.format(data.shipped)} ${copy.pieces}`,
-    `${data.tons.toFixed(1)} ${copy.tons}`,
+    `${number.format(data.received)} ${t(copy.pieces)}`,
+    `${number.format(data.shipped)} ${t(copy.pieces)}`,
+    `${data.tons.toFixed(1)} ${t(copy.tons)}`,
     `${((data.errors / Math.max(1, data.received)) * 100).toFixed(2)}%`,
   ];
   const warehouseLabel = copy.warehouses.find(([key]) => key === warehouse)?.[1] ?? '';
@@ -54,9 +56,9 @@ const TibiaReport = () => {
       <div className={styles.report__controls} inert={sheet}>
         <div className={styles.report__group}>
           <div className={styles.report__rangeHead}>
-            <label htmlFor={rangeId}>{copy.period}</label>
+            <label htmlFor={rangeId}>{t(copy.period)}</label>
             <span>
-              {days} {plural(days, copy.days)}
+              {days} {t(locale === 'en' ? copy.days[days === 1 ? 0 : 2] : plural(days, copy.days))}
             </span>
           </div>
           <input
@@ -71,7 +73,7 @@ const TibiaReport = () => {
           />
         </div>
         <div className={styles.report__group}>
-          <span className={styles.report__dim}>{copy.warehouse}</span>
+          <span className={styles.report__dim}>{t(copy.warehouse)}</span>
           <div className={styles.report__segment}>
             {copy.warehouses.map(([key, label]) => (
               <button
@@ -81,13 +83,13 @@ const TibiaReport = () => {
                 aria-pressed={warehouse === key}
                 onClick={() => setWarehouse(key)}
               >
-                {label}
+                {t(label)}
               </button>
             ))}
           </div>
         </div>
         <div className={styles.report__group}>
-          <span className={styles.report__dim}>{copy.shift}</span>
+          <span className={styles.report__dim}>{t(copy.shift)}</span>
           <div className={clsx(styles.report__segment, styles['report__segment--three'])}>
             {copy.shifts.map(([key, label]) => (
               <button
@@ -97,24 +99,21 @@ const TibiaReport = () => {
                 aria-pressed={shift === key}
                 onClick={() => setShift(key)}
               >
-                {label}
+                {t(label)}
               </button>
             ))}
           </div>
         </div>
-        <span className={clsx(styles.report__dim, styles.report__note)}>{copy.note}</span>
+        <span className={clsx(styles.report__dim, styles.report__note)}>{t(copy.note)}</span>
         <button ref={pdfRef} type="button" className={styles.report__pdf} onClick={openSheet}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="M9 2v10M5 8l4 4 4-4M3 15h12" />
-          </svg>
-          {copy.pdf}
+          {t(copy.pdf)}
         </button>
       </div>
-      <div className={styles.report__main}>
+      <div className={clsx(styles.report__main, sheet && styles['report__main--sheet'])}>
         <div className={styles.report__kpis} inert={sheet}>
           {copy.kpis.map((label, index) => (
             <div key={label} className={styles.report__kpi}>
-              <span className={styles.report__dim}>{label}</span>
+              <span className={styles.report__dim}>{t(label)}</span>
               <strong className={styles.report__kpiValue}>{kpis[index]}</strong>
             </div>
           ))}
@@ -124,14 +123,14 @@ const TibiaReport = () => {
             <div className={styles.report__legend}>
               <span>
                 <i className={clsx(styles.report__swatch, styles['report__swatch--in'])} />
-                {copy.legendIn}
+                {t(copy.legendIn)}
               </span>
               <span>
                 <i className={clsx(styles.report__swatch, styles['report__swatch--out'])} />
-                {copy.legendOut}
+                {t(copy.legendOut)}
               </span>
             </div>
-            <div className={styles.report__bars} role="img" aria-label={copy.chart}>
+            <div className={styles.report__bars} role="img" aria-label={t(copy.chart)}>
               {data.incoming.map((value, day) => (
                 <div key={day} className={styles.report__day}>
                   <i
@@ -181,9 +180,9 @@ const TibiaReport = () => {
           </div>
         </div>
         <div className={clsx(styles.report__sheet, sheet && styles['report__sheet--open'])} aria-hidden={!sheet} inert={!sheet}>
-          <span className={styles.report__meta}>{copy.sheetMeta}</span>
+          <span className={styles.report__meta}>{t(copy.sheetMeta)}</span>
           <h4 className={styles.report__sheetTitle}>
-            {copy.sheetTitle} {days} {copy.sheetDays} · {warehouse === 'all' ? copy.allWarehouses : `${copy.warehouseName} ${warehouseLabel}`}
+            {t(copy.sheetTitle)} {days} {t(copy.sheetDays)} · {warehouse === 'all' ? t(copy.allWarehouses) : `${t(copy.warehouseName)} ${t(warehouseLabel)}`}
           </h4>
           <div className={styles.report__progress}>
             <i className={styles.report__progressFill} />
@@ -191,14 +190,14 @@ const TibiaReport = () => {
           <table className={styles.report__table}>
             <tbody>
               {[
-                shift === 'all' ? copy.bothShifts : shiftLabel.toLowerCase(),
-                `${NUMBER.format(data.received)} ${copy.pieces}`,
-                `${NUMBER.format(data.shipped)} ${copy.pieces} · ${data.tons.toFixed(1)} ${copy.tons}`,
+                shift === 'all' ? t(copy.bothShifts) : t(shiftLabel).toLowerCase(),
+                `${number.format(data.received)} ${t(copy.pieces)}`,
+                `${number.format(data.shipped)} ${t(copy.pieces)} · ${data.tons.toFixed(1)} ${t(copy.tons)}`,
                 String(data.errors),
-                copy.signature,
+                t(copy.signature),
               ].map((value, index) => (
                 <tr key={copy.rows[index]}>
-                  <td className={styles.report__td}>{copy.rows[index]}</td>
+                  <td className={styles.report__td}>{t(copy.rows[index])}</td>
                   <td className={clsx(styles.report__td, styles['report__td--value'])}>{value}</td>
                 </tr>
               ))}
@@ -206,10 +205,10 @@ const TibiaReport = () => {
           </table>
           <div className={styles.report__sheetFoot}>
             <span className={styles.report__meta} role="status">
-              {sheet && built ? copy.file(warehouse, days) : copy.building}
+              {sheet && built ? t(copy.fileTemplate, { warehouse: warehouse === 'all' && locale === 'ru' ? 'vse' : warehouse, days }) : t(copy.building)}
             </span>
             <button ref={closeRef} type="button" className={styles.report__close} onClick={closeSheet}>
-              {copy.close}
+              {t(copy.close)}
             </button>
           </div>
         </div>
