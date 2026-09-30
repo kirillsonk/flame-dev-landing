@@ -30,12 +30,12 @@ const Studio = () => {
           </div>
         </div>
       </HeroStage>
+      <ClientStrip />
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><h2 className={styles.section__title}>{t(STUDIO.cases.title)}</h2><p className={styles.section__intro}>{t(STUDIO.cases.text)}</p></div>
         <CaseGallery />
         <div className={styles.more}><BaseButton href="/cases" variant="secondary">{t(STUDIO.cases.all)}</BaseButton></div>
       </section>
-      <ClientStrip />
       <section className={styles.services} id="services">
         <div className={styles.section__head} data-reveal><h2 className={styles.section__title}>{t(STUDIO.services.title)}</h2></div>
         <ServiceShowcase />

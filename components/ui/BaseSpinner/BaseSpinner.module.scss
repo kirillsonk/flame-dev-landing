@@ -1,0 +1,5 @@
+.spinner { --size: 1.6rem; display: inline-block; flex: 0 0 var(--size); width: var(--size); height: var(--size); border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 20%, var(--color-action-primary) 70%, var(--color-action-accent)); mask: radial-gradient(farthest-side, transparent calc(100% - .2rem), #000 calc(100% - .2rem)); animation: spinner .8s linear infinite; }
+@keyframes spinner { to { rotate: 1turn; } }
+// Без движения индикатор пульсирует прозрачностью, чтобы ожидание оставалось заметным
+@media (prefers-reduced-motion: reduce) { .spinner { animation: spinnerPulse 1.6s ease-in-out infinite; } }
+@keyframes spinnerPulse { 50% { opacity: .35; } }

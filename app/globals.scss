@@ -84,6 +84,8 @@
   --space-hero-bottom: 1.6rem;
   // Предел высоты hero: окно без шапки. svh — чтобы на мобильном не прыгало с адресной строкой.
   --size-hero-view: calc(100svh - var(--size-header));
+  // Лента брендов закрывает первый экран: hero уступает ей свою высоту
+  --size-client-strip: 9rem;
   // Полноэкранный первый экран: шапка лежит поверх него и не занимает место.
   // Шапка sticky, то есть в потоке: секцию поднимаем на её высоту, иначе экран начинается ниже.
   --size-hero-full: 100svh;
@@ -118,6 +120,7 @@
     --size-header: 6.4rem;
     --size-header-compact: 5.2rem;
     --size-button-compact: 3.8rem;
+    --size-client-strip: 9.4rem;
   }
 }
 

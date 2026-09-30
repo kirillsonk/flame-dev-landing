@@ -1,18 +1,15 @@
 @use '../../../styles/mixins' as *;
 
+// Лента стоит между первым экраном и кейсами. Слой без z-index: кадры перелета в галерею проходят поверх нее
 .clients {
   --logo-filter: grayscale(1) invert(1);
   position: relative;
   display: flex;
   align-items: center;
+  min-height: var(--size-client-strip);
   background: var(--color-brand-band);
   border-block: 1px solid var(--color-border);
   color: var(--color-text-cold);
-  padding-block: 2.4rem;
-
-  @include mobile {
-    padding-block: 2.8rem;
-  }
 }
 
 .clients__viewport {

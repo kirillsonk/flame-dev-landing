@@ -50,7 +50,7 @@ const LocaleProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => ({ locale, setLocale, t: (source: string, params?: TranslationParams) => translateText(locale, source, params) }), [locale]);
   const item = pathname.startsWith('/cases/') ? CASES.find(entry => entry.slug === pathname.split('/')[2]) : undefined;
   const publicPage = pathname === '/' || pathname === '/cases' || Boolean(item);
-  const title = item ? `${value.t(item.title)} | Flame dev` : pathname === '/cases' ? `${value.t('Кейсы')} | Flame dev` : value.t('Flame dev | Разработка сайтов, сервисов и AI-решений');
+  const title = item ? `${value.t(item.title)} | Flame` : pathname === '/cases' ? `${value.t('Кейсы')} | Flame` : value.t('Flame | Разработка сайтов, сервисов и AI-решений');
   const description = value.t(item?.description ?? (pathname === '/cases' ? 'Все проекты Flame dev: спецпроекты для брендов, платформы, сайты и AI-продукты' : 'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск'));
   useEffect(() => {
     document.documentElement.lang = locale;

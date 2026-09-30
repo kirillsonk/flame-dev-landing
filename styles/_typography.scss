@@ -21,3 +21,12 @@
   letter-spacing: 0;
   line-height: 1.5;
 }
+
+// Служебная подпись: ссылки на документы, копирайт. Единственное исключение из трех размеров,
+// для основного текста не использовать
+@mixin text-caption {
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}

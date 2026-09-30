@@ -31,6 +31,12 @@
   }
 }
 
+// Кнопка ждет ответа: остается яркой, чтобы спиннер и текст читались
+.button--loading:disabled {
+  opacity: 1;
+  cursor: progress;
+}
+
 .button--l {
   min-height: var(--size-button-hero);
   --pad: 4rem;
@@ -105,7 +111,7 @@
     background: var(--color-elevated);
   }
 
-  &:disabled::before {
+  &:disabled:not(.button--loading)::before {
     animation: none;
   }
 }

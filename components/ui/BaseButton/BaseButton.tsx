@@ -2,6 +2,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'reac
 import clsx from 'clsx';
 import Link from 'next/link';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
+import BaseSpinner from '@/components/ui/BaseSpinner/BaseSpinner';
 import styles from './BaseButton.module.scss';
 
 type ButtonVariant = 'primary' | 'secondary' | 'text' | 'inverse' | 'chrome' | 'ghost';
@@ -13,6 +14,8 @@ interface BaseButtonCommonProps {
   block?: boolean;
   /** Необязательная стрелка без отдельной круглой подложки */
   arrow?: boolean;
+  /** Ожидание ответа: спиннер перед текстом, кнопка недоступна, но не выглядит выключенной */
+  loading?: boolean;
   className?: string;
   children: ReactNode;
 }
@@ -22,10 +25,11 @@ type ButtonAsLink = BaseButtonCommonProps & AnchorHTMLAttributes<HTMLAnchorEleme
 
 export type BaseButtonProps = ButtonAsButton | ButtonAsLink;
 
-const BaseButton = ({ variant = 'primary', size = 'm', block = false, arrow = false, className, children, ...rest }: BaseButtonProps) => {
-  const classes = clsx(styles.button, styles[`button--${variant}`], styles[`button--${size}`], block && styles['button--block'], className);
+const BaseButton = ({ variant = 'primary', size = 'm', block = false, arrow = false, loading = false, className, children, ...rest }: BaseButtonProps) => {
+  const classes = clsx(styles.button, styles[`button--${variant}`], styles[`button--${size}`], block && styles['button--block'], loading && styles['button--loading'], className);
   const content = (
     <>
+      {loading && <BaseSpinner />}
       {children}
       {arrow && (
         <span className={styles.button__slot} aria-hidden="true">
@@ -47,9 +51,9 @@ const BaseButton = ({ variant = 'primary', size = 'm', block = false, arrow = fa
     );
   }
 
-  const { type = 'button', ...buttonProps } = rest as ButtonAsButton;
+  const { type = 'button', disabled, ...buttonProps } = rest as ButtonAsButton;
   return (
-    <button type={type} className={classes} {...buttonProps}>
+    <button type={type} className={classes} disabled={disabled || loading} aria-busy={loading || undefined} {...buttonProps}>
       {content}
     </button>
   );

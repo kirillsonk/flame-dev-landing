@@ -21,7 +21,7 @@ export const shellEn: Record<string, string> = {
   'Видеопродакшн и CGI для брендов': 'Video production and CGI for brands',
   'AI-платформа для генерации видео': 'AI video generation platform',
   'Уведомление о cookie': 'Cookie notice',
-  'Сайт использует cookie и Яндекс Метрику': 'This site uses cookies and Yandex Metrica',
+  'Сайт использует cookie и Я.Метрику': 'This site uses cookies and Yandex Metrica',
   'Хорошо': 'OK',
   'Даю': 'I give my',
   'согласие на обработку персональных данных': 'consent to the processing of personal data',

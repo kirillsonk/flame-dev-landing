@@ -17,20 +17,22 @@ const Footer = () => {
             <Logo variant="footer" />
           </Link>
           <a href={`mailto:${FOOTER_EMAIL}`} className={styles.footer__email}>{FOOTER_EMAIL}</a>
+        </div>
+        <div className={styles.footer__side}>
+          <nav className={styles.footer__links} aria-label={t('Подвал')}>
+            {FOOTER_LINKS.map((item) => {
+              const external = item.href.startsWith('http');
+              return (
+                <a key={item.href} href={item.href} className={styles.footer__link} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>
+                  {t(item.label)}
+                </a>
+              );
+            })}
+          </nav>
           <div className={styles.footer__legal}>
             {Object.values(LEGAL_LINKS).map(link => <Link key={link.href} href={link.href} className={styles.footer__legalLink}>{t(link.label)}</Link>)}
           </div>
         </div>
-        <nav className={styles.footer__links} aria-label={t('Подвал')}>
-          {FOOTER_LINKS.map((item) => {
-            const external = item.href.startsWith('http');
-            return (
-              <a key={item.href} href={item.href} className={styles.footer__link} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>
-                {t(item.label)}
-              </a>
-            );
-          })}
-        </nav>
       </div>
     </footer>
   );

@@ -11,6 +11,7 @@ import { CASE_GALLERY } from '@/data/appearance';
 import { HANDOFF_EVENT } from './hooks/useHeroMorph';
 import type { IHandoffDetail } from './hooks/useHeroMorph';
 import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
+import CaseClip from './CaseClip';
 import styles from './CaseGallery.module.scss';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 
@@ -85,7 +86,7 @@ const CaseGallery = () => {
           {poster((active + offset) % projects.length) && <Image src={poster((active + offset) % projects.length)!} alt="" fill sizes="(max-width: 900px) 90vw, 60vw" />}
         </div>)}
         <Link id="selected-case" className={clsx(styles.gallery__card, direction < 0 && styles['gallery__card--reverse'], quiet && styles['gallery__card--quiet'])} href={`/cases/${item.slug}`} key={item.slug} aria-label={`${t(CASE_GALLERY.open)} · ${t(item.title)}`}>
-          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={t(item.title)} fill sizes="(max-width: 900px) 90vw, 60vw" />}</div>
+          <div className={styles.gallery__image} data-morph-target="card">{poster(active) && <Image src={poster(active)!} alt={t(item.title)} fill sizes="(max-width: 900px) 90vw, 60vw" />}<CaseClip video={item.videoWide} /></div>
           <div className={styles.gallery__caption}><span className={styles.gallery__type}>{t(CASE_TYPES[item.slug])}</span><h3>{t(item.title)}</h3><p>{t(CASE_CAPTIONS[item.slug])}</p></div>
         </Link>
       </div>
@@ -107,6 +108,7 @@ const CaseGallery = () => {
         <Link href={`/cases/${project.slug}`} className={styles.gallery__mobileCard} aria-label={`${t(CASE_GALLERY.open)} · ${t(project.title)}`}>
           <div className={styles.gallery__image}>
             {poster(index) && <Image src={poster(index)!} alt="" fill loading={index === 0 ? 'eager' : 'lazy'} sizes="(max-width: 900px) 85vw, 1px" />}
+            <CaseClip video={project.videoWide} />
           </div>
           <div className={styles.gallery__mobileCaption}>
             <h3>{t(project.title)}</h3>

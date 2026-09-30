@@ -6,23 +6,28 @@
 .contact__inner { @include section; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8rem; @include mobile { grid-template-columns: 1fr; gap: 3.2rem; } }
 .contact__intro { h2 { --type-display: 6rem; @include text-display; white-space: pre-line; } @include mobile { h2 { --type-display: 4.4rem; } } }
 .contact__form { min-width: 0; }
-.brief { padding: 3.2rem; background: color-mix(in srgb, var(--color-surface) 92%, transparent); border: 1px solid var(--color-border); border-radius: var(--radius-panel); @include mobile { padding: 2rem; } }
-.brief { @include text-body; display: flex; flex-direction: column; gap: 2.4rem; }
+// Рамка брифа держит высоту между шагами и после отправки (useSmoothHeight), содержимое меняется внутри
+.brief { @include text-body; padding: 3.2rem; background: color-mix(in srgb, var(--color-surface) 92%, transparent); border: 1px solid var(--color-border); border-radius: var(--radius-panel); scroll-margin-top: calc(var(--size-header) + 2.4rem); @include mobile { padding: 2rem; } }
+.brief__flow { display: flex; flex-direction: column; gap: 2.4rem; }
+.brief__done { display: flex; flex-direction: column; align-items: flex-start; gap: 1.6rem; animation: briefIn .6s var(--ease) both; }
+.brief__doneIcon { display: grid; place-items: center; width: 5.6rem; height: 5.6rem; margin-bottom: .8rem; border-radius: 50%; color: var(--color-action-accent); background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-action-primary) 36%, transparent); svg { width: 2.8rem; height: 2.8rem; } path { stroke-dasharray: 24; stroke-dashoffset: 24; animation: briefCheck .5s .3s var(--ease) forwards; } }
 .brief__progress { list-style: none; display: flex; gap: .8rem; li { height: .3rem; border-radius: var(--radius-pill); flex: 1; background: var(--color-elevated); } li.brief__progress--active { background: var(--color-action-accent); } }
 .brief__sr { @include sr-only; }
 .brief__question { @include text-title; outline: none; scroll-margin-top: calc(var(--size-header) + 1.6rem); }
-.brief__body { display: flex; flex-direction: column; gap: 2rem; min-height: 22rem; }
+.brief__body { display: flex; flex-direction: column; gap: 2rem; min-height: 22rem; animation: briefIn .45s var(--ease) both; }
 .options { border: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
 .option { @include text-body; display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem 1.6rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-pill); cursor: pointer; input { accent-color: var(--color-action-primary); width: 1.8rem; height: 1.8rem; flex-shrink: 0; } i { margin-left: auto; font-style: normal; } &:has(input:checked) { border-color: var(--color-action-accent); background: color-mix(in srgb, var(--color-action-primary) 12%, var(--color-surface)); } &:focus-within { outline: 2px solid var(--color-action-accent); outline-offset: 2px; } }
 .field { display: flex; flex-direction: column; gap: 1rem; min-width: 0; @include text-body; input, textarea { width: 100%; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); background: var(--color-bg); padding: 1.4rem 1.6rem; @include focus-ring(var(--color-action-accent)); } textarea { resize: vertical; min-height: 8rem; } input::placeholder, textarea::placeholder { color: var(--color-text-dim); } }
 .brief__actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 1.2rem; }
 .brief__contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; @include mobile { grid-template-columns: 1fr; } }
-.brief__summaryTools { display: flex; flex-wrap: wrap; gap: 1.2rem; }
-.hint { @include text-body; color: var(--color-text-cold); }
-.aiButton { @include text-body; @include focus-ring; text-decoration: underline; text-underline-offset: .4rem; text-align: left; }
+.hint { @include text-body; display: flex; align-items: center; gap: 1rem; color: var(--color-text-cold); }
+.aiButton { @include text-body; @include focus-ring; display: inline-flex; align-items: center; gap: 1rem; align-self: flex-start; text-decoration: underline; text-underline-offset: .4rem; text-align: left; }
 .error { @include text-body; color: var(--color-error); a { text-decoration: underline; } }
 .brief__message { align-self: flex-start; max-width: 95%; padding: 2rem 2.4rem; border-radius: var(--radius-panel) var(--radius-panel) var(--radius-panel) .4rem; background: var(--color-elevated); @include mobile { padding: 1.6rem; } }
 .brief__sender { @include text-body; display: block; color: var(--color-text-cold); margin-bottom: .8rem; }
 .brief__history { display: flex; flex-direction: column; align-items: flex-end; gap: .8rem; }
 .brief__answer { max-width: 90%; padding: 1.2rem 1.6rem; border-radius: var(--radius-panel) var(--radius-panel) .4rem var(--radius-panel); background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-action-primary) 30%, transparent); overflow-wrap: anywhere; white-space: pre-wrap; }
 .brief__refresh { display: flex; flex-direction: column; gap: 1rem; padding: 1.6rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-control); }
+@keyframes briefIn { from { opacity: 0; translate: 0 1.2rem; } }
+@keyframes briefCheck { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .brief__body, .brief__done { animation: none; } .brief__doneIcon path { animation: none; stroke-dashoffset: 0; } }

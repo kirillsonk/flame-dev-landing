@@ -4,8 +4,8 @@
 // Угол переливающейся кромки: анимируется как число, поэтому зарегистрирован
 @property --ring-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 
-// Слой выше «Наших проектов»: кадры пролетают поверх следующей секции и ложатся в колоду
-.hero { @include container; position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 4.8rem; min-height: var(--size-hero-view); padding-block: 5.6rem 6.4rem; @include mobile { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-block: 3.2rem 2.4rem; gap: 2.4rem; } }
+// Слой выше ленты брендов и «Наших проектов»: кадры пролетают поверх следующих блоков и ложатся в колоду
+.hero { @include container; position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 4.8rem; min-height: calc(var(--size-hero-view) - var(--size-client-strip)); padding-block: 5.6rem 6.4rem; @include mobile { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-block: 3.2rem 2.4rem; gap: 2.4rem; } }
 .hero--morphing { [data-morph-source] { pointer-events: none; } }
 .hero__copy { position: relative; z-index: 3; min-width: 0; }
 

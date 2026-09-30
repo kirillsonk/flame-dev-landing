@@ -213,7 +213,7 @@ export const SERVICES_TITLE = 'Что разработаем для вас';
 // Уведомление о cookie: тонкая плашка внизу, закрывается одной кнопкой
 export const COOKIE_NOTICE = {
   label: 'Уведомление о cookie',
-  text: 'Сайт использует cookie и Яндекс Метрику',
+  text: 'Сайт использует cookie и Я.Метрику',
   more: 'Подробнее',
   moreHref: '/privacy#cookies',
   accept: 'Хорошо',
