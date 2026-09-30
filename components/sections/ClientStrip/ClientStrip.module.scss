@@ -1,4 +1,3 @@
-@use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
 
 .clients {
@@ -47,13 +46,10 @@
 }
 
 .clients__brand {
-  @include text-title;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
-  white-space: nowrap;
 }
 
 .clients__logo, .clients__icon {
@@ -86,9 +82,6 @@
 .clients__logo--solid { filter: brightness(0) invert(1); }
 
 .clients[data-running='true'] .clients__track { animation-play-state: running; }
-@media (hover: hover) and (pointer: fine) {
-  .clients__viewport:hover .clients__track { animation-play-state: paused; }
-}
 :global([data-theme='light']) .clients { --logo-filter: grayscale(1); }
 :global([data-theme='light']) .clients__logo--solid { filter: brightness(0); }
 

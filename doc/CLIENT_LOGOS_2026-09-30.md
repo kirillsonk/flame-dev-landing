@@ -4,9 +4,11 @@
 
 Лента размещена после кейсов и перед услугами: сначала посетитель видит работы, затем узнаваемые бренды подтверждают опыт команды
 
-В ленте VK, ВТБ, Т-Банк, Ростелеком, Росатом, Одноклассники, Huawei, Mercedes-Benz и Гольфстрим — бренды из портфолио и клиенты, подтвержденные владельцем, без заявления о прямом договоре с каждым из них
+В ленте VK, ВТБ, Т-Банк, Ростелеком, Росатом, Weleda, Huawei, Mercedes-Benz и Гольфстрим — бренды из портфолио и клиенты, подтвержденные владельцем, без заявления о прямом договоре с каждым из них
 
 Владелец отдельно подтвердил работу с охранной компанией Гольфстрим, которой пока нет в каталоге кейсов. Mail удален из ленты по его запросу; у VK оставлен только графический знак
+
+Одноклассники заменены на Weleda. Для продажи разработки выбран бренд, за которым в портфолио стоит квиз, витрина продукта и 3D-сцена на Three.js — конкретный пример сочетания маркетинга и интерактивной разработки, а не утверждение о превосходстве бренда по узнаваемости
 
 Т-Банк использует актуальное название в ленте; исторический кейс «Тинькофф» сохраняет свое название
 
@@ -21,7 +23,7 @@
 | Т-Банк | `tbank.svg` | [Wikimedia Commons, T-Bank RU logo](https://commons.wikimedia.org/wiki/File:T-Bank_RU_logo.svg), исходник атрибутирован АО «ТБанк» |
 | Ростелеком | `rostelecom.png` | [Фирменный стиль](https://www.company.rt.ru/about/identity/), [официальный монохромный файл](https://www.company.rt.ru/about/identity/files/RGB_RT_logo-horizontal_black_ru.png) |
 | Росатом | `rosatom.svg` | [Каталог Logo-teka](https://logo-teka.com/rosatom/), [файл](https://logo-teka.com/wp-content/uploads/2025/07/rosatom-logo-rus.svg) |
-| Одноклассники | `ok.svg` | [О компании VK](https://vk.company.ru/ru/company/about/), [файл](https://vk.company.ru/corp_static/img/company/about/ok.svg) |
+| Weleda | `weleda.svg` | [Официальный сайт](https://www.weleda.com/), встроенный SVG логотипа из шапки; удалены только служебные атрибуты Vue |
 | Huawei | `huawei.svg` | [Официальный сайт](https://consumer.huawei.com/en/), [файл](https://consumer.huawei.com/.resources/huawei-cbg-site-lm-basic/webresources/mkt/etc/designs/huawei-cbg-site/clientlib-campaign-v4/common-v4/images/logo.svg) |
 | Mercedes-Benz | `mercedes.svg` | [Wikimedia Commons, Mercedes-Benz Star](https://commons.wikimedia.org/wiki/File:Mercedes-Benz_Star_%281969-1986%2C_2025-%29.svg) |
 | Гольфстрим | `gulfstream.svg` | [Официальный сайт](https://gulfstream.ru/), [файл](https://gulfstream.ru/wp-content/uploads/2024/09/logo-1.svg) |
@@ -32,7 +34,7 @@ SVG проверены на отсутствие скриптов, обрабо�
 
 - CSS `transform` с линейным циклом 100 секунд, без JavaScript на каждом кадре
 - Промежуток между логотипами увеличен с 72 до 84 px, на мобильном с 48 до 56 px
-- Движение останавливается вне экрана, на скрытой вкладке и при наведении
+- Движение останавливается только вне экрана и на скрытой вкладке; наведение не влияет на движение
 - Кнопка паузы убрана по запросу владельца
 - Повторная группа скрыта от скринридера
 - При `prefers-reduced-motion` остается статичная горизонтальная полоса с доступной клавиатурной прокруткой

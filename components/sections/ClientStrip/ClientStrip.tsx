@@ -39,16 +39,15 @@ const ClientStrip = () => {
                 <li key={brand.id} className={styles.clients__brand}>
                   <Image
                     className={clsx(
-                      brand.icon || brand.caption ? styles.clients__icon : styles.clients__logo,
+                      brand.icon ? styles.clients__icon : styles.clients__logo,
                       (brand.id === 'tbank' || brand.id === 'rostelecom') && styles['clients__logo--padded'],
                       brand.solid && styles['clients__logo--solid'],
                     )}
                     src={`/brands/${brand.id}.${brand.extension ?? 'svg'}`}
-                    alt={brand.caption || duplicate ? '' : t(brand.name)}
+                    alt={duplicate ? '' : t(brand.name)}
                     width={brand.width}
                     height={brand.height}
                   />
-                  {brand.caption && <span>{t(brand.caption)}</span>}
                 </li>
               ))}
             </ul>
