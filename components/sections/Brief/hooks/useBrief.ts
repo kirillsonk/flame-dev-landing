@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BRIEF } from '@/data/brief';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import useLeadSubmit from '@/components/sections/Contact/hooks/useLeadSubmit';
+import { reachGoal } from '@/components/layout/Metrika/metrikaConfig';
 import type { Locale } from '@/lib/i18n';
 
 type QuestionTranslations = Record<Locale, string[]>;
@@ -61,6 +62,9 @@ const useBrief = () => {
     if (step === 1 && goal.trim().length < 10) { setError(BRIEF.required); return; }
     if (step === 1 && answers.every((answer) => !answer.trim()) && questionInput !== context) await requestQuestions();
     if (step === 2) setQuestionInput(context);
+    // Воронка брифа: начал отвечать и дошел до контактов
+    if (step === 0) reachGoal('brief_start', { type });
+    if (step === 3) reachGoal('brief_contact');
     setStep((value) => Math.min(value + 1, 4));
   };
   const improve = async () => {

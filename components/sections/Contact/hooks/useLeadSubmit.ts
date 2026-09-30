@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { reachGoal } from '@/components/layout/Metrika/metrikaConfig';
 import type { ILeadValues } from '../LeadForm.validationSchema';
 
 export type LeadStatus = 'idle' | 'sending' | 'success' | 'error';
@@ -22,9 +23,12 @@ const useLeadSubmit = (): IUseLeadSubmit => {
         body: JSON.stringify(values),
       });
       setStatus(res.ok ? 'success' : 'error');
+      // Главная конверсия сайта: заявка дошла до сервера и ушла в Telegram
+      reachGoal(res.ok ? 'lead_sent' : 'lead_error', { source: values.source });
       return res.ok;
     } catch {
       setStatus('error');
+      reachGoal('lead_error', { source: values.source });
       return false;
     }
   };

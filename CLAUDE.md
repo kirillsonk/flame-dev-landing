@@ -34,7 +34,7 @@ Flame Dev — одностраничный сайт-визитка команд�
   2) GSAP ScrollTrigger только для pinned-секций «Процесс», «Кейсы» (бегущие строки), первого экрана
   и смены визуалов в «Что мы делаем»; 3) vanilla Three.js в обычном классе
   только для 3D-объекта Росатома, чанк через `next/dynamic` с `ssr: false`.
-- Не тащить framer-motion, swiper, react-hook-form, zod, react-three-fiber, аналитику.
+- Не тащить framer-motion, swiper, react-hook-form, zod, react-three-fiber. Аналитика только Яндекс Метрика (`components/layout/Metrika`), других счетчиков не добавлять.
 
 ## Structure
 
