@@ -1,0 +1,13 @@
+// Небо на весь экран за содержимым страницы, поверх фона: две мягкие туманности фирменных цветов
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 82% 18%, color-mix(in srgb, var(--color-action-primary) 12%, transparent), transparent 55%),
+    radial-gradient(ellipse at 10% 85%, color-mix(in srgb, var(--color-action-accent) 6%, transparent), transparent 50%);
+
+  canvas { display: block; width: 100%; height: 100%; }
+}

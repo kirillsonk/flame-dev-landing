@@ -11,10 +11,14 @@
 .ecosystem__inner {
   @include container;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 1.6rem 5.6rem;
+  gap: 1.6rem 4.8rem;
   padding-block: 2.4rem;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .ecosystem__title {
@@ -22,31 +26,36 @@
   opacity: .72;
 }
 
+// Продукты всегда в одну строку двумя равными колонками, в столбец не встают
 .ecosystem__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.2rem 5.6rem;
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem 4rem;
 
-  // Планшет: две ссылки рядом, описание переносится внутри своей колонки. Телефон: одна колонка
   @include mobile {
-    flex: 1 1 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 1.6rem 2.4rem;
   }
 }
 
 .ecosystem__link {
   @include focus-ring(var(--color-on-action));
-  display: inline-grid;
+  display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1.6rem;
+  gap: .8rem 1.6rem;
   padding-block: .4rem;
 
   @include hover {
     .ecosystem__arrow { translate: .3rem -.3rem; }
     .ecosystem__text { opacity: 1; }
+  }
+
+  // Узкий экран: логотип со стрелкой, описание под ними
+  @include mobile {
+    grid-template-columns: auto auto;
+    justify-content: start;
   }
 }
 
@@ -68,6 +77,11 @@
 .ecosystem__text {
   opacity: .72;
   transition: opacity .25s;
+
+  @include mobile {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
 }
 
 .ecosystem__arrow {

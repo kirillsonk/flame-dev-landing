@@ -30,7 +30,7 @@ const Header = () => {
       {variant === 'strip' && <HeaderStrip />}
       <header className={clsx(styles.header, styles[`header--${variant}`], menuOpen && styles['header--open'], compact && styles['header--compact'])}>
         <div className={styles.header__inner}>
-          <Link href="/" className={styles.header__logo} onClick={closeMenu} aria-label="Flame Dev">
+          <Link href="/" className={styles.header__logo} onClick={closeMenu} aria-label="Flame dev">
             <Logo />
           </Link>
 

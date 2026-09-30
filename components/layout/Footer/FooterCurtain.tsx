@@ -23,7 +23,7 @@ const FooterCurtain = () => {
     <footer className={styles.curtain}>
       <div className={styles.curtain__inner}>
         <div className={styles.curtain__brand}>
-          <Link href="/" className={styles.curtain__logo} aria-label="Flame Dev">
+          <Link href="/" className={styles.curtain__logo} aria-label="Flame dev">
             <Logo variant="footer" />
           </Link>
           <p className={styles.curtain__tagline}>{FOOTER_TAGLINE}</p>

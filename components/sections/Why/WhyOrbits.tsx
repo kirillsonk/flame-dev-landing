@@ -9,7 +9,7 @@ import styles from './WhyOrbits.module.scss';
 const RING_MODS = ['orbits__ring--1', 'orbits__ring--2', 'orbits__ring--3'];
 const SATELLITE_MODS = ['orbits__satellite--1', 'orbits__satellite--2', 'orbits__satellite--3'];
 
-// Вариант «Орбиты»: три подрядчика кружат по своим орбитам, орбиты стягиваются в ядро Flame Dev.
+// Вариант «Орбиты»: три подрядчика кружат по своим орбитам, орбиты стягиваются в ядро Flame dev.
 const WhyOrbits = () => {
   const { rootRef } = useWhyOrbits();
 

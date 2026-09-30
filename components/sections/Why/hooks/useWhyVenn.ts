@@ -3,7 +3,7 @@ import { SCRUB, part, parts } from '../motion';
 import useWhyMotion from './useWhyMotion';
 import type { IUseWhyMotion, WhyMotionSetup } from './useWhyMotion';
 
-// Круги разъезжаются из центра и сходятся; подписи гаснут, ядро Flame Dev проявляется поверх.
+// Круги разъезжаются из центра и сходятся; подписи гаснут, ядро Flame dev проявляется поверх.
 const setup: WhyMotionSetup = (root, desktop) => {
   const circles = parts(root, 'circle');
   const labels = parts(root, 'label');

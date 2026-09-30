@@ -14,13 +14,14 @@
 .textLink:hover::after, .textLink:focus-visible::after { opacity: 1; }
 // «Обсудить проект» на первом экране: темная пилюля с градиентной кромкой, при наведении чуть плотнее и мягко светится.
 // Два класса, чтобы перебить primary из другого модуля
-.actions .heroCta { gap: 1.2rem; background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border-color: transparent; color: var(--color-text); transition: background-color .35s, box-shadow .45s var(--ease); svg { transition: translate .45s var(--ease); } @include hover { background: color-mix(in srgb, var(--color-action-primary) 24%, var(--color-surface)); box-shadow: 0 1rem 3.2rem color-mix(in srgb, var(--color-action-primary) 22%, transparent); svg { translate: .3rem 0; } } }
-.actions .heroCta::before { background: var(--gradient-action); animation: none; }
+.actions .heroCta, .more .heroCta { gap: 1.2rem; background: color-mix(in srgb, var(--color-action-primary) 14%, var(--color-surface)); border-color: transparent; color: var(--color-text); transition: background-color .35s, box-shadow .45s var(--ease); svg { transition: translate .45s var(--ease); } @include hover { background: color-mix(in srgb, var(--color-action-primary) 24%, var(--color-surface)); box-shadow: 0 1rem 3.2rem color-mix(in srgb, var(--color-action-primary) 22%, transparent); svg { translate: .3rem 0; } } }
+.actions .heroCta::before, .more .heroCta::before { background: var(--gradient-action); animation: none; }
 .section { @include section; }
 .section__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 4rem; margin-bottom: 4.8rem; @include mobile { flex-direction: column; align-items: flex-start; gap: 2rem; margin-bottom: 3.2rem; } }
 .section__title { --type-display: 4.8rem; @include text-display; white-space: pre-line; @include mobile { --type-display: 3.6rem; } }
 .section__intro { @include text-body; max-width: 35rem; color: var(--color-text-cold); }
-.allProjects { @include text-body; @include focus-ring; display: flex; align-items: center; justify-content: space-between; padding: 2.4rem 0; border-bottom: 1px solid var(--color-border-strong); margin-top: 4rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } }
+// Переход на страницу всех кейсов: та же пилюля, что «Обсудить проект», по центру под галереей
+.more { display: flex; justify-content: center; margin-top: 5.6rem; @include mobile { margin-top: 4rem; } }
 .services { @include section; background: color-mix(in srgb, var(--color-surface) 85%, transparent); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
 @keyframes accentShift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes heroCopy { from { opacity: 0; translate: 0 2.4rem; } to { opacity: 1; translate: 0 0; } }

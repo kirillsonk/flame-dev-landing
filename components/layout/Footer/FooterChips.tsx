@@ -12,7 +12,7 @@ const FooterChips = () => {
     <footer className={styles.chips}>
       <div className={styles.chips__inner}>
         <div className={styles.chips__top}>
-          <Link href="/" className={styles.chips__logo} aria-label="Flame Dev">
+          <Link href="/" className={styles.chips__logo} aria-label="Flame dev">
             <Logo variant="footer" />
           </Link>
           <ul className={styles.chips__list}>

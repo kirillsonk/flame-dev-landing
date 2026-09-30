@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
+import BaseArrow from '@/components/ui/BaseArrow/BaseArrow';
 import { SCROLL_TOP_LABEL } from '@/data/site';
 import useScrollTop from './hooks/useScrollTop';
 import styles from './ScrollTop.module.scss';
@@ -20,7 +20,7 @@ const ScrollTop = () => {
       aria-hidden={!visible}
       onClick={scrollTop}
     >
-      <BaseIcon name="arrowUp" className={styles.scrollTop__icon} />
+      <BaseArrow direction="up" size="l" />
     </button>
   );
 };

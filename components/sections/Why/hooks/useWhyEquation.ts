@@ -3,7 +3,7 @@ import { SCRUB, cssVar, part, parts } from '../motion';
 import useWhyMotion from './useWhyMotion';
 import type { IUseWhyMotion, WhyMotionSetup } from './useWhyMotion';
 
-// Плюсы гаснут, слагаемые съезжаются в одно и сжимаются, на их месте вспыхивает «Flame Dev»;
+// Плюсы гаснут, слагаемые съезжаются в одно и сжимаются, на их месте вспыхивает «Flame dev»;
 // «=» и итог подъезжают к нему, «3 договора» сменяются на «1 договор». Только десктоп с пином.
 const setup: WhyMotionSetup = (root, desktop) => {
   if (!desktop) return;
@@ -21,7 +21,7 @@ const setup: WhyMotionSetup = (root, desktop) => {
   gsap.set(before, { opacity: 1 });
   gsap.set(after, { opacity: 0 });
 
-  // Итоговая группа «Flame Dev = 1 договор» центрируется в строке.
+  // Итоговая группа «Flame dev = 1 договор» центрируется в строке.
   const gap = () => parseFloat(getComputedStyle(row).columnGap) || 16;
   const groupLeft = () => row.clientWidth / 2 - (one.offsetWidth + equal.offsetWidth + result.offsetWidth + gap() * 2) / 2;
   const middle = () => groupLeft() + one.offsetWidth / 2;

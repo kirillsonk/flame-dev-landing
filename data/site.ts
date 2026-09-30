@@ -166,7 +166,7 @@ export const CONTACT = {
 
 export const FOOTER_EMAIL = 'hello@flamedev.pro';
 
-export const FOOTER_COPYRIGHT = '© 2026 Flame Dev';
+export const FOOTER_COPYRIGHT = '© 2026 Flame dev';
 
 export const FOOTER_TAGLINE = 'Разработка сайтов, сервисов и AI-решений';
 
@@ -214,5 +214,6 @@ export const CASES_TITLE = 'Опыт в проектах';
 export const CASES_TEXT = 'Сайты для брендов, цифровые платформы и системы для бизнеса. В каждом проекте показываем задачу, нашу работу и результат';
 export const CASES_ALL_LABEL = 'Все кейсы';
 export const CASES_INDEX_TITLE = 'Кейсы';
+export const CASES_BACK_LABEL = 'На главную';
 export const CASE_LIVE_LABEL = 'Открыть проект';
 export const SERVICES_TITLE = 'Что разработаем для вас';

@@ -6,7 +6,7 @@ export interface LogoProps {
   className?: string;
 }
 
-// Логотип Flame Dev из фирменного файла, белый вариант: цвет берется из текста темы.
+// Логотип Flame dev из фирменного файла, белый вариант: цвет берется из текста темы.
 // viewBox обрезан по знаку, поля исходного файла убраны
 const Logo = ({ variant = 'header', className }: LogoProps) => {
   return (

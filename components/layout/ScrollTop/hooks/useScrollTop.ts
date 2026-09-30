@@ -3,7 +3,7 @@ import jump from '@/components/layout/AnchorScroll/jump';
 
 const MOTION_QUERY = '(prefers-reduced-motion: no-preference)';
 // Кнопка появляется, когда прокрутили больше стольких высот окна: на первом экране она не нужна.
-const SHOW_AFTER = 1.5;
+const SHOW_AFTER = .8;
 // Возврат наверх, как в ленте: прыжок почти к началу, последнюю высоту окна страница доезжает плавно —
 // первый экран успевает собраться обратно. Ехать плавно через все пины было бы долго.
 const GLIDE = 1;

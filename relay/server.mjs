@@ -1,4 +1,4 @@
-// Ретранслятор Flame Dev: живет в Европе и пропускает к OpenAI и Telegram только запросы сайта.
+// Ретранслятор Flame dev: живет в Европе и пропускает к OpenAI и Telegram только запросы сайта.
 // Сайт в РФ знает адрес и общий пароль, все внешние ключи хранятся здесь. Без зависимостей, Node 20+
 import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';

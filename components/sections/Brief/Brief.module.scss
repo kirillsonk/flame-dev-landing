@@ -1,6 +1,8 @@
 @use '../../../styles/typography' as *;
 @use '../../../styles/mixins' as *;
-.contact { @include section; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8rem; border-top: 1px solid var(--color-border); background: radial-gradient(ellipse at 0 80%, color-mix(in srgb, var(--color-action-primary) 9%, transparent), transparent 60%); @include mobile { grid-template-columns: 1fr; gap: 3.2rem; } }
+// Фон и линия на всю ширину окна, сетка внутри контейнера: иначе на широком экране по бокам остаются поля без подложки
+.contact { border-top: 1px solid var(--color-border); background: radial-gradient(ellipse at 0 80%, color-mix(in srgb, var(--color-action-primary) 9%, transparent), transparent 60%); }
+.contact__inner { @include section; display: grid; grid-template-columns: .8fr 1.2fr; gap: 8rem; @include mobile { grid-template-columns: 1fr; gap: 3.2rem; } }
 .contact__intro { h2 { --type-display: 6rem; @include text-display; white-space: pre-line; margin: 2.4rem 0; } > p { @include text-body; color: var(--color-text-cold); max-width: 36rem; } > a { @include text-title; @include focus-ring; display: inline-flex; align-items: center; gap: 1.2rem; margin-top: 3.2rem; svg { transition: translate .4s var(--ease), color .3s; } @include hover { svg { translate: .3rem -.3rem; color: var(--color-action-accent); } } } @include mobile { h2 { --type-display: 4.4rem; } } }
 .contact__form { min-width: 0; }
 .brief { padding: 3.2rem; background: color-mix(in srgb, var(--color-surface) 92%, transparent); border: 1px solid var(--color-border); border-radius: var(--radius-panel); @include mobile { padding: 2rem; } }

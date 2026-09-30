@@ -18,7 +18,7 @@ export const generateStaticParams = () => CASES.map((item) => ({ slug: item.slug
 export const generateMetadata = async ({ params }: CasePageProps): Promise<Metadata> => {
   const { slug } = await params;
   const item = CASES.find((entry) => entry.slug === slug);
-  return item ? { title: `${item.title} — Flame Dev`, description: item.description } : {};
+  return item ? { title: `${item.title} — Flame dev`, description: item.description } : {};
 };
 
 // Заготовка страницы кейса: на неё ведёт активный кадр первого экрана.

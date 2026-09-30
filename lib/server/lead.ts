@@ -27,7 +27,7 @@ export async function handleLead(request: Request, env: IServerEnv) {
   }
 
   const text = [
-    `<b>Заявка с Flame Dev</b> (${lead.source})`,
+    `<b>Заявка с Flame dev</b> (${lead.source})`,
     `Имя: ${escapeHtml(lead.name)}`,
     `Контакт: ${escapeHtml(lead.contact)}`,
     lead.message ? `Задача: ${escapeHtml(lead.message)}` : '',

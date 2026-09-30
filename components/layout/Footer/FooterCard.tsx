@@ -13,7 +13,7 @@ const FooterCard = () => {
       <div className={styles.card__inner}>
         <div className={styles.card__box}>
           <div className={styles.card__brand}>
-            <Link href="/" className={styles.card__logo} aria-label="Flame Dev">
+            <Link href="/" className={styles.card__logo} aria-label="Flame dev">
               <Logo variant="footer" />
             </Link>
             <a href={`mailto:${FOOTER_EMAIL}`} className={styles.card__email}>

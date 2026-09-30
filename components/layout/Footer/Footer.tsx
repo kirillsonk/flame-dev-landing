@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footer__inner}>
         <div className={styles.footer__brand}>
-          <Link href="/" className={styles.footer__logo} aria-label="Flame Dev">
+          <Link href="/" className={styles.footer__logo} aria-label="Flame dev">
             <Logo variant="footer" />
           </Link>
           <a href={`mailto:${FOOTER_EMAIL}`} className={styles.footer__email}>{FOOTER_EMAIL}</a>

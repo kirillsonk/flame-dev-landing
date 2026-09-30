@@ -21,7 +21,7 @@ export const WHY_CARDS: IWhyCard[] = [
 // Постер Flame AI для карточки-продукта в вариантах блока.
 export const WHY_POSTER = { src: '/videos/flame-ai-wide.jpg', alt: 'Flame AI', width: 1280, height: 720 };
 
-export const WHY_BRAND = 'Flame Dev';
+export const WHY_BRAND = 'Flame dev';
 
 // Подписи вариантов «Почему мы»: три подрядчика, которых заменяет одна команда.
 export const WHY_VENN_LABELS = ['Студия · сайт', 'Продакшн · ролик', 'Дизайн'];
@@ -30,7 +30,7 @@ export const WHY_EQUATION = {
   terms: ['Студия', 'Продакшн', 'Дизайн-бюро'],
   before: '3 договора',
   after: '1 договор',
-  label: 'Студия плюс продакшн плюс дизайн-бюро — это Flame Dev и один договор',
+  label: 'Студия плюс продакшн плюс дизайн-бюро — это Flame dev и один договор',
 };
 
 export const WHY_PUZZLE = {
@@ -66,9 +66,9 @@ export const ECOSYSTEM_MARQUEE = {
 
 // Вариант «Титры» (credits): финальные титры ролика, продукты — строки-карточки.
 export const ECOSYSTEM_CREDITS: IEcosystemCredit[] = [
-  { role: 'Разработка', name: 'Flame Dev' },
-  { role: 'Дизайн', name: 'Flame Dev' },
-  { role: 'Спецпроекты и мини-аппы', name: 'Flame Dev' },
+  { role: 'Разработка', name: 'Flame dev' },
+  { role: 'Дизайн', name: 'Flame dev' },
+  { role: 'Спецпроекты и мини-аппы', name: 'Flame dev' },
   { role: 'Видеопродакшн и CGI', card: 0 },
   { role: 'Генерация видео', card: 1 },
   { role: 'Бренды', name: 'Coca-Cola · Росатом · AliExpress · Purina · VK' },

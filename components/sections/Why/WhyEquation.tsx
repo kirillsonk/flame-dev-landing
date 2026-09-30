@@ -10,7 +10,7 @@ import styles from './WhyEquation.module.scss';
 
 const POSTER_STYLE = { '--poster': `url(${WHY_POSTER.src})` } as CSSProperties;
 
-// Вариант «Уравнение»: «Студия + Продакшн + Дизайн-бюро = 3 договора» решается в «Flame Dev = 1 договор».
+// Вариант «Уравнение»: «Студия + Продакшн + Дизайн-бюро = 3 договора» решается в «Flame dev = 1 договор».
 const WhyEquation = () => {
   const { rootRef } = useWhyEquation();
 

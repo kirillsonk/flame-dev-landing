@@ -12,7 +12,7 @@ const FooterColumns = () => {
       <div className={styles.columns__inner}>
         <div className={styles.columns__grid}>
           <div className={styles.columns__brand}>
-            <Link href="/" className={styles.columns__logo} aria-label="Flame Dev">
+            <Link href="/" className={styles.columns__logo} aria-label="Flame dev">
               <Logo variant="footer" />
             </Link>
             <p className={styles.columns__about}>{FOOTER_ABOUT}</p>

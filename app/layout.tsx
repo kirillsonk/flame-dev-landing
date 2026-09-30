@@ -22,13 +22,13 @@ const firsNeue = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Flame Dev | Разработка сайтов, сервисов и AI-решений',
+  metadataBase: new URL('https://flamedev.pro'),
+  title: 'Flame dev | Разработка сайтов, сервисов и AI-решений',
   description: 'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск',
-  icons: { icon: '/favicon.svg' },
   openGraph: {
-    title: 'Flame Dev',
+    title: 'Flame dev',
     description: 'Разработка сайтов, сервисов и AI-решений',
-    siteName: 'Flame Dev',
+    siteName: 'Flame dev',
     locale: 'ru_RU',
     type: 'website',
   },

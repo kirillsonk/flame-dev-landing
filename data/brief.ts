@@ -1,6 +1,6 @@
 export const BRIEF = {
   title: 'Бриф проекта',
-  assistant: 'Flame Dev',
+  assistant: 'Flame dev',
   refresh: 'Обновить уточнения',
   refreshHint: 'Задача изменилась. Можно сохранить текущие уточнения или получить новые, ответы на них нужно будет заполнить заново',
   steps: ['Проект', 'Задача', 'Детали', 'Сроки', 'Контакт'],
@@ -36,7 +36,7 @@ export const BRIEF = {
   labels: { type: 'Проект', goal: 'Задача', details: 'Детали', timing: 'Сроки' },
 };
 export const FORM_REVIEW = {
-  title: 'Выбираем форму Flame Dev',
+  title: 'Выбираем форму Flame dev',
   text: 'Сравните подачу и пройдите сценарий. Рекомендуемый вариант для главной сейчас выбран первым',
   back: 'Вернуться на сайт',
   variants: [

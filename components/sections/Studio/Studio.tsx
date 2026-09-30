@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import { PROCESS_NOTE } from '@/data/process';
 import { CTA_LABEL, HERO_INTRO } from '@/data/site';
@@ -30,7 +29,7 @@ const Studio = () => {
       <section className={styles.section} id="cases">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.cases.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.cases.title}</h2></div><p className={styles.section__intro}>{STUDIO.cases.text}</p></div>
         <CaseGallery />
-        <Link href="/cases" className={styles.allProjects}>{STUDIO.cases.all}<BaseArrow size="l" /></Link>
+        <div className={styles.more}><BaseButton href="/cases" size="l" className={styles.heroCta}>{STUDIO.cases.all}<BaseArrow direction="right" /></BaseButton></div>
       </section>
       <section className={styles.services} id="services">
         <div className={styles.section__head} data-reveal><div><p className={styles.eyebrow}>{STUDIO.services.eyebrow}</p><h2 className={styles.section__title}>{STUDIO.services.title}</h2></div></div>

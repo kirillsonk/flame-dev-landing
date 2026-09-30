@@ -1,9 +1,45 @@
 @use '../../styles/typography' as *;
 @use '../../styles/mixins' as *;
 
+// Свой слой для звездного неба: оно лежит под содержимым страницы, но над фоном
 .page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+// Нижний отступ с запасом: средняя колонка каталога к концу страницы съезжает вниз на 8rem
+.page__inner {
   @include section;
   padding-top: var(--space-card);
+  padding-bottom: 18rem;
+
+  @include mobile {
+    padding-bottom: var(--space-section);
+  }
+}
+
+.page__back {
+  @include text-body(500);
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3.2rem;
+  padding: 1rem 1.8rem 1rem 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  transition: border-color .25s, background-color .25s;
+
+  svg { transition: translate .4s var(--ease); }
+
+  @include hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface);
+
+    svg { translate: -.3rem 0; }
+  }
 }
 
 .page__title {
@@ -11,4 +47,3 @@
   font-weight: 500;
   margin-bottom: var(--space-heading);
 }
-
