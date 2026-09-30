@@ -22,6 +22,7 @@ const morphRole = (index: number, core: number, count: number) => {
 };
 
 // Ядро по центру, остальные кадры едут вокруг него по орбитам (см. useOrbit).
+// Над кадрами орбиты стоят их названия: соседи кадра в слоте, в пространстве той же сцены, позу ведет useOrbit.
 // Вокруг ядра переливается кромка. На телефоне сцена скрыта, проекты показаны в отдельной галерее
 const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
   const { t } = useLocale();
@@ -98,6 +99,7 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
                 </span>
               </Link>
             </div>
+            <span className={styles.orbit__title} data-orbit-title aria-hidden="true">{t(item.title)}</span>
           </div>
         );
       })}

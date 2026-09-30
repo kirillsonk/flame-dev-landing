@@ -17,6 +17,8 @@ interface IOrbitItem {
   element: HTMLElement;
   slot: HTMLElement;
   dim: HTMLElement | null;
+  /** Название проекта над кадром, `[data-orbit-title]` в том же слоте */
+  title: HTMLElement | null;
   /** Место на орбите, у ядра -1 */
   seat: number;
   /** Место, с которого кадр ушел в ядро: второй конец его дуги */
@@ -25,9 +27,21 @@ interface IOrbitItem {
   core: { value: number };
   /** Дуга перелета, знак выбирает сторону */
   arc: number;
+  /** 0 название в перспективе орбиты, 1 развернуто к зрителю */
+  focus: number;
+  /** Сглаженная горизонтальная скорость кадра на экране, px/s: от нее легкий наклон букв при довороте орбиты */
+  drift: number;
+  lastX: number;
+  /** Размеры строки названия без трансформаций, px */
+  titleW: number;
+  titleH: number;
   zIndex: string;
   transform: string;
   dimOpacity: string;
+  titleTransform: string;
+  titleOpacity: string;
+  titleFilter: string;
+  titleFocus: boolean;
 }
 
 interface IPose {
@@ -35,6 +49,24 @@ interface IPose {
   y: number;
   scale: number;
   depth: number;
+}
+
+// Поза кадра в текущем кадре анимации для его названия: положение до затухания и итоговые значения трансформации кадра
+interface ITitlePose {
+  x: number;
+  y: number;
+  depth: number;
+  c: number;
+  X: number;
+  Y: number;
+  RX: number;
+  RY: number;
+  /** Масштаб места на орбите, без роста в перелете */
+  seatScale: number;
+  /** Масштаб кадра на экране */
+  total: number;
+  /** Вертикаль ядра: оно слегка покачивается */
+  coreY: number;
 }
 
 export interface IUseOrbit {
@@ -66,15 +98,75 @@ const INTENT_MS = 110;
 // После смены ядра новые наведения ждут, пока кадры разъедутся
 const LOCK_MS = 520;
 
+// Названия над кадрами орбиты. Точка схода та же, что у кадров, в ядре, но объектив короче:
+// слово длиннее кадра, и с объективом кадров его перспектива почти не читалась бы.
+// Ближний конец слова снаружи орбиты, дальний уходит в глубину к ядру: слева слово уходит вправо, справа влево.
+// Углы в градусах, расстояния в px пространства кадра, время в секундах
+const TITLE = {
+  lens: 560,
+  // Кегль на экране в долях ширины кадра, умножается на масштаб места
+  em: .18,
+  // Самое мелкое слово на экране, px: задняя дуга на узком экране остается читаемой
+  minEm: 16,
+  // Длинное название сжимается, чтобы быть не шире 1.6 кадра
+  maxWidth: 1.6,
+  // Сужение букв: у фирменной гарнитуры нет узкого начертания
+  condense: .88,
+  // От верхнего края кадра до строки
+  gap: 14,
+  // Опорная точка слова ходит по верхнему краю кадра от левого угла к правому
+  inset: .9,
+  // Разворот слова по сторонам орбиты, на задней дуге слабее
+  yaw: 24,
+  back: .45,
+  // Наклон назад: на задней дуге почти ровно, на передней слово ложится в глубину
+  pitchBack: 6,
+  pitchFront: 22,
+  // Дальний конец слова чуть клонится к ядру на диагоналях орбиты
+  roll: 6,
+  // Передние слова крупнее, задние мельче и тусклее
+  depthScale: .12,
+  tone: .5,
+  // Размытие самых дальних слов на экране, px
+  blur: .4,
+  // Переднее слово над рамкой ядра и слово у колонки с заголовком притухают
+  guard: .72,
+  copy: .45,
+  // Слово ближе к зрителю, чем кадр: сильнее следует за курсором и дышит не в фазе с кадром, px
+  leadBack: 4,
+  leadFront: 10,
+  breath: 2,
+  // Наведение: слово подрастает, выходит к зрителю и разворачивается лицом
+  focusScale: .08,
+  focusZ: 24,
+  // Постоянные времени разворота к зрителю и обратно: 95% пути примерно за .5 и .65 с
+  focusIn: .16,
+  focusOut: .22,
+  // Слово бывшего ядра смотрит на зрителя, пока кадр не прошел две трети дуги
+  release: .35,
+  // Слово кадра, летящего в ядро, гаснет на этом участке перелета: в ядре у кадра своя подпись
+  fadeFrom: .25,
+  fadeTo: .7,
+  // Инерция: при довороте орбиты буквы на градусы отстают, deg на px/s и предел
+  skew: .01,
+  skewMax: 3,
+};
+
 const MOBILE = '(max-width: 900px)';
 
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+const smoothstep = (from: number, to: number, value: number) => {
+  const t = clamp((value - from) / (to - from), 0, 1);
+  return t * t * (3 - 2 * t);
+};
 
 /**
  * Орбиты первого экрана. Один кадр стоит в ядре по центру сцены, остальные едут вокруг него
  * по наклонным эллипсам: задние меньше и темнее и уходят под ядро, передние крупнее и проходят поверх.
  * Наведенный кадр по дуге подлетает в ядро, бывшее ядро по дуге уходит на его место, орбита доворачивается.
  * Кадры: `[data-orbit-item]` с `data-index` внутри неподвижного слота, затемнение `[data-orbit-dim]`.
+ * Над кадрами орбиты стоят названия `[data-orbit-title]`, соседи кадра в слоте: их позу считает этот же цикл.
  * Слоты всех кадров совпадают с ядром, поэтому перелет в галерею считает геометрию от одной рамки.
  * Мобильная компоновка скрывает сцену и не запускает вычисления орбит
  */
@@ -98,23 +190,51 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       element,
       slot: element.parentElement!,
       dim: element.querySelector<HTMLElement>('[data-orbit-dim]'),
+      title: element.parentElement!.querySelector<HTMLElement>('[data-orbit-title]'),
       seat: index === coreRef.current ? -1 : seat++,
       origin: 0,
       core: { value: index === coreRef.current ? 1 : 0 },
       arc: 1,
+      focus: index === coreRef.current ? 1 : 0,
+      drift: 0,
+      lastX: 0,
+      titleW: 0,
+      titleH: 0,
       zIndex: '',
       transform: '',
       dimOpacity: '',
+      titleTransform: '',
+      titleOpacity: '',
+      titleFilter: '',
+      titleFocus: false,
     }));
     if (items.length === 0) return;
 
     const size = { w: stage.offsetWidth, h: stage.offsetHeight };
+    // Рамка кадра без трансформаций (у всех слотов одна), ее центр от левого края сцены и кегль, в котором растрируются названия
+    const frame = { w: 0, h: 0, cx: 0, type: 1 };
+    const measure = () => {
+      const { slot } = items[0];
+      frame.w = slot.offsetWidth;
+      frame.h = slot.offsetHeight;
+      frame.cx = slot.offsetLeft + frame.w / 2;
+      items.forEach((item) => {
+        if (!item.title) return;
+        item.titleW = item.title.offsetWidth;
+        item.titleH = item.title.offsetHeight;
+      });
+      const sample = items.find(item => item.title)?.title;
+      if (sample) frame.type = parseFloat(getComputedStyle(sample).fontSize) || 1;
+    };
+    // Смена языка и подгрузка шрифта меняют ширину названий: их тоже наблюдаем
     const resize = new ResizeObserver(() => {
       size.w = stage.offsetWidth;
       size.h = stage.offsetHeight;
+      measure();
       if (motion.matches && !mobile.matches) render(0);
     });
     resize.observe(stage);
+    items.forEach(({ title }) => { if (title) resize.observe(title); });
 
     const pointer = { x: 0, y: 0, clientX: 0, clientY: 0, inside: false };
     const smooth = { x: 0, y: 0 };
@@ -151,11 +271,92 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       item.slot.style.zIndex = value;
     };
 
-    const renderDesktop = (time: number, calm: number) => {
+    // Намерение навести: кандидат под курсором и время, когда курсор на него заехал
+    const intent = { index: -1, since: 0 };
+    let lockUntil = 0;
+
+    // Название живет в пространстве кадра: цепочка начинается с позы кадра (та же точка схода в ядре),
+    // затем опорная точка над верхним краем кадра и собственный поворот слова вокруг нее
+    const renderTitle = (item: IOrbitItem, index: number, pose: ITitlePose, time: number, calm: number, dt: number) => {
+      const { title } = item;
+      if (!title || !item.titleW || !frame.w) return;
+      const { x, y, depth, c, X, Y, RX, RY, seatScale, total, coreY } = pose;
+      // К зрителю повернуто наведенное слово, слово кадра в ядре и слово бывшего ядра в начале его дуги
+      const target = item.seat < 0 || c > TITLE.release || (intent.index === index && !motion.matches) ? 1 : 0;
+      const tau = target > item.focus ? TITLE.focusIn : TITLE.focusOut;
+      item.focus += (target - item.focus) * (motion.matches ? 1 : 1 - Math.exp(-dt / tau));
+      const f = item.focus;
+      // Место на орбите: nx от -1 слева до 1 справа, ny от -1 сверху (задняя дуга) до 1 снизу
+      const nx = clamp(x / (ORBIT.rx * size.w), -1, 1);
+      const ny = clamp(y / (ORBIT.ry * size.h), -1, 1);
+      const near = (depth + 1) / 2;
+      // Опорная точка слова: слева его начало, справа конец, посередине центр. Ближний конец всегда снаружи орбиты
+      const u = (1 + nx) / 2;
+      const base = frame.w * TITLE.em / frame.type;
+      const fit = Math.min(1, TITLE.maxWidth * frame.w / (item.titleW * TITLE.condense * base));
+      const k = Math.max(TITLE.minEm / frame.type, seatScale * base * fit * (1 + depth * TITLE.depthScale)) * (1 + f * TITLE.focusScale);
+      const ax = (u - .5) * frame.w * TITLE.inset * total + smooth.x * mix(TITLE.leadBack, TITLE.leadFront, near) * calm;
+      const ay = -(frame.h / 2 + TITLE.gap) * total + Math.sin(time * .0013 + index * 2.3) * TITLE.breath * calm;
+      const az = f * TITLE.focusZ;
+      // Слева дальний край справа, справа слева, сверху поворот слабее. Лицом к зрителю: поворот слова гасит поворот кадра
+      const yaw = mix(-nx * TITLE.yaw * mix(TITLE.back, 1, near), -RY, f);
+      const pitch = mix(mix(TITLE.pitchBack, TITLE.pitchFront, near), -RX, f);
+      const roll = TITLE.roll * nx * ny * (1 - f);
+      if (dt > 0 && running) item.drift += ((X - item.lastX) / dt - item.drift) * Math.min(1, dt * 8);
+      else item.drift = 0;
+      item.lastX = X;
+      const skew = clamp(item.drift * TITLE.skew, -TITLE.skewMax, TITLE.skewMax) * (1 - f);
+
+      // Проекция слова на экран, приблизительно: ширина, высота, левый и нижний край от центра ядра
+      const w = item.titleW * TITLE.condense * k * Math.cos((yaw + RY) * Math.PI / 180);
+      const h = item.titleH * k * Math.cos(pitch * Math.PI / 180);
+      const left = X + ax - u * w;
+      const bottom = Y + ay;
+      let guard = 1;
+      // Переднее слово над рамкой ядра притухает, пока его не выбрали: видео и подпись ядра остаются главными
+      if (depth > 0 && item.seat >= 0) {
+        const coverX = clamp((Math.min(left + w, frame.w / 2) - Math.max(left, -frame.w / 2)) / w, 0, 1);
+        const coverY = clamp((Math.min(bottom, coreY + frame.h / 2) - Math.max(bottom - h, coreY - frame.h / 2)) / h, 0, 1);
+        guard = 1 - TITLE.guard * smoothstep(0, .35, coverX * coverY) * (1 - f);
+      }
+      // У колонки с главным заголовком слово уходит в тень, пока его не выбрали
+      guard *= 1 - TITLE.copy * smoothstep(24, 96, -(frame.cx + left)) * (1 - f);
+      // Гаснет на подлете к ядру, в начале перелета в галерею и пока орбиты раскрываются. При возврате наверх
+      // кадры догоняют скролл с задержкой: слово ждет, пока его кадр долетит обратно
+      const away = motion.matches ? 0 : Math.max(morphState.progress, morphState.visual);
+      const presence = (1 - smoothstep(TITLE.fadeFrom, TITLE.fadeTo, c)) * smoothstep(.8, 1, 1 - away * 1.25) * smoothstep(.75, 1, spread.value);
+      const alpha = presence * guard * mix(mix(TITLE.tone, 1, near), 1, f);
+      const opacity = alpha < .002 ? '0' : alpha.toFixed(3);
+      if (item.titleOpacity !== opacity) {
+        title.style.opacity = opacity;
+        item.titleOpacity = opacity;
+      }
+      const focused = target === 1;
+      if (item.titleFocus !== focused) {
+        title.toggleAttribute('data-focus', focused);
+        item.titleFocus = focused;
+      }
+      if (opacity === '0') return;
+
+      const transform = `perspective(${TITLE.lens}px) translate3d(${X}px, ${Y}px, 0) rotateX(${RX}deg) rotateY(${RY}deg) translate3d(${ax}px, ${ay}px, ${az}px) rotateZ(${roll}deg) rotateY(${yaw}deg) rotateX(${pitch}deg) skewX(${skew}deg) scale(${k * TITLE.condense}, ${k}) translate(${-u * item.titleW}px, ${-item.titleH}px)`;
+      if (item.titleTransform !== transform) {
+        title.style.transform = transform;
+        item.titleTransform = transform;
+      }
+      // Фильтр размывает слово до трансформации, поэтому радиус делим на масштаб; шаг .25px, чтобы не перерисовывать каждый кадр
+      const blur = Math.round(TITLE.blur * smoothstep(.4, 1, -depth) * (1 - f) / k * 4) / 4;
+      const filter = blur > 0 ? `blur(${blur}px)` : 'none';
+      if (item.titleFilter !== filter) {
+        title.style.filter = filter;
+        item.titleFilter = filter;
+      }
+    };
+
+    const renderDesktop = (time: number, calm: number, dt: number) => {
       smooth.x += (pointer.x - smooth.x) * .06;
       smooth.y += (pointer.y - smooth.y) * .06;
       const center = corePose(time);
-      items.forEach((item) => {
+      items.forEach((item, index) => {
         const c = item.core.value;
         const from = seatPose(item.seat >= 0 ? item.seat : item.origin, time);
         // Путь в ядро и обратно идет по дуге, а не по прямой: сдвиг поперек хорды, максимум посередине
@@ -174,7 +375,11 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
         const px = smooth.x * (8 + depth * 10);
         const py = smooth.y * (6 + depth * 6);
         const total = 1 + (scale - 1) * calm;
-        const transform = `perspective(1400px) translate3d(${(x + px) * calm}px, ${(y + py) * calm}px, 0) rotateX(${rx * calm}deg) rotateY(${ry * calm}deg) scale(${total})`;
+        const X = (x + px) * calm;
+        const Y = (y + py) * calm;
+        const RX = rx * calm;
+        const RY = ry * calm;
+        const transform = `perspective(1400px) translate3d(${X}px, ${Y}px, 0) rotateX(${RX}deg) rotateY(${RY}deg) scale(${total})`;
         const dimOpacity = String(((1 - depth) / 2) * .62 * (1 - c) * calm);
         // Последняя часть перелета уже неподвижна: не инвалидируем одинаковые стили каждый кадр.
         if (item.transform !== transform) {
@@ -189,12 +394,9 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
         const moving = c > .02 && c < .98;
         const z = moving ? (item.seat < 0 ? 30 : 25) : item.seat < 0 ? 10 : depth > 0 ? 11 + Math.round(depth * 4) : 2 + Math.round((depth + 1) * 3);
         setZ(item, String(z));
+        renderTitle(item, index, { x, y, depth, c, X, Y, RX, RY, seatScale: from.scale, total, coreY: center.y }, time, calm, dt);
       });
     };
-
-    // Намерение навести: кандидат под курсором и время, когда курсор на него заехал
-    const intent = { index: -1, since: 0 };
-    let lockUntil = 0;
 
     const swap = (index: number) => {
       const current = coreRef.current;
@@ -245,7 +447,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       pace.value += ((pointer.inside ? HOVER_SPEED : 1) - pace.value) * Math.min(1, dt * 3);
       if (!motion.matches) orbit.angle += ORBIT.speed * dt * pace.value;
       checkIntent(time);
-      renderDesktop(time, calm);
+      renderDesktop(time, calm, dt);
     };
     const tick = () => render(performance.now());
 
@@ -319,13 +521,24 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     };
 
     const reset = () => items.forEach((item) => {
-      const { element, slot, dim } = item;
+      const { element, slot, dim, title } = item;
       element.style.transform = '';
       slot.style.zIndex = '';
       item.zIndex = '';
       item.transform = '';
       item.dimOpacity = '';
       if (dim) dim.style.opacity = '';
+      if (title) {
+        title.style.transform = '';
+        title.style.opacity = '';
+        title.style.filter = '';
+        title.removeAttribute('data-focus');
+      }
+      item.titleTransform = '';
+      item.titleOpacity = '';
+      item.titleFilter = '';
+      item.titleFocus = false;
+      item.drift = 0;
     });
     const mode = () => {
       stop();
@@ -335,10 +548,15 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       }
       size.w = stage.offsetWidth;
       size.h = stage.offsetHeight;
+      measure();
       if (motion.matches) {
         gsap.killTweensOf([spread, orbit, ...items.map(item => item.core)]);
         spread.value = 1;
-        items.forEach((item, index) => { item.core.value = index === coreRef.current ? 1 : 0; });
+        items.forEach((item, index) => {
+          item.core.value = index === coreRef.current ? 1 : 0;
+          item.focus = item.core.value;
+          item.drift = 0;
+        });
         pointer.x = pointer.y = smooth.x = smooth.y = 0;
         render(0);
       } else start();

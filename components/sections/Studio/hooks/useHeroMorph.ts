@@ -5,8 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Прогресс перелета для покадровых эффектов (дрейф, наклон): они гаснут, пока визуал летит в галерею
-export const morphState = { progress: 0 };
+// Прогресс перелета для покадровых эффектов (дрейф, наклон): они гаснут, пока визуал летит в галерею.
+// `progress` идет за скроллом, `visual` за сглаженной анимацией кадров, которая догоняет скролл с задержкой
+export const morphState = { progress: 0, visual: 0 };
 
 // Галерея подхватывает проект, который первый экран показывал в момент передачи
 export const HANDOFF_EVENT = 'flame-dev:hero-handoff';
@@ -127,6 +128,7 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
       const roles = () => sources.map(source => source.dataset.morphSource).join();
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
+        onUpdate: () => { morphState.visual = timeline.progress(); },
         scrollTrigger: {
           start: 0,
           // Совпадает с остановкой якоря: секция встает под фиксированной шапкой
@@ -185,6 +187,7 @@ const useHeroMorph = (heroRef: RefObject<HTMLElement | null>, key: string, getSl
         roleObserver.disconnect();
         delete hero.dataset.morph;
         morphState.progress = 0;
+        morphState.visual = 0;
         if (morphing) toggle.current(false);
       };
     });
