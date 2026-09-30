@@ -15,7 +15,6 @@
   border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--color-surface) 70%, transparent);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   color: var(--color-text);
   opacity: 0;
   visibility: hidden;

@@ -10,7 +10,6 @@
   padding: 2rem;
   background: color-mix(in srgb, var(--color-bg) 80%, transparent);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   @include mobile {
     padding: 1.2rem;
   }

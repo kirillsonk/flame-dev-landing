@@ -81,7 +81,6 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--color-bg) 82%, transparent);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   @include mobile {
     padding: 1.2rem 1.6rem;
@@ -122,7 +121,6 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--color-bg) 78%, transparent);
-  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   @include mobile {
     flex: 1 1 100%;

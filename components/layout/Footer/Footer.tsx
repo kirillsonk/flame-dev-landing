@@ -10,7 +10,7 @@ import styles from './Footer.module.scss';
 const Footer = () => {
   const { t } = useLocale();
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-site-footer>
       <div className={styles.footer__inner}>
         <div className={styles.footer__brand}>
           <Link href="/" className={styles.footer__logo} aria-label="Flame dev">

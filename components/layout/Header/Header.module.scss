@@ -16,14 +16,15 @@
   // В самом верху страницы шапка прозрачная и лежит поверх первого экрана.
   // Стекло всегда на месте и плавно проявляется прозрачностью, как только страница поехала:
   // размытие нельзя плавно включить, а прозрачность слоя можно
+  // Стекло начинается чуть выше края окна: при дробной прокрутке на экранах с высокой плотностью
+  // сверху не остается тонкой щели, через которую видна страница
   &::before {
     content: '';
     position: absolute;
-    inset: 0 0 auto 0;
-    height: var(--bar);
+    inset: -.2rem 0 auto 0;
+    height: calc(var(--bar) + .2rem);
     background: color-mix(in srgb, var(--color-bg) 58%, transparent);
     backdrop-filter: blur(22px) saturate(120%);
-    -webkit-backdrop-filter: blur(22px) saturate(120%);
     opacity: 0;
     transition: height 0.3s var(--ease), opacity 0.35s var(--ease), background-color 0.3s var(--ease);
   }
@@ -299,7 +300,6 @@
 .header--islands.header--compact::before {
   background: transparent;
   backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 .header--islands .header__logo,
@@ -312,7 +312,6 @@
   border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--color-surface) 55%, transparent);
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   transition: min-height 0.3s var(--ease);
 
   @include mobile {
@@ -321,7 +320,6 @@
     border-radius: 0;
     background: none;
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 }
 

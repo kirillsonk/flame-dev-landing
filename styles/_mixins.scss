@@ -46,7 +46,6 @@
 @mixin glass {
   background: color-mix(in srgb, var(--color-surface) 55%, transparent);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
   border-radius: var(--radius-panel);
 }

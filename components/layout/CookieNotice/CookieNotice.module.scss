@@ -9,7 +9,6 @@
   // Плотнее обычного стекла: под плашкой бегут видео и крупный текст, они не должны просвечивать
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   backdrop-filter: blur(32px) saturate(140%);
-  -webkit-backdrop-filter: blur(32px) saturate(140%);
   position: fixed;
   left: 50%;
   bottom: 2.4rem;

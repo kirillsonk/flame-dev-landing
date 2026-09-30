@@ -60,8 +60,8 @@
   }
 }
 
-// Правая колонка: навигация на уровне логотипа, документы мелко внизу на уровне почты.
-// На планшете и телефоне документы стоят в строке навигации справа, а если места не хватает, переносятся под нее
+// Правая колонка: навигация на уровне логотипа, документы мелко внизу на уровне почты, обе строки по правому краю.
+// На планшете и телефоне документы идут под навигацией по левому краю
 .footer__side {
   display: flex;
   flex-direction: column;
@@ -71,24 +71,19 @@
   align-self: stretch;
 
   @include mobile {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
+    gap: 2rem;
   }
 }
 
-// Справа в строке документов остается место под кнопку «Наверх»: в конце страницы она встает
-// на уровень этой строки и не перекрывает ссылки. На телефоне кнопки нет
 .footer__legal {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: .4rem 2rem;
-  padding-right: calc(var(--size-button) + 2.4rem);
 
   @include mobile {
-    margin-left: auto;
-    padding-right: 0;
+    justify-content: flex-start;
   }
 }
 

@@ -80,7 +80,6 @@
   border-radius: var(--radius-panel);
   background: color-mix(in srgb, var(--color-surface) 97%, transparent);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.55);
   animation: panel-in 0.25s var(--ease);
 

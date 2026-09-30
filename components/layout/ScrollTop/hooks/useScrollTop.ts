@@ -14,13 +14,15 @@ export interface IUseScrollTop {
 }
 
 const useScrollTop = (): IUseScrollTop => {
-  const [visible, setVisible] = useState(false);
+  const [past, setPast] = useState(false);
+  // У подвала кнопка прячется: иначе она закрывает ссылки на документы у правого края
+  const [atFooter, setAtFooter] = useState(false);
 
   useEffect(() => {
     let frame = 0;
     const sync = () => {
       frame = 0;
-      setVisible(window.scrollY > window.innerHeight * SHOW_AFTER);
+      setPast(window.scrollY > window.innerHeight * SHOW_AFTER);
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(sync);
@@ -28,9 +30,14 @@ const useScrollTop = (): IUseScrollTop => {
     sync();
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
+    // Наблюдатель срабатывает и без прокрутки, когда блоки выше подвала меняют высоту
+    const footer = document.querySelector('[data-site-footer]');
+    const observer = new IntersectionObserver(([entry]) => setAtFooter(entry.isIntersecting));
+    if (footer) observer.observe(footer);
     return () => {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
+      observer.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);
@@ -46,7 +53,7 @@ const useScrollTop = (): IUseScrollTop => {
     window.history.replaceState(null, '', window.location.pathname + window.location.search);
   };
 
-  return { visible, scrollTop };
+  return { visible: past && !atFooter, scrollTop };
 };
 
 export default useScrollTop;
