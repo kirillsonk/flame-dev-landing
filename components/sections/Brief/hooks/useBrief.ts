@@ -23,6 +23,8 @@ const useBrief = () => {
   const [summaryEdit, setSummaryEdit] = useState<ISummaryEdit | null>(null);
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState(false);
   const [busy, setBusy] = useState(false);
   const [ai, setAi] = useState(false);
   const [notice, setNotice] = useState('');
@@ -82,11 +84,12 @@ const useBrief = () => {
     if (busy || lead.status === 'sending') return;
     setError('');
     if (name.trim().length < 2 || contact.trim().length < 3 || !summary.trim()) { setError(BRIEF.invalidContact); return; }
-    await lead.submit({ name: name.trim(), contact: contact.trim(), message: summary, source: 'brief' });
+    if (!consent) { setConsentError(true); return; }
+    await lead.submit({ name: name.trim(), contact: contact.trim(), message: summary, source: 'brief', consent });
   };
   const restart = () => {
-    lead.reset(); setStep(0); setType(BRIEF.types[0]); setGoal(''); setAnswers(['', '']); setQuestionTranslations(null); setTiming(BRIEF.timings[2]); setDate(''); setSummaryEdit(null); setName(''); setContact(''); setAi(false); setError(''); setNotice(''); setQuestionInput('');
+    lead.reset(); setStep(0); setType(BRIEF.types[0]); setGoal(''); setAnswers(['', '']); setQuestionTranslations(null); setTiming(BRIEF.timings[2]); setDate(''); setSummaryEdit(null); setName(''); setContact(''); setConsent(false); setConsentError(false); setAi(false); setError(''); setNotice(''); setQuestionInput('');
   };
-  return { step, setStep, type, setType, goal, setGoal, questions, answers, setAnswers, timing, setTiming, date, setDate, summary, setSummary, name, setName, contact, setContact, busy, ai, notice, error, questionsOutdated: questionInput !== context, refreshQuestions: () => requestQuestions(true), summaryOutdated, refreshSummary, next, improve, submit, restart, status: lead.status };
+  return { step, setStep, type, setType, goal, setGoal, questions, answers, setAnswers, timing, setTiming, date, setDate, summary, setSummary, name, setName, contact, setContact, consent, setConsent: (value: boolean) => { setConsent(value); if (value) setConsentError(false); }, consentError, busy, ai, notice, error, questionsOutdated: questionInput !== context, refreshQuestions: () => requestQuestions(true), summaryOutdated, refreshSummary, next, improve, submit, restart, status: lead.status };
 };
 export default useBrief;

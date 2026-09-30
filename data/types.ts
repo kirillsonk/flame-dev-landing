@@ -185,3 +185,18 @@ export interface IVariantGroup {
   fallback: string;
   options: IVariantOption[];
 }
+
+/** Раздел юридического документа: абзацы или список */
+export interface ILegalSection {
+  /** Якорь раздела, например cookies для ссылки из плашки */
+  id?: string;
+  title: string;
+  paragraphs?: string[];
+  items?: string[];
+}
+
+export interface ILegalDocument {
+  title: string;
+  intro: string[];
+  sections: ILegalSection[];
+}

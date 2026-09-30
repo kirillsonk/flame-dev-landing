@@ -1,0 +1,88 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+// Документ читается одной колонкой около 70 знаков, без карточек и декора
+.legal {
+  @include section;
+  @include text-body;
+  max-width: 88rem;
+  padding-top: var(--space-card);
+  color: var(--color-text-cold);
+}
+
+.legal__back {
+  @include text-body(500);
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3.2rem;
+  padding: 1rem 1.8rem 1rem 1.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  transition: border-color .25s;
+
+  @include hover {
+    border-color: var(--color-border-strong);
+  }
+}
+
+.legal__title {
+  --type-display: 4.8rem;
+  @include text-display;
+  margin-bottom: 3.2rem;
+  color: var(--color-text);
+  text-wrap: balance;
+
+  @include mobile {
+    --type-display: 3.2rem;
+  }
+}
+
+.legal__intro {
+  display: grid;
+  gap: 1.6rem;
+  margin-bottom: 4.8rem;
+  color: var(--color-text);
+}
+
+.legal__section {
+  display: grid;
+  gap: 1.2rem;
+  padding-block: 3.2rem;
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: var(--size-header);
+
+  h2 {
+    @include text-title;
+    color: var(--color-text);
+  }
+
+  ul {
+    display: grid;
+    gap: 1rem;
+    padding-left: 2rem;
+  }
+
+  li::marker {
+    color: var(--color-action-accent);
+  }
+}
+
+.legal__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--color-border);
+
+  a {
+    @include focus-ring;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-text);
+  }
+}

@@ -3,18 +3,20 @@
 import { useSyncExternalStore } from 'react';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import { APPEARANCE } from '@/data/appearance';
+import { THEME_EVENT, THEME_KEY, themeByTime } from '@/lib/theme';
 import styles from './ThemeToggle.module.scss';
 
 const subscribe = (callback: () => void) => {
   const onStorage = (event: StorageEvent) => {
-    if (event.key !== 'flame-theme' && event.key !== null) return;
-    document.documentElement.dataset.theme = event.newValue === 'light' ? 'light' : 'dark';
-    window.dispatchEvent(new Event('flame-theme-change'));
+    if (event.key !== THEME_KEY && event.key !== null) return;
+    // Выбор в другой вкладке. Если его сбросили, возвращаемся к теме по времени суток
+    document.documentElement.dataset.theme = event.newValue === 'light' || event.newValue === 'dark' ? event.newValue : themeByTime();
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
-  window.addEventListener('flame-theme-change', callback);
+  window.addEventListener(THEME_EVENT, callback);
   window.addEventListener('storage', onStorage);
   return () => {
-    window.removeEventListener('flame-theme-change', callback);
+    window.removeEventListener(THEME_EVENT, callback);
     window.removeEventListener('storage', onStorage);
   };
 };
@@ -27,8 +29,8 @@ const ThemeToggle = () => {
   const toggle = () => {
     const theme = light ? 'dark' : 'light';
     document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem('flame-theme', theme); } catch { /* Theme still works without storage */ }
-    window.dispatchEvent(new Event('flame-theme-change'));
+    try { localStorage.setItem(THEME_KEY, theme); } catch { /* Theme still works without storage */ }
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
   const label = t(light ? APPEARANCE.dark : APPEARANCE.light);
   return <button type="button" className={styles.toggle} aria-label={label} title={label} onClick={toggle}>

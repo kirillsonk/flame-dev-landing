@@ -1,0 +1,88 @@
+@use '../../../styles/typography' as *;
+@use '../../../styles/mixins' as *;
+
+.consent {
+  @include text-body;
+  display: grid;
+  gap: .6rem;
+}
+
+.consent__label {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.2rem;
+  color: var(--color-text-cold);
+  cursor: pointer;
+
+  a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-text) 35%, transparent);
+    text-underline-offset: .3rem;
+    transition: text-decoration-color .25s;
+
+    @include hover {
+      text-decoration-color: var(--color-action-accent);
+    }
+  }
+}
+
+// Настоящий чекбокс остается в доступности, рисуем свою рамку поверх
+.consent__input {
+  position: absolute;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.consent__box {
+  position: relative;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-top: .1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: .6rem;
+  background: var(--color-surface);
+  transition: background-color .2s, border-color .2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: .7rem;
+    top: .3rem;
+    width: .6rem;
+    height: 1.1rem;
+    border: solid var(--color-on-action);
+    border-width: 0 2px 2px 0;
+    rotate: 45deg;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+}
+
+.consent__input:checked + .consent__box {
+  border-color: var(--color-action-primary);
+  background: var(--color-action-primary);
+}
+
+.consent__input:checked + .consent__box::after {
+  opacity: 1;
+}
+
+.consent__input:focus-visible + .consent__box {
+  outline: 2px solid var(--color-action-primary);
+  outline-offset: 3px;
+}
+
+.consent__label--error .consent__box {
+  border-color: var(--color-error);
+}
+
+.consent__error {
+  padding-left: 3.4rem;
+  color: var(--color-error);
+}

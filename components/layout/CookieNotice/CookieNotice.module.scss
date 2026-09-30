@@ -48,6 +48,15 @@
   min-width: 0;
 }
 
+.cookie__more {
+  @include focus-ring;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-text) 35%, transparent);
+  text-underline-offset: .3rem;
+  white-space: nowrap;
+}
+
 .cookie__button {
   @include text-body(500);
   @include focus-ring;

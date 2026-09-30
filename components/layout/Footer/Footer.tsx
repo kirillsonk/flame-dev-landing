@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import Logo from '@/components/ui/Logo/Logo';
 import { FOOTER_EMAIL, FOOTER_LINKS } from '@/data/site';
+import { LEGAL_LINKS } from '@/data/legal';
 import styles from './Footer.module.scss';
 
 const Footer = () => {
@@ -16,6 +17,9 @@ const Footer = () => {
             <Logo variant="footer" />
           </Link>
           <a href={`mailto:${FOOTER_EMAIL}`} className={styles.footer__email}>{FOOTER_EMAIL}</a>
+          <div className={styles.footer__legal}>
+            {Object.values(LEGAL_LINKS).map(link => <Link key={link.href} href={link.href} className={styles.footer__legalLink}>{t(link.label)}</Link>)}
+          </div>
         </div>
         <nav className={styles.footer__links} aria-label={t('Подвал')}>
           {FOOTER_LINKS.map((item) => {

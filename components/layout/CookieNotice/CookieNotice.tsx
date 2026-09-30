@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import clsx from 'clsx';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import { COOKIE_NOTICE } from '@/data/site';
@@ -50,7 +51,7 @@ const CookieNotice = () => {
       inert={!visible}
       onTransitionEnd={() => { if (!visible) setMounted(false); }}
     >
-      <p className={styles.cookie__text}>{t(COOKIE_NOTICE.text)}</p>
+      <p className={styles.cookie__text}>{t(COOKIE_NOTICE.text)} <Link href={COOKIE_NOTICE.moreHref} className={styles.cookie__more}>{t(COOKIE_NOTICE.more)}</Link></p>
       <button type="button" className={styles.cookie__button} onClick={accept}>{t(COOKIE_NOTICE.accept)}</button>
     </aside>
   );

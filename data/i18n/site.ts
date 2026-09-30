@@ -61,7 +61,7 @@ export const siteEn: Record<string, string> = {
   'Промо': 'Campaigns',
   'Платформы': 'Platforms',
   'Сайты': 'Websites',
-  'Подробный разбор проекта готовим, тексты в работе': 'A detailed case study is coming soon',
+  'Подробный разбор проекта готовим - тексты в работе': 'A detailed case study is coming soon',
   'Flame dev | Разработка сайтов, сервисов и AI-решений': 'Flame dev | Websites, platforms and AI products',
   'Все проекты Flame dev: спецпроекты для брендов, платформы, сайты и AI-продукты': 'Explore Flame dev projects: interactive brand experiences, platforms, websites and AI products',
   'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск': 'We build websites, digital platforms, brand experiences and AI products. From strategy and design to development and launch',

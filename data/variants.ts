@@ -177,7 +177,7 @@ export const VARIANT_GROUPS: IVariantGroup[] = [
   },
   {
     id: 'ecosystem',
-    title: 'Flame это еще и',
+    title: 'Flame - это еще и',
     fallback: 'marquee',
     options: [
       { value: 'marquee', label: 'Бегущие строки' },

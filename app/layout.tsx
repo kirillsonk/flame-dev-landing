@@ -7,6 +7,8 @@ import RevealController from '@/components/layout/RevealController/RevealControl
 import AnchorScroll from '@/components/layout/AnchorScroll/AnchorScroll';
 import Metrika from '@/components/layout/Metrika/Metrika';
 import CookieNotice from '@/components/layout/CookieNotice/CookieNotice';
+import AutoTheme from '@/components/layout/AutoTheme/AutoTheme';
+import { THEME_INIT_SCRIPT } from '@/lib/theme';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import LocaleProvider from '@/components/i18n/LocaleProvider';
@@ -43,7 +45,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('flame-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <noscript>
           <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
         </noscript>
@@ -60,6 +62,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           <AnchorScroll />
           <Metrika />
           <CookieNotice />
+          <AutoTheme />
         </LocaleProvider>
       </body>
     </html>

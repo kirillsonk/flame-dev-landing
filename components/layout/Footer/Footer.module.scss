@@ -59,3 +59,21 @@
     color: var(--color-text);
   }
 }
+
+// Документы: мелкая приглушенная строка под почтой, как принято на сайтах
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 2.4rem;
+}
+
+.footer__legalLink {
+  @include text-body;
+  @include focus-ring;
+  color: var(--color-text-dim);
+  transition: color .2s;
+
+  @include hover {
+    color: var(--color-text);
+  }
+}

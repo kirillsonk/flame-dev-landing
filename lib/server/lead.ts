@@ -31,6 +31,7 @@ export async function handleLead(request: Request, env: IServerEnv) {
     `Имя: ${escapeHtml(lead.name)}`,
     `Контакт: ${escapeHtml(lead.contact)}`,
     lead.message ? `Задача: ${escapeHtml(lead.message)}` : '',
+    'Согласие на обработку персональных данных получено',
   ]
     .filter(Boolean)
     .join('\n');

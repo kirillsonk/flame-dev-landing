@@ -39,7 +39,7 @@ const CasePage = async ({ params }: CasePageProps) => {
       <Poster item={item} wide showTitle={false} className={styles.case__poster} />
 
       <div className={styles.case__foot}>
-        <p className={styles.case__note}><LocalizedText>Подробный разбор проекта готовим, тексты в работе</LocalizedText></p>
+        <p className={styles.case__note}><LocalizedText>Подробный разбор проекта готовим - тексты в работе</LocalizedText></p>
         <div className={styles.case__actions}>
           {item.live && (
             <BaseButton href={item.live} target="_blank" rel="noreferrer" variant="secondary">

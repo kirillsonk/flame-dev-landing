@@ -214,5 +214,7 @@ export const SERVICES_TITLE = 'Что разработаем для вас';
 export const COOKIE_NOTICE = {
   label: 'Уведомление о cookie',
   text: 'Сайт использует cookie и Яндекс Метрику',
+  more: 'Подробнее',
+  moreHref: '/privacy#cookies',
   accept: 'Хорошо',
 };

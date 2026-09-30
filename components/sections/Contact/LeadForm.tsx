@@ -8,6 +8,7 @@ import BaseIcon from '@/components/ui/BaseIcon/BaseIcon';
 import { CONTACT } from '@/data/site';
 import useLeadSubmit from './hooks/useLeadSubmit';
 import { LEAD_INITIAL_VALUES, LEAD_MESSAGE_MAX, leadValidationSchema, type LeadSource } from './LeadForm.validationSchema';
+import BaseConsent from '@/components/ui/BaseConsent/BaseConsent';
 import styles from './LeadForm.module.scss';
 
 export interface LeadFormProps {
@@ -33,7 +34,7 @@ const LeadForm = ({ source = 'form', compact = false, className }: LeadFormProps
           if (await submit(values)) resetForm();
         }}
       >
-        {({ values, errors, touched, handleChange, handleBlur }) => (
+        {({ values, errors, touched, handleChange, handleBlur, setFieldValue }) => (
           <Form className={styles.form} noValidate inert={done}>
             <BaseInput
               id={`${idPrefix}-name`}
@@ -72,6 +73,12 @@ const LeadForm = ({ source = 'form', compact = false, className }: LeadFormProps
                 error={touched.message ? errors.message : undefined}
               />
             )}
+            <BaseConsent
+              id={`${idPrefix}-consent`}
+              checked={values.consent}
+              onChange={checked => void setFieldValue('consent', checked)}
+              error={touched.consent ? errors.consent : undefined}
+            />
             <div className={styles.form__footer}>
               <BaseButton type="submit" className={styles.form__submit} disabled={status === 'sending'} block={compact}>
                 {status === 'sending' ? COPY.sending : COPY.submit}
