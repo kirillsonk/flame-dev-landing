@@ -27,7 +27,7 @@ export const SERVICES: IService[] = [
   {
     slug: 'ai',
     title: 'AI-решения и автоматизация',
-    description: 'AI-ассистенты, обработка документов и интеграции с рабочими сервисами через API и MCP',
+    description: 'Ассистенты на нейросетях, распознавание и обработка документов, интеграции с рабочими сервисами через API и MCP',
     stack: ['LLM', 'API', 'MCP'],
     visual: 'prompt',
   },

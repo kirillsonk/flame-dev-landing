@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useSyncExternalStore } f
 import type { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { CASES } from '@/data/cases';
+import { CASE_STORIES } from '@/data/caseStories';
 import { translateText } from '@/lib/i18n';
 import type { Locale, TranslationParams } from '@/lib/i18n';
 
@@ -51,8 +52,10 @@ const LocaleProvider = ({ children }: { children: ReactNode }) => {
   const item = pathname.startsWith('/cases/') ? CASES.find(entry => entry.slug === pathname.split('/')[2]) : undefined;
   const publicPage = pathname === '/' || pathname === '/cases' || Boolean(item);
   // Во вкладке бренд всегда первым: «Flame | проект»
-  const title = item ? `Flame | ${value.t(item.title)}` : pathname === '/cases' ? `Flame | ${value.t('Кейсы')}` : value.t('Flame | Разработка сайтов, сервисов и AI-решений');
-  const description = value.t(item?.description ?? (pathname === '/cases' ? 'Все проекты Flame dev: спецпроекты для брендов, платформы, сайты и AI-продукты' : 'Разрабатываем сайты, цифровые сервисы, спецпроекты и AI-решения для бизнеса. Берем на себя проектирование, дизайн и запуск'));
+  const title = item ? `Flame | ${value.t(item.title)}` : pathname === '/cases' ? `Flame | ${value.t('Кейсы')}` : value.t('Flame | Разработка сайтов, сервисов и ИИ-решений для бизнеса');
+  const story = item ? CASE_STORIES[item.slug] : undefined;
+  // У кейса в описание для поисковиков добавляем суть проекта: строка карточки слишком короткая
+  const description = story && item ? `${value.t(item.description)}. ${value.t(story.summary)}` : value.t(item?.description ?? (pathname === '/cases' ? 'Кейсы Flame dev: спецпроекты для брендов, веб-платформы, корпоративные сайты, 3D и продукты на нейросетях' : 'Разрабатываем сайты, веб-сервисы, спецпроекты и ИИ-решения на нейросетях для бизнеса. Берем на себя проектирование, дизайн, разработку и запуск'));
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);

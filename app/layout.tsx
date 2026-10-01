@@ -9,7 +9,7 @@ import Metrika from '@/components/layout/Metrika/Metrika';
 import CookieNotice from '@/components/layout/CookieNotice/CookieNotice';
 import AutoTheme from '@/components/layout/AutoTheme/AutoTheme';
 import { THEME_INIT_SCRIPT } from '@/lib/theme';
-import { ORGANIZATION_LD } from '@/lib/seo';
+import { OG_IMAGE, SITE_LD, SITE_VERIFICATION } from '@/lib/seo';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import LocaleProvider from '@/components/i18n/LocaleProvider';
@@ -29,11 +29,17 @@ const firsNeue = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL('https://flamedev.pro'),
   openGraph: {
-    title: 'Flame dev',
-    description: 'Разработка сайтов, сервисов и AI-решений',
+    title: 'Flame | Разработка сайтов, сервисов и ИИ-решений для бизнеса',
+    description: 'Сайты, веб-сервисы, спецпроекты и решения на нейросетях от идеи до запуска',
     siteName: 'Flame dev',
     locale: 'ru_RU',
     type: 'website',
+    images: [OG_IMAGE],
+  },
+  twitter: { card: 'summary_large_image', images: [OG_IMAGE.url] },
+  verification: {
+    ...(SITE_VERIFICATION.google ? { google: SITE_VERIFICATION.google } : {}),
+    ...(SITE_VERIFICATION.yandex ? { yandex: SITE_VERIFICATION.yandex } : {}),
   },
 };
 
@@ -47,7 +53,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
         <noscript>
           <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
         </noscript>

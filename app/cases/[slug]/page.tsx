@@ -6,6 +6,7 @@ import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import Poster from '@/components/ui/Poster/Poster';
 import { CASES } from '@/data/cases';
 import { CASE_STORIES, CASE_STORY_LABEL } from '@/data/caseStories';
+import { caseLd } from '@/lib/seo';
 import { CASE_BACK_LABEL, CASE_CTA_LABEL, CASE_LIVE_LABEL } from '@/data/site';
 import LocalizedText from '@/components/i18n/LocalizedText';
 import styles from './page.module.scss';
@@ -37,6 +38,7 @@ const CasePage = async ({ params }: CasePageProps) => {
 
   return (
     <main className={styles.case}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd(item, story?.summary)) }} />
       <BaseButton href="/cases" variant="secondary" className={styles.case__back}>
         <LocalizedText>{CASE_BACK_LABEL}</LocalizedText>
       </BaseButton>
