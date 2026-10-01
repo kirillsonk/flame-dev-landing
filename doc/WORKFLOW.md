@@ -130,3 +130,5 @@ origin → git@gitlab.com:flame-dev/flame-dev-landing.git
 Конфигурации GitLab CI, адаптер `build:sites`, `.openai/hosting.json` и описание в `doc/ITERATION_2026-09-28.md` относятся к той схеме
 
 Их наличие не означает, что нужно отправлять текущие правки в GitLab, публиковать Sites или подключать Railway
+
+Ретранслятор `flamedev-relay` (папка `relay/`, Timeweb nl-1) собирается без автодеплоя с 1 октября 2026: после изменений в `relay/` деплой запускается вручную в панели Timeweb. Сайт `flamedev-site` по-прежнему выкатывается автоматически из `main`

@@ -3,7 +3,7 @@ import LegalDocument from '@/components/sections/Legal/LegalDocument';
 import { CONSENT_DOCUMENT } from '@/data/legal';
 
 export const metadata: Metadata = {
-  title: 'Согласие на обработку персональных данных | Flame',
+  title: 'Flame | Согласие на обработку персональных данных',
   description: 'Согласие на обработку персональных данных при отправке заявки на сайте flamedev.pro',
 };
 
