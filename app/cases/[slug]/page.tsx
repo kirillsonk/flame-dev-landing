@@ -28,7 +28,7 @@ export const generateMetadata = async ({ params }: CasePageProps): Promise<Metad
   };
 };
 
-// Страница кейса: описание из общего списка, ролик, суть проекта и механика из CASE_STORIES
+// Страница кейса: описание из общего списка, ролик, суть проекта и что сделали из CASE_STORIES
 const CasePage = async ({ params }: CasePageProps) => {
   const { slug } = await params;
   const item = CASES.find((entry) => entry.slug === slug);
@@ -61,7 +61,7 @@ const CasePage = async ({ params }: CasePageProps) => {
           <div>
             <h3 className={styles.case__label}><LocalizedText>{CASE_STORY_LABEL}</LocalizedText></h3>
             <ul className={styles.case__list}>
-              {story.mechanics.map((line) => <li key={line}><LocalizedText>{line}</LocalizedText></li>)}
+              {story.done.map((line) => <li key={line}><LocalizedText>{line}</LocalizedText></li>)}
             </ul>
           </div>
         </section>

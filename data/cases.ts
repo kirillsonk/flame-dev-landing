@@ -1,7 +1,8 @@
 import type { ICase } from './types';
 
 // Общий реестр проектов: порядок публичного каталога задается отдельно в CATALOG_CASES.
-// Первый тег — категория, её показывают чип в карточке и hero-лента. `logo` — файлы в public/logos/, пока нет.
+// Первый тег — тип проекта (спецпроект, промо, платформа, сервис, сайт): по нему работают фильтры каталога, его показывают карточка и hero-лента.
+// Следующие теги — технология или суть проекта. `logo` — файлы в public/logos/, пока нет.
 // `video` — прежние вертикальные нарезки, `videoWide` — горизонтальные ролики для текущих карточек и hero.
 // 27 широких роликов сверены с папкой Google Drive 30 сентября 2026 года, см. doc/MEDIA_AUDIT_2026-09-30.md.
 // Flame AI и Purina × Mail используют отдельные исходники. Okamus — прежнее название Tibia, соответствие подтверждено владельцем.
@@ -16,7 +17,7 @@ export const CASES: ICase[] = [
     title: 'Coca-Cola × Delivery Club',
     colors: ['#E4002B', '#1E5B3A'],
     description: 'Новогодний адвент-календарь в Delivery Club с мини-играми и подарками каждый день',
-    tags: ['спецпроект', 'мини-игры', 'API'],
+    tags: ['спецпроект', 'геймификация', 'интеграция в приложение'],
   },
   {
     slug: 'rosatom',
@@ -26,7 +27,7 @@ export const CASES: ICase[] = [
     title: 'Росатом',
     colors: ['#1A1F4E', '#D7141A'],
     description: 'Спецпроект «Умный атом»: полет через микромир к технологиям будущего на Three.js',
-    tags: ['3D / WebGL', 'спецпроект'],
+    tags: ['спецпроект', 'Three.js', 'WebGL'],
   },
   {
     slug: 'flame-ai',
@@ -36,7 +37,7 @@ export const CASES: ICase[] = [
     title: 'Flame AI',
     colors: ['#262525', '#F13911'],
     description: 'Собственный SaaS: рекламный ролик из одной фотографии товара',
-    tags: ['AI', 'SaaS'],
+    tags: ['платформа', 'генеративный AI', 'SaaS'],
   },
   {
     slug: 'tibia',
@@ -46,7 +47,7 @@ export const CASES: ICase[] = [
     title: 'Tibia / Majorpack',
     colors: ['#E8D400', '#F2F2F0'],
     description: 'Платформа маркировки и учета труб НКТ от завода до скважины',
-    tags: ['ERP', 'hardware'],
+    tags: ['платформа', 'учетная система', 'QR-маркировка'],
   },
   {
     slug: 'amatour',
@@ -56,7 +57,7 @@ export const CASES: ICase[] = [
     title: 'Amatour',
     colors: ['#E4141C', '#FFFFFF'],
     description: 'Платформа всероссийской серии любительских турниров по теннису',
-    tags: ['платформа', 'подписки'],
+    tags: ['платформа', 'личные кабинеты', 'онлайн-регистрация'],
   },
   {
     slug: 'purina-vk',
@@ -66,7 +67,7 @@ export const CASES: ICase[] = [
     title: 'Purina × VK',
     colors: ['#B5CC2E', '#E30613'],
     description: 'Всероссийское голосование за города, удобные для жизни с питомцами',
-    tags: ['mini-app'],
+    tags: ['промо', 'мини-приложение VK', 'голосование'],
   },
   {
     slug: 'alibox',
@@ -76,7 +77,7 @@ export const CASES: ICase[] = [
     title: 'AliExpress × ОК',
     colors: ['#D9EEF9', '#FF4A1F'],
     description: 'Новогодняя игра в мини-приложении Одноклассников: выбери коробку и получи промокод',
-    tags: ['промо'],
+    tags: ['промо', 'мини-приложение ОК', 'геймификация'],
   },
   {
     slug: 'majorpack',
@@ -86,7 +87,7 @@ export const CASES: ICase[] = [
     title: 'Majorpack',
     colors: ['#2F3A44', '#FFFFFF'],
     description: 'Корпоративный сайт производителя антикоррозионной защиты для нефтегазовой отрасли',
-    tags: ['сайт'],
+    tags: ['сайт', 'B2B', 'калькулятор'],
   },
   {
     slug: 'sozidanie',
@@ -96,33 +97,33 @@ export const CASES: ICase[] = [
     title: 'Фонд «Созидание»',
     colors: ['#F26B1D', '#1E4D2B'],
     description: 'Сайт благотворительного фонда с онлайн-пожертвованиями',
-    tags: ['сайт'],
+    tags: ['сайт', 'онлайн-платежи', 'CMS'],
   },
 ];
 
 // Проекты из архива (../legacy): демо на *.mw.team (открываются из РФ) и реальные адреса, сверено с LINKS.md 2026-09-30. `videoWide` — скринкасты проектов,
 // 15 секунд, 1280×720, только mp4 (2026-09-30).
 const LEGACY_CASES: ICase[] = [
-  { slug: 'mercedes', title: 'Mercedes-AMG', colors: ['#0B0B0B', '#B6B6B6'], description: 'Лонгрид «63 факта об AMG» с анимацией и удобной навигацией по темам', tags: ['спецпроект', 'GSAP'], poster: '/cases/mercedes.jpg', videoWide: { mp4: '/videos/mercedes-wide.mp4?v=20260930', poster: '/videos/mercedes-wide.jpg?v=20260930' }, live: 'https://mercedes.mw.team' },
-  { slug: 'geely', title: 'Geely × Авто Mail', colors: ['#1C2A3F', '#00B4E6'], description: 'Автопрогулка по прогрессивной архитектуре Москвы вместе с Geely Tugella', tags: ['спецпроект', 'скролл'], poster: '/cases/geely.jpg', videoWide: { mp4: '/videos/geely-wide.mp4?v=20260930', poster: '/videos/geely-wide.jpg?v=20260930' }, live: 'https://geely.mw.team' },
-  { slug: 'sovcombank', title: 'Совкомбанк', colors: ['#0A2A5E', '#E8322F'], description: 'Интерактивный сериал «Финансовый ситком» о кредитах и рефинансировании', tags: ['спецпроект', 'интерактив'], poster: '/cases/sovcombank.jpg', videoWide: { mp4: '/videos/sovcombank-wide.mp4?v=20260930', poster: '/videos/sovcombank-wide.jpg?v=20260930' }, live: 'https://sovcombank.mw.team' },
-  { slug: 'halva', title: 'Карта «Халва»', colors: ['#E31E24', '#FFFFFF'], description: 'Тест «Ваш уровень в шопинге» с параллаксом и полезными статьями', tags: ['промо', 'игра'], poster: '/cases/halva.jpg', videoWide: { mp4: '/videos/halva-wide.mp4?v=20260930', poster: '/videos/halva-wide.jpg?v=20260930' }, live: 'https://halva.mw.team' },
-  { slug: 't-bank', title: 'Т-Банк', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промосайт «Как сбалансировать жизнь» о пяти продуктах банка', tags: ['промо', 'лендинг'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
-  { slug: 'vtb', title: 'ВТБ × VK', colors: ['#0A2896', '#FFFFFF'], description: 'Промо привилегий ВТБ для пользователей сервисов VK', tags: ['промо', 'лендинг'], poster: '/cases/vtb.jpg', videoWide: { mp4: '/videos/vtb-wide.mp4?v=20260930', poster: '/videos/vtb-wide.jpg?v=20260930' }, live: 'https://vtb-landing.mw.team' },
-  { slug: 'weleda', title: 'Weleda', colors: ['#F2D7D9', '#7A1F2B'], description: '«Искусство красоты»: путешествие по эпохам в 3D-сцене с тестом и витриной продукта', tags: ['спецпроект', '3D / WebGL'], poster: '/cases/weleda.jpg', videoWide: { mp4: '/videos/weleda-wide.mp4?v=20260930', poster: '/videos/weleda-wide.jpg?v=20260930' }, live: 'https://weleda.mw.team' },
-  { slug: 'camay', title: 'Camay', colors: ['#F7C8A8', '#C2185B'], description: 'Звуковые композиции ароматов со скидкой на Ozon', tags: ['промо', 'звук'], poster: '/cases/camay.jpg', videoWide: { mp4: '/videos/camay-wide.mp4?v=20260930', poster: '/videos/camay-wide.jpg?v=20260930' }, live: 'https://camay.mw.team' },
-  { slug: 'kotex', title: 'Kotex', colors: ['#F6E8EC', '#E5007D'], description: 'Кейс-лендинг «SOS-кнопка» со скролл-сторителлингом', tags: ['спецпроект', 'скролл'], poster: '/cases/kotex.jpg', videoWide: { mp4: '/videos/kotex-wide.mp4?v=20260930', poster: '/videos/kotex-wide.jpg?v=20260930' }, live: 'https://kotex-case.mw.team' },
-  { slug: 'buscopan', title: 'Buscopan', colors: ['#FFFFFF', '#1A1A1A'], description: '«Дело тела»: просветительский проект о синдроме раздраженного кишечника', tags: ['спецпроект', 'медиа'], poster: '/cases/buscopan.jpg', videoWide: { mp4: '/videos/buscopan-wide.mp4?v=20260930', poster: '/videos/buscopan-wide.jpg?v=20260930' }, live: 'https://buscopan.mw.team' },
-  { slug: 'no-spa', title: 'Но-Шпа', colors: ['#FFF3B0', '#D6001C'], description: '«Алло, мам»: сайт-шпаргалка о взрослении для девочек и их мам', tags: ['сайт', 'контент'], poster: '/cases/no-spa.jpg', videoWide: { mp4: '/videos/no-spa-wide.mp4?v=20260930', poster: '/videos/no-spa-wide.jpg?v=20260930' }, live: 'https://no-spa-2024.mw.team' },
-  { slug: 'rostelecom', title: 'Ростелеком', colors: ['#FFFFFF', '#7700FF'], description: 'Лендинг о видеонаблюдении в узнаваемых жизненных историях', tags: ['промо', 'скролл'], poster: '/cases/rostelecom.jpg', videoWide: { mp4: '/videos/rostelecom-wide.mp4?v=20260930', poster: '/videos/rostelecom-wide.jpg?v=20260930' }, live: 'https://rostelecom.mw.team' },
-  { slug: 'mail-space', title: 'Mail Space', colors: ['#EAF2FF', '#005FF9'], description: 'Новогодняя загадка: соедините героев сказок с возможностями подписки Mail Space', tags: ['промо', 'интерактив'], poster: '/cases/mail-space.jpg', videoWide: { mp4: '/videos/mail-space-wide.mp4?v=20260930', poster: '/videos/mail-space-wide.jpg?v=20260930' }, live: 'https://mail-cloud-ny-2025.mw.team' },
+  { slug: 'mercedes', title: 'Mercedes-AMG', colors: ['#0B0B0B', '#B6B6B6'], description: 'Лонгрид «63 факта об AMG» с анимацией и удобной навигацией по темам', tags: ['спецпроект', 'лонгрид', 'GSAP'], poster: '/cases/mercedes.jpg', videoWide: { mp4: '/videos/mercedes-wide.mp4?v=20260930', poster: '/videos/mercedes-wide.jpg?v=20260930' }, live: 'https://mercedes.mw.team' },
+  { slug: 'geely', title: 'Geely × Авто Mail', colors: ['#1C2A3F', '#00B4E6'], description: 'Автопрогулка по прогрессивной архитектуре Москвы вместе с Geely Tugella', tags: ['спецпроект', 'скролл-сторителлинг'], poster: '/cases/geely.jpg', videoWide: { mp4: '/videos/geely-wide.mp4?v=20260930', poster: '/videos/geely-wide.jpg?v=20260930' }, live: 'https://geely.mw.team' },
+  { slug: 'sovcombank', title: 'Совкомбанк', colors: ['#0A2A5E', '#E8322F'], description: 'Интерактивный сериал «Финансовый ситком» о кредитах и рефинансировании', tags: ['спецпроект', 'интерактивное видео'], poster: '/cases/sovcombank.jpg', videoWide: { mp4: '/videos/sovcombank-wide.mp4?v=20260930', poster: '/videos/sovcombank-wide.jpg?v=20260930' }, live: 'https://sovcombank.mw.team' },
+  { slug: 'halva', title: 'Карта «Халва»', colors: ['#E31E24', '#FFFFFF'], description: 'Тест «Ваш уровень в шопинге» с параллаксом и полезными статьями', tags: ['промо', 'тест', 'GSAP'], poster: '/cases/halva.jpg', videoWide: { mp4: '/videos/halva-wide.mp4?v=20260930', poster: '/videos/halva-wide.jpg?v=20260930' }, live: 'https://halva.mw.team' },
+  { slug: 't-bank', title: 'Т-Банк', colors: ['#FFDD2D', '#1A1A1A'], description: 'Промосайт «Как сбалансировать жизнь» о пяти продуктах банка', tags: ['промо', 'лендинг', 'аналитика'], poster: '/cases/tinkoff.jpg', videoWide: { mp4: '/videos/tinkoff-wide.mp4?v=20260930', poster: '/videos/tinkoff-wide.jpg?v=20260930' }, live: 'https://tinkoff.mw.team' },
+  { slug: 'vtb', title: 'ВТБ × VK', colors: ['#0A2896', '#FFFFFF'], description: 'Промо привилегий ВТБ для пользователей сервисов VK', tags: ['промо', 'лендинг', 'экосистема VK'], poster: '/cases/vtb.jpg', videoWide: { mp4: '/videos/vtb-wide.mp4?v=20260930', poster: '/videos/vtb-wide.jpg?v=20260930' }, live: 'https://vtb-landing.mw.team' },
+  { slug: 'weleda', title: 'Weleda', colors: ['#F2D7D9', '#7A1F2B'], description: '«Искусство красоты»: путешествие по эпохам в 3D-сцене с тестом и витриной продукта', tags: ['спецпроект', 'Three.js', 'тест'], poster: '/cases/weleda.jpg', videoWide: { mp4: '/videos/weleda-wide.mp4?v=20260930', poster: '/videos/weleda-wide.jpg?v=20260930' }, live: 'https://weleda.mw.team' },
+  { slug: 'camay', title: 'Camay', colors: ['#F7C8A8', '#C2185B'], description: 'Звуковые композиции ароматов со скидкой на Ozon', tags: ['промо', 'аудио', 'e-commerce'], poster: '/cases/camay.jpg', videoWide: { mp4: '/videos/camay-wide.mp4?v=20260930', poster: '/videos/camay-wide.jpg?v=20260930' }, live: 'https://camay.mw.team' },
+  { slug: 'kotex', title: 'Kotex', colors: ['#F6E8EC', '#E5007D'], description: 'Кейс-лендинг «SOS-кнопка» со скролл-сторителлингом', tags: ['спецпроект', 'скролл-сторителлинг'], poster: '/cases/kotex.jpg', videoWide: { mp4: '/videos/kotex-wide.mp4?v=20260930', poster: '/videos/kotex-wide.jpg?v=20260930' }, live: 'https://kotex-case.mw.team' },
+  { slug: 'buscopan', title: 'Buscopan', colors: ['#FFFFFF', '#1A1A1A'], description: '«Дело тела»: просветительский проект о синдроме раздраженного кишечника', tags: ['спецпроект', 'контент-платформа', 'аудио'], poster: '/cases/buscopan.jpg', videoWide: { mp4: '/videos/buscopan-wide.mp4?v=20260930', poster: '/videos/buscopan-wide.jpg?v=20260930' }, live: 'https://buscopan.mw.team' },
+  { slug: 'no-spa', title: 'Но-Шпа', colors: ['#FFF3B0', '#D6001C'], description: '«Алло, мам»: сайт-шпаргалка о взрослении для девочек и их мам', tags: ['сайт', 'видео', 'интерактивная игра'], poster: '/cases/no-spa.jpg', videoWide: { mp4: '/videos/no-spa-wide.mp4?v=20260930', poster: '/videos/no-spa-wide.jpg?v=20260930' }, live: 'https://no-spa-2024.mw.team' },
+  { slug: 'rostelecom', title: 'Ростелеком', colors: ['#FFFFFF', '#7700FF'], description: 'Лендинг о видеонаблюдении в узнаваемых жизненных историях', tags: ['промо', 'скролл-анимация', 'иллюстрации'], poster: '/cases/rostelecom.jpg', videoWide: { mp4: '/videos/rostelecom-wide.mp4?v=20260930', poster: '/videos/rostelecom-wide.jpg?v=20260930' }, live: 'https://rostelecom.mw.team' },
+  { slug: 'mail-space', title: 'Mail Space', colors: ['#EAF2FF', '#005FF9'], description: 'Новогодняя загадка: соедините героев сказок с возможностями подписки Mail Space', tags: ['промо', 'drag-and-drop', 'геймификация'], poster: '/cases/mail-space.jpg', videoWide: { mp4: '/videos/mail-space-wide.mp4?v=20260930', poster: '/videos/mail-space-wide.jpg?v=20260930' }, live: 'https://mail-cloud-ny-2025.mw.team' },
   { slug: 'nonton', title: 'Нонтон', colors: ['#F4E3C1', '#2B2B2B'], description: 'Тест «Зона комфорта» для подбора мебели по комнатам', tags: ['промо', 'квиз'], poster: '/cases/nonton.jpg', videoWide: { mp4: '/videos/nonton-wide.mp4?v=20260930', poster: '/videos/nonton-wide.jpg?v=20260930' }, live: 'https://nonton.mw.team' },
-  { slug: 'teboil', title: 'Teboil', colors: ['#003D8F', '#E30613'], description: 'Контентный проект о заботе о двигателе с чек-листом и картой АЗС', tags: ['сайт', 'контент'], poster: '/cases/teboil.jpg', videoWide: { mp4: '/videos/teboil-wide.mp4?v=20260930', poster: '/videos/teboil-wide.jpg?v=20260930' }, live: 'https://teboil.mw.team' },
-  { slug: 'purina-nestle', title: 'Purina × Mail', colors: ['#EAF2FF', '#E30613'], description: '«Пушистая анкета»: карточка питомца, сбор контактов и розыгрыш', tags: ['промо', 'лиды'], poster: '/cases/purina-nestle.jpg', videoWide: { mp4: '/videos/purina-nestle-wide.mp4?v=20260917', webm: '/videos/purina-nestle-wide.webm?v=20260917', poster: '/videos/purina-nestle-wide.jpg?v=20260917' }, live: 'https://purina-nestle.mw.team' },
-  { slug: 'total', title: 'Total', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: статьи, подбор масла и призы для водителей', tags: ['промо', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
-  { slug: 'total-2022', title: 'Total', colors: ['#E30613', '#FFFFFF'], description: 'Видеокурс о зимнем вождении с тестом и призами', tags: ['промо', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
-  { slug: 'teva', title: 'Teva', colors: ['#00A19A', '#FFFFFF'], description: 'Многошаговая регистрация врачей с подтверждением по коду', tags: ['сервис', 'формы'], poster: '/cases/teva.jpg', videoWide: { mp4: '/videos/teva-wide.mp4?v=20260930', poster: '/videos/teva-wide.jpg?v=20260930' }, live: 'https://teva-form.mw.team' },
-  { slug: 'huawei', title: 'Huawei × Hi-Tech', colors: ['#FFFFFF', '#CF0A2C'], description: 'Брендзона Huawei на Hi-Tech Mail с обзорами и новостями устройств', tags: ['спецпроект', 'медиа'], poster: '/cases/huawei.jpg', videoWide: { mp4: '/videos/huawei-wide.mp4?v=20260930', poster: '/videos/huawei-wide.jpg?v=20260930' }, live: 'https://huawei.hi-tech.mail.ru/' },
+  { slug: 'teboil', title: 'Teboil', colors: ['#003D8F', '#E30613'], description: 'Контентный проект о заботе о двигателе с чек-листом и картой АЗС', tags: ['сайт', 'контент-маркетинг'], poster: '/cases/teboil.jpg', videoWide: { mp4: '/videos/teboil-wide.mp4?v=20260930', poster: '/videos/teboil-wide.jpg?v=20260930' }, live: 'https://teboil.mw.team' },
+  { slug: 'purina-nestle', title: 'Purina × Mail', colors: ['#EAF2FF', '#E30613'], description: '«Пушистая анкета»: карточка питомца, сбор контактов и розыгрыш', tags: ['промо', 'лидогенерация', 'UGC'], poster: '/cases/purina-nestle.jpg', videoWide: { mp4: '/videos/purina-nestle-wide.mp4?v=20260917', webm: '/videos/purina-nestle-wide.webm?v=20260917', poster: '/videos/purina-nestle-wide.jpg?v=20260917' }, live: 'https://purina-nestle.mw.team' },
+  { slug: 'total', title: 'Total', colors: ['#E30613', '#1D3A8A'], description: '«Тотальная безопасность»: статьи, подбор масла и призы для водителей', tags: ['промо', 'медиапроект', 'квиз'], poster: '/cases/total.jpg', videoWide: { mp4: '/videos/total-wide.mp4?v=20260930', poster: '/videos/total-wide.jpg?v=20260930' }, live: 'https://total.mw.team' },
+  { slug: 'total-2022', title: 'Total', colors: ['#E30613', '#FFFFFF'], description: 'Видеокурс о зимнем вождении с тестом и призами', tags: ['промо', 'видеокурс', 'квиз'], poster: '/cases/total-2022.jpg', videoWide: { mp4: '/videos/total-2022-wide.mp4?v=20260930', poster: '/videos/total-2022-wide.jpg?v=20260930' }, live: 'https://total-2022.mw.team' },
+  { slug: 'teva', title: 'Teva', colors: ['#00A19A', '#FFFFFF'], description: 'Многошаговая регистрация врачей с подтверждением по коду', tags: ['сервис', 'многошаговая форма', 'OTP-верификация'], poster: '/cases/teva.jpg', videoWide: { mp4: '/videos/teva-wide.mp4?v=20260930', poster: '/videos/teva-wide.jpg?v=20260930' }, live: 'https://teva-form.mw.team' },
+  { slug: 'huawei', title: 'Huawei × Hi-Tech', colors: ['#FFFFFF', '#CF0A2C'], description: 'Брендзона Huawei на Hi-Tech Mail с обзорами и новостями устройств', tags: ['спецпроект', 'брендзона'], poster: '/cases/huawei.jpg', videoWide: { mp4: '/videos/huawei-wide.mp4?v=20260930', poster: '/videos/huawei-wide.jpg?v=20260930' }, live: 'https://huawei.hi-tech.mail.ru/' },
 ];
 
 CASES.push(...LEGACY_CASES);
@@ -208,9 +209,9 @@ export interface ICaseFilter {
 
 export const CASE_FILTERS: ICaseFilter[] = [
   { id: 'all', label: 'Все', tags: [] },
-  { id: 'special', label: 'Спецпроекты', tags: ['спецпроект', '3D / WebGL'] },
-  { id: 'promo', label: 'Промо', tags: ['промо', 'mini-app'] },
-  { id: 'platform', label: 'Платформы', tags: ['платформа', 'ERP', 'AI', 'сервис'] },
+  { id: 'special', label: 'Спецпроекты', tags: ['спецпроект'] },
+  { id: 'promo', label: 'Промо', tags: ['промо'] },
+  { id: 'platform', label: 'Платформы', tags: ['платформа', 'сервис'] },
   { id: 'site', label: 'Сайты', tags: ['сайт'] },
 ];
 

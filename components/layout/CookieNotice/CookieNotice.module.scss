@@ -24,12 +24,12 @@
   color: var(--color-text-cold);
   opacity: 0;
   translate: -50% 1.6rem;
-  transition: opacity .45s var(--ease), translate .6s var(--ease);
+  transition: opacity .45s var(--ease), translate .6s var(--ease), bottom .3s var(--ease);
 
   @include mobile {
     left: var(--space-gutter);
     right: var(--space-gutter);
-    bottom: 8.8rem;
+    bottom: calc(1.6rem + env(safe-area-inset-bottom));
     width: auto;
     max-width: none;
     padding: 1rem 1rem 1rem 1.6rem;
@@ -79,4 +79,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cookie { transition: opacity .2s; translate: -50% 0; }
+}
+
+// На телефоне снизу может выезжать кнопка «Обсудить проект»: пока она видна, плашка стоит над ней
+:global(html[data-cta-bar]) .cookie {
+  @include mobile {
+    bottom: calc(8.8rem + env(safe-area-inset-bottom));
+  }
 }

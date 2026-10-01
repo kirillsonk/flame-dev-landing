@@ -4,12 +4,12 @@ export interface ICaseVideo {
   poster?: string;
 }
 
-/** Страница кейса: суть проекта и механика */
+/** Страница кейса: заголовок, суть проекта и что сделали */
 export interface ICaseStory {
   /** Короткий заголовок блока, несколько слов */
   title: string;
   summary: string;
-  mechanics: string[];
+  done: string[];
 }
 
 export interface ICaseLogo {
