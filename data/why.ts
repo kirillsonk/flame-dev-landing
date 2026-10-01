@@ -19,7 +19,7 @@ export const WHY_CARDS: IWhyCard[] = [
 ];
 
 // Постер Flame AI для карточки-продукта в вариантах блока.
-export const WHY_POSTER = { src: '/videos/flame-ai-wide.jpg', alt: 'Flame AI', width: 1280, height: 720 };
+export const WHY_POSTER = { src: '/videos/flame-ai-wide.jpg?v=20261001', alt: 'Flame AI', width: 1280, height: 720 };
 
 export const WHY_BRAND = 'Flame dev';
 
