@@ -39,7 +39,7 @@
 .case__foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-card);
   margin-top: var(--space-card);
 
@@ -49,9 +49,54 @@
   }
 }
 
-.case__note {
+// Суть проекта крупно слева, механика списком справа; на телефоне друг под другом
+.case__story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 4.8rem;
+  margin-top: var(--space-card);
+  padding-top: var(--space-card);
+  border-top: 1px solid var(--color-border);
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.4rem;
+  }
+}
+
+.case__summary {
+  @include text-title;
+  max-width: 72rem;
+}
+
+.case__label {
   @include text-body;
   color: var(--color-text-dim);
+  margin-bottom: 1.2rem;
+}
+
+.case__list {
+  @include text-body;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  li {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .7em;
+    width: .8rem;
+    height: .2rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-action-accent);
+  }
 }
 
 .case__actions {
