@@ -11,7 +11,11 @@ const nextConfig: NextConfig = {
   // Кейс переименован вслед за банком: старые ссылки на «Тинькофф» ведут на новый адрес
   async redirects() {
     if (sitesExport) return [];
-    return [{ source: '/cases/tinkoff', destination: '/cases/t-bank', permanent: true }];
+    return [
+      { source: '/cases/tinkoff', destination: '/cases/t-bank', permanent: true },
+      // Один адрес сайта для поисковиков: www ведет на основной домен
+      { source: '/:path*', has: [{ type: 'host', value: 'www.flamedev.pro' }], destination: 'https://flamedev.pro/:path*', permanent: true },
+    ];
   },
   async headers() {
     if (sitesExport) return [];

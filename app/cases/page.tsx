@@ -6,7 +6,10 @@ import StarField from '@/components/layout/StarField/StarField';
 import LocalizedText from '@/components/i18n/LocalizedText';
 import { CATALOG_CASES } from '@/data/cases';
 import { CASES_BACK_LABEL, CASES_INDEX_TITLE } from '@/data/site';
+import type { Metadata } from 'next';
 import styles from './page.module.scss';
+
+export const metadata: Metadata = { alternates: { canonical: '/cases' } };
 
 // Полный каталог с фильтрами и параллакс-колонками на фоне звездного неба.
 // Внизу та же форма-бриф и лента продуктов Flame, что на главной

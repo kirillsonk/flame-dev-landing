@@ -9,6 +9,7 @@ import Metrika from '@/components/layout/Metrika/Metrika';
 import CookieNotice from '@/components/layout/CookieNotice/CookieNotice';
 import AutoTheme from '@/components/layout/AutoTheme/AutoTheme';
 import { THEME_INIT_SCRIPT } from '@/lib/theme';
+import { ORGANIZATION_LD } from '@/lib/seo';
 import MobileCtaBar from '@/components/cta/MobileCtaBar/MobileCtaBar';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import LocaleProvider from '@/components/i18n/LocaleProvider';
@@ -46,6 +47,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
         <noscript>
           <style>{'[data-reveal]{opacity:1;translate:none}'}</style>
         </noscript>

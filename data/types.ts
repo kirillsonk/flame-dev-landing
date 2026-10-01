@@ -6,6 +6,8 @@ export interface ICaseVideo {
 
 /** Страница кейса: суть проекта и механика */
 export interface ICaseStory {
+  /** Короткий заголовок блока, несколько слов */
+  title: string;
   summary: string;
   mechanics: string[];
 }

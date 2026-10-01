@@ -1,5 +1,6 @@
 import BaseButton from '@/components/ui/BaseButton/BaseButton';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import CtaButton from '@/components/cta/CtaButton/CtaButton';
 import BaseTag from '@/components/ui/BaseTag/BaseTag';
 import Poster from '@/components/ui/Poster/Poster';
@@ -14,6 +15,18 @@ export interface CasePageProps {
 }
 
 export const generateStaticParams = () => CASES.map((item) => ({ slug: item.slug }));
+
+// Заголовок и описание вкладки ставит LocaleProvider (с учетом языка), здесь канонический адрес и превью для соцсетей
+export const generateMetadata = async ({ params }: CasePageProps): Promise<Metadata> => {
+  const { slug } = await params;
+  const item = CASES.find((entry) => entry.slug === slug);
+  if (!item) return {};
+  const image = item.videoWide?.poster ?? item.poster;
+  return {
+    alternates: { canonical: `/cases/${item.slug}` },
+    openGraph: { title: `Flame | ${item.title}`, description: item.description, url: `/cases/${item.slug}`, ...(image ? { images: [{ url: image, width: 1280, height: 720 }] } : {}) },
+  };
+};
 
 // Страница кейса: описание из общего списка, ролик, суть проекта и механика из CASE_STORIES
 const CasePage = async ({ params }: CasePageProps) => {
@@ -41,9 +54,12 @@ const CasePage = async ({ params }: CasePageProps) => {
 
       {story && (
         <section className={styles.case__story}>
-          <p className={styles.case__summary}><LocalizedText>{story.summary}</LocalizedText></p>
           <div>
-            <h2 className={styles.case__label}><LocalizedText>{CASE_STORY_LABEL}</LocalizedText></h2>
+            <h2 className={styles.case__headline}><LocalizedText>{story.title}</LocalizedText></h2>
+            <p className={styles.case__summary}><LocalizedText>{story.summary}</LocalizedText></p>
+          </div>
+          <div>
+            <h3 className={styles.case__label}><LocalizedText>{CASE_STORY_LABEL}</LocalizedText></h3>
             <ul className={styles.case__list}>
               {story.mechanics.map((line) => <li key={line}><LocalizedText>{line}</LocalizedText></li>)}
             </ul>

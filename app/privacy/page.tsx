@@ -5,6 +5,7 @@ import { PRIVACY_POLICY } from '@/data/legal';
 export const metadata: Metadata = {
   title: 'Flame | Политика обработки персональных данных',
   description: 'Какие данные посетителей сайта flamedev.pro обрабатываются, зачем и как они защищены',
+  alternates: { canonical: '/privacy' },
 };
 
 const PrivacyPage = () => <LegalDocument document={PRIVACY_POLICY} />;
