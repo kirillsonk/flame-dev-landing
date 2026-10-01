@@ -3,14 +3,14 @@
 import { useSyncExternalStore } from 'react';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 import { APPEARANCE } from '@/data/appearance';
-import { THEME_EVENT, THEME_KEY, themeByTime } from '@/lib/theme';
+import { THEME_EVENT, THEME_KEY, autoTheme } from '@/lib/theme';
 import styles from './ThemeToggle.module.scss';
 
 const subscribe = (callback: () => void) => {
   const onStorage = (event: StorageEvent) => {
     if (event.key !== THEME_KEY && event.key !== null) return;
     // Выбор в другой вкладке. Если его сбросили, возвращаемся к теме по времени суток
-    document.documentElement.dataset.theme = event.newValue === 'light' || event.newValue === 'dark' ? event.newValue : themeByTime();
+    document.documentElement.dataset.theme = event.newValue === 'light' || event.newValue === 'dark' ? event.newValue : autoTheme(new Date());
     window.dispatchEvent(new Event(THEME_EVENT));
   };
   window.addEventListener(THEME_EVENT, callback);
