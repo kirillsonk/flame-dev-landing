@@ -100,6 +100,7 @@ export const casesEn: Record<string, string> = {
   'Платформа теннисных турниров': 'Tennis tournament platform',
   'Интерактивный 3D-проект': 'Interactive 3D experience',
   'Мини-игры в приложении': 'In-app mini-games',
+  'Интерактивная витрина ароматов': 'Interactive fragrance showcase',
   'AI-платформа для создания видео': 'AI video creation platform',
   'Мини-приложение VK': 'VK mini-app',
 
@@ -112,6 +113,7 @@ export const casesEn: Record<string, string> = {
   'Турниры, рейтинги и личные кабинеты в одной платформе': 'Tournaments, rankings and user accounts in one platform',
   '3D и интерактив для проекта «Умный атом»': '3D and interaction for the Smart Atom project',
   'Игровая механика внутри приложения Delivery Club': 'Game mechanics inside the Delivery Club app',
+  'Звуковые композиции ароматов и переход к покупке на Ozon': 'Fragrance soundscapes with links to shop on Ozon',
   'Продукт для генерации рекламных видео с AI': 'An AI product for generating advertising videos',
   'Сайт, мини-приложение и карта pet-friendly городов': 'A website, mini-app and map of pet-friendly cities',
 

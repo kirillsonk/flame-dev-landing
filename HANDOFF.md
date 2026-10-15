@@ -1,12 +1,13 @@
 # HANDOFF
-updated: 2026-10-07 15:30 МСК | agent: Claude Code | branch: dev
+updated: 2026-10-15 МСК | agent: Codex | branch: dev
 
 ## Сейчас
-- Production flamedev.pro = `main` = `8146377`, в `dev` сверху только этот HANDOFF. Незавершенной работы нет
+- Production flamedev.pro = `main` = `8146377`. В `dev` подготовлена замена ВТБ и Т-Банка на Coca-Cola × Delivery Club и Camay в общей подборке первого экрана и галереи. В production эта правка еще не выпущена
 - `dev` для правок, `main` деплоится в production и обновляется только по «пушим в main» от владельца
 - Remote `github` основной, `origin` (GitLab) не используется. На github есть старая ветка `codex/workflow-and-site-audit`
 
 ## Последняя сессия
+- 15 октября: обновлены `data/studio.ts` и `data/i18n/cases.ts`, добавлены подписи Camay RU/EN. `npm run check` и `git diff --check` пройдены, браузер проверен на 1440 и 390, ссылки и EN-подпись корректны. Локальная production-сборка запущена на localhost:3101
 - Тема без ручного выбора: темная при темной теме устройства, иначе по восходу и закату (`lib/theme.ts`, `AutoTheme`)
 - SEO: robots, sitemap, canonical, www → flamedev.pro, `public/og.png`, schema.org, «ИИ» и «нейросети» в метаданных, хуки кодов Вебмастера и Search Console. Детали в `doc/SEO_2026-10-01.md`
 - Кейсы: у 29 страниц заголовок, пара строк и «Что сделали» (`data/caseStories.ts`), первый тег задает фильтр каталога
@@ -36,6 +37,7 @@ updated: 2026-10-07 15:30 МСК | agent: Claude Code | branch: dev
 - Статус и логи через Timeweb MCP. Заявки на проде проверять только когда нужный деплой уже работает
 
 ## Журнал
+- 2026-10-15 | Codex | dev | Coca-Cola и Camay в подборке главной, подписи RU/EN
 - 2026-10-07 | Claude Code | dev | HANDOFF.md и правило AI-Sync
 - 2026-10-01 | Claude Code | main | тема по устройству и солнцу
 - 2026-10-01 | Claude Code | main | SEO: ключевые слова, og.png, schema.org

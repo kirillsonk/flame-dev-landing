@@ -6,7 +6,7 @@ export const STUDIO = {
   process: { eyebrow: 'Подход', title: 'Этапы работы' },
   contact: { eyebrow: 'Начнем с задачи', title: 'Расскажите\nо задаче', link: 'start@flamedev.pro' },
 };
-export const FEATURED_CASES = ['halva', 'vtb', 't-bank', 'rostelecom', 'sozidanie', 'rosatom'];
+export const FEATURED_CASES = ['halva', 'coca-cola-delivery-club', 'camay', 'rostelecom', 'sozidanie', 'rosatom'];
 export const CASE_TYPES: Record<string, string> = {
   halva: 'Интерактивная промоигра',
   vtb: 'Промопроект с экосистемой VK',
@@ -17,6 +17,7 @@ export const CASE_TYPES: Record<string, string> = {
   amatour: 'Платформа теннисных турниров',
   rosatom: 'Интерактивный 3D-проект',
   'coca-cola-delivery-club': 'Мини-игры в приложении',
+  camay: 'Интерактивная витрина ароматов',
   'flame-ai': 'AI-платформа для создания видео',
   'purina-vk': 'Мини-приложение VK',
 };
@@ -30,6 +31,7 @@ export const CASE_CAPTIONS: Record<string, string> = {
   amatour: 'Турниры, рейтинги и личные кабинеты в одной платформе',
   rosatom: '3D и интерактив для проекта «Умный атом»',
   'coca-cola-delivery-club': 'Игровая механика внутри приложения Delivery Club',
+  camay: 'Звуковые композиции ароматов и переход к покупке на Ozon',
   'flame-ai': 'Продукт для генерации рекламных видео с AI',
   'purina-vk': 'Сайт, мини-приложение и карта pet-friendly городов',
 };
