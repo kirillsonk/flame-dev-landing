@@ -1,12 +1,13 @@
 # HANDOFF
-updated: 2026-10-15 МСК | agent: Codex | branch: dev
+updated: 2026-10-16 МСК | agent: Codex | branch: dev
 
 ## Сейчас
-- Production flamedev.pro = `main` = `8146377`. В `dev` подготовлена замена ВТБ и Т-Банка на Coca-Cola × Delivery Club и Camay в общей подборке первого экрана и галереи. В production эта правка еще не выпущена
+- Production flamedev.pro = `main` = `ee4624c`. Coca-Cola × Delivery Club и Camay заменили ВТБ и Т-Банк в общей подборке первого экрана и галереи. Timeweb подтвердил успешный деплой 16 октября, главная и обе страницы кейсов проверены по HTTPS. В `dev` сверху только обновление этого HANDOFF
 - `dev` для правок, `main` деплоится в production и обновляется только по «пушим в main» от владельца
 - Remote `github` основной, `origin` (GitLab) не используется. На github есть старая ветка `codex/workflow-and-site-audit`
 
 ## Последняя сессия
+- 16 октября: по разрешению владельца `dev` объединена с `main`, релиз `ee4624c` успешно опубликован. Проверены точный список шести кейсов на боевой главной и HTTP 200 обеих новых страниц
 - 15 октября: обновлены `data/studio.ts` и `data/i18n/cases.ts`, добавлены подписи Camay RU/EN. `npm run check` и `git diff --check` пройдены, браузер проверен на 1440 и 390, ссылки и EN-подпись корректны. Локальная production-сборка запущена на localhost:3101
 - Тема без ручного выбора: темная при темной теме устройства, иначе по восходу и закату (`lib/theme.ts`, `AutoTheme`)
 - SEO: robots, sitemap, canonical, www → flamedev.pro, `public/og.png`, schema.org, «ИИ» и «нейросети» в метаданных, хуки кодов Вебмастера и Search Console. Детали в `doc/SEO_2026-10-01.md`
@@ -37,6 +38,7 @@ updated: 2026-10-15 МСК | agent: Codex | branch: dev
 - Статус и логи через Timeweb MCP. Заявки на проде проверять только когда нужный деплой уже работает
 
 ## Журнал
+- 2026-10-16 | Codex | main | выпуск Coca-Cola и Camay, успешный деплой Timeweb и проверка production
 - 2026-10-15 | Codex | dev | Coca-Cola и Camay в подборке главной, подписи RU/EN
 - 2026-10-07 | Claude Code | dev | HANDOFF.md и правило AI-Sync
 - 2026-10-01 | Claude Code | main | тема по устройству и солнцу
