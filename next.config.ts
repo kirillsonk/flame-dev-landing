@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
       { source: '/:path*', has: [{ type: 'host', value: 'www.flamedev.pro' }], destination: 'https://flamedev.pro/:path*', permanent: true },
     ];
   },
+  // Презентация для клиента: статичная страница из public/my-olymp, без индексации
+  async rewrites() {
+    if (sitesExport) return [];
+    return [{ source: '/my-olymp', destination: '/my-olymp/index.html' }];
+  },
   async headers() {
     if (sitesExport) return [];
     return [

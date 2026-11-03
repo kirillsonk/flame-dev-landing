@@ -37,6 +37,7 @@ updated: 2026-10-15 МСК | agent: Codex | branch: dev
 - Статус и логи через Timeweb MCP. Заявки на проде проверять только когда нужный деплой уже работает
 
 ## Журнал
+- 2026-11-03 | Claude | main | Презентация «Мой личный Олимп» для клиента: статичная страница `public/my-olymp` (видео вместо GIF, шрифт Onest локально), адрес flamedev.pro/my-olymp через rewrite в `next.config.ts`, закрыта в robots и noindex. npm в сессии был недоступен, сборка не проверялась локально
 - 2026-10-15 | Codex | dev | Coca-Cola и Camay в подборке главной, подписи RU/EN
 - 2026-10-07 | Claude Code | dev | HANDOFF.md и правило AI-Sync
 - 2026-10-01 | Claude Code | main | тема по устройству и солнцу
