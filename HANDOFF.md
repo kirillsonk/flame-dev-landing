@@ -2,7 +2,8 @@
 updated: 2026-11-05 МСК | agent: Codex | branch: dev
 
 ## Сейчас
-- Production: GitHub `main` = `e10575d`, Liquid Glass и градиентные круги опубликованы 5 ноября в 22:18 МСК. Timeweb deploy `0a78b026-900f-4298-84a9-3d6139645720` завершился `success`. Изменения `/my-olymp` из main сохранены без изменений.
+- Последний production: `d2aa8a4`, CTA «Больше проектов» / «More projects». Timeweb `c7234639-bcf7-4de7-a715-1ff20fddd4f1`: success, 5 ноября 22:50 МСК. Build/lint/typecheck прошли, RU/EN и ширины 390/1440 проверены локально; новая подпись и переход в /cases проверены в production.
+- Предыдущий production: GitHub `main` = `e10575d`, Liquid Glass и градиентные круги опубликованы 5 ноября в 22:18 МСК. Timeweb deploy `0a78b026-900f-4298-84a9-3d6139645720` завершился `success`. Изменения `/my-olymp` из main сохранены без изменений.
 - `dev` для правок, `main` деплоится в production и обновляется только по «пушим в main» от владельца
 - Remote `github` основной, `origin` (GitLab) не используется. На github есть старая ветка `codex/workflow-and-site-audit`
 
