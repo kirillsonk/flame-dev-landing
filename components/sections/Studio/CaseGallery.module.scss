@@ -47,3 +47,8 @@
 @keyframes cardReverse { from { opacity: .2; transform: translate3d(-2.4rem, .8rem, -70px) rotateY(-7deg) rotateZ(-2deg); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .gallery__card { animation: none; } .gallery__card:hover .gallery__image img, .gallery__card:hover .gallery__image video { transform: none; } }
 .gallery__type { @include text-body; display: block; margin-bottom: .8rem; color: var(--color-text-cold); }
+
+.gallery__card, .gallery__back, .gallery__item, .gallery__mobileCard { @include liquid-edge; }
+
+// Keep the case copy readable over the stacked cards.
+.gallery__card, .gallery__back, .gallery__mobileCard { background-color: var(--color-surface); }

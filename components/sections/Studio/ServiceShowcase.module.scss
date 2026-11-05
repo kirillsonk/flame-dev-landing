@@ -18,3 +18,5 @@
 .loading { @include text-body; display: grid; place-items: center; height: 100%; padding: 4rem; color: var(--color-text-cold); }
 @keyframes arrive { from { opacity: .3; transform: translateY(1rem); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .scene { animation: none; } .direction__button, .rail button { transition: none; } }
+
+.stage { @include liquid-edge; }

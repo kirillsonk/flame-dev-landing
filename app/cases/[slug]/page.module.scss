@@ -31,6 +31,8 @@
 }
 
 .case__poster {
+  @include liquid-edge;
+  overflow: hidden;
   aspect-ratio: 16 / 9;
   margin-top: var(--space-card);
   border-radius: var(--radius-card);

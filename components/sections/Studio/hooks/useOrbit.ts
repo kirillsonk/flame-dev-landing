@@ -130,7 +130,7 @@ const TITLE = {
   // Размытие самых дальних слов на экране, px
   blur: .4,
   // Переднее слово над рамкой ядра и слово у колонки с заголовком притухают
-  guard: .72,
+  guard: 1,
   copy: .45,
   // Слово ближе к зрителю, чем кадр: сильнее следует за курсором и дышит не в фазе с кадром, px
   leadBack: 4,
@@ -274,6 +274,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
     // Намерение навести: кандидат под курсором и время, когда курсор на него заехал
     const intent = { index: -1, since: 0 };
     let lockUntil = 0;
+    let autoElapsed = 0;
 
     // Название живет в пространстве кадра: цепочка начинается с позы кадра (та же точка схода в ядре),
     // затем опорная точка над верхним краем кадра и собственный поворот слова вокруг нее
@@ -316,7 +317,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       // Переднее слово над рамкой ядра притухает, пока его не выбрали: видео и подпись ядра остаются главными
       if (depth > 0 && item.seat >= 0) {
         const coverX = clamp((Math.min(left + w, frame.w / 2) - Math.max(left, -frame.w / 2)) / w, 0, 1);
-        const coverY = clamp((Math.min(bottom, coreY + frame.h / 2) - Math.max(bottom - h, coreY - frame.h / 2)) / h, 0, 1);
+        const coverY = clamp((Math.min(bottom, coreY + frame.h / 2 + 88) - Math.max(bottom - h, coreY - frame.h / 2)) / h, 0, 1);
         guard = 1 - TITLE.guard * smoothstep(0, .35, coverX * coverY) * (1 - f);
       }
       // У колонки с главным заголовком слово уходит в тень, пока его не выбрали
@@ -416,6 +417,7 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       gsap.to(outgoing.core, { value: 0, duration: quick ? 0 : FLIGHT, ease: 'power3.inOut', overwrite: true });
       if (!quick) gsap.to(orbit, { kick: `+=${KICK}`, duration: 1.8, ease: 'power2.out' });
       coreRef.current = index;
+      autoElapsed = 0;
       lockUntil = performance.now() + LOCK_MS;
       intent.index = -1;
       callback.current(index);
@@ -447,6 +449,11 @@ const useOrbit = (rootRef: RefObject<HTMLElement | null>, onCore: (index: number
       pace.value += ((pointer.inside ? HOVER_SPEED : 1) - pace.value) * Math.min(1, dt * 3);
       if (!motion.matches) orbit.angle += ORBIT.speed * dt * pace.value;
       checkIntent(time);
+      // Count only visible, idle hero time; keyboard and pointer interaction take priority.
+      if (!motion.matches && morphState.progress < .01 && !pointer.inside && !stage.contains(document.activeElement)) {
+        autoElapsed += dt;
+        if (autoElapsed >= 8 && time >= lockUntil) swap((coreRef.current + 1) % items.length);
+      } else autoElapsed = 0;
       renderDesktop(time, calm, dt);
     };
     const tick = () => render(performance.now());
