@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import clsx from 'clsx';
+import { PROJECT_BRANDS } from '@/data/projectBrands';
 import type { ICase } from '@/data/types';
-import { CASE_TYPES, HERO_STAGE } from '@/data/studio';
+import { HERO_STAGE } from '@/data/studio';
 import styles from './HeroStage.module.scss';
 import { useLocale } from '@/components/i18n/LocaleProvider';
 
@@ -25,7 +27,7 @@ const morphRole = (index: number, core: number, count: number) => {
 // Над кадрами орбиты стоят их названия: соседи кадра в слоте, в пространстве той же сцены, позу ведет useOrbit.
 // Вокруг ядра переливается кромка. На телефоне сцена скрыта, проекты показаны в отдельной галерее
 const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const stage = useRef<HTMLDivElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const playback = useRef({ core, morphing });
@@ -82,22 +84,31 @@ const HeroOrbit = ({ items, core, morphing }: HeroOrbitProps) => {
         const source = item.videoWide ?? item.video;
         if (!source) return null;
         const isCore = index === core;
+        const brand = PROJECT_BRANDS[item.slug];
         return (
           <div key={item.slug} className={clsx(styles.orbit__slot, styles[`orbit__slot--${index}`])} data-morph-slot>
             <div className={styles.orbit__float} data-orbit-item data-index={index}>
-              <span className={clsx(styles.orbit__ring, isCore && styles['orbit__ring--on'])} data-morph-fade aria-hidden="true" />
+              <span className={styles.orbit__overlay} data-morph-fade aria-hidden="true"><span className={clsx(styles.orbit__ring, isCore && styles['orbit__ring--on'])} /></span>
               <Link
                 href={`/cases/${item.slug}`}
                 className={clsx(styles.orbit__frame, isCore && styles['orbit__frame--core'])}
                 data-morph-source={morphRole(index, core, items.length)}
                 aria-label={`${t(HERO_STAGE.open)} · ${t(item.title)}`}
               >
-                <video ref={(node) => { videos.current[index] = node; }} poster={source.poster} preload="none" muted loop playsInline aria-hidden="true" />
-                <span className={styles.orbit__dim} data-orbit-dim aria-hidden="true" />
-                <span className={styles.orbit__label} data-morph-fade>
-                  <span className={styles.orbit__chip}>{t(item.title)}<span>{t(CASE_TYPES[item.slug])}</span></span>
+                <span className={clsx(styles.orbit__flip, isCore && styles['orbit__flip--active'])}>
+                  <span className={styles.orbit__brand} aria-hidden="true">
+                    {locale === 'en' && brand?.en ? <span className={styles.orbit__wordmark}>{brand.symbol && <span className={styles.orbit__symbol} style={{ maskImage: `url("${brand.symbol}")` }} />}{brand.en}</span> : brand?.image ? <Image src={brand.asset} alt="" width={420} height={220} className={styles.orbit__logoImage} /> :
+                      <span className={styles.orbit__logo} style={{ maskImage: `url("${brand?.asset}")` }} />}
+                  </span>
+                  <span className={styles.orbit__screen}>
+                    <video ref={(node) => { videos.current[index] = node; }} poster={source.poster} preload="none" muted loop playsInline aria-hidden="true" />
+                  </span>
                 </span>
+                <span className={styles.orbit__dim} data-orbit-dim aria-hidden="true" />
               </Link>
+              <span className={styles.orbit__overlay} data-morph-fade aria-hidden={!isCore}><span className={clsx(styles.orbit__label, isCore && styles['orbit__label--active'])}>
+                <span className={styles.orbit__chip}>{t(item.title)}</span>
+              </span></span>
             </div>
             <span className={styles.orbit__title} data-orbit-title aria-hidden="true">{t(item.title)}</span>
           </div>

@@ -30,20 +30,27 @@
 .orbit__float { position: absolute; inset: 0; pointer-events: auto; will-change: transform; }
 
 // Переливающаяся кромка и сияние у переднего кадра
-.orbit__ring { position: absolute; inset: -1px; border-radius: 1.6rem; pointer-events: none; opacity: 0; transition: opacity .5s var(--ease); }
+.orbit__ring { position: absolute; inset: -1px; border-radius: var(--radius-panel); pointer-events: none; opacity: 0; transition: opacity .5s var(--ease); }
 .orbit__ring::before, .orbit__ring::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: conic-gradient(from var(--ring-angle), var(--color-action-primary), var(--color-action-accent), var(--color-fire-light), var(--color-action-primary) 70%, var(--color-action-accent)); animation: ringSpin 9s linear infinite; }
 .orbit__ring::before { padding: 1px; mask: linear-gradient(var(--color-text) 0 0) content-box exclude, linear-gradient(var(--color-text) 0 0); -webkit-mask-composite: xor; }
 .orbit__ring::after { z-index: -1; inset: 8%; filter: blur(40px); opacity: .6; }
 .orbit__ring--on { opacity: 1; @include mobile { opacity: 0; } }
 @keyframes ringSpin { to { --ring-angle: 360deg; } }
 
-.orbit__frame { @include focus-ring; position: absolute; inset: 0; display: block; overflow: hidden; border-radius: 1.6rem; clip-path: inset(0 round 1.6rem); background: var(--color-surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-text) 14%, transparent); video { width: 100%; height: 100%; object-fit: cover; } }
-// Затемнение по глубине: задние кадры орбиты темнее, прозрачность ведет useOrbit
-.orbit__dim { position: absolute; inset: 0; background: var(--color-bg); opacity: 0; pointer-events: none; @include mobile { display: none; } }
-.orbit__label { position: absolute; left: 1.2rem; bottom: 1.2rem; right: 1.2rem; pointer-events: none; }
-// Плашка плотная: текст на ней не должен смешиваться с текстом в видео под ней
-.orbit__chip { @include text-body; display: inline-grid; background: color-mix(in srgb, var(--color-surface) 84%, transparent); backdrop-filter: blur(28px) saturate(1.4); border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent); transform-origin: 0 100%; padding: .8rem 1.4rem; border-radius: var(--radius-control); opacity: 0; translate: 0 .8rem; transition: opacity .35s, translate .5s var(--ease); span { color: var(--color-text-cold); } @include mobile { opacity: 1; translate: 0 0; padding: .4rem 1rem; span { display: none; } } }
-.orbit__frame--core .orbit__chip { opacity: 1; translate: 0 0; transition-delay: .45s; }
+.orbit__frame { @include focus-ring; position: absolute; inset: 0; display: block; border-radius: var(--radius-panel); perspective: 1200px; }
+.orbit__flip { position: absolute; inset: 0; border-radius: inherit; transform-style: preserve-3d; transition: transform 1.05s var(--ease); }
+.orbit__flip--active { transform: rotateY(180deg); }
+.orbit__brand, .orbit__screen { position: absolute; inset: 0; backface-visibility: hidden; border-radius: inherit; }
+.orbit__brand { @include liquid-edge; container-type: inline-size; display: grid; place-items: center; border-color: color-mix(in srgb, var(--color-text) 40%, transparent); background: linear-gradient(145deg, color-mix(in srgb, var(--color-text) 16%, transparent), transparent 40%, color-mix(in srgb, var(--color-action-accent) 10%, transparent)), color-mix(in srgb, var(--color-surface) 36%, transparent); backdrop-filter: blur(16px) saturate(1.2); }
+.orbit__logo { display: block; width: 70%; height: 50%; background: var(--color-text); mask-size: contain; mask-position: center; mask-repeat: no-repeat; opacity: .86; }
+.orbit__wordmark { @include text-title; font-size: 10cqw; font-weight: 600; color: var(--color-text); opacity: .86; max-width: 85%; display: flex; align-items: center; gap: 1rem; }
+.orbit__screen { transform: rotateY(180deg); overflow: hidden; border: 1px solid color-mix(in srgb, var(--color-text) 30%, transparent); background: var(--color-surface); video { width: 100%; height: 100%; object-fit: cover; } }
+.orbit__dim { position: absolute; inset: 0; border-radius: inherit; background: var(--color-bg); opacity: 0; pointer-events: none; }
+.orbit__label { position: absolute; top: calc(100% + 1.2rem); inset-inline: -15%; text-align: center; pointer-events: none; opacity: 0; translate: 0 -.5rem; transition: opacity .25s, translate .4s var(--ease); }
+.orbit__label--active { opacity: 1; translate: 0 0; transition-delay: .75s; }
+.orbit__chip { @include text-title; display: inline-block; font-weight: 600; color: var(--color-text); }
+.hero--morphing .orbit__flip { transform: rotateY(180deg); transition-duration: .3s; }
+@media (prefers-reduced-motion: reduce) { .orbit__flip, .orbit__label { transition: none; } }
 // Названия проектов над кадрами орбиты. Слово стоит в пространстве сцены: положение, перспективу, яркость и легкое
 // размытие дальних ведет useOrbit. Левый верхний угол строки лежит в центре слота, там же точка отсчета кадров,
 // поэтому у слов и кадров общая точка схода в ядре. Кегль задает только четкость растра, размер на экране считается от ширины кадра.
@@ -87,3 +94,8 @@
   .hero { padding-block: 4.8rem 2.4rem; }
   .orbit { display: none; }
 }
+
+.orbit__logoImage { width: 70%; height: 56%; object-fit: contain; filter: grayscale(1); opacity: .88; }
+.orbit__symbol { width: 1.1em; height: 1.1em; flex-shrink: 0; background: currentColor; mask-size: contain; mask-position: center; mask-repeat: no-repeat; }
+
+.orbit__overlay { position: absolute; inset: 0; pointer-events: none; }

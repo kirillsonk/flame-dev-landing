@@ -31,3 +31,5 @@
 @keyframes briefIn { from { opacity: 0; translate: 0 1.2rem; } }
 @keyframes briefCheck { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .brief__body, .brief__done { animation: none; } .brief__doneIcon path { animation: none; stroke-dashoffset: 0; } }
+
+.brief, .brief__refresh { @include liquid-edge; }

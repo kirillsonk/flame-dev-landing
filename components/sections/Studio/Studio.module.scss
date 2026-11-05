@@ -19,3 +19,5 @@
 @media (prefers-reduced-motion: reduce) {
   .hero__copy, .hero__accent { animation: none; }
 }
+
+.services { @include liquid-edge; }
