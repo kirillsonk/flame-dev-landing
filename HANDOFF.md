@@ -2,7 +2,7 @@
 updated: 2026-11-05 МСК | agent: Codex | branch: dev
 
 ## Сейчас
-- Production flamedev.pro = `main` = `ee4624c`. Coca-Cola × Delivery Club и Camay заменили ВТБ и Т-Банк в общей подборке первого экрана и галереи. Timeweb подтвердил успешный деплой 16 октября, главная и обе страницы кейсов проверены по HTTPS. В `dev` сверху только обновление этого HANDOFF
+- До выпуска Liquid Glass актуальный GitHub `main` = `6e19bff` с `/my-olymp`. Последняя подтвержденная в этом журнале публикация главной: `ee4624c`. Coca-Cola × Delivery Club и Camay заменили ВТБ и Т-Банк в общей подборке первого экрана и галереи. Timeweb подтвердил успешный деплой 16 октября, главная и обе страницы кейсов проверены по HTTPS. В `dev` подготовлен согласованный выпуск Liquid Glass и градиентных кругов; свежий main включен без изменений /my-olymp
 - `dev` для правок, `main` деплоится в production и обновляется только по «пушим в main» от владельца
 - Remote `github` основной, `origin` (GitLab) не используется. На github есть старая ветка `codex/workflow-and-site-audit`
 
@@ -41,6 +41,7 @@ updated: 2026-11-05 МСК | agent: Codex | branch: dev
 
 ## Журнал
 - 2026-10-16 | Codex | main | выпуск Coca-Cola и Camay, успешный деплой Timeweb и проверка production
+- 2026-11-03 | Claude | main | Презентация «Мой личный Олимп» для клиента: статичная страница `public/my-olymp` (видео вместо GIF, шрифт Onest локально), адрес flamedev.pro/my-olymp через rewrite в `next.config.ts`, закрыта в robots и noindex. npm в сессии был недоступен, сборка не проверялась локально
 - 2026-10-15 | Codex | dev | Coca-Cola и Camay в подборке главной, подписи RU/EN
 - 2026-10-07 | Claude Code | dev | HANDOFF.md и правило AI-Sync
 - 2026-10-01 | Claude Code | main | тема по устройству и солнцу
