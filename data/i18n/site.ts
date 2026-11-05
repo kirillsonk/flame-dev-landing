@@ -10,7 +10,7 @@ export const siteEn: Record<string, string> = {
   'Сайты, сервисы, спецпроекты и AI-продукты от идеи до запуска': 'Websites, platforms, brand experiences and AI products, from idea to launch',
   'Наши проекты': 'Selected work',
   'Спецпроекты, цифровые платформы и инструменты для бизнеса': 'Brand experiences, digital platforms and business tools',
-  'Смотреть все проекты': 'View all projects',
+  'Больше проектов': 'More projects',
   'Смотреть кейсы': 'Explore our work',
   'Что можем разработать': 'What we can build',
   'Обсудить задачу': 'Discuss your idea',
